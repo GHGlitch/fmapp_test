@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description>Controller for the floor fetcher content block.</description>
+        <global>false</global>
+        <name>x_lsmcb_fm.fm_reservation_controller</name>
+        <script><![CDATA[// Controller for the new reservation details, controls the user input (time, date, location and floor)
+angRR.controller('ReservationController', function($scope, $timeout, sharedService, $rootScope) {
+	
+	$scope.floor = {
+		sysID: ''
+	};
+    
+    $scope.locationNames = [];
+    $scope.floorNames = [];
+    $scope.floorIDs = [];
+	
+	$scope.subjectFilter = '';
+	$scope.requesterFilter = '';
+	
+	$scope.currentDate = new Date();
+	
+	$scope.selectedDate = $scope.currentDate;
+	$scope.selectedStartTime = new Date(roundToFifteen($scope.selectedDate));
+	$scope.selectedEndTime = new Date(roundToFifteen($scope.selectedDate));
+	$scope.selectedEndTime.setHours($scope.selectedEndTime.getHours() + 1);
+	
+	$scope.currentDate.setHours(0);
+	$scope.currentDate.setMinutes(0);
+	$scope.currentDate.setSeconds(0);
+	
+	$scope.startMin = addZero($scope.selectedStartTime.getMinutes().toString());
+	$scope.startHour = addZero($scope.selectedStartTime.getHours().toString());
+	
+	$scope.endMin = addZero($scope.selectedEndTime.getMinutes().toString());
+	$scope.endHour = addZero($scope.selectedEndTime.getHours().toString());
+    
+    $scope.initialLoad = function() {
+        
+        $scope.locations.forEach(function(elem) {
+            
+            $scope.locationNames.push(elem.name);
+            
+            if (elem.name == $scope.selectedLocationName) {
+                
+                elem.floors.forEach(function(floor) {
+                    $scope.floorNames.push(floor.name);
+                    $scope.floorIDs.push(floor.value);
+                });
+            }
+        });
+        
+        $j("#location").val(
+            $scope.selectedLocationName
+            
+        ).autocomplete({
+            source: $scope.locationNames,
+            minLength: 0,
+            change: function(event, ui) {
+                
+                if (ui.item == null) {
+                    $j(this).val("");
+                    $j(this).focus();
+                    $j("#floor").val("");
+                    $j("#floor").attr("disabled", "disabled");
+                    
+                } else {
+                    $j('#floor').removeAttr("disabled");
+                    $scope.locationUpdate();
+                }
+            }
+            
+        }).focus(function(){
+            $j(this).autocomplete("search");
+        });
+        
+        $j("#floor").val(
+            $scope.selectedFloorName
+        ).autocomplete({
+            source: $scope.floorNames,
+            minLength: 0,
+            change: function(event, ui) {
+                
+                if (ui.item == null) {
+                    $j(this).val('');
+                    $j(this).focus();
+                    $scope.floor.sysID = '';
+                    
+                } else {
+                    $scope.locations.forEach(function(elem) {
+                        
+                        if (elem.name == $j("#location").val()) {
+                            
+                            elem.floors.forEach(function(floor) {
+                                
+                                if (floor.name == $j("#floor").val()) {
+                                    $scope.updateFloorSysID(floor.value);
+                                    return;
+                                }
+                                
+                                //return;
+                            });
+                        }
+                    });
+                    
+                    $scope.selectedFloorID = $scope.floorIDs[i];
+                    //$scope.floor.sysID = $scope.selectedFloorID;
+                }
+            }
+        }).focus(function(){
+            $j(this).autocomplete("search");
+        });
+        
+        $scope.floor.sysID = $scope.selectedFloorID;
+    };
+    
+    $scope.locationUpdate = function() {
+        
+        $j("#floor").val("");
+        
+        var newLocation = $j("#location").val();
+        
+        var floorNames = [];
+        var floorIDs = [];
+        
+        $scope.locations.forEach(function(elem) {
+            
+            if (elem.name == newLocation) {
+                
+                elem.floors.forEach(function(floor) {
+                    floorNames.push(floor.name);
+                    floorIDs.push(floor.value);
+                });
+                
+                return;
+            }
+        });
+        
+        $j("#floor").autocomplete("option", {source: floorNames});
+    };
+    
+    $scope.updateFloorSysID = function(sysID) {
+        $scope.floor.sysID = sysID;
+        $scope.update();
+    };
+	
+	// Verifies the user input and calls for the map update 
+	$scope.update = function() {
+		if ($scope.floor.sysID && $scope.selectedDate && !$scope.invalidTimes) {
+			$scope.selectedFloorID = $scope.floor.sysID;
+			this.updateMap();
+// 			$rootScope.isRoomSelected = true;
+		}
+	};
+	
+	$scope.filterLayers = function(){
+		sharedService.prepUpdateFilter($scope.requesterFilter, $scope.subjectFilter);
+	};
+	
+	var lightRefresh = false;
+	
+	// Validates the start and end times inserted by the user and, if valid, updates the map
+	$scope.validateTimes = function() {
+        
+		var startTime = new Date();
+		var endTime = new Date();
+		
+		startTime.setHours($scope.startHour);
+		startTime.setMinutes($scope.startMin);
+		startTime.setSeconds(0);
+		endTime.setHours($scope.endHour);
+		endTime.setMinutes($scope.endMin);
+		endTime.setSeconds(0);
+        
+        if (endTime <= startTime) {
+            
+            $scope.endHour = $scope.startHour;
+            
+			if ($scope.startMin == 45) {
+                $scope.endHour = addZero((parseInt($scope.startHour, 10) + 1) + '');
+
+                $scope.endMin = '00';
+
+            } else {
+                $scope.endMin = (parseInt($scope.startMin, 10) + 15) + '';
+            }
+            
+            if ($scope.endHour == 24) {
+                $scope.endHour = '00';
+            }
+		}
+        
+        this.update();
+	};
+    
+    $scope.adjustEndMinutes = function(endTime) {
+        
+        // If the 45 is the value for start minutes, move add 1 to the end hour and set the end minutes to 0 (next hour)
+        if ($scope.startMin == '45') {
+            $scope.endHour = (parseInt($scope.startHour, 10) + 1) + '';
+            endTime.setHours($scope.endHour);
+
+            $scope.endMin = '00';
+            endTime.setMinutes($scope.endMin);
+
+        } else {
+            $scope.endMin = (parseInt($scope.startMin, 10) + 15) + '';
+            endTime.setMinutes($scope.endMin);
+        }
+    };
+	
+	// Sends an AJAX request to the server for the rooms and reservations data for the selected day and floor.
+	// Sends the floor data to the shared service for broadcast to the floorview controller
+	// Sends the times and date data to the shared service for broadcast to the other controllers
+	$scope.updateMap = function() {	
+        
+		if ($scope.selectedFloorID !== $scope.floorID) {
+			sharedService.prepForRoomClear();
+			lightRefresh = false;
+            
+		} else {
+			lightRefresh = true;
+		}
+		
+		$scope.floorID = $scope.selectedFloorID;
+		var selectedDate = $scope.selectedDate;
+		$scope.date = selectedDate.getFullYear() + '-' + addZero((selectedDate.getMonth() + 1)) + '-' + addZero(selectedDate.getDate());
+// 		$scope.date = selectedDate;
+
+		console.debug('$scope.date', $scope.date);
+		var newDate = new Date($scope.date);
+		$scope.selectedStartTime.setDate(newDate.getUTCDate());
+		$scope.selectedStartTime.setFullYear(newDate.getUTCFullYear());
+		$scope.selectedStartTime.setMonth(newDate.getUTCMonth());
+		
+		$scope.selectedEndTime.setDate(newDate.getUTCDate());
+		$scope.selectedEndTime.setFullYear(newDate.getUTCFullYear());
+		$scope.selectedEndTime.setMonth(newDate.getUTCMonth());
+		
+		if (!$scope.floorID) {
+			return;
+		}
+		
+		if (!$scope.date) {
+			return;
+		}
+		
+		if(!lightRefresh) {
+			
+			var ga = new GlideAjax('FMRoomReservationAjaxUtils');
+			ga.addParam('sysparm_name', 'getDateReservationsFloor');
+			ga.addParam('sysparm_floor', $scope.floorID);
+			ga.addParam('sysparm_date', $scope.date);
+			
+			ga.getXML(parseData);
+			
+		} else if(lightRefresh) {
+			
+			var gaLight = new GlideAjax('FMRoomReservationAjaxUtils');
+			gaLight.addParam('sysparm_name', 'getDateReservations');
+			gaLight.addParam('sysparm_floor', $scope.floorID);
+			gaLight.addParam('sysparm_date', $scope.date);
+			
+			gaLight.getXML(parseLightData);
+		}
+		
+		
+		function parseData(response) {
+			
+			var answer = response.responseXML.documentElement.getAttribute("answer");
+            //console.debug('answer', answer);
+			$scope.data = JSON.parse(answer);
+			$scope.geoJSON = JSON.parse($scope.data.geoJSON);
+			$scope.floorImageData = $scope.data.image;
+			$scope.roomsData = $scope.data.rooms;
+			
+			$scope.selectedStartTime.setHours($scope.startHour);
+			$scope.selectedStartTime.setMinutes($scope.startMin);
+			$scope.selectedEndTime.setHours($scope.endHour);
+			$scope.selectedEndTime.setMinutes($scope.endMin);
+            
+            sharedService.prepForDateBroadcast($scope.selectedStartTime, $scope.selectedEndTime, $scope.date);
+			sharedService.prepForFloorDataBroadcast($scope.geoJSON, $scope.floorImageData, $scope.roomsData, $scope.selectedStartTime, $scope.selectedEndTime);
+		}
+		
+		function parseLightData(response) {
+			var lightAnswer = response.responseXML.documentElement.getAttribute("answer");
+			
+			$scope.roomsData = JSON.parse(lightAnswer).rooms;
+			
+			$scope.selectedStartTime.setHours($scope.startHour);
+			$scope.selectedStartTime.setMinutes($scope.startMin);
+			$scope.selectedEndTime.setHours($scope.endHour);
+			$scope.selectedEndTime.setMinutes($scope.endMin);
+            
+            sharedService.prepForDateBroadcast($scope.selectedStartTime, $scope.selectedEndTime, $scope.date);
+			sharedService.prepForFloorDataBroadcast($scope.geoJSON, $scope.floorImageData, $scope.roomsData, $scope.selectedStartTime, $scope.selectedEndTime);
+		}
+		
+		
+	};
+	
+	// Listener for requests for a map update.
+	$scope.$on('refreshMap', function() {
+		$scope.updateMap();
+	});
+	
+	// Listener for new start and end times.
+	// Sets the scope properties with the new times
+	$scope.$on('handleNewResTime', function() {
+		$timeout(function() {
+			$scope.startHour = addZero(sharedService.newFromHour).toString();
+			$scope.endHour = addZero(sharedService.newToHour).toString();
+			$scope.startMin = addZero(sharedService.newFromMinute).toString();
+			$scope.endMin = addZero(sharedService.newToMinute).toString();
+		}, 0);
+	});
+	
+	// Sets the scope property floor with the selected floor.
+	$scope.setFloor = function(floorSysID) {
+        $scope.coco = floorSysID;
+		$scope.floor.sysID = floorSysID;
+		this.update();
+	};
+	
+	// Has a room id as the argument and sets that room as selected through the shared service.
+	function setRoom(roomID) {
+		sharedService.prepForDateBroadcast($scope.selectedStartTime, $scope.selectedEndTime, $scope.date);
+		sharedService.prepForFloorDataBroadcast($scope.geoJSON, $scope.floorImageData, $scope.roomsData, $scope.selectedStartTime, $scope.selectedEndTime);
+		sharedService.prepForGanttRoomBroadcast(roomID);
+	}
+	
+	function addZero(i) {
+		if (i < 10) {
+			i = "0" + i;
+		}
+		return i;
+	}
+	
+	// Gets a date and rounds to the nearest 15 minute block.
+	function roundToFifteen(date) {
+		var roundedDate = new Date(date);
+		var minutes = roundedDate.getMinutes();
+		var hours = roundedDate.getHours();
+		
+		var m = (parseInt((minutes)/15) * 15) % 60;
+		//var h = minutes >= 45 ? (hours === 23 ? 0 : ++hours) : hours;
+		
+		roundedDate.setMinutes(m);
+		roundedDate.setSeconds(0);
+		//date.setHours(h);
+		return roundedDate;
+	}
+});
+
+// DEPRECATED FUNCTIONS
+function setFilterOverDependentReferenceField(){
+	    console.info('setFilterOverDependetReferenceField');
+	var firstReferenceFieldSysId = gel('location').value;
+	var secondReferenceFieldLookUp = gel('lookup.floor');
+	gel('sys_display.floor').value = '';
+	secondReferenceFieldLookUp.setAttribute('onclick',"mousePositionSave(event); reflistOpen( 'floor', 'not', 'x_lsmcb_fm_floor', '', 'false','QUERY:active=true', 'location=" + firstReferenceFieldSysId + "', '')");
+}
+
+// on change function called from the SN floor field. If there is a valid value, calls for the angular controller floor setter.
+function validateAndUpdate() {
+	if (floor.value !== '') {
+		angular.element($("reservation-div")).scope().setFloor(floor.value);
+	}
+}]]></script>
+        <script_name>fm_reservation_controller</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>tomas.ferreira</sys_created_by>
+        <sys_created_on>2016-09-06 15:40:31</sys_created_on>
+        <sys_id>0ca1d5840f71a20011bec3ace1050e2b</sys_id>
+        <sys_mod_count>374</sys_mod_count>
+        <sys_name>x_lsmcb_fm.fm_reservation_controller</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_script_0ca1d5840f71a20011bec3ace1050e2b</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-07-19 10:36:10</sys_updated_on>
+        <use_scoped_format>false</use_scoped_format>
+    </sys_ui_script>
+</record_update>

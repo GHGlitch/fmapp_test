@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element audit="true" label="Item Reservation" max_length="40" name="x_lsmcb_fm_item_reservation" type="collection">
+        <element label="End Time" max_length="40" name="end_time" type="glide_date_time"/>
+        <element display="true" label="Facility Item" mandatory="true" max_length="32" name="facility_item" reference="x_lsmcb_fm_facility_item" reference_qual="javascript:new x_lsmcb_fm.FMFacilityItemUtils().getAvailableItems(current.location, current.start_time, current.end_time);" type="reference" use_reference_qualifier="advanced"/>
+        <element label="Facility Order" max_length="32" name="facility_order" read_only="true" reference="x_lsmcb_fm_facility_order" type="reference"/>
+        <element label="Facility Suborder" max_length="32" name="facility_suborder" read_only="true" reference="x_lsmcb_fm_facility_suborder" type="reference"/>
+        <element label="Location" max_length="32" name="location" reference="cmn_location" reference_qual="javascript:new x_lsmcb_fm.FMFacilityItemUtils().getValidLocations();" type="reference" use_reference_qualifier="advanced"/>
+        <element default="1" label="Quantity" mandatory="true" max_length="10" name="quantity" type="integer"/>
+        <element label="Remark" max_length="4000" name="remark" type="string"/>
+        <element label="Requester" max_length="32" name="requester" reference="sys_user" type="reference"/>
+        <element label="Space" max_length="32" name="room" reference="x_lsmcb_fm_room" reference_qual="javascript:new x_lsmcb_fm.FMFOrderUtils().getAvailableRooms(current.location);" type="reference" use_reference_qualifier="advanced"/>
+        <element label="Room Reservation" max_length="32" name="room_reservation" read_only="true" reference="x_lsmcb_fm_room_reservation" type="reference"/>
+        <element label="Short Description" max_length="400" name="short_description" type="string"/>
+        <element label="Start Time" max_length="40" name="start_time" type="glide_date_time"/>
+        <element choice="3" default="1" label="State" max_length="40" name="state" read_only="true" type="choice">
+            <choice>
+                <element label="Canceled" value="2"/>
+                <element label="Registered" value="1"/>
+            </choice>
+        </element>
+        <element label="Work Notes" max_length="4000" name="work_notes" type="journal_input"/>
+        <index name="index">
+            <element name="requester"/>
+        </index>
+        <index name="index2">
+            <element name="room_reservation"/>
+        </index>
+        <index name="index3">
+            <element name="facility_item"/>
+        </index>
+        <index name="index4">
+            <element name="facility_suborder"/>
+        </index>
+        <index name="index5">
+            <element name="location"/>
+        </index>
+        <index name="index6">
+            <element name="facility_order"/>
+        </index>
+        <index name="index7">
+            <element name="room"/>
+        </index>
+    </element>
+</database>

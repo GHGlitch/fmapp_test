@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element attributes="ref_auto_completer=AJAXTableCompleter,ref_ac_columns=location,ref_ac_order_by=location" label="Floor" max_length="40" name="x_lsmcb_fm_floor" type="collection">
+        <element label="Building Code" max_length="40" name="building_code" type="string"/>
+        <element label="GeoJSON" max_length="4000" name="geojson" type="string"/>
+        <element hint="Gross floor area" label="GFA (m2)" max_length="20" name="gfa_m2" type="decimal"/>
+        <element attributes="edge_encryption_enabled=true" display="true" label="ID" max_length="100" name="id" read_only="true" type="string"/>
+        <element label="Image height" max_length="40" name="image_height" type="integer"/>
+        <element label="Image name" max_length="100" name="image_name" type="string"/>
+        <element label="Image width" max_length="40" name="image_width" type="integer"/>
+        <element label="Location" max_length="32" name="location" reference="cmn_location" type="reference"/>
+        <element label="Name" max_length="40" name="name" type="string"/>
+        <index name="index">
+            <element name="building_code"/>
+        </index>
+        <index name="index2">
+            <element name="location"/>
+        </index>
+    </element>
+</database>

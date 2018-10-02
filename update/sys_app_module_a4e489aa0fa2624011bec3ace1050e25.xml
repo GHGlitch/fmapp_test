@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_app_module">
+    <sys_app_module action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <application display_value="Facility Management">89a248e30fdd224011bec3ace1050e47</application>
+        <assessment/>
+        <content_page/>
+        <device_type/>
+        <filter table="x_lsmcb_fm_facility_order">requesterDYNAMIC90d1921e5f510100a9ad2572f2b477fe^ORopened_byDYNAMIC90d1921e5f510100a9ad2572f2b477fe^expected_end&gt;javascript:gs.endOfLastWeek()^ORexpected_endISEMPTY^state!=4^EQ<item endquery="false" field="requester" goto="false" newquery="false" operator="DYNAMIC" or="false" value="90d1921e5f510100a9ad2572f2b477fe"/>
+            <item endquery="false" field="opened_by" goto="false" newquery="false" operator="DYNAMIC" or="true" value="90d1921e5f510100a9ad2572f2b477fe"/>
+            <item endquery="false" field="expected_end" goto="false" newquery="false" operator="&gt;" or="false" value="javascript:gs.endOfLastWeek()"/>
+            <item endquery="false" field="expected_end" goto="false" newquery="false" operator="ISEMPTY" or="true" value=""/>
+            <item endquery="false" field="state" goto="false" newquery="false" operator="!=" or="false" value="4"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </filter>
+        <hint>Show my requested facility orders</hint>
+        <homepage/>
+        <image/>
+        <link_type>LIST</link_type>
+        <map_page/>
+        <mobile_title>My Facility Order Requests</mobile_title>
+        <mobile_view_name>Mobile</mobile_view_name>
+        <name>x_lsmcb_fm_facility_order</name>
+        <order>300</order>
+        <override_menu_roles>false</override_menu_roles>
+        <query/>
+        <report/>
+        <roles>x_lsmcb_fm.fm_base</roles>
+        <sys_class_name>sys_app_module</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-10-21 15:57:31</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>a4e489aa0fa2624011bec3ace1050e25</sys_id>
+        <sys_mod_count>15</sys_mod_count>
+        <sys_name>My Facility Order Requests</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_app_module_a4e489aa0fa2624011bec3ace1050e25</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-09-04 15:33:23</sys_updated_on>
+        <timeline_page/>
+        <title>My Facility Order Requests</title>
+        <uncancelable>false</uncancelable>
+        <view_name/>
+        <window_name/>
+    </sys_app_module>
+</record_update>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_section caption="" section_id="fd8f1c6c0f33a20011bec3ace1050e13" sys_domain="global" table="x_lsmcb_fm_supplier_group_assignment_rules" version="3" view="">
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.begin_split</element>
+            <position>0</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-08-21 11:04:24</sys_created_on>
+            <sys_id>1ed5a51c0ff8030011bec3ace1050e29</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_supplier_group_assignment_rules" sys_domain="global" view="Default view">fd8f1c6c0f33a20011bec3ace1050e13</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-08-21 11:04:24</sys_updated_on>
+            <sys_user/>
+            <type>.begin_split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>number</element>
+            <position>1</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-08-21 11:04:24</sys_created_on>
+            <sys_id>e2d5a51c0ff8030011bec3ace1050e2a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_supplier_group_assignment_rules" sys_domain="global" view="Default view">fd8f1c6c0f33a20011bec3ace1050e13</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-08-21 11:04:24</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>location</element>
+            <position>2</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-08-21 11:04:24</sys_created_on>
+            <sys_id>66d5a51c0ff8030011bec3ace1050e2a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_supplier_group_assignment_rules" sys_domain="global" view="Default view">fd8f1c6c0f33a20011bec3ace1050e13</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-08-21 11:04:24</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>type</element>
+            <position>3</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-08-21 11:04:24</sys_created_on>
+            <sys_id>e6d5a51c0ff8030011bec3ace1050e2a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_supplier_group_assignment_rules" sys_domain="global" view="Default view">fd8f1c6c0f33a20011bec3ace1050e13</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-08-21 11:04:24</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>category</element>
+            <position>4</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-08-21 11:04:24</sys_created_on>
+            <sys_id>6ad5a51c0ff8030011bec3ace1050e2a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_supplier_group_assignment_rules" sys_domain="global" view="Default view">fd8f1c6c0f33a20011bec3ace1050e13</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-08-21 11:04:24</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.split</element>
+            <position>5</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-08-21 11:04:24</sys_created_on>
+            <sys_id>ead5a51c0ff8030011bec3ace1050e2a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_supplier_group_assignment_rules" sys_domain="global" view="Default view">fd8f1c6c0f33a20011bec3ace1050e13</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-08-21 11:04:24</sys_updated_on>
+            <sys_user/>
+            <type>.split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>supplier_group</element>
+            <position>6</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-08-21 11:04:24</sys_created_on>
+            <sys_id>6ed5a51c0ff8030011bec3ace1050e2a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_supplier_group_assignment_rules" sys_domain="global" view="Default view">fd8f1c6c0f33a20011bec3ace1050e13</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-08-21 11:04:24</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>company</element>
+            <position>7</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-08-21 11:04:24</sys_created_on>
+            <sys_id>eed5a51c0ff8030011bec3ace1050e2a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_supplier_group_assignment_rules" sys_domain="global" view="Default view">fd8f1c6c0f33a20011bec3ace1050e13</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-08-21 11:04:24</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>auto_planning</element>
+            <position>8</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-08-21 11:04:24</sys_created_on>
+            <sys_id>62d5a51c0ff8030011bec3ace1050e2b</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_supplier_group_assignment_rules" sys_domain="global" view="Default view">fd8f1c6c0f33a20011bec3ace1050e13</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-08-21 11:04:24</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.end_split</element>
+            <position>9</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-08-21 11:04:24</sys_created_on>
+            <sys_id>e2d5a51c0ff8030011bec3ace1050e2b</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_supplier_group_assignment_rules" sys_domain="global" view="Default view">fd8f1c6c0f33a20011bec3ace1050e13</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-08-21 11:04:24</sys_updated_on>
+            <sys_user/>
+            <type>.end_split</type>
+        </sys_ui_element>
+        <sys_ui_section action="INSERT_OR_UPDATE">
+            <caption/>
+            <header>false</header>
+            <name>x_lsmcb_fm_supplier_group_assignment_rules</name>
+            <roles/>
+            <sys_class_name>sys_ui_section</sys_class_name>
+            <sys_created_by>laurens.brand</sys_created_by>
+            <sys_created_on>2016-12-16 11:21:41</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>fd8f1c6c0f33a20011bec3ace1050e13</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>x_lsmcb_fm_supplier_group_assignment_rules</sys_name>
+            <sys_overrides/>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_ui_section_fd8f1c6c0f33a20011bec3ace1050e13</sys_update_name>
+            <sys_updated_by>laurens.brand</sys_updated_by>
+            <sys_updated_on>2016-12-16 11:21:41</sys_updated_on>
+            <sys_user/>
+            <title>true</title>
+            <view display_value="Default view" name="NULL">Default view</view>
+            <view_name/>
+        </sys_ui_section>
+    </sys_ui_section>
+</record_update>

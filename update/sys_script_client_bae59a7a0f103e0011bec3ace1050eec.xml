@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <applies_extended>false</applies_extended>
+        <condition/>
+        <description/>
+        <field>active</field>
+        <global>true</global>
+        <messages/>
+        <name>Populate Suborder with FO info</name>
+        <order/>
+        <script><![CDATA[function onLoad() {
+    if (g_form.isNewRecord()) {
+        var ga = new GlideAjax('FMFOrderAjaxUtils');
+        
+        ga.addParam('sysparm_name','getFOInfoForm');
+        ga.addParam('sysparm_facility_order', g_form.getValue('facility_order'));
+        
+        ga.getXML(function(response) {
+            
+            var answer = response.responseXML.documentElement.getAttribute('answer');
+            var obj = JSON.parse(answer);
+
+            g_form.setValue('type', obj.type);
+            g_form.setValue('category', obj.category);
+            
+            if (obj.requester != '') g_form.setValue('requester', obj.requester);
+            if (obj.costcenter != '') g_form.setValue('costcenter', obj.costcenter);
+            
+            if (obj.location != '') g_form.setValue('location', obj.location);
+            if (obj.room != '') g_form.setValue('room', obj.room);
+            
+            if (obj.expected_start != '') g_form.setValue('expected_start', obj.expected_start);
+            if (obj.expected_end != '') g_form.setValue('expected_end', obj.expected_end);
+
+            if (obj.description != '') g_form.setValue('description', obj.description);
+            if (obj.short_description != '') g_form.setValue('short_description', obj.short_description);
+            
+            if (obj.assignment_group + '' != '') g_form.setValue('assignment_group', obj.assignment_group);
+            if (obj.configuration_item + '' != '') g_form.setValue('cmdb_ci', obj.configuration_item);
+            
+        });
+    }
+}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-01-17 16:31:35</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>bae59a7a0f103e0011bec3ace1050eec</sys_id>
+        <sys_mod_count>15</sys_mod_count>
+        <sys_name>Populate Suborder with FO info</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_client_bae59a7a0f103e0011bec3ace1050eec</sys_update_name>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-07-06 14:27:37</sys_updated_on>
+        <table>x_lsmcb_fm_facility_suborder</table>
+        <type>onLoad</type>
+        <ui_type>0</ui_type>
+        <view/>
+    </sys_script_client>
+</record_update>

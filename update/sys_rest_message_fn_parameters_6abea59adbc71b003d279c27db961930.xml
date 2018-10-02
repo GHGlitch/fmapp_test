@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_rest_message_fn_parameters">
+    <sys_rest_message_fn_parameters action="INSERT_OR_UPDATE">
+        <name>subscription_id</name>
+        <rest_message_function display_value="Cancel Subscription">e19ea59adbc71b003d279c27db961922</rest_message_function>
+        <sys_class_name>sys_rest_message_fn_parameters</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-07-04 09:23:28</sys_created_on>
+        <sys_id>6abea59adbc71b003d279c27db961930</sys_id>
+        <sys_mod_count>28</sys_mod_count>
+        <sys_name>subscription_id</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_rest_message_fn_parameters_6abea59adbc71b003d279c27db961930</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-07-31 09:55:53</sys_updated_on>
+        <type>string</type>
+        <value>64320942-2eef-4113-b352-8b1e97103165</value>
+    </sys_rest_message_fn_parameters>
+</record_update>

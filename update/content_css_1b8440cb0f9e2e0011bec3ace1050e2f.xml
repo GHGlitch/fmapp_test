@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="content_css">
+    <content_css action="INSERT_OR_UPDATE">
+        <name>gant_main.css</name>
+        <style>.container-content {&#13;
+    margin: 10px&#13;
+}&#13;
+&#13;
+.top-buffer {&#13;
+    margin-top: 8px&#13;
+}&#13;
+&#13;
+.navbar-right-spacing {&#13;
+    margin-right: 160px&#13;
+}&#13;
+&#13;
+.btn:focus {&#13;
+    color: #333;&#13;
+    background-color: #fff;&#13;
+    border-color: #ccc&#13;
+}&#13;
+&#13;
+.btn.active:focus {&#13;
+    color: #333;&#13;
+    background-color: #ebebeb;&#13;
+    border-color: #adadad&#13;
+}&#13;
+&#13;
+.ng-cloak, [ng-cloak], [ng\:cloak] {&#13;
+    display: none!important&#13;
+}&#13;
+&#13;
+&#13;
+&#13;
+.gantt-timeframe-holiday {&#13;
+    border: 2px solid #000;&#13;
+    opacity: .6&#13;
+}&#13;
+&#13;
+.gantt-row-milestone {&#13;
+    font-weight: 700;&#13;
+    vertical-align: middle;&#13;
+    color: #fff&#13;
+}&#13;
+&#13;
+.gantt-side {&#13;
+    width: 20em;&#13;
+}&#13;
+&#13;
+div.live-table {&#13;
+    display: table;&#13;
+    width: 100%&#13;
+}&#13;
+&#13;
+div.live-row {&#13;
+    display: table-row&#13;
+}&#13;
+&#13;
+div.live-cell {&#13;
+    display: table-cell;&#13;
+    padding: 5px;&#13;
+    width: 50%&#13;
+}&#13;
+&#13;
+textarea.live-row, textarea.live-task {&#13;
+    width: 100%;&#13;
+    height: 300px;&#13;
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;&#13;
+    font-size: .9em;&#13;
+    color: #333&#13;
+}&#13;
+</style>
+        <sys_class_name>content_css</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-10-10 14:17:14</sys_created_on>
+        <sys_id>1b8440cb0f9e2e0011bec3ace1050e2f</sys_id>
+        <sys_mod_count>15</sys_mod_count>
+        <sys_name>gant_main.css</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>content_css_1b8440cb0f9e2e0011bec3ace1050e2f</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-28 16:15:25</sys_updated_on>
+        <type>local</type>
+        <url/>
+    </content_css>
+</record_update>

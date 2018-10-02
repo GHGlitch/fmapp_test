@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_transform_script">
+    <sys_transform_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <map display_value="Create Spaces">c625f4300fdefa0011bec3ace1050e3e</map>
+        <order>100</order>
+        <script><![CDATA[(function runTransformScript(source, map, log, target /*undefined onStart*/ ) {
+	
+	var sFacilities = source.u_space_facilities + '';
+	
+	var grSFacilities = new GlideRecord('x_lsmcb_fm_room_property');
+	grSFacilities.addQuery('name', 'IN', sFacilities.toLowerCase());
+	grSFacilities.query();
+	
+	while (grSFacilities.next()) {
+		
+		var gr = new GlideRecord('x_lsmcb_fm_m2m_room_properties_rooms');
+		gr.addQuery('room', target.sys_id);
+		gr.addQuery('room_property', grSFacilities.getUniqueValue());
+		gr.query();
+		
+		if (!gr.next()) {
+			gr.initialize();
+			gr.setValue('room', target.sys_id);
+			gr.setValue('room_property', grSFacilities.getUniqueValue());
+			gr.insert();
+		}
+		
+	}
+	
+})(source, map, log, target);]]></script>
+        <sys_class_name>sys_transform_script</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2018-07-12 10:36:52</sys_created_on>
+        <sys_id>1b8a4774db9b93003d279c27db96198c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>onAfter</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_transform_script_1b8a4774db9b93003d279c27db96198c</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-07-12 10:36:52</sys_updated_on>
+        <when>onAfter</when>
+    </sys_transform_script>
+</record_update>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_message">
+    <sys_ui_message action="INSERT_OR_UPDATE">
+        <application>Facilities Management</application>
+        <key>fm_email_already_in_use</key>
+        <language>en</language>
+        <message>Email {0} is already in use, do you want to insert the associated visitor?</message>
+        <sys_class_name>sys_ui_message</sys_class_name>
+        <sys_created_by>laura.schuch</sys_created_by>
+        <sys_created_on>2016-10-12 15:11:08</sys_created_on>
+        <sys_id>e4946e630fda6e0011bec3ace1050e37</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>fm_email_already_in_use</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_message_e4946e630fda6e0011bec3ace1050e37</sys_update_name>
+        <sys_updated_by>nelson.oliveira</sys_updated_by>
+        <sys_updated_on>2016-10-26 08:35:54</sys_updated_on>
+    </sys_ui_message>
+</record_update>

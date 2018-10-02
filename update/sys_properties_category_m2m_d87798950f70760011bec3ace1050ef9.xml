@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_properties_category_m2m">
+    <sys_properties_category_m2m action="INSERT_OR_UPDATE">
+        <category display_value="FM Properties">34f83cf20fad220011bec3ace1050e72</category>
+        <order>300</order>
+        <property display_value="x_lsmcb_fm.show_rooms_without_location" name="x_lsmcb_fm.show_rooms_without_location">9f3294550f70760011bec3ace1050e8e</property>
+        <sys_class_name>sys_properties_category_m2m</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-02-06 11:44:36</sys_created_on>
+        <sys_id>d87798950f70760011bec3ace1050ef9</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>x_lsmcb_fm.show_rooms_without_location.Properties</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_properties_category_m2m_d87798950f70760011bec3ace1050ef9</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-06-19 10:15:55</sys_updated_on>
+    </sys_properties_category_m2m>
+</record_update>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element audit="true" label="Room Reservation" max_length="40" name="x_lsmcb_fm_room_reservation" type="collection">
+        <element label="Cancel Datetime" max_length="40" name="cancel_datetime" type="glide_date_time"/>
+        <element label="Confidential" max_length="40" name="confidential" type="boolean"/>
+        <element label="Costcenter" max_length="32" name="costcenter" reference="cmn_cost_center" reference_qual="valid_from&lt;=javascript:gs.daysAgoEnd(0)^valid_to&gt;=javascript:gs.daysAgoStart(0)^ORvalid_toISEMPTY^EQ" reference_qual_condition="valid_from&lt;=javascript:gs.daysAgoEnd(0)^valid_to&gt;=javascript:gs.daysAgoStart(0)^ORvalid_toISEMPTY^EQ" type="reference"/>
+        <element label="End Time" max_length="40" name="end_time" type="glide_date_time"/>
+        <element label="Event" max_length="32" name="fm_event" reference="x_lsmcb_fm_facility_event" reference_floats="true" reference_qual="active=true^EQ" reference_qual_condition="active=true^EQ" type="reference"/>
+        <element label="Location" max_length="32" name="location" reference="cmn_location" reference_qual="javascript:new x_lsmcb_fm.FMRoomReservationUtils().getValidLocations();" type="reference" use_reference_qualifier="advanced"/>
+        <element label="Series Master ID" max_length="1000" name="master_id" read_only="true" type="string"/>
+        <element label="Series Master Shared ID" max_length="1000" name="master_shared_id" read_only="true" type="string"/>
+        <element label="Meeting comments" max_length="4000" name="meeting_comments" type="string"/>
+        <element label="Meeting end time" max_length="40" name="meeting_end_time" type="glide_date_time"/>
+        <element label="Meeting start time" max_length="40" name="meeting_start_time" type="glide_date_time"/>
+        <element label="Meeting subject" mandatory="true" max_length="100" name="meeting_subject" type="string"/>
+        <element default="javascript:global.getNextObjNumberPadded();" display="true" label="Number" max_length="40" name="number" read_only="true" type="string"/>
+        <element label="Number of attendees" mandatory="true" max_length="40" name="number_of_attendees" type="integer"/>
+        <element label="Outlook ID" max_length="1000" name="outlook_id" read_only="true" type="string" unique="true"/>
+        <element label="Main Reservation" max_length="32" name="parent" read_only="true" reference="x_lsmcb_fm_room_reservation" type="reference"/>
+        <element label="Recurring" max_length="40" name="recurring" read_only="true" type="boolean"/>
+        <element default="javascript: gs.getUserID()" label="Requested by" max_length="32" name="requested_by" reference="sys_user" type="reference"/>
+        <element attributes="ref_auto_completer=AJAXTableCompleter,ref_ac_columns=user_name;email,ref_ac_order_by=name,ref_ac_columns_search=true" label="Requested for" mandatory="true" max_length="32" name="requester" reference="sys_user" type="reference"/>
+        <element label="Space" max_length="32" name="room" reference="x_lsmcb_fm_room" reference_qual="javascript:new x_lsmcb_fm.FMRoomReservationUtils().getAvailableRoomsForm(current.location, current.meeting_start_time, current.meeting_end_time, current.sys_id);" type="reference" use_reference_qualifier="advanced"/>
+        <element label="Shared Outlook ID" max_length="1000" name="shared_outlook_id" read_only="true" type="string"/>
+        <element label="Start Time" max_length="40" name="start_time" type="glide_date_time"/>
+        <element choice="3" default="2" label="State" max_length="40" name="state" type="choice">
+            <choice>
+                <element label="Tentative" sequence="0" value="3"/>
+                <element label="Conflicting" sequence="1" value="4"/>
+                <element label="Definitive" sequence="2" value="2"/>
+                <element label="Canceled" sequence="3" value="0"/>
+                <element label="Invalid" sequence="4" value="1"/>
+            </choice>
+        </element>
+        <element calculation="(function calculatedFieldValue(current) {&#10;&#10;&#9;// Add your code here&#10;&#9;return current.location.getDisplayValue();  // return the calculated value&#10;&#10;})(current);" label="Location" max_length="100" name="text_location" type="string" virtual="true"/>
+        <element calculation="(function calculatedFieldValue(current) {&#10;&#10;&#9;// Add your code here&#10;&#9;return current.requester.getDisplayValue();  // return the calculated value&#10;&#10;})(current);" label="Requester" max_length="100" name="text_requester" type="string" virtual="true"/>
+        <element calculation="(function calculatedFieldValue(current) {&#10;&#10;&#9;// Add your code here&#10;&#9;return current.room.getDisplayValue();  // return the calculated value&#10;&#10;})(current);" label="Space" max_length="100" name="text_space" type="string" virtual="true"/>
+        <element label="UID" max_length="1000" name="uid" read_only="true" type="string"/>
+        <element choice="3" default="servicenow" label="Update source" max_length="40" name="update_source" read_only="true" type="choice">
+            <choice>
+                <element label="servicenow" sequence="1" value="servicenow"/>
+                <element label="outlook" sequence="2" value="outlook"/>
+                <element label="outlook_addin" sequence="3" value="outlook_addin"/>
+            </choice>
+        </element>
+        <element label="Work Notes" max_length="4000" name="work_notes" type="journal_input"/>
+        <index name="index">
+            <element name="requester"/>
+        </index>
+        <index name="index2">
+            <element name="parent"/>
+        </index>
+        <index name="index3">
+            <element name="start_time"/>
+        </index>
+        <index name="index4">
+            <element name="fm_event"/>
+        </index>
+        <index name="index5">
+            <element name="requested_by"/>
+        </index>
+        <index name="index6">
+            <element name="location"/>
+        </index>
+        <index name="index7">
+            <element name="outlook_id"/>
+        </index>
+        <index name="index8">
+            <element name="costcenter"/>
+        </index>
+        <index name="index9">
+            <element name="room"/>
+        </index>
+    </element>
+</database>

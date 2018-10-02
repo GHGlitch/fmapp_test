@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function() {
+    /* widget controller */
+    var c = this;
+		var recordID = '';
+		var hasReservation = '';
+		if(c.data.recordID)
+		recordID =  '&sysparm_order_id=' + c.data.recordID;
+		if(c.data.hasReservation)
+		hasReservation = '&sysparm_has_reservation=' + c.data.hasReservation;
+		if(c.data.reservationID)
+		recordID = '&sysparm_reservation_id=' + c.data.reservationID;
+		if(c.data.visitID)
+		recordID = '&sysparm_visit_id=' + c.data.visitID;
+	
+    var frame_src = "https://" + c.data.instance + ".service-now.com/com.glideapp.servicecatalog_cat_item_view.do?&sysparm_id=" + c.data.page_if + recordID + hasReservation,
+        //var frame_src = "https://" + c.data.instance + ".service-now.com/" + c.data.page_if,
+        frame_id = "fm_iframe",
+        frame_el = document.getElementById('fm_iframe'),
+        frame_win;
+    frame_el.onload = function() {
+        frame_win = frame_el.contentDocument;
+        var x = document.getElementById("fm_iframe");
+        var y = x.contentWindow.document;
+				if(x.contentWindow.location.pathname == '/wizard_view.do')
+        y.body.style.backgroundColor = "#e7e9eb";
+        document.getElementById("fm_iframe").style.height = (parseInt(y.body.scrollHeight)) + "px";
+        
+				//console.log(x.contentWindow.location.href);
+
+        //console.log('Page ID ' + window.NOW.page_id);
+        //console.log('Page URL ' + window.location.href);
+
+        //y.getElementsByTagName("nav")[0].style.visibility = "hidden";
+        //y.getElementsByClassName("sc_header_main_cell")[0].style.visibility = "hidden";
+        try {
+            y.getElementsByTagName("table")[0].innerHTML = '';
+        } catch (e) {}
+			
+			
+        if (x.contentWindow.location.pathname == '/fm') {
+            var url = window.location.href.split("?id=")[0];
+            window.location = url + x.contentWindow.location.search;
+        }
+    }
+    frame_el.src = frame_src;
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data>{"data":&#13;
+	{&#13;
+		"page": "x_lsmcb_fm_fm_art_portal.do"&#13;
+	}&#13;
+}</demo_data>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>fm-frame</id>
+        <internal>false</internal>
+        <link/>
+        <name>FM Frame</name>
+        <option_schema>[{"name":"page_if","label":"Page","type":"string"}]</option_schema>
+        <public>false</public>
+        <roles>x_lsmcb_fm.fm_base</roles>
+        <script><![CDATA[(function() {
+	
+	data.instance = gs.getProperty('instance_name');
+	data.page_if =$sp.getParameter("sys_id");
+	data.recordID =$sp.getParameter("rec_id");
+	data.hasReservation =$sp.getParameter("has_reservation");
+	data.reservationID = $sp.getParameter("reservation_id");
+	data.visitID = $sp.getParameter("visit_id");
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-08-02 09:46:37</sys_created_on>
+        <sys_id>1aad5b820f50030011bec3ace1050e3b</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>FM Frame</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sp_widget_1aad5b820f50030011bec3ace1050e3b</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-12-12 13:04:36</sys_updated_on>
+        <template><![CDATA[<iframe id="fm_iframe" style="width:100%;border:0;"/>]]></template>
+    </sp_widget>
+</record_update>

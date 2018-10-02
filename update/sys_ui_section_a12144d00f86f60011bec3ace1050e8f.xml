@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_section caption="Child" section_id="a12144d00f86f60011bec3ace1050e8f" sys_domain="global" table="x_lsmcb_fm_docx_template_field" version="3" view="">
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>table</element>
+            <position>0</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-06 10:51:46</sys_created_on>
+            <sys_id>692144d00f86f60011bec3ace1050e93</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Child" display_value="Child" name="x_lsmcb_fm_docx_template_field" sys_domain="global" view="Default view">a12144d00f86f60011bec3ace1050e8f</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-06 10:51:46</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>sort</element>
+            <position>1</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-06 10:51:46</sys_created_on>
+            <sys_id>e92144d00f86f60011bec3ace1050e93</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Child" display_value="Child" name="x_lsmcb_fm_docx_template_field" sys_domain="global" view="Default view">a12144d00f86f60011bec3ace1050e8f</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-06 10:51:46</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>sort_field</element>
+            <position>2</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-06 10:51:46</sys_created_on>
+            <sys_id>6d2144d00f86f60011bec3ace1050e93</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Child" display_value="Child" name="x_lsmcb_fm_docx_template_field" sys_domain="global" view="Default view">a12144d00f86f60011bec3ace1050e8f</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-06 10:51:46</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.split</element>
+            <position>3</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-06 10:51:46</sys_created_on>
+            <sys_id>ed2144d00f86f60011bec3ace1050e93</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Child" display_value="Child" name="x_lsmcb_fm_docx_template_field" sys_domain="global" view="Default view">a12144d00f86f60011bec3ace1050e8f</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-06 10:51:46</sys_updated_on>
+            <sys_user/>
+            <type>.split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>parent_field</element>
+            <position>4</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-06 10:51:46</sys_created_on>
+            <sys_id>612144d00f86f60011bec3ace1050e94</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Child" display_value="Child" name="x_lsmcb_fm_docx_template_field" sys_domain="global" view="Default view">a12144d00f86f60011bec3ace1050e8f</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-06 10:51:46</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>condition</element>
+            <position>5</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-06 10:51:46</sys_created_on>
+            <sys_id>e12144d00f86f60011bec3ace1050e94</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Child" display_value="Child" name="x_lsmcb_fm_docx_template_field" sys_domain="global" view="Default view">a12144d00f86f60011bec3ace1050e8f</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-06 10:51:46</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_section action="INSERT_OR_UPDATE">
+            <caption>Child</caption>
+            <header>false</header>
+            <name>x_lsmcb_fm_docx_template_field</name>
+            <roles/>
+            <sys_class_name>sys_ui_section</sys_class_name>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-06 10:51:46</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>a12144d00f86f60011bec3ace1050e8f</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Child</sys_name>
+            <sys_overrides/>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_ui_section_a12144d00f86f60011bec3ace1050e8f</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-06 10:51:46</sys_updated_on>
+            <sys_user/>
+            <title>false</title>
+            <view display_value="Default view" name="NULL">Default view</view>
+            <view_name/>
+        </sys_ui_section>
+    </sys_ui_section>
+</record_update>

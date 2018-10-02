@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMDateTimeAjaxUtils</api_name>
+        <client_callable>true</client_callable>
+        <description>Date Time Ajax Utils</description>
+        <name>FMDateTimeAjaxUtils</name>
+        <script><![CDATA[var FMDateTimeAjaxUtils = Class.create();
+FMDateTimeAjaxUtils.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+	
+	dtu : new FMDateTimeUtils(),
+	
+	getNowDateTime: function(){
+		//returns a GlideDateTime object one minute ahead of the current time.
+		return this.dtu.formatTime(new GlideDateTime().getDisplayValue(), 60).getDisplayValue();
+	},
+	
+	getNowTime: function(){
+		
+		var obj = {}; 
+		
+		var shour = new GlideTime().getDisplayValueInternal().split(':')[0];
+		var smin = new GlideTime().getDisplayValueInternal().split(':')[1];
+		
+		if (smin <= 15) {
+			obj.smin = '15';
+		} else if (smin <= 30) {
+			obj.smin = '30';
+		} else if (smin <= 45) {
+			obj.smin = '45';
+		} else {
+			obj.smin = '00';
+			shour = parseInt(shour) + 1;
+		}
+		
+		var ehour = parseInt(shour) + 1;
+		if(shour.length == 1) shour = '0' + shour; 
+		if(ehour.length == 1) ehour = '0' + ehour;
+		obj.shour = shour;
+		obj.ehour = ehour;
+		return JSON.stringify(obj);
+	},  
+	
+	isDateBeforeNow: function (){
+		var date = this.getParameter('sysparm_compare_date');
+		return this.dtu.isDateBeforeNow(date);
+	},
+	
+	isDateBefore: function () {
+		var start = this.getParameter('sysparm_start_date');
+		var end = this.getParameter('sysparm_end_date');
+		return this.dtu.isDateBefore(end, start);
+	},
+	
+	getInsertDate: function() {
+		var day = this.getParameter('sysparm_day');
+		var hour = this.getParameter('sysparm_hour');
+		return this.dtu.getInsertDate(day, hour);
+	},
+	
+	getInsertDateTime: function() {
+		var day = this.getParameter('sysparm_day');
+		var hour = this.getParameter('sysparm_hour');
+		var init = this.getParameter('sysparm_init');
+//       gs.info('NP LOG this is day : ' + day);
+		return this.dtu.getInsertDateTime(day, hour, init);
+	},
+	
+	getMinDateTime: function() {
+		var gdt = this.getParameter('sysparm_date');
+		var day = this.getParameter('sysparm_day');
+		var hour = this.getParameter('sysparm_hour');
+		var init = this.getParameter('sysparm_init');
+		return this.dtu.getMinDateTime(gdt, day, hour, init);
+	},
+	
+	getMaxRDate: function() {
+		var startDate = this.getParameter('sysparm_date');
+		return this.dtu.getMaxRDate(startDate);
+	},
+
+	type: 'FMDateTimeAjaxUtils'
+	
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-09-06 13:38:32</sys_created_on>
+        <sys_id>f416bc0c0f31a20011bec3ace1050e4b</sys_id>
+        <sys_mod_count>44</sys_mod_count>
+        <sys_name>FMDateTimeAjaxUtils</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_f416bc0c0f31a20011bec3ace1050e4b</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-12-12 12:54:20</sys_updated_on>
+    </sys_script_include>
+</record_update>

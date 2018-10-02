@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_choice action="INSERT_OR_UPDATE" field="status" table="x_lsmcb_fm_facility_order" version="3">
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>status</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Open</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>0</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-09-26 10:18:46</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>63388f1e0f822a0011bec3ace1050ef7</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2016-09-26 10:18:53</sys_updated_on>
+            <value>open</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>status</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>In Progress</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>1</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-09-26 10:18:58</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>16580f1e0f822a0011bec3ace1050e20</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2016-09-26 10:19:06</sys_updated_on>
+            <value>in progress</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>status</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Technical ready</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>2</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-09-26 10:25:29</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>d9680b1e0f822a0011bec3ace1050e7b</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2016-09-26 10:25:41</sys_updated_on>
+            <value>technical ready</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>status</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Administrative ready</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>3</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-09-26 10:25:52</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>2ce9435e0f822a0011bec3ace1050eee</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2016-09-26 10:26:06</sys_updated_on>
+            <value>administrative ready</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>status</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Closed</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>4</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-09-26 10:26:10</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>5af9c35e0f822a0011bec3ace1050e19</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2016-09-26 10:26:23</sys_updated_on>
+            <value>closed</value>
+        </sys_choice>
+        <sys_choice_set action="INSERT_OR_UPDATE">
+            <element>status</element>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sys_class_name>sys_choice_set</sys_class_name>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-09-26 10:18:46</sys_created_on>
+            <sys_id>ec111d53db7023005e9f5385ca9619f3</sys_id>
+            <sys_mod_count>30</sys_mod_count>
+            <sys_name>status</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_choice_x_lsmcb_fm_facility_order_status</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-06-08 16:11:23</sys_updated_on>
+        </sys_choice_set>
+    </sys_choice>
+</record_update>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Company Related Contact" max_length="40" name="x_lsmcb_fm_company_related_contact" type="collection">
+        <element label="Company" max_length="32" name="company" reference="core_company" type="reference"/>
+        <element display="true" label="Email" max_length="40" name="email" type="string"/>
+        <element label="Suborder Email Notification" max_length="40" name="suborder_email_notification" type="boolean"/>
+        <index name="index">
+            <element name="company"/>
+        </index>
+    </element>
+</database>

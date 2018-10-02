@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[// All the Data is fetched from the sysparm_variable_name using the RP.getParameterValue.
+//The values are being sent by the Art Search UI Page.
+function addLoadEvent() {
+	var biog = gel('bio').value;
+	var htmlObj = gel('biography');
+	htmlObj.innerHTML = biog;
+}
+addLoadEvent();]]></client_script>
+        <description>Page to show artist details</description>
+        <direct>false</direct>
+        <endpoint>x_lsmcb_fm_fm_artist_details.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	
+	
+	<!-- The variable becomes available for access in the client script -->
+	<input type="hidden" id="bio" value="${JS,HTML:RP.getParameterValue('sysparm_biography')}"></input>
+
+	<style>
+		.artistTable{
+		border-collapse: separate;
+		border: solid #ccc 1px;
+		border-top-left-radius: 10px;
+		-moz-border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		-moz-border-top-right-radius: 10px;
+		font-family: SourceSansPro, "Helvetica Neue", Arial;
+		font-size: 13px;
+		padding: 10px 10px 10px 10px;
+		color: #454545;
+		line-height: 50px;
+		background-color: #dcdcdc;
+		max-height: 400px;
+		width: 450px;
+		height:100%;
+		}
+
+		.label{
+		font-size: 14px;
+		font-weight: normal;
+		font-family: SourceSansPro, "Helvetica Neue", Arial;
+		color: #b2b2b2;
+		text-shadow: #efefef 1px 1px 0;
+		margin-bottom: -30px;
+		width: 100%;
+		text-align: center;
+		}
+		
+		.photo{
+		border-radius: 50%;
+		-moz-border-radius: 50%;
+		width: 250px;
+		}
+		
+		.infoText{
+		padding-left: 15px;
+		line-height:12px;
+		font-size: 12px;
+		font-weight: normal;
+		color: #2d2d2d;
+		text-align: justify;
+		margin-top: -10px;
+		}
+
+	</style>
+	
+	
+	<table cellspacing="10" cellpadding="10" class="artistTable">
+		<tr>
+			<td colspan="4" style="padding:3px">
+				<b id="first_name" class="title">${JS,HTML:RP.getParameterValue('sysparm_first_name')} </b>
+				<b id="last_name" class="title" style="padding-left:10px"> ${JS,HTML:RP.getParameterValue('sysparm_last_name')}</b>
+			</td>
+		</tr>
+
+
+		<tr>
+			<td colspan="4" style="padding:3px">
+				<img src="${JS,HTML:RP.getParameterValue('sysparm_artist_photo')}" border="0" class="photo"/>
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="1" style="padding:3px">
+				<b class="label">${gs.getMessage("fm_name")}: </b><span id="initials" class="infoText">${JS,HTML:RP.getParameterValue('sysparm_initials')} </span>
+			</td>
+			<td colspan="3" style="padding:3px">
+				<b class="label">${gs.getMessage("fm_birth_date")}: </b><span id="birth_year" class="infoText">${JS,HTML:RP.getParameterValue('sysparm_birth_year')} </span>
+			</td>
+		</tr>
+
+
+		<tr>
+			<td colspan="4" style="padding:3px">
+				<b class="label">${gs.getMessage("fm_website")}: </b><div id="website" class="infoText"><a href="${JS,HTML:RP.getParameterValue('sysparm_website')}" target="_blank" style="text-decoration:none">${JS,HTML:RP.getParameterValue('sysparm_website')}</a> </div>
+			</td>
+		</tr>
+		
+		<tr>
+			<td colspan="4" style="padding:3px">
+				
+				<!-- The information is injected in this div -->
+				<b class="label">${gs.getMessage("fm_biography")}: </b><div id="biography" class="infoText"></div>
+			</td>
+		</tr>
+
+		
+
+	</table>
+
+
+</j:jelly>]]></html>
+        <name>fm_artist_details</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-12-11 18:00:07</sys_created_on>
+        <sys_id>19ca08070f6b220011bec3ace1050e32</sys_id>
+        <sys_mod_count>30</sys_mod_count>
+        <sys_name>fm_artist_details</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_page_19ca08070f6b220011bec3ace1050e32</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-12-22 10:12:38</sys_updated_on>
+    </sys_ui_page>
+</record_update>

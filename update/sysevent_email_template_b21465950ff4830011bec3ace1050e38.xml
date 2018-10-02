@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sysevent_email_template">
+    <sysevent_email_template action="INSERT_OR_UPDATE">
+        <collection>x_lsmcb_fm_room_reservation</collection>
+        <email_layout/>
+        <message/>
+        <message_html><![CDATA[<p>${mail_script:room_reservation_notification_email_client}</p>]]></message_html>
+        <message_list/>
+        <message_text/>
+        <name>Room Reservation Notification</name>
+        <sms_alternate/>
+        <subject>${number} - ${meeting_subject}</subject>
+        <sys_class_name>sysevent_email_template</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-08-24 13:30:43</sys_created_on>
+        <sys_id>b21465950ff4830011bec3ace1050e38</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>Room Reservation Notification</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sysevent_email_template_b21465950ff4830011bec3ace1050e38</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-06-25 13:31:36</sys_updated_on>
+        <sys_version>2</sys_version>
+    </sysevent_email_template>
+</record_update>

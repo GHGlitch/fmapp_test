@@ -1,0 +1,1067 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMInboundIntegrations</api_name>
+        <client_callable>false</client_callable>
+        <description>Utils for SOAP and REST inbound integrations</description>
+        <name>FMInboundIntegrations</name>
+        <script><![CDATA[var FMInboundIntegrations = Class.create();
+
+FMInboundIntegrations.prototype = {
+    
+    initialize: function () {
+
+        // Instantiate FMOutboundIntegrations
+        this.fmoiu = new FMOutboundIntegrations();
+		
+		// Variable that stores the sys_id of the requester
+		this.requesterSysID = '';
+    },
+
+    // STATIC PROPERTIES
+    TOKEN: gs.getProperty('x_lsmcb_fm.outlook_token'),
+    INTEGRATION_PROTOCOL: gs.getProperty('x_lsmcb_fm.calendar_integration_protocol'), // SOAP || REST
+    INTEGRATION_USER_ID: gs.getProperty('x_lsmcb_fm.outlook_integration_user_sys_id'),
+    SUBSCRIPTION_ID: gs.getProperty('x_lsmcb_fm.outlook_notification_subscription_id'),
+    SHARED_CALENDAR_ID: gs.getProperty('x_lsmcb_fm.outlook_shared_calendar_id'),
+    OUTLOOK_INTEGRATION: gs.getProperty('x_lsmcb_fm.calendar_integration'),
+	
+	/**
+     * Called from the Inbound Email Action "Inbound Meeting Processor"
+     * Used to check if an email comes from Outlook and should trigger all this functionality
+     *
+	 * @param {string} emailSysID
+	 * @param {boolean} valid
+     */
+    validateEmail: function (emailSysID) {
+		
+		var validity = false;
+		
+		 // Find the attachment which 'Table sys id' value matches that of current record
+		var grAttachment = new GlideRecord('sys_attachment');
+		if (grAttachment.get('table_sys_id', emailSysID)) {
+			
+			var gsa = new GlideSysAttachment();
+			var contentArray = (gsa.getContent(grAttachment)).split('\n');
+			
+			// Check if the first line/position of the attachment is/contains 'BEGIN:VCALENDAR'
+			if (contentArray[0].indexOf('BEGIN:VCALENDAR') !== -1) {
+				validity = true;
+			}
+		}
+		
+		return validity;
+	},
+
+	/**
+     * Called from the Inbound Email Action "Inbound Meeting Processor"
+     * Used to process the email and sync the user's calendar
+     *
+	 * @param {string} requesterEmail
+     */
+    processEmail: function (requesterEmail) {
+
+        this.requesterSysID = this._getRequesterSysID(requesterEmail);
+		
+		if (this.requesterSysID !== '') {
+			this._syncRequesterCalendar();
+		} else {
+			gs.error('FMInboundIntegrations > Found no user matching the requester email.');
+		}
+    },
+    
+    /**
+     * Called from the Scripted REST Resource "Outlook Calendar Notification"
+     * Used to process REST updates in events
+     *
+     * @param {string} changeType
+	 * @param {string} notificationOutlookID
+     */
+    processUpdateREST: function (changeType, notificationOutlookID) {
+        gs.info('Function: processUpdateREST begins!');
+        var rspBody;
+        
+        try {
+            rspBody = this._restGetItemRequests(notificationOutlookID);
+            
+        } catch (ex) {
+            gs.error('FMA: ' + ex.getMessage());
+        }
+		
+        // If there's no outlookID available in the response message, then the event was cancelled/deleted - process accordingly.
+        if (!rspBody || rspBody.subject.split(' ')[0].indexOf('Canceled:') != -1) {
+            this._cancelRoomReservation('', notificationOutlookID);
+            return;
+        }
+        
+        var reservationInfo = {};
+        
+        reservationInfo.subject = rspBody.subject;
+        reservationInfo.requesterEmail = rspBody.organizer.emailAddress.address;
+        reservationInfo.outlookID = rspBody.id;
+        reservationInfo.notificationOutlookID = notificationOutlookID;
+        
+        // Times come in the format "yyyy-mm-ddThh:mm:ss.0000000", which GlideDateTime does not support.
+        // Change that to "yyyy-mm-ddThh:mm:ss" and create GlideDateTimes.
+        reservationInfo.startDate = this._outlookDateParser(rspBody.start.dateTime);
+        reservationInfo.endDate = this._outlookDateParser(rspBody.end.dateTime);
+        
+        // If the event contains an "online meeting URL", then it is or includes a Skype meeting,
+        // so add the respective link to the comments.
+        if (rspBody.onlineMeetingUrl) {
+            reservationInfo.body = rspBody.bodyPreview.replace('Join online meeting', 'Join online meeting: ' + rspBody.onlineMeetingUrl);
+            
+        } else {
+            reservationInfo.body = rspBody.bodyPreview;
+        }
+        
+        // Set the location depending on the type of response
+        if (rspBody.location.locationUri) {
+            reservationInfo.spaceEmail = rspBody.location.locationUri;
+            
+        } else {
+            
+            var grRoom = new GlideRecord('x_lsmcb_fm_room');
+            
+            if (grRoom.get('idname', rspBody.location.displayName)) {
+                reservationInfo.spaceEmail = grRoom.email;
+            }
+        }
+        
+        reservationInfo.attendees = [];
+        
+        // Go through all the event's attendees and add them to the reservation's (except for the requester and the resource).
+        rspBody.attendees.forEach(function (attendee) {
+            if (attendee.emailAddress.address == reservationInfo.requesterEmail || attendee.type == 'resource') {
+                return;
+            }
+            
+            var company = attendee.emailAddress.address.split('@')[1];
+            company = company.split('.')[0];
+            reservationInfo.attendees.push({
+                name: attendee.emailAddress.name,
+                email: attendee.emailAddress.address,
+                company: company
+            });
+        });
+        
+        // Check if the reservation is recurrent and has no seriesMasterId value, meaning that it's the "master event" and
+        // should be processed differently from the "child" events.
+        if (rspBody.recurrence && !rspBody.seriesMasterId) {
+            reservationInfo.isRecurrent = true;
+        }
+        gs.info('ReservationInfo attendees: ' + JSON.stringify(reservationInfo.attendees));
+        // Check if the reservation is not recurrent. If it's not, create/update it normally. If it is, process that recurrence.
+        if (!rspBody.recurrence) {
+            this._createRoomReservation(reservationInfo);
+        
+        } else {
+            this._recurrenceProcessor(reservationInfo);
+        }
+    },
+    
+    /**
+     * Called from processUpdateREST()
+     * Processes the recurrence of a given event
+     *
+	 * @param {JSON} reservationInfo
+     */
+    _recurrenceProcessor: function(reservationInfo) {
+        
+        var startDate = new GlideDateTime(reservationInfo.startDate);
+        startDate.addDaysUTC(-1);
+        startDate = startDate.getDisplayValue();
+        startDate = startDate.replace(' ', 'T');
+        
+        // Get the maximum duration of a recurring reservation (in months), which is in the system property.
+        // Then, add those months to the master event's end date.
+        var maxRecurrenceTime = gs.getProperty('x_lsmcb_fm.max_recurring_reservation');
+        
+        var endDate = new GlideDateTime(reservationInfo.endDate);
+        endDate.addMonthsUTC(maxRecurrenceTime + 1); // +1 just to be sure
+        
+        endDate = endDate.getDisplayValue();
+        endDate = endDate.replace(' ', 'T');
+
+        // Fetch all of the master event's instances in the user calendar
+        var restGetItemInstances = new sn_ws.RESTMessageV2('x_lsmcb_fm.OutlookREST', 'GetItemInstances');
+        restGetItemInstances.setStringParameterNoEscape('token', this.TOKEN);
+        restGetItemInstances.setStringParameterNoEscape('itemID', reservationInfo.outlookID);
+        restGetItemInstances.setStringParameterNoEscape('requester', reservationInfo.requesterEmail);
+        restGetItemInstances.setStringParameterNoEscape('startDate', startDate);
+        restGetItemInstances.setStringParameterNoEscape('endDate', endDate);
+        
+        // Get the full event object
+        var rsp = restGetItemInstances.execute();
+        var rBody = rsp.getBody();
+        rBody = JSON.parse(rBody);
+        
+        var itemInstances = rBody.value;
+        
+        // Fetch all of the master event's instances in the shared calendar
+        var restSharedGetItemInstances = new sn_ws.RESTMessageV2('x_lsmcb_fm.OutlookREST', 'SharedGetItemInstances');
+        restSharedGetItemInstances.setStringParameterNoEscape('token', this.TOKEN);
+        restSharedGetItemInstances.setStringParameterNoEscape('calendarID', this.SHARED_CALENDAR_ID);
+        restSharedGetItemInstances.setStringParameterNoEscape('itemID', reservationInfo.notificationOutlookID);
+        restSharedGetItemInstances.setStringParameterNoEscape('requester', this._getIntegrationUserEmail());
+        restSharedGetItemInstances.setStringParameterNoEscape('startDate', startDate);
+        restSharedGetItemInstances.setStringParameterNoEscape('endDate', endDate);
+
+        // Get the full event object
+        var response = restSharedGetItemInstances.execute();
+        var rspBody = response.getBody();
+        rspBody = JSON.parse(rspBody);
+        
+        var itemInstancesShared = rspBody.value;
+        
+        var masterID = reservationInfo.outlookID;
+        var masterSharedID = reservationInfo.notificationOutlookID;
+        
+        var parentID = '';
+        
+        // Go through all the instances (except the first, because its event is already created), get their dates and
+        // create the respective events.
+        var i = 0;
+        
+        while (i < itemInstancesShared.length) {
+            
+            // If the item is not cancelled, create/update it on SN. Otherwise, cancel it.
+            if (!itemInstancesShared[i].isCancelled && itemInstances[i].id) {
+            
+                reservationInfo.isRecurrent = true;
+
+                reservationInfo.startDate = this._outlookDateParser(itemInstances[i].start.dateTime);
+                reservationInfo.endDate = this._outlookDateParser(itemInstances[i].end.dateTime);
+                reservationInfo.notificationOutlookID = itemInstancesShared[i].id;
+                reservationInfo.outlookID = itemInstances[i].id;
+                reservationInfo.parentOutlookID = parentID;
+                reservationInfo.subject = itemInstances[i].subject;
+                reservationInfo.body = itemInstances[i].bodyPreview;
+                reservationInfo.masterID = '';
+                reservationInfo.masterSharedID = '';
+                
+                if (i == 0) {
+                    reservationInfo.masterID = masterID;
+                    reservationInfo.masterSharedID = masterSharedID;
+                    parentID = reservationInfo.outlookID;
+                }
+
+                // Create/update the reservation for the current item instance
+                this._createRoomReservation(reservationInfo);
+                
+            } else {
+                this._cancelRoomReservation('', itemInstancesShared[i].id);
+            }
+            
+            i++;
+        }
+	},
+    
+    /**
+     * Called from the Scripted REST Resource "Authorization" (from the Scripted REST API "Outlook REST Endpoint")
+     * and the Scheduled Job "FM - Renew Graph Access Token"
+     * Used to update the value of the system property "x_lsmcb_fm.outlook_token" with the integration's access token
+     */
+    renewNotificationSubscription: function() {
+        
+        var restGetSubscription = new sn_ws.RESTMessageV2('x_lsmcb_fm.OutlookREST', 'Get Subscription');
+        restGetSubscription.setStringParameterNoEscape('subscriptionID', this.SUBSCRIPTION_ID);
+        restGetSubscription.setStringParameterNoEscape('token', this.TOKEN);
+        
+        var response = restGetSubscription.execute();
+        var rspBody = response.getBody();
+        rspBody = JSON.parse(rspBody);
+        
+        var date = rspBody.expirationDateTime.replace('Z', '');
+        
+        var newExpirationDate = new GlideDateTime(date);
+        newExpirationDate.addSeconds(1440 * 60);
+        
+        newExpirationDate = newExpirationDate.getDisplayValue().replace(' ', 'T');
+        newExpirationDate += 'Z';
+        
+        var restRenewSubscription = new sn_ws.RESTMessageV2('x_lsmcb_fm.OutlookREST', 'Renew Subscription');
+        restRenewSubscription.setStringParameterNoEscape('subscriptionID', this.SUBSCRIPTION_ID);
+        restRenewSubscription.setStringParameterNoEscape('token', this.TOKEN);
+        restRenewSubscription.setStringParameterNoEscape('newExpirationDate', newExpirationDate);
+        
+        restRenewSubscription.execute();
+    },
+    
+    /**
+     * Called from processUpdateREST()
+     * Does the 2 necessary REST GetItem requests to get the actual event
+     *
+     * @param {string} id
+	 * @returns {JSON} rspBody
+     */
+    _restGetItemRequests: function(id) {
+        
+        // Fetch the entire event that has the Outlook ID sent in the notification (from the shared calendar)
+        var restGetSharedItem = new sn_ws.RESTMessageV2('x_lsmcb_fm.OutlookREST', 'SharedGetItem');
+        restGetSharedItem.setStringParameterNoEscape('token', this.TOKEN);
+        restGetSharedItem.setStringParameterNoEscape('itemID', id);
+        restGetSharedItem.setStringParameterNoEscape('calendarID', this.SHARED_CALENDAR_ID);
+        restGetSharedItem.setStringParameterNoEscape('requester', this._getIntegrationUserEmail());
+
+        // Get the full event object
+        var rsp = restGetSharedItem.execute();
+        var rBody = rsp.getBody();
+        rBody = JSON.parse(rBody);
+
+        // Get the iCalUID and requester's email of the event
+        var iCalUID = rBody.iCalUId;
+        var reqEmail = rBody.organizer.emailAddress.address;
+
+        // Fetch the event from the user's calendar, using the iCalUID
+        var restGetItem = new sn_ws.RESTMessageV2('x_lsmcb_fm.OutlookREST', 'iCalGetItem');
+        restGetItem.setStringParameterNoEscape('token', this.TOKEN);
+        restGetItem.setStringParameterNoEscape('iCalUID', iCalUID);
+        restGetItem.setStringParameterNoEscape('requester', reqEmail);
+
+        // Get the full event object
+        var response = restGetItem.execute();
+        var rspBody = response.getBody();
+        rspBody = JSON.parse(rspBody);
+        rspBody = rspBody.value[0];
+        
+        return rspBody;
+    },
+
+	/**
+	 * Called from processEmail()
+     * Used to get the requester's sys_id
+     *
+	 * @param {string} requesterEmail
+	 * @returns {string} requesterSysID
+     */
+    _getRequesterSysID: function (requesterEmail) {
+		
+		var requesterSysID = '';
+		
+		var grRequester = new GlideRecord('sys_user');
+		
+		if (grRequester.get('email', requesterEmail)) {
+			requesterSysID = grRequester.getUniqueValue();
+		}
+		
+		return requesterSysID;	
+    },
+
+	/**
+     * Called from processEmail()
+     * Used to fetch all the new data from the space's calendar @ Outlook
+     */
+    _syncRequesterCalendar: function () {
+
+        // Create GlideRecord to get the requester's record using the requester's email
+        var grRequester = new GlideRecord('sys_user');
+		grRequester.get(this.requesterSysID);
+
+		// Execute the sync and store the response
+		var response = this._executeSync(grRequester.x_lsmcb_fm_sync_state, grRequester.email);
+
+		// Process the response and obtain the desired response contents
+		// [(new) syncState value and the affected IDs]
+		var responseContents = this._processResponse(response);
+
+		// If there are no changes to process, do nothing
+		if (responseContents.changes.length === 0) {
+			gs.info('FMA > No changes to be processed.');
+			return;
+		}
+
+		// Process all the changes
+		this._processChanges(grRequester.email, responseContents.changes);
+
+		// Update the syncState field in the record
+		this._updateSyncState(grRequester, responseContents.newSyncState);
+    },
+
+	/**
+	 * Called from syncRequesterCalendar()
+     * Used to execute the initial sync with a space's calendar
+     
+	 * @param {string} syncState
+	 * @param {string} requesterEmail
+	 * @returns {string} response
+     */
+    _executeSync: function (syncState, requesterEmail) {
+
+        var method = 'SyncItems';
+
+        try {
+
+            var s;
+
+            this.fmoiu._initSOAP(method);
+			this._setSyncParameters(syncState, requesterEmail);
+
+            // Execute the message and store the response
+            var response = this.fmoiu._exeMessage();
+			
+            return response;
+
+        } catch (ex) {
+			gs.error('Error in FMInboundIntegrations._executeSync(): ' + ex.message);
+        }
+    },
+
+	/**
+	 * Called from syncRequesterCalendar()
+     * Used to execute the initial sync with a space's calendar
+	 * @param {string} response
+	 * @returns {JSON} responseContents
+     */
+    _processResponse: function (response) {
+
+        var xmlDoc = new XMLDocument2();
+        xmlDoc.parseXML(response);
+
+        var responseContents = {};
+
+        // Fetch the new syncState code from the XML
+		responseContents.newSyncState = xmlDoc.getNodeText("//m:SyncState");
+		
+        // Create array inside the responseContens object to store all the event IDs
+        responseContents.changes = [];
+
+        // Move the "iterator" to the first change
+		var iter = xmlDoc.getFirstNode('//m:Changes/*');
+		
+        while (iter !== null) {
+
+			var change = {};
+			
+			// Get inside the next change tag
+			var targetNode = iter.getLastChild();
+
+			// Check if the type of change. Given that Delete does not have the <t:CalendarItem> tag,
+			// simply set the operation. For Create and Update, go one level deeper.
+			if (iter.toString().indexOf('t:Delete') !== -1) {
+				change.operation = 'delete';
+
+			} else {
+				
+				// Needed because getLastChild() does not fetch the actual last child
+				targetNode = targetNode.getFirstChild();
+				
+				if (iter.toString().indexOf('t:Create') !== -1) {
+					
+					change.operation = 'create';
+					
+				} else if (iter.toString().indexOf('t:Update') !== -1) {
+					
+					change.operation = 'update';
+				}
+			}
+
+            var id = targetNode.getAttribute('Id');
+			
+            // Parse the ID to replace characters
+            // (needed because of a character mismatch in IDs)
+            change.id = this._outlookIdParser(id);
+
+            // Add the ID of each event to the responseContents.changes
+            responseContents.changes.push(change);
+
+            // Move the "iterator" to the next change
+            iter = xmlDoc.getNextNode(iter);
+        }
+
+        return responseContents;
+    },
+
+	/**
+	 * Called from _syncRequesterCalendar()
+     * Used to get the meeting's space from the email's attachment
+     *
+	 * @param {string} requesterEmail
+	 * @param {string} changesArray
+     */
+    _processChanges: function (requesterEmail, changesArray) {
+
+        for (var i = 0; i < changesArray.length; i++) {
+			
+			var outlookID = changesArray[i].id;
+
+			if (changesArray[i].operation === 'delete') {
+				
+				this._cancelRoomReservation(outlookID);
+			
+			} else {
+				
+				// Use the reservation ID to retrieve the reservation info
+				var reservationInfo = this._getOutlookItemInfo(requesterEmail, outlookID);
+				
+				if (reservationInfo != undefined) {
+                    
+                    reservationInfo.requesterEmail = requesterEmail;
+                    reservationInfo.outlookID = outlookID;
+                    
+					// Create/update the reservation record, but only if the reservation info has no errors
+					this._createRoomReservation(reservationInfo);
+				}
+			}
+        }
+    },
+
+	/**
+	 * Called from _processChanges()
+     * Used to get a reservation's details from Outlook (using its ID)
+     *
+	 * @param {string} requesterEmail
+	 * @param {string} outlookID
+	 * @returns {JSON} responseContents
+     */
+    _getOutlookItemInfo: function (requesterEmail, outlookID) {
+
+        var method = 'GetFullItem';
+
+        try {
+
+            var s;
+
+            this.fmoiu._initSOAP(method);
+				
+			this._setOutlookItemInfoParameters(requesterEmail, outlookID);
+
+            // Execute the message and store the response
+            var response = this.fmoiu._exeMessage();
+			
+            // Process the response to get the desired info
+            var responseContents = this._processFullItemResponse(response);
+			
+            return responseContents;
+
+        } catch (ex) {
+			gs.error('Error in FMInboundIntegrations._getOutlookItemInfo(): ' + ex.message);
+        }
+    },
+
+	/**
+	 * Called from _executeSync()
+     * Used to set the parameters of the 'SyncItems' SOAP message
+     *
+	 * @param {string} syncState
+     */
+    _setSyncParameters: function (syncState, requesterEmail) {
+
+		s.setStringParameterNoEscape('requester', requesterEmail);
+
+		// This variable will contain the XML for the syncState XML parameter
+		var syncStateXML = '';
+
+		// If the syncState field is not empty, use its value inside the <m:SyncState> XML node
+		if (syncState !== '') {
+			syncStateXML = '<m:SyncState>' + syncState + '</m:SyncState>';
+		}
+
+		s.setStringParameterNoEscape('syncState', syncStateXML);
+    },
+
+	/**
+	 * Called from _executeSync()
+     * Used to set the parameters of the 'SyncItems' SOAP message
+     *
+	 * @param {string} requesterEmail
+	 * @param {string} outlookID
+     */
+    _setOutlookItemInfoParameters: function (requesterEmail, outlookID) {
+
+        s.setStringParameterNoEscape('requester', requesterEmail);
+		s.setStringParameterNoEscape('itemID', outlookID);
+    },
+
+	/**
+	 * Called from _processResponse()
+     * Used to replace special characters in Outlook IDs for the correct ones ('_' is replaced by '+' and '-' is replaced by '/')
+     *
+	 * @param {string} id
+	 * @returns {string} id
+     */
+    _outlookIdParser: function (id) {
+
+        id = id.replace(new RegExp('_', 'g'), '+');
+        id = id.replace(new RegExp('-', 'g'), '/');
+
+        return id;
+    },
+
+	/**
+	 * Called from _getOutlookItemInfo()
+     * Used to execute the initial sync with a space's calendar
+     *
+	 * @param {string} response
+	 * @returns {JSON} responseContents
+     */
+    _processFullItemResponse: function (response) {
+
+        var xmlDoc = new XMLDocument2();
+        xmlDoc.parseXML(response);
+		
+        var responseContents = {};
+		
+        // Fetch all the target information from the XML
+        responseContents.subject = xmlDoc.getNodeText("//t:Subject");
+        responseContents.body = xmlDoc.getNodeText("//t:Body");
+        responseContents.cancelled = xmlDoc.getNodeText("//t:IsCancelled");
+        responseContents.startTime = this._outlookDateParser(xmlDoc.getNodeText("//t:Start"));
+        responseContents.endTime = this._outlookDateParser(xmlDoc.getNodeText("//t:End"));
+        responseContents.attendees = this._xmlGetAttendeeInfo(xmlDoc);
+		responseContents.spaceEmail = this._xmlGetSpaceEmail(xmlDoc);
+		
+        return responseContents;
+    },
+	
+	/**
+	 * Called from _processFullItemResponse()
+     * Used to replace or remove special characters in Outlook dates to ServiceNow acceptable formats
+     * 'T' is replaced by a space; endings such as ".0000000" are removed.
+     *
+	 * @param {string} date
+	 * @returns {GlideDateTime} gdt
+     */
+	_outlookDateParser: function(date) {
+		
+		date = date.replace(new RegExp('T', 'g'), ' ').split('.')[0];
+		
+		var gdt = new GlideDateTime(date);
+		
+		return gdt;
+	},
+	
+	/**
+	 * Called from _processFullItemResponse()
+     * Extracts all the attendees' info from the XML response
+     *
+	 * @param {XMLDocument2} xmlDoc
+	 * @returns {array} attendees
+     */
+    _xmlGetAttendeeInfo: function (xmlDoc) {
+		
+		var attendees = [];
+
+        // Move the "iterator" to the first attendee
+        var requiredAttendeesNode = xmlDoc.getFirstNode('//t:RequiredAttendees/*');
+		
+		// If there are no attendees, requiredAttendeesNode is undefined, so that needs to be covered
+		if (requiredAttendeesNode != undefined) {
+
+			while (requiredAttendeesNode !== null) {
+
+				// Get a child node iterator for the current attendee
+				var iterator = requiredAttendeesNode.getFirstChild().getChildNodeIterator();
+
+				var attendeeDetails = {};
+
+				while (iterator.hasNext()) {
+
+					// Get the details for the current attendee
+					var currentAttendee = iterator.next();
+
+					// Check if the current element is 'Name' or 'EmailAddress'
+					// If so, store the value on the respective property of the attendeeDetails object
+					if (currentAttendee.toString().indexOf('Name') !== -1) {
+						attendeeDetails.name = currentAttendee.getTextContent();
+
+					} else if (currentAttendee.toString().indexOf('EmailAddress') !== -1) {
+						attendeeDetails.email = currentAttendee.getTextContent();
+						attendeeDetails.company = currentAttendee.getTextContent().split('@')[1].split('.')[0];
+					}
+				}
+				// Add the details of the current attendee to the attendees array
+				attendees.push(attendeeDetails);
+
+				// Move the "iterator" to the next attendee
+				requiredAttendeesNode = xmlDoc.getNextNode(requiredAttendeesNode);
+			}
+		}
+		
+		return attendees;
+    },
+	
+	/**
+	 * Called from _processFullItemResponse()
+     * Extracts space's email from the XML response
+     *
+	 * @param {XMLDocument2} xmlDoc
+	 * @returns {string} spaceEmail
+     */
+    _xmlGetSpaceEmail: function (xmlDoc) {
+		
+		var spaceEmail = '';
+		
+		var resourcesNode = xmlDoc.getFirstNode('//t:Resources/*');
+		
+		var iterator = resourcesNode.getFirstChild().getChildNodeIterator();
+		
+		while (iterator.hasNext()) {
+			var resource = iterator.next();
+			
+			if (resource.toString().indexOf('EmailAddress') !== -1) {
+				spaceEmail = resource.getTextContent();
+				return spaceEmail;
+			}
+		}
+	},
+
+	/**
+	 * Called from _processChanges()
+     * Used to create a room reservation, including the processing of visitors
+     *
+	 * @param {string} outlookID
+	 * @param {string} requesterEmail
+	 * @param {JSON} reservationInfo
+     */
+    _createRoomReservation: function (reservationInfo) {
+        
+        var userGr = new GlideRecord('sys_user');
+
+        if (!userGr.get('email', reservationInfo.requesterEmail)) {
+            return;
+        }
+
+        var requesterID = userGr.getUniqueValue();
+		
+		var visitors = reservationInfo.attendees;
+			
+        var rrgr = new GlideRecord('x_lsmcb_fm_room_reservation');
+
+        if (rrgr.get('outlook_id', reservationInfo.outlookID)) {
+            
+            // If the reservation exists and it doesn't have an Outlook ID from the Shared Calendar, fill it
+            if (!rrgr.shared_outlook_id) {
+                rrgr.shared_outlook_id = reservationInfo.notificationOutlookID;
+            }
+			
+			this._populateReservationGR(rrgr, reservationInfo);
+
+            rrgr.update();
+			
+            // VISITS
+            var vgr = new GlideRecord('x_lsmcb_fm_visit');
+            vgr.addQuery('room_reservation', rrgr.getUniqueValue());
+            vgr.query();
+
+            loop1:
+            while (vgr.next()) {
+                
+                loop2:
+                for (var i = 0; i < visitors.length; i++) {
+					
+                    if (visitors[i].email == vgr.email) {
+                        vgr.company = visitors[i].company;
+                        vgr.state = 'Registered';
+
+                        vgr.update();
+                        visitors.splice(i--, 1);
+                        continue loop1;
+                    }
+                }
+                
+                vgr.state = 'Canceled';
+                vgr.update();
+            }
+			
+            var ivgr = new GlideRecord('x_lsmcb_fm_internal_visits');
+            ivgr.addQuery('room_reservation', rrgr.getUniqueValue());
+            ivgr.query();
+            
+            loop3:
+            while (ivgr.next()) {
+                
+                /*loop4:
+                for (var j = 0; j < visitors.length; j++) {
+					
+                    if (visitors[j].email == ivgr.email) {
+                        //ivgr.company = visitors[j].company;
+                        //ivgr.state = 'Registered';
+
+                        //ivgr.update();
+                        visitors.splice(j--, 1);
+                        continue loop3;
+                    }
+                }*/
+                
+                ivgr.deleteRecord();
+                
+                /*ivgr.state = 'Canceled';
+                ivgr.update();*/
+            }
+            this._createVisitLoop(visitors, rrgr);
+
+        } else {
+			
+			var costCenter = this._getUserCostcenter(requesterID);
+			
+            rrgr.initialize();
+			
+			this._populateReservationGR(rrgr, reservationInfo);
+			
+			rrgr.requested_by = requesterID;
+            rrgr.requester = requesterID;
+            rrgr.costcenter = costCenter;
+			rrgr.outlook_id = reservationInfo.outlookID;
+            
+            if (this.INTEGRATION_PROTOCOL == 'rest') {
+                
+                rrgr.shared_outlook_id = reservationInfo.notificationOutlookID;
+                
+                if (reservationInfo.masterID && reservationInfo.masterSharedID) {            
+                    rrgr.master_id = reservationInfo.masterID;
+                    rrgr.master_shared_id = reservationInfo.masterSharedID;
+                }
+            }
+			
+            rrgr.insert();
+			
+            this._createVisitLoop(visitors, rrgr);
+        }
+    },
+	
+	/**
+	 * Called from _createRoomReservation()
+     * Used to populate (some of) the fields of a reservation record
+     *
+	 * @param {GlideRecord} gr
+	 * @param {JSON} reservationInfo
+     */
+    _populateReservationGR: function (gr, reservationInfo) {
+        
+		gr.meeting_subject = reservationInfo.subject;
+		gr.meeting_comments = reservationInfo.body;
+		gr.meeting_start_time = reservationInfo.startDate;
+		gr.meeting_end_time = reservationInfo.endDate;
+		gr.number_of_attendees = reservationInfo.attendees.length + 1; // +1 for the requester/organizer
+		gr.state = '2';
+        
+        if (reservationInfo.isRecurrent) {
+            
+            gr.recurring = true;
+            
+            var grReservation = new GlideRecord('x_lsmcb_fm_room_reservation');
+            grReservation.addNotNullQuery('outlook_id');
+            grReservation.addQuery('outlook_id', reservationInfo.parentOutlookID);
+            grReservation.query();
+            
+            if (grReservation.next()) {
+                gr.parent = grReservation.getUniqueValue();
+            }
+        }
+		
+		// Get the space's sys_id
+		var grSpace = new GlideRecord('x_lsmcb_fm_room');
+		grSpace.get('email', reservationInfo.spaceEmail);
+		
+		gr.room = grSpace.getUniqueValue();
+        gr.location = gr.room.floor.location;
+	},
+
+	/**
+	 * Called from _createRoomReservation()
+     * Used to loop through the visitors and create "visits" for them, if needed
+     *
+	 * @param {GlideRecord} reservation
+	 * @param {GlideRecord} visit
+	 * @param {JSON} visitor
+     */
+    _createVisitLoop: function (visitors, reservation) {
+
+        if (visitors.length > 0) {
+            
+            var emailWhitelist = gs.getProperty('x_lsmcb_fm.visit_email_whitelist');
+            emailWhitelist = emailWhitelist.replace(/\s/g,'').split(',');
+            
+            var self = this;
+			
+            visitors.forEach(function (visitor) {
+                
+                var emailDomain = visitor.email.split('@')[1];
+                
+                if (emailWhitelist.indexOf(emailDomain) == -1) {
+                    self._createVisit('external', reservation, visitor);
+                    
+                } else {
+                    self._createVisit('internal', reservation, visitor);
+                }
+            });
+        }
+    },
+
+	/**
+	 * Called from _createVisitLoop()
+     * Used to create the appropriate visit records for each visitor
+     *
+     * @param {string} type
+	 * @param {GlideRecord} reservation
+	 * @param {JSON} visitor
+     */
+    _createVisit: function (type, reservation, visitor) {
+        
+        var grVisit;
+        
+        if (type == 'internal') {
+            grVisit = new GlideRecord('x_lsmcb_fm_internal_visits');
+            
+        } else if (type == 'external') {
+            grVisit = new GlideRecord('x_lsmcb_fm_visit');
+        }
+
+        grVisit.initialize();
+
+        // Info coming from Room Reservation
+        grVisit.requester = reservation.requested_by;
+        grVisit.host = reservation.requester;
+        grVisit.phone = reservation.requester.phone;
+        grVisit.contact = reservation.requester;
+        grVisit.start_time = reservation.meeting_start_time;
+        grVisit.end_time = reservation.meeting_end_time;
+        grVisit.location = reservation.location;
+        grVisit.room_reservation = reservation.getUniqueValue();
+        grVisit.remark = reservation.meeting_subject;
+
+        // Info coming from Visitor		
+        grVisit.visitor = visitor.name;
+        grVisit.company = visitor.company;
+        grVisit.email = visitor.email;
+        
+        if (visitor.name.indexOf('@') == -1) {
+            grVisit.visitor_first_name = visitor.name.split(/ (.+)/)[0];
+            grVisit.visitor_last_name = visitor.name.split(/ (.+)/)[1];
+            
+        } else {
+            grVisit.visitor_first_name = '';
+            grVisit.visitor_last_name = visitor.name;
+        }
+        
+        grVisit.insert();
+    },
+
+    /**
+	 * Called from _createRoomReservation()
+     * Used to retrieve a user's cost center
+     *
+	 * @param {string} userID
+	 * @returns {string} costCenter
+     */
+    _getUserCostcenter: function (userID) {
+		
+        var gr = new GlideRecord('sys_user');
+        gr.get(userID);
+		
+		var costCenter = gr.department.cost_center;
+
+        return costCenter;
+	},
+	
+	/**
+	 * Called from _processChanges()
+     * Used to cancel a room reservation
+     *
+	 * @param {string} outlookID
+     * @param {string} notificationOutlookID
+     */
+    _cancelRoomReservation: function (outlookID, notificationOutlookID) {
+
+		var grCancelReservation = new GlideRecord('x_lsmcb_fm_room_reservation');
+        
+        var condition;
+        
+        if (notificationOutlookID) {
+            
+            condition = grCancelReservation.get('shared_outlook_id', notificationOutlookID);
+            
+            if (!condition) {
+                condition = grCancelReservation.get('master_shared_id', notificationOutlookID);
+            }
+            
+        } else {
+            condition = grCancelReservation.get('outlook_id', outlookID);
+        }
+     
+        if (condition) {
+            
+            // If it is a recurring reservation, also cancel any possible "child" reservations
+            if (grCancelReservation.recurring) {
+                this._cancelRecurringChildReservations(grCancelReservation.getUniqueValue());
+            }
+
+            // Set the reservation's state to "Cancelled" (0)
+            grCancelReservation.state = '0';
+
+            grCancelReservation.update();
+        }
+	},
+    
+    /**
+	 * Called from _cancelRoomReservation()
+     * Used to cancel recurring "child" room reservations
+     *
+	 * @param {string} sysID
+     */
+    _cancelRecurringChildReservations: function (sysID) {
+        
+        var grChildReservations = new GlideRecord('x_lsmcb_fm_room_reservation');
+        grChildReservations.addQuery('parent', sysID);
+        grChildReservations.query();
+        
+        while (grChildReservations.next()) {
+            
+            // Set the reservation's state to "Cancelled" (0)
+            grChildReservations.state = '0';
+            
+            grChildReservations.update();
+        }
+    },
+
+	/**
+	 * Called from syncRequesterCalendar()
+     * Used to update the user record with the new syncState value
+     *
+	 * @param {string} grRequester
+	 * @param {string} newSyncState
+     */
+    _updateSyncState: function (grRequester, newSyncState) {
+
+        grRequester.x_lsmcb_fm_sync_state = newSyncState;
+		
+        grRequester.update();
+    },
+    
+    /**
+     * Used to retrieve the email of the integration user
+     */
+    _getIntegrationUserEmail: function () {
+        
+        var gr = new GlideRecord('sys_user');
+        gr.get(this.INTEGRATION_USER_ID);
+        
+        return gr.email;
+    },
+    
+    /**
+     * Checks if the REST integration is activated
+     */
+    restIntegrationActivated: function () {
+        return (this.OUTLOOK_INTEGRATION == 'enabled' && this.INTEGRATION_PROTOCOL == 'rest');
+    },
+
+    type: 'FMInboundIntegrations'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-02-21 10:26:22</sys_created_on>
+        <sys_id>6b7630efdbdcd7003d279c27db961915</sys_id>
+        <sys_mod_count>471</sys_mod_count>
+        <sys_name>FMInboundIntegrations</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_6b7630efdbdcd7003d279c27db961915</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-08-17 15:47:39</sys_updated_on>
+    </sys_script_include>
+</record_update>

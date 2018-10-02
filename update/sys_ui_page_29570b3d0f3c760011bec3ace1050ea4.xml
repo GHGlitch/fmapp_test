@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[var selectedDates = []; //Array with JSON of the selected visitors.
+var currentDate; //Current visitor JSON.
+
+var addDate = function(){
+
+	var date = g_form.getValue('date_picker');
+	addRowToTable(date);
+};
+
+
+
+/**
+ * Create a new Row in the table with the related Visitor data.
+ */
+function addRowToTable(date) {
+
+	//Get query object
+	var cmdbObj = date;
+	var idMockup = cmdbObj.replace(/-/g, "");
+
+	//Cloning the header
+	var cdum = $j('#dummydate').clone(true, true);
+
+	selectedDates.push(cmdbObj);
+
+	// Draw table row with the fetched data from Visitor.
+	var $dum = $j(cdum);
+	$dum.attr('id', idMockup).removeClass("used").addClass("datePicked").attr("style", '');
+	$dum.html('<button id="removeDateBtn" ONCLICK="removeRowFromTable('+idMockup+');">X</button><span id="span'+idMockup+'" class="datePickedText">' + cmdbObj.toString() +'</span>');
+
+	$j('#datelistingTabe').attr("style", 'display: block; visibility: visible');
+	$dum.appendTo('#datelisting').fadeIn(600);
+
+	g_form.setValue('selected_dates_object', JSON.stringify(selectedDates));
+}
+
+
+/*
+If the related check Box is checked, deletes the entire related row from the table.
+ */
+function removeRowFromTable(idMockup) {
+
+
+	var dateRaw = String(idMockup);
+	var thisDate = [dateRaw.slice(0,4),"-",dateRaw.slice(4,6),"-",dateRaw.slice(6)].join('');
+	//var thisDateId = $j('#'+idMockup).attr('id');
+
+
+	selectedDates.forEach(function(arrayItem) {
+		if (arrayItem == thisDate) {
+			var a = selectedDates.indexOf(arrayItem);
+			selectedDates.splice(a, 1);
+		}
+	});
+
+	$j('#'+idMockup).fadeOut(600, function() {
+		$j('#'+idMockup).remove();
+		
+		var dateBucket = $j('#datelisting').html();
+		
+		if (dateBucket.toString().length == 0) $j('#datelistingTabe').attr("style", 'display: none; visibility: hidden');
+	});
+	
+	
+
+	g_form.setValue('selected_dates_object', JSON.stringify(selectedDates));
+
+}
+
+]]></client_script>
+        <description>Lists selected dateson the room reservation record producer</description>
+        <direct>false</direct>
+        <endpoint>x_lsmcb_fm_fm_date_listing.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+
+    <!--                                    CASCADE STYLE SHEET
+
+									****************************************
+
+-->
+	
+<style>
+	
+			.datelistingTabe{
+	        border-collapse: separate;
+            border: solid #ccc 1px;
+            border-radius: 6px;
+            -moz-border-radius: 6px;
+            font-family: SourceSansPro, "Helvetica Neue", Arial;
+            font-size: 13px;
+            padding: 10px 10px 10px 10px;
+            color: #454545;
+            line-height: 20px;
+            background-color: #dcdcdc;
+            max-height: 400px;
+			text-align:center;
+			}
+	
+			div#datelisting{
+			text-align:center;
+			}
+	
+	        div#datelisting .datePicked {
+            background-color: #f1f1f1;
+            font-family: SourceSansPro, "Helvetica Neue", Arial;
+            color: #677780;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            border-radius: 6px; 
+			text-align: left;
+			padding: 4px;
+			margin: 4px;
+	float:left;
+	left: 50%;
+			}
+	
+			.datePickedText {
+			font-size: 13px;
+			font-weight: bold;
+			color: #454545;
+			}
+	
+	        button#removeDateBtn {
+            width: 10px;
+            height: 10px;
+            background: #d5d5d5;
+            /*the colour of the button*/
+            padding: 2px;
+            /*apply some padding inside the button*/
+            border: 1px solid #ccc;
+            /*required or the default border for the browser will appear*/
+            cursor: pointer;
+            /*forces the cursor to change to a hand when the button is hovered*/
+            /*style the text*/
+            font-size: 8px;
+            text-transform: uppercase;
+            font-family: Century Gothic, Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            letter-spacing: .06em;
+            text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.3);
+            /*give the text a shadow - doesn't appear in Opera 12.02 or earlier*/
+            color: #666;
+            /*give the corners a small curve*/
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            border-radius: 12px;
+        }
+	
+	
+        /***SET THE BUTTON'S HOVER AND FOCUS STATES***/
+        
+        button#removeDateBtn:hover,
+        button#removeDateBtn:focus {
+            background: #db5353;
+            border: 1px solid #eb3c3c;
+            /*the colour of the button*/
+            color: #EFEFEF;
+            /*reduce the size of the shadow to give a pushed effect*/
+            -webkit-box-shadow: inset 0px 3px 0px #da8080, 0px 2px 0px 0px #cb0b0b, 0px 2px 5px #a43a3a;
+            -moz-box-shadow: inset 0px 3px 0px #da8080, 0px 2px 0px 0px #cb0b0b, 0px 2px 5px #a43a3a;
+            box-shadow: inset 0px 3px 0px #da8080, 0px 2px 0px 0px #cb0b0b, 0px 2px 5px #a43a3a;
+        }
+</style>
+
+
+
+
+	    <!--                                    LOAD CONTROLERS
+
+									****************************************
+
+-->
+	
+	<g:requires name="x_lsmcb_fm.fm_messages_controler.jsdbx" />
+	
+
+
+    <!--                                   THE HTML
+								   *************************
+
+-->
+	
+	
+
+    <span class="title">${gs.getMessage('fm_selected_dates')}</span>
+    <br/>
+	
+	<table id="datelistingTabe" style="display: none; visibility: hidden" cellpadding="5" cellspacing="5" bgcolor="#d2d2d2" align="left" border="0" class="datelistingTabe">
+		<tr>
+			<td align="center">
+
+				<div id="dummydate"></div>
+
+				<div id="datelisting">
+				</div>
+			</td>
+		</tr>
+	</table>
+
+
+
+
+    <!--
+
+								 END OF HTML
+							*********************
+-->
+
+
+
+
+
+</j:jelly>]]></html>
+        <name>fm_date_listing</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-02-08 13:50:03</sys_created_on>
+        <sys_id>29570b3d0f3c760011bec3ace1050ea4</sys_id>
+        <sys_mod_count>105</sys_mod_count>
+        <sys_name>fm_date_listing</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_page_29570b3d0f3c760011bec3ace1050ea4</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-08-01 09:09:12</sys_updated_on>
+    </sys_ui_page>
+</record_update>

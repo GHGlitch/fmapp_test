@@ -1,0 +1,1616 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMRoomReservationUtils</api_name>
+        <client_callable>false</client_callable>
+        <description> Server side room reservation utils</description>
+        <name>FMRoomReservationUtils</name>
+        <script><![CDATA[var FMRoomReservationUtils = Class.create();
+FMRoomReservationUtils.prototype = {
+    initialize: function () { },
+
+    dtu: new FMDateTimeUtils(),
+
+	/**
+     * Updates the cancel_datetime of a reservation
+     * 
+     * @param {sys_id} id - Room Reservation
+     */
+    updateCancelDateTime: function (id) {
+
+        // get Room Reservation
+        var roomr = new GlideRecord('x_lsmcb_fm_room_reservation');
+        roomr.get(id);
+
+        // get the above reservation's orders
+        var gr = new GlideRecord('x_lsmcb_fm_facility_order');
+        gr.addQuery('room_reservation', id);
+        gr.query();
+        while (gr.next()) {
+            // update cancel_datetime on room reservation
+            roomr.cancel_datetime = !roomr.cancel_datetime || gr.cancel_datetime < roomr.cancel_datetime ? gr.cancel_datetime : roomr.cancel_datetime;
+            roomr.update();
+        }
+    },
+
+	/**
+     * Updates Facility order and Item reservation times with new times of Room Reservation on update
+     * If RR start time changes from 14h00 to 15h00, FO start time wil be added 1 hour
+     * 
+     * @param {GlideRecord} current 
+     * @param {GlideRecord} previous 
+     */
+    updateFOinRoom: function (current, previous) {
+        var fiu = new FMFacilityItemUtils();
+        var update = true;
+
+        var itemReservationV = new GlideRecord('x_lsmcb_fm_item_reservation');
+        if (itemReservationV.get('room_reservation', current.sys_id)) {
+
+            var itemReservation = new GlideRecord('x_lsmcb_fm_item_reservation');
+            itemReservation.addQuery('room_reservation', current.sys_id);
+            itemReservation.query();
+
+            while (itemReservation.next()) {
+                if (!fiu.checkAvailabilityonRRU(itemReservation.facility_item, current.meeting_start_time, current.meeting_end_time, itemReservation.sys_id.toString())) {
+                    update = false;
+                }
+            }
+            if (update) {
+
+                var itemReservationU = new GlideRecord('x_lsmcb_fm_item_reservation');
+                itemReservationU.addQuery('room_reservation', current.sys_id);
+                itemReservationU.query();
+
+                while (itemReservationU.next()) {
+                    var gdt1 = new GlideDateTime();
+                    gdt1.setValue(previous.meeting_start_time);
+
+                    var gdt2 = new GlideDateTime();
+                    gdt2.setValue(current.meeting_start_time);
+
+                    var gdt3 = new GlideDateTime();
+                    gdt3.setValue(previous.meeting_end_time);
+
+                    var gdt4 = new GlideDateTime();
+                    gdt4.setValue(current.meeting_end_time);
+
+
+                    var calcStart = new GlideDateTime();
+                    var calcEnd = new GlideDateTime();
+
+                    calcStart.setValue(itemReservationU.start_time);
+
+                    calcEnd.setValue(itemReservationU.end_time);
+
+
+                    var sDate = gdt2.getNumericValue();
+                    sDate -= gdt1.getNumericValue();
+                    calcStartO.add(sDate);
+
+                    var eDate = gdt4.getNumericValue();
+                    eDate -= gdt3.getNumericValue();
+                    calcEndO.add(eDate);
+
+                    itemReservationU.setValue('requester', current.requester);
+                    itemReservationU.setValue('location', current.location);
+                    itemReservationU.setValue('room', current.room);
+                    itemReservationU.setValue('start_time', calcStart);
+                    itemReservationU.setValue('end_time', calcEnd);
+                    itemReservationU.update();
+                }
+            } else {
+                gs.addErrorMessage(gs.getMessage('fm_no_item_reservation2'));
+                current.setAbortAction(true);
+                action.setRedirectURL(current);
+            }
+        } else {
+
+            var facilityOrder = new GlideRecord('x_lsmcb_fm_facility_order');
+            facilityOrder.addQuery('room_reservation', current.sys_id);
+            facilityOrder.query();
+
+            while (facilityOrder.next()) {
+                var gdt1 = new GlideDateTime();
+                gdt1.setValue(previous.meeting_start_time);
+
+                var gdt2 = new GlideDateTime();
+                gdt2.setValue(current.meeting_start_time);
+
+                var gdt3 = new GlideDateTime();
+                gdt3.setValue(previous.meeting_end_time);
+
+                var gdt4 = new GlideDateTime();
+                gdt4.setValue(current.meeting_end_time);
+
+
+
+                var calcStartO = new GlideDateTime();
+                var calcEndO = new GlideDateTime();
+
+                calcStartO.setValue(facilityOrder.expected_start);
+
+                calcEndO.setValue(facilityOrder.expected_end);
+
+
+                var sDate = gdt2.getNumericValue();
+                sDate -= gdt1.getNumericValue();
+                calcStartO.add(sDate);
+
+                var eDate = gdt4.getNumericValue();
+                eDate -= gdt3.getNumericValue();
+                calcEndO.add(eDate);
+				
+				if(calcEndO.getNumericValue() < calcStartO.getNumericValue()) {
+					
+					calcStartO.setValue(current.meeting_start_time);
+					calcEndO.setValue(current.meeting_end_time);
+				}
+
+                facilityOrder.setValue('requester', current.requester);
+                facilityOrder.setValue('costcenter', current.costcenter);
+                facilityOrder.setValue('location', current.location);
+                facilityOrder.setValue('room', current.room);
+                facilityOrder.setValue('expected_start', calcStartO);
+                facilityOrder.setValue('expected_end', calcEndO);
+                facilityOrder.update();
+            }
+        }
+
+    },
+
+    calcRoomUtilisation: function () {
+        var ro = new GlideRecord('x_lsmcb_fm_room');
+        ro.query()();
+        while (ro.next()) {
+            var rr = new GlideRecord('x_lsmcb_fm_room_reservation');
+            //give all reservations for this room for today
+            ro.addQuery('room', ro.sys_id);
+            ro.addQuery('start_time', '', '');
+            ro.query();
+            while (ro.next()) {
+
+            }
+        }
+    },
+
+	/**
+     * Called from: RECORD PRODUCER UI PAGE
+     * 
+     * @param {sys_id} location 
+     * @param {any} rsrvdate date
+     * @param {number} nmratt - attendees
+     * @param {any} stH - Start hour
+     * @param {any} stM - Start minutes
+     * @param {any} endH - End hour
+     * @param {any} endM - end minutes
+     * @param {sys_id} rReservation 
+     * @returns encoded query with all available rooms in a location
+     */
+    getAvailableRoomsAjax: function (location, rsrvdate, nmratt, stH, stM, endH, endM, rReservation) {
+
+        var gdtss = new GlideTime();
+        gdtss.setDisplayValue(stH + ":" + stM + ":00");
+
+        var gdtes = new GlideTime();
+        gdtes.setDisplayValue(endH + ":" + endM + ":00");
+
+        var result = [];
+        //query floor table
+        var floor = new GlideRecord('x_lsmcb_fm_floor');
+        if (location != '') {
+            floor.addQuery('location', location);
+        }
+        floor.query();
+
+        //gets sys id of all rooms
+        while (floor.next()) {
+
+            var room = new GlideRecord('x_lsmcb_fm_room');
+            room.addQuery('floor', floor.sys_id);
+            room.addQuery('active', true);
+            room.addQuery('category', '2'); //Meeting Room
+            room.addQuery('capacity', '>=', parseInt(nmratt));
+            room.addQuery('settings', '0').addOrCondition('settings', '1');
+            if(!gs.getUser().hasRole('x_lsmcb_fm.fm_room_reservation_coordinator')) {
+				
+				room.addQuery('portal_settings', '!=', '2');
+			}
+            room.addQuery('reservation_open_time', "<=", gdtss);
+            room.addQuery('reservation_close_time', ">=", gdtes);
+            room.query();
+
+            while (room.next()) {
+				
+				if (!this.checkConditional(room))
+					continue;
+				
+
+                var gdts = new GlideDateTime();
+                gdts.setDisplayValue(rsrvdate);
+                gdts.addSeconds(60 * stM);
+                gdts.addSeconds(60 * 60 * stH);
+
+                var gdte = new GlideDateTime();
+                gdte.setDisplayValue(rsrvdate);
+                gdte.addSeconds(60 * endM);
+                gdte.addSeconds(60 * 60 * endH);
+
+                var properties = [];
+                var roomProperty = new GlideRecord('x_lsmcb_fm_m2m_room_properties_rooms');
+                roomProperty.addQuery('room', room.sys_id);
+                roomProperty.query();
+                while (roomProperty.next()) {
+                    properties.push({
+                        name: roomProperty.room_property.name.getDisplayValue() + '',
+                        img: roomProperty.room_property.icon.getDisplayValue() + ''
+                    });
+                }
+
+                if (this.checkAvailability(room, gdts, gdte, rReservation)) {
+                    result.push({
+                        sys_id: room.sys_id.toString(),
+                        image: room.getDisplayValue('image'),
+                        room_id: room.getValue('room_id'),
+                        name: room.getValue('name'),
+                        floor: room.getDisplayValue('floor'),
+                        location: room.floor.location.getDisplayValue(),
+                        capacity: room.getValue('capacity'),
+                        properties: properties
+                    });
+                }
+            }
+        }
+
+        var answer = JSON.stringify(result);
+        return answer;
+    },
+
+	/**
+     * Called from: FORM
+     * 
+     * @param {sys_id} location 
+     * @param {GlideDateTime} startTimef 
+     * @param {GlideDateTime} endTimef 
+     * @param {sys_id} ownReservation 
+     * @returns encoded query with all available rooms in a location
+     */
+    getAvailableRoomsForm: function (location, startTimef, endTimef, ownReservation) {
+
+        var startTime = new GlideDateTime();
+        var endTime = new GlideDateTime();
+        startTime.setValue(startTimef);
+        endTime.setValue(endTimef);
+
+        var gdtss = new GlideTime();
+        var gdtes = new GlideTime();
+
+        gdtss.setDisplayValue(startTime.getLocalTime());
+        gdtes.setDisplayValue(endTime.getLocalTime());
+//         gs.info('OPEN TIMES ' + gdtss.getDisplayValue());
+
+
+        var result = [];
+        //query floor table
+        var floor = new GlideRecord('x_lsmcb_fm_floor');
+        floor.addQuery('location', location);
+        floor.query();
+
+        //gets sys id of all rooms
+        while (floor.next()) {
+
+            var room = new GlideRecord('x_lsmcb_fm_room');
+            room.addQuery('floor', floor.sys_id);
+            room.addQuery('active', true);
+            //          room.addQuery('category', '2'); //Meeting Room
+            room.addQuery('settings', '0').addOrCondition('settings', '1');
+            //room.addQuery('portal_settings', '0');
+            room.addQuery('reservation_open_time', '<=', gdtss);
+            room.addQuery('reservation_close_time', '>=', gdtes);
+            room.query();
+
+            while (room.next()) {
+                var gdts = new GlideDateTime();
+                gdts.setDisplayValue(startTime.getDisplayValue());
+
+
+                var gdte = new GlideDateTime();
+                gdte.setDisplayValue(endTime.getDisplayValue());
+
+                if (this.checkAvailability(room, gdts, gdte, ownReservation)) {
+                    result.push(room.sys_id.toString());
+                }
+            }
+        }
+
+        return 'sys_idIN' + result.join(',');
+    },
+
+	/**
+     * Called from: RECORD PRODUCER
+     * 
+     * @param {sys_id} location 
+     * @param {any} rsrvdate date
+     * @param {any} stH - Start hour
+     * @param {any} stM - Start minutes
+     * @param {any} endH - End hour
+     * @param {any} endM - end minutes
+     * @param {sys_id} rReservation 
+     * @returns encoded query with all available rooms in a location
+     */
+    getAvailableRooms: function (location, rsrvdate, stH, stM, endH, endM, ownReservation) {
+
+        var gdtss = new GlideTime();
+        gdtss.setDisplayValue(stH + ":" + stM + ":00");
+
+        var gdtes = new GlideTime();
+        gdtes.setDisplayValue(endH + ":" + endM + ":00");
+
+        var result = [];
+        //query floor table
+        var floor = new GlideRecord('x_lsmcb_fm_floor');
+        floor.addQuery('location', location);
+        floor.orderBy('name');
+        floor.query();
+
+        //gets sys id of all rooms
+        while (floor.next()) {
+
+            var room = new GlideRecord('x_lsmcb_fm_room');
+            room.addQuery('floor', floor.sys_id);
+            room.addQuery('active', true);
+            room.addQuery('category', '2'); //Meeting Room
+            room.addQuery('settings', '0').addOrCondition('settings', '1');
+            if(!gs.getUser().hasRole('x_lsmcb_fm.fm_room_reservation_coordinator')) {
+				
+				room.addQuery('portal_settings', '!=', '2');
+			}
+            room.addQuery('reservation_open_time', '<=', gdtss);
+            room.addQuery('reservation_close_time', '>=', gdtes);
+            room.orderBy('name');
+            room.query();
+
+            while (room.next()) {
+				
+				if (!this.checkConditional(room))
+					continue;
+
+                var gdts = new GlideDateTime();
+                gdts.setDisplayValue(rsrvdate);
+                gdts.addSeconds(60 * stM);
+                gdts.addSeconds(60 * 60 * stH);
+
+                var gdte = new GlideDateTime();
+                gdte.setDisplayValue(rsrvdate);
+                gdte.addSeconds(60 * endM);
+                gdte.addSeconds(60 * 60 * endH);
+
+                if (this.checkAvailability(room, gdts, gdte, ownReservation)) {
+                    result.push(room.sys_id.toString());
+                }
+            }
+        }
+
+        return 'sys_idIN' + result.join(',');
+    },
+
+	/**
+     * Gets available rooms for a set of 15 minutes timepoints, given a reservation start and end time.
+     * 
+     * @param {GlideRecord} room 
+     * @param {GlideDateTime} gdtsg - Start time
+     * @param {GlideDateTime} gdteg - End Time
+     * @param {sys_id} ownReservation 
+     * @returns boolean indicating if room is available for the time interval
+     */
+    checkAvailability: function (room, gdtsg, gdteg, ownReservation) {
+
+        var gdts = gdtsg;
+        var gdte = gdteg;
+        gdts.addSeconds(60 * (-room.minutes_before));
+        gdte.addSeconds(60 * room.minutes_after);
+
+        var rgr = new GlideRecord('x_lsmcb_fm_room_reservation');
+        rgr.addQuery('room', room.sys_id);
+        rgr.addQuery('state', '!=', '0');
+        rgr.addQuery('state', '!=', '1');
+        rgr.addQuery('sys_id', '!=', ownReservation);
+        rgr.addQuery('end_time', '>', gdts);
+        rgr.addQuery('start_time', '<', gdte);
+        rgr.query();
+
+        if (rgr.hasNext()) {
+            return false;
+        }
+        return true;
+    },
+
+	/**
+     * Fetch floor info for the kiosk interface
+     * 
+     * @param {sys_id} floor 
+     * @returns an object containing the info (geoJSON object and image details) of a floor
+     */
+    fetchFloorInfo: function (floor) {
+
+        var result = {};
+        var grFloors = new GlideRecord('x_lsmcb_fm_floor');
+
+        if (grFloors.get('sys_id', floor)) {
+            result.geoJSON = grFloors.geojson + '';
+            result.image = {};
+            result.image.name = grFloors.image_name + '';
+            result.image.height = grFloors.image_height + '';
+            result.image.width = grFloors.image_width + '';
+        }
+
+        return result;
+    },
+
+    /**
+     * Called from: RR interface
+     * 
+     * @param {sys_id} floorID 
+     * @param {GlideDateTime} startTime 
+     * @param {GlideDateTime} endTime 
+     * @returns complete info and reservations for all rooms in a floor during a given time interval.
+     */
+    fetchFloorRooms: function (floorID, startTime, endTime) {
+
+        // query room table for room in floor.
+        var grRooms = new GlideRecord('x_lsmcb_fm_room');
+        grRooms.addQuery('floor', floorID);
+        //grRooms.addQuery('active', true);
+        grRooms.addQuery('category', '2'); //Meeting Room
+        grRooms.query();
+
+        var grFloor = new GlideRecord('x_lsmcb_fm_floor');
+        grFloor.addQuery('sys_id', floorID);
+        grFloor.query();
+
+        var rooms = {};
+        var roomID = '';
+        var roomSysID = '';
+        var floorLocationID = '';
+
+        while (grFloor.next()) {
+            floorLocationID = grFloor.getValue('location');
+        }
+
+        // iterate over all records and add properties and info to a new room object.
+        while (grRooms.next()) {
+
+            roomID = grRooms.room_id + '';
+            roomSysID = grRooms.sys_id + '';
+
+            var reservable;
+
+            if (grRooms.settings != '2') {
+				if(grRooms.portal_settings == '2' && gs.getUser().hasRole('x_lsmcb_fm.fm_room_reservation_coordinator')) {
+					
+					reservable = true;
+					
+				} else if (grRooms.portal_settings == '1') {
+					
+					reservable = this.checkConditional(grRooms);
+					
+				} else if (grRooms.portal_settings == '0'){
+					
+					reservable = true;
+					
+				} else {
+					
+					reservable = false;
+				}
+            } else {
+				reservable = false;
+			}
+
+            rooms[roomID] = {};
+            rooms[roomID].roomInfo = {};
+            //get all properties and their values
+            rooms[roomID].roomInfo.properties = this.fetchRoomProperties(roomSysID);
+            //add other room info
+            rooms[roomID].roomInfo.name = grRooms.idname + '';
+            rooms[roomID].roomInfo.roomID = roomID;
+            rooms[roomID].roomInfo.capacity = grRooms.capacity + '';
+            rooms[roomID].roomInfo.sysID = roomSysID;
+            //get all reservations for that room during the time interval.
+            rooms[roomID].reservations = this.fetchRoomReservations(roomSysID, startTime, endTime);
+            rooms[roomID].location = floorLocationID;
+            rooms[roomID].floor = floorID;
+            rooms[roomID].active = grRooms.active + '';
+            rooms[roomID].reservable = reservable + '';
+            rooms[roomID].openTime = grRooms.getElement('reservation_open_time').getDisplayValue();
+            rooms[roomID].openTimeDisplay = rooms[roomID].openTime.split(":")[0] + ":" + rooms[roomID].openTime.split(":")[1];
+            rooms[roomID].closeTime = grRooms.getElement('reservation_close_time').getDisplayValue();
+            rooms[roomID].closeTimeDisplay = rooms[roomID].closeTime.split(":")[0] + ":" + rooms[roomID].closeTime.split(":")[1];
+            rooms[roomID].extraMBefore = grRooms.minutes_before + '';
+            rooms[roomID].extraMAfter = grRooms.minutes_after + '';
+        }
+
+        return rooms;
+    },
+
+    /**
+     * 
+     * 
+     * @param {sys_id} roomID 
+     * @param {GlideDateTime} startTime 
+     * @param {GlideDateTime} endTime 
+     * @returns an array containing reservation objectsfor all reservations for a room between start and end time.
+     */
+    fetchRoomReservations: function (roomID, startTime, endTime) {
+
+        var grReservations = new GlideRecord('x_lsmcb_fm_room_reservation');
+        grReservations.addQuery('room', roomID);
+        grReservations.addQuery('state', '!=', '0');
+        grReservations.addQuery('state', '!=', '1');
+        grReservations.addQuery('end_time', '>=', startTime);
+        grReservations.addQuery('start_time', '<=', endTime);
+        grReservations.orderBy('start_time');
+        grReservations.query();
+
+        var reservations = [];
+
+        while (grReservations.next()) {
+
+            var startTimeGdt = new GlideDateTime();
+            startTimeGdt.setValue(grReservations.start_time);
+            var endTimeGdt = new GlideDateTime();
+            endTimeGdt.setValue(grReservations.end_time);
+			
+			var confidential = grReservations.confidential + '' == 'true';
+
+            times = {
+                sysID: grReservations.sys_id.getDisplayValue(),
+                number: grReservations.number.getDisplayValue(),
+                requester: grReservations.requester.getDisplayValue(),
+                meeting_subject: confidential ? 'CONFIDENTIAL' : grReservations.meeting_subject.getDisplayValue(),
+                startTime: startTimeGdt.getDisplayValueInternal(),
+                endTime: endTimeGdt.getDisplayValueInternal()
+            };
+
+            reservations.push(times);
+        }
+        return reservations;
+    },
+
+    /**
+     * 
+     * 
+     * @param {sys_id} roomID 
+     * @returns an object with all the room properties associated to a room
+     */
+    fetchRoomProperties: function (roomID) {
+
+        var roomInfo = {};
+        var grRoomProperties = new GlideRecord('x_lsmcb_fm_m2m_room_properties_rooms');
+        grRoomProperties.addQuery('room', roomID);
+        grRoomProperties.query();
+
+        while (grRoomProperties.next()) {
+
+            roomInfo[grRoomProperties.room_property.name] = {};
+            roomInfo[grRoomProperties.room_property.name].name = grRoomProperties.room_property.name + '';
+            roomInfo[grRoomProperties.room_property.name].value = gs.nil(grRoomProperties.value) ? true : grRoomProperties.value;
+            roomInfo[grRoomProperties.room_property.name].imageid = grRoomProperties.room_property.icon.getDisplayValue() + '';
+        }
+
+        return roomInfo;
+    },
+
+    /**
+     * Called from: RR interface
+     * Creates a quick reservation from the kiosk
+     * 
+     * @param {sys_id} roomID 
+     * @param {GlideDateTime} startDT 
+     * @param {GlideDateTime} endDT 
+     * @returns string with reservation save message
+     */
+    makeQuickReservation: function (roomID, startDT, endDT) {
+
+        var isClosed = this.checkConflictingReservationTimes(roomID, startDT, endDT, false) == 'closed' ? true : false;
+        var isOccupied = (this.checkConflictingReservationTimes(roomID, startDT, endDT, false) === true);
+        var isValid = this.validateTimes(startDT, endDT);
+        var error = '';
+        var returnmsg = '';
+        if (isClosed) {
+            error += gs.getMessage('fm_room_closed') + '\n';
+        }
+        if (isOccupied) {
+            error += gs.getMessage('fm_room_occupied') + '\n';
+        }
+        if (!isValid) {
+            error += gs.getMessage('fm_startendtime_invalid') + '\n';
+        }
+
+        if (error == '') {
+            // No error thrown, so create a room reservation
+            var grRoomReservation = new GlideRecord('x_lsmcb_fm_room_reservation');
+            grRoomReservation.newRecord();
+            grRoomReservation.meeting_start_time = startDT;
+            grRoomReservation.meeting_end_time = endDT;
+            grRoomReservation.room = roomID;
+            grRoomReservation.number_of_attendees = 1;
+            grRoomReservation.location = grRoomReservation.room.floor.location;
+            grRoomReservation.meeting_subject = gs.getProperty('x_lsmcb_fm.quick_reservation_auto_message');
+            grRoomReservation.requester = gs.getUserID();
+            var reservationID = grRoomReservation.insert();
+            if (!reservationID) {
+                //something went wrong while saving the room
+                error += gs.getMessage('fm_room_reservation_unknown_error');
+            }
+        }
+
+        returnmsg = error == '' ? gs.getMessage('fm_room_reservation_successful') : error;
+
+        return returnmsg;
+    },
+
+    /**
+     * Checks wether a given room is closed or has reservations during the specified interval.
+     * 
+     * @param {sys_id} room 
+     * @param {GlideDateTime} startTime 
+     * @param {GlideDateTime} endTime 
+     * @param {sys_id} reservationUpdate 
+     * @returns boolean indicating room availability
+     */
+    checkConflictingReservationTimes: function (room, startTime, endTime, reservationUpdate) {
+
+        if (!(this.insideReservationInterval(room, startTime, endTime))) {
+            return 'closed';
+        }
+
+        var roomGr = new GlideRecord('x_lsmcb_fm_room');
+        roomGr.get(room);
+
+        var gdts = new GlideDateTime();
+        gdts.setValue(startTime);
+        var gdte = new GlideDateTime();
+        gdte.setValue(endTime);
+        gdts.addSeconds(60 * (-roomGr.minutes_before));
+        gdte.addSeconds(60 * roomGr.minutes_after);
+
+        var grReservations = new GlideRecord('x_lsmcb_fm_room_reservation');
+        grReservations.addQuery('room', room);
+        grReservations.addQuery('state', '!=', '0');
+        grReservations.addQuery('state', '!=', '1');
+        if (reservationUpdate != 'false') grReservations.addQuery('sys_id', '!=', reservationUpdate);
+        grReservations.addQuery('end_time', '>', gdts);
+        grReservations.addQuery('start_time', '<', gdte);
+        grReservations.query();
+        return grReservations.hasNext();
+
+    },
+
+    /**
+     * checks if the endtime is not in the past and if the end time after the start time.
+     * 
+     * @param {GlideDateTime} startTime 
+     * @param {GlideDateTime} endTime 
+     * @returns boolean indicating start and end time validity
+     */
+    validateTimes: function (startTime, endTime) {
+
+        var now = new GlideDateTime();
+        return (endTime >= now && endTime > startTime);
+    },
+
+    /**
+     * Used by a scheduled job to send notifications for recurrent reservations which are about to expire
+     * 
+     */
+    notifyReccurrentReservationExpiration: function () {
+
+        //get the date a mmonth from today
+        var gdtStart = new GlideDateTime();
+        gdtStart.addMonthsLocalTime(gs.getProperty('x_lsmcb_fm.alert_end_recurring_meeting'));
+
+        var gdtEnd = new GlideDateTime(gdtStart);
+        gdtEnd.addDaysLocalTime(1);
+
+        //query room reservation table for recurrent reservations (those with parents) o that date
+        var grReservation = new GlideRecord('x_lsmcb_fm_room_reservation');
+        //grReservation.addNotNullQuery('parent');
+        grReservation.addQuery('start_time', '>=', gdtStart);
+        grReservation.addQuery('start_time', '<', gdtEnd);
+        grReservation.query();
+
+        //query for sibling reservations after that date
+        while (grReservation.next()) {
+            var grSiblingReservations = new GlideRecord('x_lsmcb_fm_room_reservation');
+
+            grReservation.addQuery('parent', grReservation.parent + '');
+            grReservation.addQuery('start_time', '>', grReservation.start_time);
+            grReservation.query();
+
+            //if no reservations are found, that is the last one and the requester should be notified
+            if (!grSiblingReservations.hasNext()) {
+                gs.eventQueue('x_lsmcb_fm.recurrent.reservation.expires', grReservation);
+            }
+        }
+    },
+
+    /**
+     * Given a parent reservation, returns all children with 'Conflicting' state
+     * 
+     * @param {sys_id} parent - Room Reservation
+     * @returns list of reservations
+     */
+    getConflictingRoomReservations: function (parent) {
+
+        var reservations = [];
+
+        var grConflictingReservations = new GlideRecord('x_lsmcb_fm_room_reservation');
+        grConflictingReservations.orderBy('start_time');
+        grConflictingReservations.addQuery('parent', parent);
+        grConflictingReservations.addQuery('state', '4');
+        grConflictingReservations.query();
+
+        while (grConflictingReservations.next()) {
+
+            var reservation = {};
+
+            reservation.id = grConflictingReservations.sys_id + '';
+            var date = new GlideDateTime();
+            date.setValue(grConflictingReservations.meeting_start_time);
+            reservation.date = date.getLocalDate().getDisplayValue();
+
+            var startTime = date.getLocalTime().getByFormat('HH:mm:ss');
+            startTime = startTime.split(':');
+
+            reservation.startHours = startTime[0];
+            reservation.startMinutes = startTime[1];
+
+            date.setValue(grConflictingReservations.meeting_end_time);
+            var endTime = date.getLocalTime().getByFormat('HH:mm:ss');
+            endTime = endTime.split(':');
+
+            reservation.endHours = endTime[0];
+            reservation.endMinutes = endTime[1];
+            reservation.roomID = grConflictingReservations.room + '';
+            reservation.roomName = grConflictingReservations.room.idname + '';
+            reservation.floor = grConflictingReservations.room.floor + '';
+            reservation.floorDispVal = grConflictingReservations.getElement('room').getRefRecord().getDisplayValue('floor');
+            reservation.location = grConflictingReservations.room.floor.location + '';
+            reservation.locationDispVal = grConflictingReservations.getDisplayValue('location');
+            reservations.push(reservation);
+        }
+
+        return reservations;
+    },
+
+    /**
+     * Called from: PORTAL PLANBOARD 
+     * Get the rooms and reservations for a given location in an object to the gantt planboard
+     * 
+     * @param {sys_id} location 
+     * @param {GlideDateTime} fromDate 
+     * @param {GlideDateTime} toDate 
+     * @returns object containng rooms and reservations
+     */
+    getRoomsAndReservations: function (location, fromDate, toDate) {
+
+        var glideFromDate = new GlideDateTime();
+        glideFromDate.setValueUTC(fromDate, "dd/MM/yyyy HH:mm:ss");
+
+        var glideToDate = new GlideDateTime();
+        glideToDate.setValueUTC(toDate, "dd/MM/yyyy HH:mm:ss");
+
+        var completeList = [];
+        var currentRoom;
+        var currentMeeting;
+        var today = new GlideDate();
+        var floorGR = new GlideRecord('x_lsmcb_fm_floor');
+        if (location.length > 1) {
+            floorGR.addQuery('location', location);
+        } else {
+            floorGR.addNotNullQuery('location');
+        }
+        floorGR.orderBy('name');
+        floorGR.query();
+
+
+        while (floorGR.next()) {
+
+            var roomGR = new GlideRecord('x_lsmcb_fm_room');
+            roomGR.addQuery('floor', floorGR.sys_id.toString());
+            roomGR.addQuery('active', true);
+            roomGR.addQuery('settings', '0').addOrCondition('settings', '1');
+            if(!gs.getUser().hasRole('x_lsmcb_fm.fm_room_reservation_coordinator')) {
+				
+				roomGR.addQuery('portal_settings', '!=', '2');
+			}
+            roomGR.orderBy('name');
+            roomGR.query();
+
+            while (roomGR.next()) {
+				
+				if (!this.checkConditional(roomGR))
+					continue;
+				
+                currentRoom = {
+                    id: roomGR.sys_id.toString(),
+                    name: roomGR.idname.toString(),
+                    floor: roomGR.getValue('floor'),
+                    capacity: parseInt(roomGR.capacity),
+                    location: floorGR.getValue('location'),
+                    tasks: []
+                };
+
+                var meetingGR = new GlideRecord('x_lsmcb_fm_room_reservation');
+                meetingGR.orderBy('start_time');
+                meetingGR.addQuery('room', roomGR.sys_id.toString());
+                meetingGR.addQuery('state', '!=', '0');
+                meetingGR.addQuery('state', '!=', '1');
+                meetingGR.addQuery('end_time', '>=', glideFromDate);
+                meetingGR.addQuery('start_time', '<=', glideToDate);
+                meetingGR.query();
+
+
+                while (meetingGR.next()) {
+					
+					var confidential = meetingGR.confidential + '' == 'true';
+					var subject = confidential ? 'CONFIDENTIAL' : meetingGR.meeting_subject.getDisplayValue();
+
+                    var startGDT = new GlideDateTime();
+                    startGDT.setValue(meetingGR.start_time);
+
+                    var endGDT = new GlideDateTime();
+                    endGDT.setValue(meetingGR.end_time);
+
+
+                    var bstartGDT = new GlideDateTime();
+                    bstartGDT.setDisplayValue(meetingGR.start_time.getDisplayValue());
+
+                    var bendGDT = new GlideDateTime();
+                    bendGDT.setDisplayValue(meetingGR.end_time.getDisplayValue());
+
+                    currentMeeting = {
+                        id: meetingGR.sys_id.toString(),
+                        name: meetingGR.number.toString() + ' - ' + subject,
+                        number: meetingGR.number.toString(),
+                        requester: meetingGR.requester.name.toString(),
+                        content: meetingGR.number.toString() + ' - ' + subject,
+                        color: '#9FC5F8',
+                        subject: subject,
+                        from: startGDT.getDisplayValueInternal(),
+                        to: endGDT.getDisplayValueInternal(),
+//                         est: bstartGDT.getNumericValue(),
+//                         lct: bendGDT.getNumericValue(),
+                        modified: false
+                    };
+
+                    currentRoom.tasks.push(currentMeeting);
+                }
+                completeList.push(currentRoom);
+            }
+        }
+        return JSON.stringify(completeList);
+    },
+
+    /**
+      * Called from: SERVICE DESK PLANBOARD 
+      * Get the rooms and reservations for a given location in an object to the gantt planboard
+      * 
+      * @param {sys_id} location 
+      * @param {GlideDateTime} fromDate 
+      * @param {GlideDateTime} toDate 
+      * @returns object containng rooms and reservations
+      */
+    getRoomsAndReservationsServiceDesk: function (location, fromDate, toDate) {
+
+        var glideFromDate = new GlideDateTime();
+        glideFromDate.setValueUTC(fromDate, "dd/MM/yyyy HH:mm:ss");
+
+        var glideToDate = new GlideDateTime();
+        glideToDate.setValueUTC(toDate, "dd/MM/yyyy HH:mm:ss");
+
+        var completeList = [];
+        var currentRoom;
+        var currentMeeting;
+        var today = new GlideDate();
+        var floorGR = new GlideRecord('x_lsmcb_fm_floor');
+        floorGR.addQuery('location', location);
+        floorGR.orderBy('name');
+        floorGR.query();
+
+        while (floorGR.next()) {
+
+            var roomGR = new GlideRecord('x_lsmcb_fm_room');
+            roomGR.addQuery('floor', floorGR.sys_id.toString());
+            roomGR.addQuery('active', true);
+            roomGR.addQuery('settings', '!=', '2');
+            roomGR.orderBy('name');
+            roomGR.query();
+
+            while (roomGR.next()) {
+
+                currentRoom = {
+                    id: roomGR.sys_id.toString(),
+                    name: roomGR.idname.toString(),
+                    floor: roomGR.getValue('floor'),
+                    capacity: parseInt(roomGR.capacity),
+                    location: floorGR.getValue('location'),
+                    tasks: []
+                };
+
+                var meetingGR = new GlideRecord('x_lsmcb_fm_room_reservation');
+                meetingGR.orderBy('start_time');
+                meetingGR.addQuery('room', roomGR.sys_id.toString());
+                meetingGR.addQuery('state', '!=', '0');
+                meetingGR.addQuery('state', '!=', '1');
+                meetingGR.addQuery('end_time', '>=', glideFromDate);
+                meetingGR.addQuery('start_time', '<=', glideToDate);
+                meetingGR.query();
+
+
+                while (meetingGR.next()) {
+
+                    currentMeeting = {};
+                    var taskContent;
+
+                    var fOrderGr = new GlideRecord('x_lsmcb_fm_facility_order');
+                    fOrderGr.addQuery('room_reservation', meetingGR.sys_id.toString());
+                    fOrderGr.query();
+                    if (fOrderGr.next()) {
+                        taskContent = '<i class="fa fa-asterisk" ng-click="scope.handleTaskIconClick(&quot;' + fOrderGr.sys_id.toString() + '&quot;)"></i>          ' + meetingGR.number.toString() + ' - ' + meetingGR.meeting_subject.toString();
+                    } else {
+                        taskContent = meetingGR.number.toString() + ' - ' + meetingGR.meeting_subject.toString();
+                    }
+
+                    var color;
+                    if (meetingGR.state == "4") {
+                        color = '#ff6666';
+                    } else if (meetingGR.state == "3") {
+                        color = '#f2f89f';
+                    } else {
+                        color = '#9FC5F8';
+                    }
+
+                    var startGDT = new GlideDateTime();
+                    startGDT.setValue(meetingGR.start_time);
+
+
+                    var endGDT = new GlideDateTime();
+                    endGDT.setValue(meetingGR.end_time);
+
+
+                    // 		var bstartGDT = new GlideDateTime();
+                    // 		bstartGDT.setDisplayValue(meetingGR.start_time.getDisplayValue());
+
+                    // 		var bendGDT = new GlideDateTime();
+                    // 		bendGDT.setDisplayValue(meetingGR.end_time.getDisplayValue());
+
+
+                    currentMeeting = {
+                        id: meetingGR.sys_id.toString(),
+                        name: meetingGR.number.toString() + ' - ' + meetingGR.meeting_subject.toString(),
+                        number: meetingGR.number.toString(),
+                        requester: meetingGR.requester.name.toString(),
+                        content: taskContent,
+                        color: color,
+                        subject: meetingGR.meeting_subject.toString(),
+                        from: startGDT.getDisplayValueInternal(),
+                        to: endGDT.getDisplayValueInternal(),
+                        // 			est: bstartGDT.getNumericValue(),
+                        // 			lct : bendGDT.getNumericValue(),
+                        modified: false,
+                    };
+
+                    if (meetingGR.number == gs.getMessage('fm_space_is_closed')) {
+                        currentMeeting['movable'] = false;
+                    }
+
+                    currentRoom.tasks.push(currentMeeting);
+                }
+                completeList.push(currentRoom);
+            }
+        }
+        return JSON.stringify(completeList);
+    },
+
+    /**
+     * Save the modified reservations from the Gantt planboard
+     * 
+     * @param {object} data 
+     * @returns boolean true after save
+     */
+    saveRoomsAndReservations: function (data) {
+		
+        var datatoSave = JSON.parse(data);
+
+        datatoSave.forEach(function (arrayRoom) {
+            arrayRoom.tasks.forEach(function (arrayReservation) {
+                if (arrayReservation.modified == true) {
+
+                    var roomGr = new GlideRecord('x_lsmcb_fm_room');
+                    roomGr.get(arrayRoom.id);
+					
+                    var sDate = arrayReservation.from.split('T')[0];
+                    var eDate = arrayReservation.to.split('T')[0];
+                    var startTime = arrayReservation.from.split('T')[1];
+                    var startHour = startTime.split(':')[0];
+                    var startMin = startTime.split(':')[1];
+                    var endTime = arrayReservation.to.split('T')[1];
+                    var endHour = endTime.split(':')[0];
+                    var endMin = endTime.split(':')[1];
+                    var startSeconds = ((60 * parseInt(startHour, 10)) + parseInt(startMin, 10)) * 60;
+                    var endSeconds = ((60 * parseInt(endHour, 10)) + parseInt(endMin, 10)) * 60;
+					
+                    var glideStartTime = new GlideDateTime();
+                    glideStartTime.setValue(sDate);
+                    glideStartTime.addSeconds(startSeconds);
+					
+                    var glideEndTime = new GlideDateTime();
+                    glideEndTime.setValue(eDate);
+                    glideEndTime.addSeconds(endSeconds);
+
+                    glideStartTime.addSeconds(60 * (roomGr.minutes_before));
+                    glideEndTime.addSeconds(60 * (-roomGr.minutes_after));
+
+                    var roomr = new GlideRecord('x_lsmcb_fm_room_reservation');
+
+                    if (roomr.get(arrayReservation.id)) {
+                        roomr.meeting_start_time = glideStartTime;
+                        roomr.meeting_end_time = glideEndTime;
+                        roomr.room = arrayRoom.id;
+                        roomr.modified = false;
+                        roomr.update();
+                    }
+                }
+            });
+        });
+        return true;
+    },
+
+    /**
+     * Verifies if the reservation has its start and end time inside the allowed interval for the room
+     * 
+     * @param {sys_id} room 
+     * @param {GlideDateTime} start 
+     * @param {GlideDateTime} end 
+     * @returns boolean indicating if reservation times are inside room opening and closing times
+     */
+    insideReservationInterval: function (room, start, end) {
+
+        var startTime = new GlideDateTime();
+        startTime.setValue(start);
+        var endTime = new GlideDateTime();
+        endTime.setValue(end);
+
+        var roomgr = new GlideRecord('x_lsmcb_fm_room');
+        roomgr.addQuery('sys_id', room);
+        roomgr.query();
+
+        var startgdt = new GlideTime();
+        startgdt.setDisplayValue(startTime.getLocalTime());
+        startgdt = startgdt.getDisplayValue();
+        var endgdt = new GlideTime();
+        endgdt.setDisplayValue(endTime.getLocalTime());
+        endgdt = endgdt.getDisplayValue();
+
+        while (roomgr.next()) {
+
+            var openTime = roomgr.getElement('reservation_open_time').getDisplayValue();
+            var closeTime = roomgr.getElement('reservation_close_time').getDisplayValue();
+            if (startgdt >= openTime && endgdt <= closeTime) {
+                return true;
+            }
+            return false;
+        }
+
+    },
+
+    /**
+     * Private function to add time to a glideDateTime
+     * 
+     * @param {GlideDateTime} dateTime 
+     * @param {number} period 
+     * @param {number} frequency 
+     */
+    _addTimeFromFrequency: function (dateTime, period, frequency) {
+
+        if (period == 1) {
+            dateTime.addDaysLocalTime(frequency);
+
+        } else if (period == 2) {
+            dateTime.addWeeksLocalTime(frequency);
+
+        } else if (period == 3) {
+            dateTime.addMonthsLocalTime(frequency);
+        }
+
+    },
+
+    //creates new reservations in the specified interval until the end date
+    createRecurringReservations: function (nextReservationTime, period, frequency, secondsToAdd, finalReservationTime, calendarDates, parentId) {
+
+        var parent, requester, location, room, number_of_attendees, meeting_subject, meeting_comments, confidential;
+
+        var parentObject = new GlideRecord('x_lsmcb_fm_room_reservation');
+
+        if (!parentObject.get(parentId)) {
+            parent = current.sys_id + '';
+            requester = current.requester + '';
+            location = current.location + '';
+            room = current.room + '';
+            number_of_attendees = current.number_of_attendees;
+            meeting_subject = current.meeting_subject;
+            meeting_comments = current.meeting_comments;
+			confidential = current.confidential + '';
+        } else {
+            parent = parentObject.sys_id + '';
+            requester = parentObject.getValue('requester');
+            location = parentObject.getValue('location');
+            room = parentObject.getValue('room');
+            number_of_attendees = parentObject.number_of_attendees;
+            meeting_subject = parentObject.meeting_subject;
+            meeting_comments = parentObject.meeting_comments;
+			confidential = parentObject.confidential + '';
+        }
+
+
+        var maxReservationTime = new GlideDateTime();
+        maxReservationTime.setDisplayValue(nextReservationTime.getDisplayValue());
+        maxReservationTime.addMonthsLocalTime(gs.getProperty('x_lsmcb_fm.max_recurring_reservation'));
+
+
+        if (maxReservationTime < finalReservationTime) {
+            finalReservationTime = maxReservationTime.getDisplayValue();
+        }
+
+        var conflictingReservationCreated = false;
+        var grRoomReservations = new GlideRecord('x_lsmcb_fm_room_reservation');
+        var reservationEndTime = new GlideDateTime();
+
+        if (period == 4) {
+
+            var calendarDatesObject = JSON.parse(calendarDates);
+
+            for (var i = 0; i < calendarDatesObject.length; i++) {
+                var reservationStartTime = new GlideDateTime();
+                reservationStartTime.setDisplayValue(calendarDatesObject[i].toString() + ' ' + nextReservationTime.getTime().getDisplayValue());
+                reservationEndTime.setDisplayValue(reservationStartTime.getDisplayValue());
+                reservationEndTime.addSeconds(secondsToAdd);
+
+                //create a new record
+                grRoomReservations.initialize();
+
+                grRoomReservations.parent = parent;
+                grRoomReservations.recurring = 'true';
+                grRoomReservations.requester = requester;
+                grRoomReservations.location = location;
+                grRoomReservations.room = room;
+                grRoomReservations.number_of_attendees = number_of_attendees;
+                grRoomReservations.meeting_subject = meeting_subject;
+                grRoomReservations.meeting_comments = meeting_comments;
+				grRoomReservations.confidential = confidential;
+                grRoomReservations.meeting_start_time.setDisplayValue(reservationStartTime.getDisplayValue());
+                grRoomReservations.meeting_end_time.setDisplayValue(reservationEndTime.getDisplayValue());
+
+                if (this.checkConflictingReservationTimes(room, reservationStartTime, reservationEndTime, false)) {
+                    grRoomReservations.state = '4';
+                    conflictingReservationCreated = true;
+                }
+
+                grRoomReservations.insert();
+            }
+
+        } else {
+
+            this._addTimeFromFrequency(nextReservationTime, period, frequency);
+
+
+            while (nextReservationTime <= finalReservationTime) {
+                reservationEndTime.setDisplayValue(nextReservationTime.getDisplayValue());
+                reservationEndTime.addSeconds(secondsToAdd);
+
+                //create a new record
+                grRoomReservations.initialize();
+
+                grRoomReservations.parent = parent;
+                grRoomReservations.recurring = 'true';
+                grRoomReservations.requester = requester;
+                grRoomReservations.location = location;
+                grRoomReservations.room = room;
+                grRoomReservations.number_of_attendees = number_of_attendees;
+                grRoomReservations.meeting_subject = meeting_subject;
+                grRoomReservations.meeting_comments = meeting_comments;
+				grRoomReservations.confidential = confidential;
+                grRoomReservations.meeting_start_time.setDisplayValue(nextReservationTime.getDisplayValue());
+                grRoomReservations.meeting_end_time.setDisplayValue(reservationEndTime.getDisplayValue());
+
+                if (this.checkConflictingReservationTimes(room + '', nextReservationTime, reservationEndTime, false)) {
+                    grRoomReservations.state = '4';
+                    conflictingReservationCreated = true;
+                }
+
+                grRoomReservations.insert();
+
+                this._addTimeFromFrequency(nextReservationTime, period, frequency);
+            }
+        }
+        return conflictingReservationCreated;
+    },
+
+    getLocationsFloorsList: function () {
+
+        var result = {
+            locations: [],
+            floors: []
+        };
+
+        var locGR = new GlideRecord('cmn_location');
+        locGR.addJoinQuery('x_lsmcb_fm_floor', 'sys_id', 'location');
+        locGR.orderBy('name');
+        locGR.query();
+
+        while (locGR.next()) {
+            var location = {
+                sysID: locGR.sys_id + '',
+                name: locGR.name + ''
+            };
+            result.locations.push(location);
+        }
+
+        var floorGR = new GlideRecord('x_lsmcb_fm_floor');
+        floorGR.orderBy('name');
+        floorGR.query();
+
+        while (floorGR.next()) {
+
+            var room = new GlideRecord('x_lsmcb_fm_room');
+            room.addQuery('floor', floorGR.sys_id);
+            room.addQuery('active', true);
+            room.addQuery('category', '2');
+            room.addQuery('settings', '!=', '2');
+            room.query();
+            if (!room.hasNext()) {
+                continue;
+            }
+
+            var floor = {
+                name: floorGR.name + '',
+                sysID: floorGR.sys_id + '',
+                location: floorGR.location + ''
+            };
+
+            result.floors.push(floor);
+        }
+        return result;
+    },
+
+    getValidFloors: function (location) {
+
+        var result = [];
+
+        var floorGR = new GlideRecord('x_lsmcb_fm_floor');
+        floorGR.addQuery('location', location);
+        floorGR.orderBy('name');
+        floorGR.query();
+
+        while (floorGR.next()) {
+
+            var room = new GlideRecord('x_lsmcb_fm_room');
+            room.addQuery('floor', floorGR.sys_id);
+            room.addQuery('active', true);
+            room.addQuery('category', '2');
+            room.addQuery('settings', '!=', '2');
+            room.query();
+            if (!room.hasNext()) {
+                continue;
+            }
+            result.push(floorGR.getUniqueValue());
+        }
+        return 'sys_idIN' + result.join(',');
+    },
+
+    getReservationInfo: function (id) {
+        var obj = {};
+        var gr = new GlideRecord('x_lsmcb_fm_room_reservation');
+        gr.get(id);
+        var startTimeGdt = new GlideDateTime();
+        startTimeGdt.setValue(gr.meeting_start_time);
+        var endTimeGdt = new GlideDateTime();
+        endTimeGdt.setValue(gr.meeting_end_time);
+
+        var startDateTime = startTimeGdt.getDisplayValueInternal();
+        var endDateTime = endTimeGdt.getDisplayValueInternal();
+        var startDate = startDateTime.split(' ')[0];
+        var numStartTime = startDateTime.split(' ')[1];
+        var endDate = endDateTime.split(' ')[0];
+        var numEndTime = endDateTime.split(' ')[1];
+
+        var startDateU = new GlideDate();
+        startDateU.setValue(startTimeGdt.getDate());
+        var endDateU = new GlideDate();
+        endDateU.setValue(endTimeGdt.getDate());
+
+        obj.date = startDateU.getDisplayValue();
+        obj.end_date = endDateU.getDisplayValue();
+        obj.start_hour = numStartTime.split(":")[0];
+        obj.end_hour = numEndTime.split(":")[0];
+        obj.start_min = numStartTime.split(":")[1];
+        obj.end_min = numEndTime.split(":")[1];
+
+        obj.start_dt = startTimeGdt.getDisplayValue();
+        obj.end_dt = endTimeGdt.getDisplayValue();
+        obj.recurring = gr.recurring.toString();
+        obj.requester = gr.getValue('requester');
+        obj.costcenter = gr.getValue('costcenter');
+        obj.meeting_subject = gr.getValue('meeting_subject');
+        obj.attendees = gr.getValue('number_of_attendees');
+		obj.confidential = gr.confidential + '';
+        obj.location = gr.getValue('location');
+        obj.room = gr.getValue('room');
+        return obj;
+
+    },
+
+    //returns list of locations with floors associated
+    getValidLocations: function () {
+
+        var result = [];
+
+        var floor = new GlideRecord('cmn_location');
+        floor.addQuery('parent', '');
+        floor.addJoinQuery('x_lsmcb_fm_floor', 'sys_id', 'location');
+        floor.orderBy('name');
+        floor.query();
+
+        while (floor.next()) {
+            result.push(floor.sys_id.toString());
+        }
+
+        return 'sys_idIN' + result.join(',');
+    },
+
+    createorUpdateClosureDateReservation: function (space) {
+
+        var closureReservation = new GlideRecord('x_lsmcb_fm_room_reservation');
+        closureReservation.addQuery('room', space.sys_id.toString());
+        closureReservation.addQuery('number', gs.getMessage('fm_space_is_closed'));
+        closureReservation.query();
+
+        if (space.settings == '1') {
+
+            var startTime = new GlideDateTime();
+            //startTime.setValue(space.reservable_until);
+            startTime.setDisplayValue(space.reservable_until + ' 00:00:00');
+            startTime.addDaysLocalTime(1);
+            var endTime = new GlideDateTime();
+            //endTime.setValue(space.reservable_from);
+            endTime.setDisplayValue(space.reservable_from + ' 00:00:00');
+
+
+            if (!closureReservation.next()) {
+                closureReservation.initialize();
+                closureReservation.number = gs.getMessage('fm_space_is_closed');
+                closureReservation.room = space.sys_id.toString();
+                closureReservation.meeting_start_time = startTime;
+                closureReservation.meeting_end_time = endTime;
+                closureReservation.location = space.floor.location;
+                closureReservation.meeting_subject = gs.getMessage('fm_space_is_closed');
+                closureReservation.insert();
+            } else {
+                closureReservation.meeting_start_time = startTime;
+                closureReservation.meeting_end_time = endTime;
+                closureReservation.update();
+            }
+        } else if (closureReservation.next()) {
+            closureReservation.deleteRecord();
+        }
+    },
+
+    //PLANBOARD USER Get the rooms and reservations for a given location in an object to the gantt planboard
+    getSpecialRoomsAndReservations: function(location, fromDate, toDate) {
+		
+		var glideFromDate = new GlideDateTime();
+		glideFromDate.setValueUTC(fromDate, "dd/MM/yyyy HH:mm:ss");
+		
+		var glideToDate = new GlideDateTime();
+		glideToDate.setValueUTC(toDate, "dd/MM/yyyy HH:mm:ss");
+		
+		var completeList = [];
+		var currentRoom;
+		var currentMeeting;
+		var today = new GlideDate();
+		var floorGR = new GlideRecord('x_lsmcb_fm_floor');
+		if (location.length > 1) {
+			floorGR.addQuery('location', location);
+		} else {
+			floorGR.addNotNullQuery('location');
+		}
+		floorGR.orderBy('name');
+		floorGR.query();
+		
+		
+		while (floorGR.next()) {
+			
+			var roomGR = new GlideRecord('x_lsmcb_fm_room');
+			roomGR.addQuery('floor', floorGR.sys_id.toString());
+			roomGR.addQuery('active', true);
+			roomGR.addQuery('settings', '0').addOrCondition('settings', '1');
+			roomGR.addQuery('portal_settings', '!=', '0');
+			roomGR.orderBy('name');
+			roomGR.query();
+			
+			while (roomGR.next()) {
+				
+				currentRoom = {
+					id: roomGR.sys_id.toString(),
+					name: roomGR.idname.toString(),
+					floor: roomGR.getValue('floor'),
+					capacity: parseInt(roomGR.capacity),
+					location: floorGR.getValue('location'),
+					tasks: []
+				};
+				
+				var meetingGR = new GlideRecord('x_lsmcb_fm_room_reservation');
+				meetingGR.orderBy('start_time');
+				meetingGR.addQuery('room', roomGR.sys_id.toString());
+				meetingGR.addQuery('state', '!=', '0');
+				meetingGR.addQuery('state', '!=', '1');
+				meetingGR.addQuery('end_time', '>=', glideFromDate);
+				meetingGR.addQuery('start_time', '<=', glideToDate);
+				meetingGR.query();
+				
+				
+				while (meetingGR.next()) {
+					
+					var startGDT = new GlideDateTime();
+					startGDT.setValue(meetingGR.start_time);
+					var endGDT = new GlideDateTime();
+					endGDT.setValue(meetingGR.end_time);
+					
+					currentMeeting = {
+						id: meetingGR.sys_id.toString(),
+						name: meetingGR.number.toString() + ' - ' + meetingGR.meeting_subject.toString(),
+						number: meetingGR.number.toString(),
+						requester: meetingGR.requester.name.toString(),
+						content: meetingGR.number.toString() + ' - ' + meetingGR.meeting_subject.toString(),
+						color: '#9FC5F8',
+						subject: meetingGR.meeting_subject.toString(),
+						from: startGDT.getDisplayValueInternal(),
+						to: endGDT.getDisplayValueInternal(),
+						modified: false,
+						
+					};
+					currentRoom.tasks.push(currentMeeting);
+				}
+				completeList.push(currentRoom);
+			}
+		}
+		return JSON.stringify(completeList);
+	},
+
+    populateFromOrder: function (order) {
+        var obj = {};
+        var gr = new GlideRecord('x_lsmcb_fm_facility_order');
+        gr.get(order);
+        var startDateTime = gr.expected_start.getDisplayValue();
+        var endDateTime = gr.expected_end.getDisplayValue();
+        var startDate = startDateTime.split(' ')[0];
+        var numStartTime = startDateTime.split(' ')[1];
+        var endDate = endDateTime.split(' ')[0];
+        var numEndTime = endDateTime.split(' ')[1];
+
+        obj.requester = gr.getValue('requester');
+        obj.meeting_subject = gr.getValue('short_description');
+        obj.location = gr.getValue('location');
+        obj.room = gr.getValue('room');
+        obj.date = startDate;
+        obj.sh = numStartTime.split(':')[0];
+        obj.sm = numStartTime.split(':')[1];
+        obj.eh = numEndTime.split(':')[0];
+        obj.em = numEndTime.split(':')[1];
+        return obj;
+
+    },
+    insertOrderRoom: function (order, roomId) {
+        var gr = new GlideRecord('x_lsmcb_fm_facility_order');
+        gr.get(order);
+        gr.setValue('room_reservation', roomId + '');
+        gr.update();
+
+    },
+
+    canCancel: function () {
+
+        var state = current.state != '0' && current.state != '1';
+
+        var datetime = current.cancel_datetime ? new GlideDateTime() < current.cancel_datetime : new GlideDateTime() < current.meeting_start_time;
+
+        return ((gs.getUserID() == current.requester && current.locked !=true ) || current.canWrite()) && state && datetime;
+
+    },
+
+    getRequesterCostcenter: function (requester) {
+        var costcenter = '';
+        var gr = new GlideRecord('sys_user');
+        if (gr.get('sys_id', requester)) {
+            costcenter = gr.department.cost_center + '';
+        }
+        return costcenter;
+    },
+
+    cancelFutureLinkedReservations: function (reservationID) {
+        var gr = new GlideRecord("x_lsmcb_fm_room_reservation");
+        gr.get(reservationID);
+
+        var grr = new GlideRecord('x_lsmcb_fm_room_reservation');
+        if (!gr.getValue('parent')) {
+            grr.addQuery('parent', gr.getUniqueValue());
+        } else {
+            grr.addQuery('parent', gr.getValue('parent'));
+            grr.addQuery('end_time', '>', gr.start_time);
+        }
+        grr.addQuery('state', '!=', '0');
+        grr.addQuery('sys_id', '!=', gr.getUniqueValue());
+        grr.query();
+        while (grr.next()) {
+            gs.info('>>> cancelling ' + grr.number);
+            grr.setValue('state', '0');
+            grr.update();
+
+            var ordersGR = new GlideRecord('x_lsmcb_fm_facility_order');
+            ordersGR.addQuery('room_reservation', grr.getUniqueValue());
+            ordersGR.addQuery('state', '!=', '4');
+            ordersGR.query();
+            while (ordersGR.next()) {
+                var fsgr = new GlideRecord('x_lsmcb_fm_facility_suborder');
+                fsgr.addQuery('facility_order', ordersGR.sys_id);
+                fsgr.query();
+
+                while (fsgr.next()) {
+                    fsgr.state = '4';
+                    fsgr.update();
+                }
+                ordersGR.state = '4';
+                ordersGR.wf_action = 'cancel';
+                ordersGR.update();
+            }
+        }
+    },
+	
+	checkConditional: function(room) {
+		
+		if(room.portal_settings == '1' && !gs.getUser().hasRole('x_lsmcb_fm.fm_room_reservation_coordinator')) {
+					
+			var available = false;
+			var a = room.group.split(',');
+
+			for (var i = 0; i < a.length; i++) {
+
+				if (gs.getUser().isMemberOf(a[i]))
+					available = true;
+			}
+			
+			return available;
+		}
+		
+		return true;
+	},
+
+    type: 'FMRoomReservationUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>laura.schuch</sys_created_by>
+        <sys_created_on>2016-09-06 15:26:26</sys_created_on>
+        <sys_id>db3d81440f71a20011bec3ace1050e3b</sys_id>
+        <sys_mod_count>890</sys_mod_count>
+        <sys_name>FMRoomReservationUtils</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_db3d81440f71a20011bec3ace1050e3b</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-08-08 09:20:04</sys_updated_on>
+    </sys_script_include>
+</record_update>

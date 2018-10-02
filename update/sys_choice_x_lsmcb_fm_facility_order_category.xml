@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_choice action="INSERT_OR_UPDATE" field="category" table="x_lsmcb_fm_facility_order" version="3">
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Waste</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>0</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-11-28 14:32:17</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>917e187e0f176a0011bec3ace1050ea8</sys_id>
+            <sys_mod_count>4</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:18:26</sys_updated_on>
+            <value>0</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Security</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>1</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-11-28 14:34:04</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>b3de10be0f176a0011bec3ace1050efb</sys_id>
+            <sys_mod_count>4</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:18:35</sys_updated_on>
+            <value>1</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Catering</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>2</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-11-28 14:32:45</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>9a9edc7e0f176a0011bec3ace1050e62</sys_id>
+            <sys_mod_count>3</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:18:40</sys_updated_on>
+            <value>2</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Financial</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>3</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-11-28 14:33:03</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>41ae10be0f176a0011bec3ace1050e96</sys_id>
+            <sys_mod_count>4</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:18:50</sys_updated_on>
+            <value>3</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Building general</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>4</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-11-28 14:31:56</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>0f2e547e0f176a0011bec3ace1050ed2</sys_id>
+            <sys_mod_count>5</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:19:41</sys_updated_on>
+            <value>4</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Building access</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>5</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-11-28 14:32:33</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>528edc7e0f176a0011bec3ace1050e23</sys_id>
+            <sys_mod_count>4</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:19:34</sys_updated_on>
+            <value>5</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Handyman</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>6</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-11-28 14:33:28</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>d9be587e0f176a0011bec3ace1050eaa</sys_id>
+            <sys_mod_count>4</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:19:53</sys_updated_on>
+            <value>6</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Housing</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>7</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-11-28 14:33:45</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>e7ce947e0f176a0011bec3ace1050ef2</sys_id>
+            <sys_mod_count>4</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:20:03</sys_updated_on>
+            <value>7</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Climate</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>8</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-01-05 14:12:30</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>4d66040f0fc03a0011bec3ace1050e58</sys_id>
+            <sys_mod_count>4</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:20:12</sys_updated_on>
+            <value>8</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Lighting</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>9</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-01-05 14:23:35</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>73e80c0f0fc03a0011bec3ace1050e09</sys_id>
+            <sys_mod_count>4</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:20:24</sys_updated_on>
+            <value>9</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Facility support AV</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>10</sequence>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-02-16 15:56:29</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>63f03c280f453a0011bec3ace1050e9d</sys_id>
+            <sys_mod_count>3</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:20:40</sys_updated_on>
+            <value>10</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Facility support general</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>11</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-22 11:20:56</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>c627fe1b0fe9b20011bec3ace1050e0b</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:21:03</sys_updated_on>
+            <value>11</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Printer</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>12</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-22 11:21:07</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>76f7725b0fe9b20011bec3ace1050ec6</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:21:14</sys_updated_on>
+            <value>12</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Sanitation</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>13</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-22 11:21:19</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>2d08725b0fe9b20011bec3ace1050ec6</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:21:25</sys_updated_on>
+            <value>13</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Cleaning</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>14</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-22 11:21:32</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>1818f25b0fe9b20011bec3ace1050e93</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:21:38</sys_updated_on>
+            <value>14</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Technical</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>15</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-22 11:21:44</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>9718f25b0fe9b20011bec3ace1050e97</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:21:50</sys_updated_on>
+            <value>15</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Terrain</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>16</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-22 11:21:58</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>2628365b0fe9b20011bec3ace1050e62</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:22:05</sys_updated_on>
+            <value>16</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Landscaping</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>17</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-22 11:22:26</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>3138325b0fe9b20011bec3ace1050e79</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:22:33</sys_updated_on>
+            <value>17</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Personal transportation</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>18</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-22 11:22:43</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>f858765b0fe9b20011bec3ace1050e51</sys_id>
+            <sys_mod_count>3</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:23:34</sys_updated_on>
+            <value>18</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Supplies</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>19</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-22 11:22:57</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>4968765b0fe9b20011bec3ace1050e06</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:23:05</sys_updated_on>
+            <value>19</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Mail and repro</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>20</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-22 11:23:21</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>d878365b0fe9b20011bec3ace1050e62</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:25:44</sys_updated_on>
+            <value>20</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Vending machines</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>21</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-22 11:31:34</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>13f8765b0fe9b20011bec3ace1050e0a</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:31:40</sys_updated_on>
+            <value>21</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Coffee machines</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>22</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-22 11:31:48</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>226a3a5b0fe9b20011bec3ace1050e88</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-22 11:31:57</sys_updated_on>
+            <value>22</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Plantscaping</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>23</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-07-12 10:12:32</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>286a5f930ff3fa0011bec3ace1050e9a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-07-12 10:12:32</sys_updated_on>
+            <value>23</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>category</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Accomodation</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sequence>23</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2018-07-13 13:28:33</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>142df015dbd7d3003d279c27db9619a8</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2018-07-13 13:28:33</sys_updated_on>
+            <value>24</value>
+        </sys_choice>
+        <sys_choice_set action="INSERT_OR_UPDATE">
+            <element>category</element>
+            <name>x_lsmcb_fm_facility_order</name>
+            <sys_class_name>sys_choice_set</sys_class_name>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-11-28 14:31:56</sys_created_on>
+            <sys_id>d8111d53db7023005e9f5385ca96190b</sys_id>
+            <sys_mod_count>95</sys_mod_count>
+            <sys_name>category</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_choice_x_lsmcb_fm_facility_order_category</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-06-08 16:10:32</sys_updated_on>
+        </sys_choice_set>
+    </sys_choice>
+</record_update>

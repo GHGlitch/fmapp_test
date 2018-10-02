@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="catalog_script_client">
+    <catalog_script_client action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <applies_catalog>true</applies_catalog>
+        <applies_extended>false</applies_extended>
+        <applies_req_item>false</applies_req_item>
+        <applies_sc_task>false</applies_sc_task>
+        <applies_target_record>false</applies_target_record>
+        <applies_to>set</applies_to>
+        <cat_item display_value="Book a Room">2f98b4dc0f35a20011bec3ace1050e82</cat_item>
+        <cat_variable/>
+        <condition/>
+        <description/>
+        <field/>
+        <global>true</global>
+        <messages/>
+        <name>Populate Fields From URL</name>
+        <order/>
+        <script><![CDATA[function onLoad() {
+	
+	var ajax = new GlideAjax('x_lsmcb_fm.FMDateTimeAjaxUtils');  
+	ajax.addParam('sysparm_name','getNowTime');  
+	ajax.getXML(doSomething);  
+  
+	function doSomething(response){  
+		var answer = response.responseXML.documentElement.getAttribute("answer");
+		if(answer) {
+			var obj = JSON.parse(answer);
+			g_form.setValue('start_hours', obj.shour);
+			g_form.setValue('end_hours', obj.ehour);
+			g_form.setValue('start_minutes', obj.smin);
+			g_form.setValue('end_minutes', obj.smin);
+		}
+	}
+	
+	//Populate the variables with the parameters passed in the URL
+	//Use the 'getParmVal' function below to get the parameter values from the URL
+	var clearContext = true;
+	var gURL = new GlideURL();
+	gURL.setFromCurrent();
+	
+	var reservation = gURL.getParam('sysparm_reservation_id');
+	var recurring_redirect = gURL.getParam('sysparm_recurring');
+	var lastItem = gURL.getParam('sysparm_lastItem');
+	var order = gURL.getParam('sysparm_order_id');
+	
+	var pURL = parent.document.URL;
+	
+	if (order == '' || order == null) {
+		if (pURL.indexOf("&sysparm_order_id=")>=1) {
+			var o_match = pURL.match(/&sysparm_order_id=([a-fA-F0-9]+)/);
+			order = o_match[1];
+		}
+	}
+	
+	if (reservation == '' || reservation == null) {
+		if (pURL.indexOf("&sysparm_reservation_id=")>=1) {
+			var r_match = pURL.match(/&sysparm_reservation_id=([a-fA-F0-9]+)/);
+			reservation = r_match[1];
+		}
+	}
+	
+	if (recurring_redirect == '' || recurring_redirect == null) {
+		if (pURL.indexOf("&sysparm_recurring=")>=1) {
+			var r_match = pURL.match(/&sysparm_recurring=([a-fA-F0-9]+)/);
+			recurring_redirect = r_match[1];
+		}
+	}
+	
+	if (lastItem == '' || lastItem == null) {
+		if (pURL.indexOf("&sysparm_lastItem=")>=1) {
+			var r_match = pURL.match(/&sysparm_lastItem=([a-fA-F0-9]+)/);
+			lastItem = r_match[1];
+		}
+	}
+	
+	var gap = new GlideAjax('FMRoomReservationAjaxUtils');
+	gap.addParam('sysparm_name', 'getLocationProperty');
+	gap.getXML(function(response) {
+		var answer = response.responseXML.documentElement.getAttribute('answer');
+		g_form.setValue('location_property', answer);
+		
+		if (!reservation && !order) {
+		var now = new Date();
+		var nowStr = formatDate(now, g_user_date_format);
+		g_form.setValue('date', nowStr);
+		
+		if (g_form.getValue('location_property') == 'true' || g_form.getValue('location') != '') {
+			updateRoomList();
+		}
+	}
+	});
+	
+	
+	if (typeof reservation !== "undefined") {
+		g_form.setValue('finished_loading', false);
+		g_form.setValue('reservation_id', reservation);
+		var gar = new GlideAjax('x_lsmcb_fm.FMRoomReservationAjaxUtils');
+		gar.addParam('sysparm_name', 'getReservationInfo');
+		gar.addParam('sysparm_reservation_id', reservation);
+		
+		gar.getXML(function(response) {
+			var answer = response.responseXML.documentElement.getAttribute("answer");
+			if(answer) {
+				var obj = JSON.parse(answer);
+				
+				g_form.setValue('number_of_attendees', obj.attendees);
+				g_form.setValue('date', obj.date);
+				g_form.setValue('end_hours', obj.end_hour);
+				g_form.setValue('end_minutes', obj.end_min);
+				g_form.setValue('start_hours', obj.start_hour);
+				g_form.setValue('start_minutes', obj.start_min);
+				g_form.setValue('finished_loading', true);
+				g_form.setValue('room', obj.room);
+				g_form.setValue('location', obj.location);
+				g_form.setValue('update_recurring', obj.recurring);
+				g_form.setValue('requester', obj.requester);
+				g_form.setValue('costcenter', obj.costcenter);
+				g_form.setValue('meeting_subject', obj.meeting_subject);
+				g_form.setValue('confidential', obj.confidential);
+			}
+			g_form.setValue('finished_loading', true);
+		});
+	}
+	
+	if (typeof order !== "undefined") {
+		g_form.setValue('order_id', order);
+		var ga = new GlideAjax('x_lsmcb_fm.FMRoomReservationAjaxUtils');
+		ga.addParam('sysparm_name', 'populateFromOrder');
+		ga.addParam('sysparm_order_id', order);
+		ga.getXML(function(response) {
+			
+			var answer = response.responseXML.documentElement.getAttribute('answer');
+			var obj = JSON.parse(answer);
+			
+			g_form.setValue('room', obj.room);
+			g_form.setValue('requester', obj.requester);
+			g_form.setValue('meeting_subject', obj.meeting_subject);
+			g_form.setValue('date', obj.date);
+			g_form.setValue('start_hours', obj.sh);
+			g_form.setValue('start_minutes', obj.sm);
+			g_form.setValue('end_hours', obj.eh);
+			g_form.setValue('end_minutes', obj.em);
+			g_form.setValue('location', obj.location);
+			
+		});
+	}
+	
+	if (recurring_redirect && lastItem != 'true') {
+		clearContext = false;
+		g_form.setValue('recurring_redirect',recurring_redirect);
+	}
+	
+	if (lastItem == 'true') {
+		clearContext = false;
+		g_form.setValue('lastItem', 'true');
+	}
+	
+	
+	if(clearContext) {
+		var gac = new GlideAjax('FMFOrderAjaxUtils');
+		gac.addParam('sysparm_name','clearReservationContext');
+		gac.getXML(function(){});
+	}
+}
+
+]]></script>
+        <sys_class_name>catalog_script_client</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-11-10 11:26:23</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>05f6c3380f8be20011bec3ace1050e97</sys_id>
+        <sys_mod_count>89</sys_mod_count>
+        <sys_name>Populate Fields From URL</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>catalog_script_client_05f6c3380f8be20011bec3ace1050e97</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-07-09 11:00:44</sys_updated_on>
+        <table/>
+        <type>onLoad</type>
+        <ui_type>0</ui_type>
+        <variable_set display_value="Meeting Information">4d4930100f75a20011bec3ace1050e8c</variable_set>
+        <view/>
+    </catalog_script_client>
+</record_update>

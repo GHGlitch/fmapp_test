@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_transform_entry">
+    <sys_transform_entry action="INSERT_OR_UPDATE">
+        <choice_action>ignore</choice_action>
+        <coalesce>false</coalesce>
+        <coalesce_case_sensitive>false</coalesce_case_sensitive>
+        <coalesce_empty_fields>false</coalesce_empty_fields>
+        <date_format>yyyy-MM-dd HH:mm:ss</date_format>
+        <map display_value="Create Products">c26a676a4f403200bb6bcab18110c7a0</map>
+        <reference_value_field/>
+        <source_field>u_supplier</source_field>
+        <source_script><![CDATA[answer = (function transformEntry(source) {
+
+	// Add your code here
+	return ""; // return the value to be put into the target field
+
+})(source);]]></source_script>
+        <source_table>x_lsmcb_fm_imp_products</source_table>
+        <sys_class_name>sys_transform_entry</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-01-04 17:33:45</sys_created_on>
+        <sys_id>74ea6f2e4f403200bb6bcab18110c777</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>u_supplier</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_transform_entry_74ea6f2e4f403200bb6bcab18110c777</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-11-22 12:16:43</sys_updated_on>
+        <target_field>company</target_field>
+        <target_table>x_lsmcb_fm_facility_product</target_table>
+        <use_source_script>false</use_source_script>
+    </sys_transform_entry>
+</record_update>

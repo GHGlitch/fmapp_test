@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_choice action="INSERT_OR_UPDATE" field="email_notification" table="x_lsmcb_fm_company_related_contact" version="3">
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>email_notification</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>No</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_company_related_contact</name>
+            <sequence/>
+            <sys_created_by>nelson.oliveira</sys_created_by>
+            <sys_created_on>2016-12-20 11:25:30</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>96b681350f77e20011bec3ace1050e90</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nelson.oliveira</sys_updated_by>
+            <sys_updated_on>2016-12-20 11:25:30</sys_updated_on>
+            <value>0</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>email_notification</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Yes</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_company_related_contact</name>
+            <sequence/>
+            <sys_created_by>nelson.oliveira</sys_created_by>
+            <sys_created_on>2016-12-20 11:23:36</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>964681350f77e20011bec3ace1050e50</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nelson.oliveira</sys_updated_by>
+            <sys_updated_on>2016-12-20 11:23:36</sys_updated_on>
+            <value>1</value>
+        </sys_choice>
+        <sys_choice_set action="INSERT_OR_UPDATE">
+            <element>email_notification</element>
+            <name>x_lsmcb_fm_company_related_contact</name>
+            <sys_class_name>sys_choice_set</sys_class_name>
+            <sys_created_by>nelson.oliveira</sys_created_by>
+            <sys_created_on>2016-12-20 11:23:36</sys_created_on>
+            <sys_id>1411d953db7023005e9f5385ca96196e</sys_id>
+            <sys_mod_count>11</sys_mod_count>
+            <sys_name>email_notification</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_choice_x_lsmcb_fm_company_related_contact_email_notification</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-06-08 16:11:15</sys_updated_on>
+        </sys_choice_set>
+    </sys_choice>
+</record_update>

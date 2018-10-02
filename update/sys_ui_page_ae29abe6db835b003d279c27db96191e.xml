@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[function PrintElem(elem){
+	Popup(gel(elem));
+}
+
+function Popup(data){
+	var docType = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">";
+	var disp_setting = "toolbar=no,location=no,directories=no,menubar=no,";
+	disp_setting += "scrollbars=yes,width=425, height=225, left=50, top=25,_blank";
+
+	if (navigator.appName != "Microsoft Internet Explorer") disp_setting = "";
+
+	var mywindow = window.open('', '', disp_setting);
+	mywindow.document.open();
+	mywindow.document.write(docType);
+	mywindow.document.write('<html><head><title></title>');
+	mywindow.document.write('</head><body >');
+	mywindow.document.write(data.innerHTML);
+	mywindow.document.write('</body></html>');
+
+	mywindow.document.close(); // necessary for IE >= 10
+	mywindow.focus(); // necessary for IE >= 10
+
+	mywindow.print();
+	mywindow.close();
+
+	return true;
+}]]></client_script>
+        <description>Visitor Badge for GlideWindow popup</description>
+        <direct>false</direct>
+        <endpoint>x_lsmcb_fm_fm_visitor_badge.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+
+
+    <div id="visitFrame">
+
+        <style media="all">
+            .meetingDetails_table {
+                width: 425px;
+                height: 225px;
+                border-collapse: collapse;
+                /*^^^ merges adjacent cell and table borders (so table height != sum of row heights!)*/
+                border-spacing: 0 0;
+                /*removes space between cells*/
+                -webkit-border-vertical-spacing: 0;
+                /*^^^ removes Chrome's border-spacing (sort of redundant with border-spacing: 0 0;)*/
+            }
+
+            table>thead {
+                vertical-align: bottom;
+                /*^^^ affects the height of rows that get broken by page breaks*/
+            }
+
+            table>tbody {
+                vertical-align: top;
+                /*^^^ affects the height of rows that get broken by page breaks*/
+            }
+
+            table>*>*>td,
+            table>*>*>th {
+                border: 1px solid black;
+                padding-top: 0;
+                /*cancels out browser's default cell padding*/
+                padding-bottom: 0;
+                /*cancels out browser's default cell padding*/
+            }
+			
+			p {
+				margin-top: 1px;
+				margin-bottom: 1px;
+			}
+			
+			h1, .h1, h3, .h3, h4, .h4, h5, .h5 {
+				margin-top: 1px;
+				margin-bottom: 4px;
+			}
+			
+			h2, .h2 {
+				margin-top: 1px;
+				margin-bottom: 1px;
+			}
+			
+			h6, .h6 {
+				margin-top: 20px;
+				margin-bottom: 4px;
+			}
+        </style>
+
+        <table cellspacing="0" cellpadding="0" border="0" class="meetingDetails_table" align="center" style="-webkit-print-color-adjust: exact; font-family:Verdana, Geneva, sans-serif; table-layout:fixed; media:all">
+            <tbody>
+                <tr border="0" cellspacing="0" cellpadding="0">
+                    <td valign="left" border="0" cellspacing="0" colspan="2" cellpadding="0" width="275px" align="left" height="0">
+                        <img src="visitLogo.jpg" width="150" />
+                    </td>
+                    <td valign="middle" border="0" cellspacing="0" cellpadding="0" width="150px" height="0" align="center" style="padding-bottom: 40px;">
+                        <h3>VISITOR</h3>
+                    </td>
+                </tr>
+                <tr border="0" cellspacing="0" cellpadding="0">
+                    <td valign="middle" border="0" cellspacing="0" colspan="3" cellpadding="0" height="0" align="center">
+                        <h2>${JS,HTML:RP.getParameterValue('sysparm_fmName')}</h2>
+						<h4>${JS,HTML:RP.getParameterValue('sysparm_fmCompany')}</h4>
+                    </td>
+                </tr>
+                <!-- <tr border="0" cellspacing="0" cellpadding="0">
+                    <td valign="top" border="0" cellspacing="0" colspan="3" cellpadding="0" height="0" align="center">
+                        <h4>${JS,HTML:RP.getParameterValue('sysparm_fmCompany')}</h4>
+                    </td>
+                </tr> -->
+                <tr border="0" cellspacing="0" cellpadding="0">
+                    <td valign="bottom" border="0" cellspacing="0" colspan="3" cellpadding="0" height="0" align="center">
+                        <p>Host: ${JS,HTML:RP.getParameterValue('sysparm_fmHost')}</p>
+						<p>${JS,HTML:RP.getParameterValue('sysparm_fmDate')}</p>
+                    </td>
+                </tr><!-- 
+                <tr border="0" cellspacing="0" cellpadding="0">
+                    <td valign="middle" border="0" cellspacing="0" colspan="3" cellpadding="0" height="0" align="center">
+                        <p>${JS,HTML:RP.getParameterValue('sysparm_fmDate')}</p>
+                    </td>
+                </tr> -->
+                <tr border="0" cellspacing="0" cellpadding="0">
+                    <td valign="middle" border="0" cellspacing="0" colspan="3" cellpadding="0" height="0" align="center">
+                        <h6>${JS,HTML:gs.getProperty('x_lsmcb_fm.visitor_badge_website')}</h6>
+                    </td>
+                </tr>
+				<tr border="0" cellspacing="0" cellpadding="0">
+					<td height="0">
+                    </td>
+                    <td valign="middle" border="0" cellspacing="0" cellpadding="0" height="0" align="center">
+                    </td>
+					<td height="0">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br/>
+    <br/>
+    <br/>
+
+    <button id="addBtn" ONCLICK="PrintElem('visitFrame')" style="width:99%">${gs.getMessage('fm_print')}</button>
+
+</j:jelly>]]></html>
+        <name>fm_visitor_badge</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2018-07-05 12:56:54</sys_created_on>
+        <sys_id>ae29abe6db835b003d279c27db96191e</sys_id>
+        <sys_mod_count>80</sys_mod_count>
+        <sys_name>fm_visitor_badge</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_page_ae29abe6db835b003d279c27db96191e</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-07-07 14:08:04</sys_updated_on>
+    </sys_ui_page>
+</record_update>

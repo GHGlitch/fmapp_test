@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMOutlookAddinUtils</api_name>
+        <client_callable>false</client_callable>
+        <description>Util for integrations</description>
+        <name>FMOutlookAddinUtils</name>
+        <script><![CDATA[var FMOutlookAddinUtils = Class.create();
+
+FMOutlookAddinUtils.prototype = {
+
+	initialize: function (outlookID) {
+		this.outlookID = outlookID;
+	},
+
+	dtu: new FMDateTimeUtils(),
+
+	createRoomReservationFromAddin: function (reservationData) {
+
+		var userGr = new GlideRecord('sys_user');
+
+		if (!userGr.get('email', reservationData.requesterEmail)) {
+			return;
+		}
+
+		var requesterID = userGr.getUniqueValue();
+
+		var rrgr = new GlideRecord('x_lsmcb_fm_room_reservation');
+
+		// If the reservation exists
+		if (rrgr.get('outlook_id', reservationData.outlookID)) {
+
+			// If cancelled, set the reservation's state to '0'
+			if (reservationData.cancelled === 'true' || reservationData.cancelled) {
+				rrgr.state = '0';
+				rrgr.update();
+				return;
+			}
+			gs.info('B4 update : reservationData.subject ' + reservationData.subject);
+			gs.info('B4 update : reservationData.remarks ' + reservationData.remarks);			
+			gs.info('B4 update : reservationData.remarks ' + reservationData.location);
+			
+			rrgr.update_source = 'outlook_addin';
+			
+			rrgr.meeting_subject = reservationData.subject;
+			rrgr.meeting_comments = reservationData.remarks;
+			rrgr.number_of_attendees = reservationData.attendees;
+			rrgr.meeting_start_time = reservationData.sTime;
+			rrgr.meeting_end_time = reservationData.eTime;
+			rrgr.room = reservationData.space;
+			rrgr.location = rrgr.room.floor.location;
+			
+			rrgr.update();
+			gs.info('After update : rrgr.meeting_subject ' + rrgr.meeting_subject);
+			gs.info('After update : rrgr.meeting_comments ' + rrgr.meeting_comments);
+
+			// PRODUCTS
+			if (gs.getProperty('x_lsmcb_fm.allow_catering_order_addin') == 'true') {
+				var fo = new GlideRecord('x_lsmcb_fm_facility_order');
+				fo.addQuery('outlook_id', reservationData.outlookID);
+				fo.addQuery('state', '!=', '4');
+				fo.query();
+
+				// Check if the update has no catering
+				if (reservationData.catering.length == 0) {
+
+					// If there are any existing facility orders, cancel them and their respective suborders
+					if (fo.next()) {
+
+						var fsgr = new GlideRecord('x_lsmcb_fm_facility_suborder');
+						fsgr.addQuery('facility_order', fo.getUniqueValue());
+						fsgr.query();
+
+						while (fsgr.next()) {
+							fsgr.state = '4';
+							fsgr.update();
+						}
+
+						fo.outlook_id = '';
+						fo.state = '4';
+						fo.wf_action = 'cancel';
+						fo.update();
+					}
+
+				} else {
+
+					// If there are any existing facility orders, update their fields, add new products and remove discarded ones
+					if (fo.next()) {
+
+						this._updateFOAndProducts(rrgr, fo, reservationData.catering);
+
+					} else {
+
+						fo = new GlideRecord('x_lsmcb_fm_facility_order');
+						fo.newRecord();
+
+						fo.expected_start = rrgr.meeting_start_time;
+						fo.expected_end = rrgr.meeting_end_time;
+						fo.requester = rrgr.requester;
+						fo.opened_by = rrgr.requested_by;
+						fo.costcenter = rrgr.costcenter;
+						fo.category = "2";
+						fo.type = "purchase order";
+						fo.room_reservation = rrgr.sys_id;
+						fo.location = rrgr.location;
+						fo.room = rrgr.room;
+						fo.short_description = rrgr.meeting_subject;
+						fo.description = rrgr.meeting_comments;
+						fo.outlook_id = rrgr.outlook_id;
+
+						var product = new GlideRecord('x_lsmcb_fm_facility_product');
+
+						for (var l = 0; l < reservationData.catering.length; l++) {
+
+							if (product.get(reservationData.catering[l].value)) {
+								this._createProductOrders(fo.getUniqueValue(), product.getUniqueValue(), reservationData.catering[l].quantity);
+							}
+						}
+
+						fo.insert();
+						var gdt = new GlideDateTime(rrgr.meeting_start_time);
+						this.dtu.cancelFromDT(gdt, gs.getProperty('x_lsmcb_fm.addin_day_condition'), gs.getProperty('x_lsmcb_fm.addin_hour_condition'), fo);
+					}
+				}
+			}
+			// VISITS
+
+			this._createVisitLoop(this, reservationData.visitors, rrgr);
+
+			// If the reservation DOES NOT exist
+		} else {
+
+			rrgr.initialize();
+
+			rrgr.update_source = 'outlook_addin';
+			rrgr.outlook_id = reservationData.outlookID;
+			rrgr.requester = requesterID;
+			rrgr.costcenter = this._getUserCostcenter(requesterID);
+			rrgr.meeting_subject = reservationData.subject;
+			rrgr.meeting_comments = reservationData.remarks;
+			rrgr.number_of_attendees = reservationData.attendees;
+			rrgr.meeting_start_time = reservationData.sTime;
+			rrgr.meeting_end_time = reservationData.eTime;
+			rrgr.room = reservationData.space;
+			rrgr.location = rrgr.room.floor.location;
+
+			rrgr.insert();
+
+			if (reservationData.catering.length > 0) {
+
+				var product2 = new GlideRecord('x_lsmcb_fm_facility_product');
+
+				var fOrderGr = new GlideRecord('x_lsmcb_fm_facility_order');
+
+				fOrderGr.newRecord();
+
+				fOrderGr.outlook_id = rrgr.outlook_id;
+				fOrderGr.expected_start = rrgr.meeting_start_time;
+				fOrderGr.expected_end = rrgr.meeting_end_time;
+				fOrderGr.requester = rrgr.requester;
+				fOrderGr.opened_by = rrgr.requested_by;
+				fOrderGr.costcenter = rrgr.costcenter;
+				fOrderGr.category = "2";
+				fOrderGr.type = "purchase order";
+				fOrderGr.room_reservation = rrgr.getUniqueValue();
+				fOrderGr.location = rrgr.location;
+				fOrderGr.room = rrgr.room;
+				fOrderGr.short_description = rrgr.meeting_subject;
+				fOrderGr.description = rrgr.meeting_comments;
+
+				for (var k = 0; k < reservationData.catering.length; k++) {
+
+					if (product2.get(reservationData.catering[k].value)) {
+
+						this._createProductOrders(fOrderGr.getUniqueValue(), product2.getUniqueValue(), reservationData.catering[k].quantity);
+					}
+				}
+
+				fOrderGr.insert();
+
+				var gdt2 = new GlideDateTime(rrgr.meeting_start_time);
+				this.dtu.cancelFromDT(gdt2, gs.getProperty('x_lsmcb_fm.addin_day_condition'), gs.getProperty('x_lsmcb_fm.addin_hour_condition'), fOrderGr);
+			}
+			this._createVisitLoop(this, reservationData.visitors, rrgr);
+		}
+	},
+
+	_createVisitLoop: function (self, visitors, reservation) {
+
+		if (visitors.length > 0) {
+
+			if (this._visitorsExistInReservation(reservation)) {
+				this._updateVisitors(visitors, reservation);
+				return;
+			}
+			gs.info('These are new visitors!');
+			var emailWhitelist = gs.getProperty('x_lsmcb_fm.visit_email_whitelist');
+			emailWhitelist = emailWhitelist.replace(/\s/g, '').split(',');
+
+			var self = this;
+
+			visitors.forEach(function (visitor) {
+				if (visitor.options == '0') return;
+				var emailDomain = visitor.email.split('@')[1];
+				/*if ((gs.getUser().getEmail() == visitor.email)) {
+					gs.info('The requester is the same as the visitor');
+					return;
+				}*/
+
+				if (emailWhitelist.indexOf(emailDomain) == -1) {
+					self._createVisit('external', reservation, visitor);
+
+				} else {
+					self._createVisit('internal', reservation, visitor);
+				}
+			});
+		}
+	},
+
+	_createVisit: function (type, reservation, visitor) {
+
+		var grVisit;
+
+		if (type == 'internal') {
+			grVisit = new GlideRecord('x_lsmcb_fm_internal_visits');
+
+		} else if (type == 'external') {
+			grVisit = new GlideRecord('x_lsmcb_fm_visit');
+		}
+
+		//If (visit.option == '2') create parking for visitor (this._createParking())
+		grVisit.initialize();
+
+		// Info coming from Room Reservation
+		grVisit.requester = reservation.requested_by;
+		grVisit.host = reservation.requester;
+		grVisit.phone = reservation.requester.phone;
+		grVisit.contact = reservation.requester;
+		grVisit.start_time = reservation.meeting_start_time;
+		grVisit.end_time = reservation.meeting_end_time;
+		grVisit.location = reservation.location;
+		grVisit.room_reservation = reservation.getUniqueValue();
+		grVisit.remark = reservation.meeting_subject;
+
+		// Info coming from Visitor		
+		grVisit.visitor = visitor.name;
+		grVisit.company = visitor.company;
+		grVisit.email = visitor.email;
+
+		if (visitor.name.indexOf('@') == -1) {
+			grVisit.visitor_first_name = visitor.name.split(/ (.+)/)[0];
+			grVisit.visitor_last_name = visitor.name.split(/ (.+)/)[1];
+
+		} else {
+			grVisit.visitor_first_name = '';
+			grVisit.visitor_last_name = visitor.name;
+		}
+
+		grVisit.insert();
+		if (visitor.options == '2') {
+			var grPark = new GlideRecord('x_lsmcb_fm_parking_reservation');
+			var park_sysID = this._createParking(grPark, grVisit, visitor);
+			grVisit.parking_reservation = park_sysID;
+			grVisit.update();
+		}
+	},
+
+	_visitorsExistInReservation: function (rrgr) {
+		gs.info('Going to check if there are visitors in this RR');
+		var visitGR = new GlideRecord('x_lsmcb_fm_visit');
+		var visitIntGR = new GlideRecord('x_lsmcb_fm_internal_visits');
+		var rr = rrgr.getUniqueValue();
+
+		visitGR.addQuery('room_reservation', rr);
+		visitGR.query();
+
+		visitIntGR.addQuery('room_reservation', rr);
+		visitIntGR.query();
+
+		if (visitGR.getRowCount() > 0 || visitIntGR.getRowCount() > 0) {
+			gs.info('There are visits to this reservation');
+			return true;
+		}
+		gs.info('No visits on reservation.')
+		return false;
+	},
+
+	_updateVisitors: function (visitors, reservation) {
+		gs.info('Updating the visitors TODO');
+
+		var vgr = new GlideRecord('x_lsmcb_fm_visit');
+		vgr.addQuery('room_reservation', reservation.getUniqueValue());
+		vgr.query();
+		loop1:
+			while (vgr.next()) {
+				for (var i = 0; i < visitors.length; i++) {
+					if (visitors[i].email == vgr.email) {
+
+						this._updateVisit(visitors[i], vgr);
+
+						visitors.splice(i--, 1);
+						continue loop1;
+					}
+				}
+				vgr.state = 'Canceled';
+				vgr.update();
+			}
+		
+		var vigr = new GlideRecord('x_lsmcb_fm_internal_visits');
+		vigr.addQuery('room_reservation', reservation.getUniqueValue());
+		vigr.query();
+		loop2:
+			while (vigr.next()) {
+				for (var j = 0; j < visitors.length; j++) {
+					if (visitors[j].email == vigr.email) {
+
+						this._updateVisit(visitors[j], vigr);
+
+						visitors.splice(j--, 1);
+						continue loop2;
+					}
+				}
+				vigr.state = 'Canceled';
+				vigr.update();
+			}
+		gs.info('Finished the visitors updatji');
+	},
+
+	_updateVisit: function (visitor, vgr) {
+		vgr.company = visitor.company;
+		vgr.state = 'Registered';
+
+		var parkingGR = new GlideRecord('x_lsmcb_fm_parking_reservation');
+
+		if (visitor.options == '2') {
+
+			if (parkingGR.get('visit', vgr.getUniqueValue())) {
+
+				this._updateParking(parkingGR, vgr, visitor);
+
+			} else {
+
+				this._createParking(parkingGR, vgr, visitor);
+				vgr.parking_reservation = parkingGR.getUniqueValue();
+			}
+		} else if (visitor.options == '1') {
+
+			if (parkingGR.get('visit', vgr.getUniqueValue())) {
+
+				parkingGR.state = 'Canceled';
+				parkingGR.update();
+			}
+		} else {
+
+			vgr.state = 'Canceled';
+		}
+
+		vgr.update();
+	},
+
+	_updateFOAndProducts: function (roomReservation, facilityOrder, catering) {
+
+		facilityOrder.short_description = roomReservation.meeting_subject;
+		facilityOrder.description = roomReservation.meeting_comments;
+
+		var product = new GlideRecord('x_lsmcb_fm_facility_product');
+
+		var updatedFPOs = [];
+
+		for (var j = 0; j < catering.length; j++) {
+
+			if (product.get(catering[j].value)) {
+
+				var fpo = new GlideRecord('x_lsmcb_fm_facility_product_order');
+				fpo.addQuery('facility_order', facilityOrder.getUniqueValue());
+				fpo.addQuery('facility_product', product.getUniqueValue());
+				fpo.query();
+
+				if (fpo.next()) {
+
+					fpo.quantity = catering[j].quantity;
+					updatedFPOs.push(fpo.update());
+
+				} else {
+
+					fpo = new GlideRecord('x_lsmcb_fm_facility_product_order');
+
+					fpo.newRecord();
+					fpo.facility_order = facilityOrder.getUniqueValue();
+					fpo.facility_product = product.getUniqueValue();
+					fpo.quantity = catering[j].quantity;
+
+					updatedFPOs.push(fpo.insert());
+				}
+
+			}
+		}
+
+		var prod = new GlideRecord('x_lsmcb_fm_facility_product_order');
+		prod.addQuery('facility_order', facilityOrder.getUniqueValue());
+		prod.addQuery('sys_id', 'NOT IN', updatedFPOs.join(','));
+		prod.query();
+
+		while (prod.next()) {
+			prod.deleteRecord();
+		}
+
+		facilityOrder.setValue('state', '1');
+		facilityOrder.setValue('wf_action', 'go_back');
+		facilityOrder.update();
+
+	},
+
+	_canCancelReservation: function (reservation) {
+
+		var state = reservation.state != '0' && reservation.state != '1';
+
+		var datetime = reservation.cancel_datetime ? new GlideDateTime() < reservation.cancel_datetime : new GlideDateTime() < reservation.meeting_start_time;
+
+		return (gs.getUserID() == reservation.requester || reservation.canWrite()) && state && datetime;
+
+	},
+
+	getReservation: function (outlookID) {
+
+		var reserv = {};
+		var gr = new GlideRecord('x_lsmcb_fm_room_reservation');
+		gr.addQuery('outlook_id', outlookID);
+		gr.query();
+		if (gr.next()) {
+			reserv.updatable = this._canCancelReservation(gr);
+			reserv.isUpdate = true;
+			reserv.sTime = gr.getDisplayValue('meeting_start_time');
+			reserv.eTime = gr.getDisplayValue('meeting_end_time');
+			reserv.location = gr.room.floor.location.sys_id.toString();
+			reserv.floor = gr.room.floor.sys_id.toString();
+			reserv.space = gr.room.sys_id.toString();
+			reserv.remarks = gr.meeting_comments.toString();
+			reserv.visitors = [];
+
+			var visit = new GlideRecord('x_lsmcb_fm_visit');
+			visit.addQuery('room_reservation', gr.sys_id);
+			visit.query();
+
+			var visitors = [];
+
+			while (visit.next()) {
+
+				var option = '0';
+
+				if (visit.state != 'Canceled') {
+					option = '1';
+				}
+
+				if (visit.parking_reservation) {
+
+					if (visit.parking_reservation.state != 'Canceled') {
+						option = '2';
+					}
+
+					var parkingLot = {
+						name: visit.parking_reservation.parking_lot.name + '',
+						value: visit.parking_reservation.parking_lot.sys_id + ''
+					};
+
+					visitors.push({
+						options: option,
+						name: visit.getValue('visitor'),
+						email: visit.getValue('email'),
+						company: visit.getValue('company'),
+						lPlate: visit.parking_reservation.license_plate + '',
+						parkingLot: parkingLot
+					});
+
+				} else {
+					visitors.push({
+						options: option,
+						name: visit.getValue('visitor'),
+						email: visit.getValue('email'),
+						company: visit.getValue('company')
+					});
+				}
+
+			}
+			reserv.visitors = JSON.stringify(visitors);
+
+			var catering = new GlideRecord('x_lsmcb_fm_facility_product_order');
+			catering.addQuery('facility_order.outlook_id', outlookID);
+			catering.addQuery('facility_order.state', '!=', '4');
+			catering.query();
+
+			if (catering.next()) {
+				var selectedCatering = [];
+				selectedCatering.push({
+					name: catering.getDisplayValue('facility_product'),
+					value: catering.getValue('facility_product'),
+					quantity: parseInt(catering.getValue('quantity'))
+				});
+				reserv.selectedCatering = JSON.stringify(selectedCatering);
+			}
+
+		} else {
+			reserv.isUpdate = false;
+		}
+
+		return reserv;
+	},
+
+	_createProductOrders: function (order, product, quantity) {
+
+		var grProductOrder = new GlideRecord('x_lsmcb_fm_facility_product_order');
+		grProductOrder.newRecord();
+		grProductOrder.facility_order = order;
+		grProductOrder.quantity = quantity;
+		grProductOrder.facility_product = product;
+		grProductOrder.insert();
+
+	},
+
+
+
+	_createParking: function (parking, visit, visitor) {
+
+		parking.newRecord();
+
+		parking.visitor = visitor.name;
+		parking.license_plate = visitor.lPlate;
+		parking.parking_lot = visitor.parkingLot.value;
+		parking.location = visit.location;
+		parking.start_time = visit.start_time;
+		parking.end_time = visit.end_time;
+		parking.quantity = 1;
+		parking.remark = visit.remark;
+		parking.visit = visit.sys_id + '';
+
+		return parking.insert();
+	},
+
+	_updateParking: function (parking, visit, visitor) {
+
+		parking.state = 'Registered';
+		parking.license_plate = visitor.lPlate;
+		parking.parking_lot = visitor.parkingLot.value;
+		parking.location = visit.location;
+
+		parking.update();
+	},
+
+	//return user's costcenter
+	_getUserCostcenter: function (user) {
+
+		var gr = new GlideRecord("sys_user");
+		gr.get(user);
+
+		return gr.department.cost_center;
+
+	},
+
+	type: 'FMOutlookAddinUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-02-27 18:27:26</sys_created_on>
+        <sys_id>adcbf90c0f99b20011bec3ace1050ebd</sys_id>
+        <sys_mod_count>290</sys_mod_count>
+        <sys_name>FMOutlookAddinUtils</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_adcbf90c0f99b20011bec3ace1050ebd</sys_update_name>
+        <sys_updated_by>patricia.gaudencio</sys_updated_by>
+        <sys_updated_on>2018-08-17 14:30:26</sys_updated_on>
+    </sys_script_include>
+</record_update>

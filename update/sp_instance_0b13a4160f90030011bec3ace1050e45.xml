@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_instance">
+    <sp_instance action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <class_name/>
+        <color>default</color>
+        <css/>
+        <glyph/>
+        <id/>
+        <order>0</order>
+        <roles/>
+        <short_description/>
+        <size>md</size>
+        <sp_column display_value="2">260328160f90030011bec3ace1050e95</sp_column>
+        <sp_widget display_value="FM Catalog Page">357c17820f50030011bec3ace1050eee</sp_widget>
+        <sys_class_name>sp_instance</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-08-02 14:49:16</sys_created_on>
+        <sys_id>0b13a4160f90030011bec3ace1050e45</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sp_instance_0b13a4160f90030011bec3ace1050e45</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-11 13:10:19</sys_updated_on>
+        <title/>
+        <url/>
+        <widget_parameters><![CDATA[{
+	"click_event_name": {
+		"value": "",
+		"displayValue": ""
+	},
+	"cat_id": {
+		"value": "a4e9751a0f72620011bec3ace1050e5c",
+		"displayValue": "Request"
+	}
+}]]></widget_parameters>
+    </sp_instance>
+    <sys_translated_text action="delete_multiple" query="documentkey=0b13a4160f90030011bec3ace1050e45"/>
+</record_update>

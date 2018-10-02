@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Supplier Group Assignment Rules" max_length="40" name="x_lsmcb_fm_supplier_group_assignment_rules" type="collection">
+        <element label="Auto planning" max_length="40" name="auto_planning" type="boolean"/>
+        <element choice="1" choice_field="category" choice_table="x_lsmcb_fm_facility_order" label="Category" mandatory="true" max_length="40" name="category" type="string">
+            <choice/>
+        </element>
+        <element label="Company" max_length="32" name="company" reference="core_company" type="reference"/>
+        <element label="Location" mandatory="true" max_length="32" name="location" reference="cmn_location" type="reference"/>
+        <element default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>
+        <element label="Supplier group" mandatory="true" max_length="32" name="supplier_group" reference="sys_user_group" reference_qual="active=true^EQ" reference_qual_condition="active=true^EQ" type="reference"/>
+        <element choice="1" choice_field="type" choice_table="x_lsmcb_fm_facility_order" label="Type" mandatory="true" max_length="40" name="type" type="string">
+            <choice/>
+        </element>
+        <index name="index">
+            <element name="company"/>
+        </index>
+        <index name="index2">
+            <element name="location"/>
+        </index>
+        <index name="index3">
+            <element name="category"/>
+            <element name="location"/>
+            <element name="type"/>
+        </index>
+        <index name="index4">
+            <element name="supplier_group"/>
+        </index>
+    </element>
+</database>

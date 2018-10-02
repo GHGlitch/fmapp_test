@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function() {
+  /* widget controller */
+  var c = this;
+	var frame_src = "https://" + c.data.instance + ".service-now.com/" + c.data.page_if,
+	frame_id = "art_iframe",
+	frame_el = document.getElementById('art_iframe'),
+	frame_win;
+	frame_el.onload = function() {
+		frame_win = frame_el.contentDocument;
+		var x = document.getElementById("art_iframe");
+		var y = x.contentWindow.document;
+		y.body.style.backgroundColor = "#e7e9eb";
+		document.getElementById("art_iframe").style.height = (parseInt(y.body.scrollHeight) + 800) + "px";
+	};
+	frame_el.src = frame_src;
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>fm-art-search</id>
+        <internal>false</internal>
+        <link/>
+        <name>FM Art Search</name>
+        <option_schema>[]</option_schema>
+        <public>false</public>
+        <roles>x_lsmcb_fm.fm_base</roles>
+        <script><![CDATA[(function() {
+	
+	data.instance = gs.getProperty('instance_name');
+	data.page_if = "x_lsmcb_fm_fm_art_portal.do";
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-08-02 10:02:56</sys_created_on>
+        <sys_id>7f5123420f50030011bec3ace1050ee3</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>FM Art Search</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sp_widget_7f5123420f50030011bec3ace1050ee3</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-11-22 16:49:58</sys_updated_on>
+        <template><![CDATA[<iframe id="art_iframe" style="width:100%;border:0;"/>]]></template>
+    </sp_widget>
+</record_update>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sysauto_script">
+    <sysauto_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <condition/>
+        <conditional>false</conditional>
+        <name>FM - Calculate Daily Room Utilisation</name>
+        <run_as display_value="">c20d70390fa7824011bec3ace1050e4c</run_as>
+        <run_as_tz/>
+        <run_dayofmonth>1</run_dayofmonth>
+        <run_dayofweek>1</run_dayofweek>
+        <run_period/>
+        <run_start>2016-12-21 12:40:47</run_start>
+        <run_time>1970-01-01 22:00:00</run_time>
+        <run_type>daily</run_type>
+        <script><![CDATA[/*
+	mst = time of when the room can be booked
+	met = time till the room can be booked
+	max = the milliseconds between mst and met
+	mso = the current date + time of when the room can be booked
+	msc = the current date + time till the room can be booked
+	
+	rst = start date/time of the reservation
+	ret = end date/time of the reservation
+	dst = start date of the reservation
+	det = end date of the reservation
+	now = current date
+*/
+
+
+
+calcDailyRoomUtilisation();
+
+function calcDailyRoomUtilisation() {
+	var ro = new GlideRecord('x_lsmcb_fm_room');
+	//ro.addQuery('sys_id','b3e133880f42a60011bec3ace1050e30');
+	ro.query();
+	while (ro.next()) {
+		//calculate the max reservation for that room on a day
+		var mst = new GlideDateTime(ro.reservation_open_time);
+		var met = new GlideDateTime(ro.reservation_close_time);
+		var max = new GlideDuration();
+		var max = GlideDateTime.subtract(mst, met).getNumericValue();
+		var mso = new GlideDateTime(new GlideDate() + " " + mst.getDisplayValue().split(" ")[1]); 
+		var msc = new GlideDateTime(new GlideDate() + " " + met.getDisplayValue().split(" ")[1]); 
+		
+		var rr = new GlideRecord('x_lsmcb_fm_room_reservation');
+		
+		//give all reservations for this room for today
+		//rr.addEncodedQuery('room=' + ro.sys_id + '^start_timeONToday@javascript:gs.daysAgoStart(0)@javascript:gs.daysAgoEnd(0)');
+		
+		rr.addEncodedQuery('room=' + ro.sys_id + '^start_time<=javascript:gs.daysAgoEnd(0)^end_time>=javascript:gs.daysAgoStart(0)');
+		rr.query();
+		var utilisation = 0;
+		
+		while (rr.next()) {
+			var rst = new GlideDateTime(rr.start_time);
+			var ret = new GlideDateTime(rr.end_time);
+			var dst = rst.getLocalDate();
+			var det = ret.getLocalDate();
+			var now = new GlideDateTime().getLocalDate();
+			
+			/*
+			gs.info(rr.sys_id + ', mst: ' + mst);
+			gs.info(rr.sys_id + ', mstt: ' + mst.getDisplayValue().split(" ")[1]);
+			gs.info(rr.sys_id + ', met: ' + met);
+			gs.info(rr.sys_id + ', mett: ' + met.getDisplayValue().split(" ")[1]);
+			gs.info(rr.sys_id + ', max: ' + max);
+			gs.info(rr.sys_id + ', mso: ' + mso);
+			gs.info(rr.sys_id + ', msc: ' + msc);			
+			gs.info(rr.sys_id + ', rst: ' + rst);
+			gs.info(rr.sys_id + ', ret: ' + ret);
+			gs.info(rr.sys_id + ', dst: ' + dst);
+			gs.info(rr.sys_id + ', det: ' + det);
+			gs.info(rr.sys_id + ', now: ' + now);
+			*/
+			
+			var reservation = new GlideDuration();
+					
+			if (dst < now && det > now) {
+				utilisation += max;
+				//gs.info('count the whole day');
+			} else if (dst == det) {
+				var reservation = GlideDateTime.subtract(rst, ret).getNumericValue();
+				utilisation += parseInt(reservation);		
+				//gs.info('count the beginning of parking till end of parking: ' + utilisation + '');
+			} else if (dst == now && det > now) {
+				var reservation = GlideDateTime.subtract(rst, msc).getNumericValue();
+				utilisation += parseInt(reservation);
+				//gs.info('count the beginning of parking till end of day: ' + utilisation + '');
+			} else if (det == now && dst < now) {
+				var reservation = GlideDateTime.subtract(mso, ret).getNumericValue();
+				utilisation += parseInt(reservation);
+				//gs.info('count the beginning of day till the ending of parking: ' + utilisation + '');
+			}
+		}
+		
+		var ru = new GlideRecord('x_lsmcb_fm_room_utilisation');
+		ru.initialize();
+		ru.room = ro.sys_id;
+		ru.date = new GlideDate();
+		ru.year = new GlideDate().getYearLocalTime();
+		ru.month = new GlideDate().getMonthLocalTime();
+		ru.day = new GlideDate().getDayOfMonthLocalTime();
+		ru.value = Math.round((utilisation/max)*100);
+		ru.insert();
+	}
+}]]></script>
+        <sys_class_name>sysauto_script</sys_class_name>
+        <sys_created_by>laurens.brand</sys_created_by>
+        <sys_created_on>2016-12-21 12:41:15</sys_created_on>
+        <sys_id>c1912a0e0fbbe20011bec3ace1050e09</sys_id>
+        <sys_mod_count>83</sys_mod_count>
+        <sys_name>FM - Calculate Daily Room Utilisation</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sysauto_script_c1912a0e0fbbe20011bec3ace1050e09</sys_update_name>
+        <sys_updated_by>laurens.brand</sys_updated_by>
+        <sys_updated_on>2016-12-22 15:28:27</sys_updated_on>
+        <upgrade_safe>false</upgrade_safe>
+    </sysauto_script>
+</record_update>

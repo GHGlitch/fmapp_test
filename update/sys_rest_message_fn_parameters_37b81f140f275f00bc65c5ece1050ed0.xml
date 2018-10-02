@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_rest_message_fn_parameters">
+    <sys_rest_message_fn_parameters action="INSERT_OR_UPDATE">
+        <name>iCalUID</name>
+        <rest_message_function display_value="iCalGetItem">0f6713140f275f00bc65c5ece1050e90</rest_message_function>
+        <sys_class_name>sys_rest_message_fn_parameters</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-07-23 08:30:13</sys_created_on>
+        <sys_id>37b81f140f275f00bc65c5ece1050ed0</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>iCalUID</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_rest_message_fn_parameters_37b81f140f275f00bc65c5ece1050ed0</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-07-23 08:30:31</sys_updated_on>
+        <type>string</type>
+        <value>040000008200E00074C5B7101A82E00800000000C78CB3B61920D401000000000000000010000000680BECDED97DF9429AD44588BD4300BE</value>
+    </sys_rest_message_fn_parameters>
+</record_update>

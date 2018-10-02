@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="parent_order" label="Main Order" language="en" table="x_lsmcb_fm_facility_order">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>parent_order</element>
+            <help/>
+            <hint/>
+            <label>Main Order</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_order</name>
+            <plural>Main Orders</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-19 09:34:06</sys_created_on>
+            <sys_id>ae0c26dc0fd6fa0011bec3ace1050e05</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_name>Main Order</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_documentation_x_lsmcb_fm_facility_order_parent_order_en</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-19 09:36:03</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description>Controller for the room details content block.</description>
+        <global>false</global>
+        <name>x_lsmcb_fm.fm_room_details_controller</name>
+        <script><![CDATA[angRR.controller('RoomDetailsController', function($scope, $window, sharedService, $timeout) {
+
+	var date, sMin, sHour, eMin, eHour, sysID, sFloor, sLocation;
+
+	$scope.$on('handleRoomData', function() {
+		$timeout(function() {
+			$scope.roomData = sharedService.roomData;
+			$scope.reservable = ($scope.roomData.reservable == 'true');
+			$scope.active = ($scope.roomData.active == 'true');
+			$scope.available = ($scope.roomData.available == 'true');
+			$scope.roomSelected = true;
+			sysID = $scope.roomData.roomInfo.sysID;
+			sFloor = $scope.roomData.floor;
+			sLocation = $scope.roomData.location;
+		}, 0);
+	});
+
+
+	$scope.$on('handleResDate', function() {
+		date = sharedService.selectedDate;
+		sMin = (sharedService.selectedStartTime.getMinutes());
+		sMin = addZero(sMin).toString();
+		sHour = (sharedService.selectedStartTime.getHours());
+		sHour = addZero(sHour).toString();
+		eMin = (sharedService.selectedEndTime.getMinutes());
+		eMin = addZero(eMin).toString();
+		eHour = (sharedService.selectedEndTime.getHours());
+		eHour = addZero(eHour).toString();
+		
+	});
+
+	$scope.$on('handleNewResTime', function() {
+		sMin = sharedService.newFromMinute;
+		sMin = addZero(sMin).toString();
+		sHour = sharedService.newFromHour;
+		sHour = addZero(sHour).toString();
+		eMin = sharedService.newToMinute;
+		eMin = addZero(eMin).toString();
+		eHour = sharedService.newToHour;
+		eHour = addZero(eHour).toString();
+	});
+	
+	$scope.$on('roomClear', function() {
+		$timeout(function() {
+			$scope.roomData = null;
+			$scope.roomSelected = false;
+			$scope.$apply();
+		}, 0, false);
+
+	});
+
+	$scope.quickRes = function() {
+
+		if (!$scope.roomData) {
+			alert(getMessage('fm_select_room_before_quick_reservation'));
+			return;
+		}
+		
+		if (!date) {
+			alert(getMessage('fm_please_select_date'));
+			return;
+		}
+		var ga = new GlideAjax('FMRoomReservationAjaxUtils');
+		ga.addParam('sysparm_name', 'makeQuickReservation');
+		ga.addParam('sysparm_room', sysID);
+		ga.addParam('sysparm_date', date);
+		ga.addParam('sysparm_starthours', sHour + '');
+		ga.addParam('sysparm_startminutes', sMin + '');
+		ga.addParam('sysparm_endhours', eHour + '');
+		ga.addParam('sysparm_endminutes', eMin + '');
+        
+		ga.getXML(parseData);
+
+		function parseData(response) {
+			var answer = response.responseXML.documentElement.getAttribute('answer');
+			sharedService.prepForMapRefreshRequest();
+			sharedService.prepForQuickRes();
+			alert(answer);
+		}
+	};
+	
+	$scope.selectRoom = function() {
+                
+        var sTime = sharedService.selectedStartTime.toJSON();
+        sTime = sTime.replace('T', ' ');
+        sTime = sTime.replace('.000Z', '');
+        
+        var eTime = sharedService.selectedEndTime.toJSON();
+        eTime = eTime.replace('T', ' ');
+        eTime = eTime.replace('.000Z', '');
+
+        var ga = new GlideAjax('OutlookProcessor');
+        ga.addParam('sysparm_name', 'gdtConverter');
+        ga.addParam('sysparm_date1', sTime);
+        ga.addParam('sysparm_date2', eTime);
+
+        ga.getXML(getResponse);
+
+        function getResponse(response) {
+            var answer = response.responseXML.documentElement.getAttribute("answer");
+
+            (function () {
+                var dates = JSON.parse(answer);
+                
+                var selection = {};
+                selection.sTime = dates.date1;
+                selection.eTime = dates.date2;
+                selection.locationID = sLocation;
+                selection.floorID = sFloor;
+                selection.spaceID = sysID;
+                selection.ss = sharedService.newFromHour;
+                
+                selection = JSON.stringify(selection);
+                
+                Office.context.ui.messageParent(selection);
+                
+            })();
+        }
+	};
+
+	$scope.resRoom = function() {
+
+		if (!$scope.roomData) {
+			alert(getMessage('fm_please_select_a_room'));
+			return;
+		}
+// 		var sysID = $scope.roomData.roomInfo.sysID;
+
+		if (!date) {
+			alert(getMessage('fm_please_select_date'));
+			return;
+		}
+
+// 		var sMin = addZero($scope.startTime.getMinutes());
+// 		var sHour = addZero($scope.startTime.getHours());
+// 		var eMin = addZero($scope.endTIme.getMinutes());
+// 		var eHour = addZero($scope.endTIme.getHours());
+
+		var ga = new GlideAjax('FMRoomReservationAjaxUtils');
+		ga.addParam('sysparm_name', 'checkConflictingReservationTimes');
+		ga.addParam('sysparm_room', sysID);
+		ga.addParam('sysparm_date', date);
+		ga.addParam('sysparm_starthours', sHour + '');
+		ga.addParam('sysparm_startminutes', sMin + '');
+		ga.addParam('sysparm_endhours', eHour + '');
+		ga.addParam('sysparm_endminutes', eMin + '');
+		//ga.getXML(parseData);
+		ga.getXMLWait();
+
+		var answer = ga.getAnswer();
+
+		if (answer == 'closed') {
+			alert(getMessage('fm_room_closed'));
+		} else if(answer === 'true'){
+			alert(getMessage('fm_room_occupied'));
+		} else if(answer === 'false') {
+			$window.location.href = "/com.glideapp.servicecatalog_cat_item_view.do?v=1&sysparm_id=2f98b4dc0f35a20011bec3ace1050e82" +
+				'&sysparm_date=' + date + '&sysparm_shour=' + sHour + '&sysparm_ehour=' + eHour + '&sysparm_smin=' + sMin + '&sysparm_emin=' + eMin +
+				"&sysparm_roomsysid=" + sysID + '&sysparm_location=' + sLocation;
+		}
+	};
+
+	$scope.chooseRoom = function() {
+		
+		var fetchData = getSourceData();
+		var data = {
+			
+			startMin: sMin,
+			startHour: sHour,
+			endMinL: eMin,
+			endHour: eHour,
+			location: sLocation ? sLocation :  gel("location").value,
+			floor: sFloor ? sFloor :  gel("floor").value,
+			room: sysID,
+			date: date,
+			source: fetchData.source,
+			resID: fetchData.resID
+		};
+	};
+
+
+	function addZero(i) {
+		if (i < 10) {
+			i = "0" + i;
+		}
+		return i;
+	}
+});
+]]></script>
+        <script_name>fm_room_details_controller</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-09-14 09:01:59</sys_created_on>
+        <sys_id>f33389ae0f39260011bec3ace1050ec4</sys_id>
+        <sys_mod_count>252</sys_mod_count>
+        <sys_name>x_lsmcb_fm.fm_room_details_controller</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_script_f33389ae0f39260011bec3ace1050ec4</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-08-02 12:22:35</sys_updated_on>
+        <use_scoped_format>false</use_scoped_format>
+    </sys_ui_script>
+</record_update>

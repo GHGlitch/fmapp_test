@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMRoomReservationAjaxUtils</api_name>
+        <client_callable>true</client_callable>
+        <description> Ajax utils for room reservations.</description>
+        <name>FMRoomReservationAjaxUtils</name>
+        <script><![CDATA[var FMRoomReservationAjaxUtils = Class.create();
+FMRoomReservationAjaxUtils.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+    
+    rru: new FMRoomReservationUtils(),
+    dtu: new FMDateTimeUtils(),
+    
+    
+    checkOnlyFloor: function(){
+        
+        var loc_sysid = this.getParameter('sysparm_loc_sysid');
+        
+        var floor = new GlideRecord('x_lsmcb_fm_floor');
+        floor.addQuery('location', loc_sysid);
+		floor.addQuery('image_name', '!=', '');
+        floor.query();
+        
+        var list = [];
+        while (floor.next()) {
+            list.push(floor.getValue('sys_id'));
+        }
+        
+        var answer = JSON.stringify(list);
+        return answer;
+    },
+    
+    getOnlyFloorName: function(){
+        
+        var floor_sysid = this.getParameter('sysparm_floor_sysid');
+        var answer;
+        
+        var floor = new GlideRecord('x_lsmcb_fm_floor');
+        floor.addQuery('sys_id', floor_sysid);
+        floor.query();
+        
+        if (floor.next()){
+            answer = floor.name;
+        }
+        
+        return answer;
+    },
+    
+    getOnlyLocationName: function(){
+        
+        var loc_sysid = this.getParameter('sysparm_loc_sysid');
+        var answer;
+        
+        var location = new GlideRecord('cmn_location');
+        location.addQuery('sys_id', loc_sysid);
+        location.query();
+        
+        if (location.next()){
+            answer = location.name;
+        }
+        
+        return answer;
+    },
+	
+	getRecurringServicesProperty: function() {
+		
+		var answer = false;
+		
+		if (gs.getProperty('x_lsmcb_fm.services_in_recurring_meetings') == 'allow') {
+			answer = true;
+		}
+		
+		return answer;
+		
+	},
+    
+    checkOnlyLocation: function(){
+        
+        var location = new GlideRecord('cmn_location');
+        location.orderBy('name');
+        location.query();
+        
+        var list = [];
+        while (location.next()) {
+			var floor = new GlideRecord('x_lsmcb_fm_floor');
+			floor.addQuery('location', location.getUniqueValue());
+			floor.addQuery('image_name', '!=', '');
+			floor.query();
+			if(floor.hasNext())
+            list.push(location.getValue('sys_id'));
+        }
+        
+        var answer = JSON.stringify(list);
+        return answer;
+    },
+    
+    /**
+     * Searches all orders associated with the specific room reservation that have a state different than 'Review'
+     *
+     * @returns
+     * - '0' if no orders are found
+     * - '1' if orders are found
+     * - '2' if any order is found but it's not possible to cancel it anymore
+     */
+    checkOrders: function() {
+        var answer = '0';
+        var now = new GlideDateTime();
+        var rReservation = this.getParameter('sysparm_reservationId');
+        
+        var ordersGr = new GlideRecord('x_lsmcb_fm_facility_order');
+        ordersGr.addQuery('room_reservation', rReservation);
+        ordersGr.addQuery('state', '!=', '4'); // state: Review
+        ordersGr.query();
+        
+        while (ordersGr.next()) {
+            if (now > ordersGr.cancel_datetime) {
+                answer = '2';
+                return answer;
+            }
+            answer = '1';
+        }
+        return answer;
+    },
+    
+    updateReserveRoomCheck: function(){
+        
+        var answer = '0';
+        var now = new GlideDateTime();
+        var rReservation = this.getParameter('sysparm_reservationId');
+        
+        var itemRGR = new GlideRecord('x_lsmcb_fm_item_reservation');
+        itemRGR.addQuery('room_reservation', rReservation);
+        itemRGR.query();
+        
+        if(itemRGR.next()){
+            answer = '1';
+            return answer;
+        } else {
+            var fOrder = new GlideRecord('x_lsmcb_fm_facility_order');
+            fOrder.addQuery('room_reservation' , rReservation);
+            fOrder.addQuery('state', '!=', '4');
+            fOrder.query();
+            var compareDate = new GlideDateTime();
+            var cancelDate = '';
+            while(fOrder.next()){
+                if (now > fOrder.cancel_datetime) {
+                    answer = '2';
+                    return answer;
+                }
+                answer = '3';
+            }
+        }
+        return answer;
+    },
+    
+    getRoomsForRP: function(){
+        
+        var location = this.getParameter('sysparm_location');
+        var rsrvdate = this.getParameter('sysparm_rsrvdate');
+        var nmratt = this.getParameter('sysparm_nmratt');
+        var stH = this.getParameter('sysparm_sth');
+        var stM = this.getParameter('sysparm_stm');
+        var endH = this.getParameter('sysparm_endh');
+        var endM = this.getParameter('sysparm_endm');
+        var rReservation = this.getParameter('sysparm_reservation');
+        
+        var answer = this.rru.getAvailableRoomsAjax(location, rsrvdate, nmratt, stH, stM, endH, endM, rReservation);
+        return answer;
+    },
+    
+    //return all reservations for a floor on the specified date. also returns the floor information.
+    getDateReservationsFloor: function() {
+        
+        var date = this.getParameter('sysparm_date');
+        var floor = this.getParameter('sysparm_floor');
+        
+        // 		the first second of the date
+        var glideStartTime = this.dtu.formatTime(date, 0);
+        // 		the last second of the date
+        var glideEndTime = this.dtu.formatTime(date, 24 * 60 * 60);
+        
+        if (!this.rru.validateTimes(glideStartTime, glideEndTime)) {
+            return false;
+        }
+        
+        //get the geoJSON and image info
+        var floorInfo = this.rru.fetchFloorInfo(floor);
+        
+        //get complete info of the rooms (info, properties and reservations)
+        var rooms = this.rru.fetchFloorRooms(floor, glideStartTime, glideEndTime);
+        
+        var result = {};
+        result.image = floorInfo.image;
+        result.geoJSON = floorInfo.geoJSON;
+        result.rooms = rooms;
+        
+        return JSON.stringify(result);
+    },
+    
+    //gets all reservations for a room on a date
+    getDateReservations: function() {
+        
+        var date = this.getParameter('sysparm_date');
+        var floor = this.getParameter('sysparm_floor');
+        
+        var glideStartTime = this.dtu.formatTime(date, 0);
+        var glideEndTime = this.dtu.formatTime(date, 24 * 60 * 60);
+        
+        var rooms = this.rru.fetchFloorRooms(floor, glideStartTime, glideEndTime);
+        
+        var result = {};
+        result.rooms = rooms;
+        
+        return JSON.stringify(result);
+    },
+    
+    getRoomFloor: function() {
+        var result = {};
+        
+        var room = this.getParameter('sysparm_room');
+        var grRoom = new GlideRecord('x_lsmcb_fm_room');
+        if (grRoom.get('sys_id', room)) {
+            result.floor = grRoom.floor + '';
+            result.location = grRoom.floor.location + '';
+        }
+        return JSON.stringify(result);
+    },
+    
+    getRequesterCostcenter: function() {
+        var requester = this.getParameter('sysparm_requester');
+        return this.rru.getRequesterCostcenter(requester);
+    },
+    
+    //returns all reservations for a floor on a day
+    refreshFloorReservations: function() {
+        
+        var date = this.getParameter('sysparm_date');
+        var floor = this.getParameter('sysparm_floor');
+        
+        // 		the first second of the date
+        var glideStartTime = this.dtu.formatTime(date, 0);
+        // 		the last second of the date
+        var glideEndTime = this.dtu.formatTime(date, 24 * 60 * 60);
+        
+        if (!this.rru.validateTimes(glideStartTime, glideEndTime)) {
+            return false;
+        }
+        
+        var room = new GlideRecord('x_lsmcb_fm_room');
+        room.addQuery('floor', floor);
+        room.query();
+        
+        var result = {};
+        
+        //iterate over rooms and get all reservations for the date
+        while (room.next()) {
+            //create result object property with room name and all its reservations
+            result[room.name] = this.rru.fetchRoomReservations(room.sys_id, glideStartTime, glideEndTime);
+        }
+        
+        
+        //------------------------------------------------------------------- ^^
+        
+        
+        return JSON.stringify(result);
+        
+    },
+    
+    
+    //checks if there are conflictiong reservations for a given room and time
+    checkConflictingReservationTimes: function() {
+        
+        //get parameters and instantiate a GlideDateTime
+        var roomID = this.getParameter('sysparm_room');
+        var date = this.getParameter('sysparm_date');
+        var startHours = parseInt(this.getParameter('sysparm_starthours'));
+        var endHours = parseInt(this.getParameter('sysparm_endhours'));
+        var startMinutes = parseInt(this.getParameter('sysparm_startminutes'));
+        var endMinutes = parseInt(this.getParameter('sysparm_endminutes'));
+        
+        var startSeconds = ((60 * startHours) + startMinutes) * 60;
+        var endSeconds = ((60 * endHours) + endMinutes) * 60;
+        var glideStartTime = this.dtu.formatTime(date, startSeconds);
+        var glideEndTime = this.dtu.formatTime(date, endSeconds);
+        
+        // check if there is an overlapping reservation
+        var overlapping = this.rru.checkConflictingReservationTimes(roomID, glideStartTime, glideEndTime, false);
+        
+        return overlapping;
+        
+    },
+    
+    // try and save a quick reservation
+    makeQuickReservation: function() {
+        var roomID = this.getParameter('sysparm_room');
+        var date = this.getParameter('sysparm_date');
+        var startHours = parseInt(this.getParameter('sysparm_starthours'), 10);
+        var endHours = parseInt(this.getParameter('sysparm_endhours'), 10);
+        var startMinutes = parseInt(this.getParameter('sysparm_startminutes'), 10);
+        var endMinutes = parseInt(this.getParameter('sysparm_endminutes'), 10);
+        
+        var gdts = new GlideDateTime();
+        gdts.setDisplayValue(date);
+        gdts.addSeconds(60 * startMinutes);
+        gdts.addSeconds(60 * 60 * startHours);
+        
+        var gdte = new GlideDateTime();
+        gdte.setDisplayValue(date);
+        gdte.addSeconds(60 * endMinutes);
+        gdte.addSeconds(60 * 60 * endHours);
+        
+        
+        var saveResult = this.rru.makeQuickReservation(roomID, gdts, gdte);
+        return saveResult;
+    },
+    
+    getRoomLocation: function() {
+        var location = '';
+        var room = this.getParameter('sysparm_room');
+        var grRoom = new GlideRecord('x_lsmcb_fm_room');
+        if (grRoom.get('sys_id', room)) {
+            //var floor = grRoom.floor;
+            location = grRoom.floor.location + '';
+        }
+        return location;
+    },
+    
+    
+    //given a parent reservation, returns all the children with 'Conflicting' status.
+    getConflictingRoomReservations: function() {
+        
+        var parent = this.getParameter('sysparm_parent');
+        var reservations = this.rru.getConflictingRoomReservations(parent);
+        return JSON.stringify(reservations);
+    },
+    
+    //Returns a JSON object with Rooms and Reservations, to populate Gantt
+    getRoomsAndReservations: function() {
+        
+        var location = this.getParameter('sysparm_location');
+        var fromDate = this.getParameter('sysparm_fromDate');
+        var toDate = this.getParameter('sysparm_toDate');
+        var locations = this.rru.getRoomsAndReservations(location, fromDate, toDate);
+        return locations;
+    },
+    
+    //Returns a JSON object with Rooms and Reservations, to populate Gantt
+    getRoomsAndReservationsServiceDesk: function() {
+        
+        var location = this.getParameter('sysparm_location');
+        var fromDate = this.getParameter('sysparm_fromDate');
+        var toDate = this.getParameter('sysparm_toDate');
+        var locations = this.rru.getRoomsAndReservationsServiceDesk(location, fromDate, toDate);
+        return locations;
+    },
+    
+    //Saves data sent by Gantt
+    saveRoomsAndReservations: function() {
+        
+        var data = this.getParameter('sysparm_data');
+        if(this.rru.saveRoomsAndReservations(data)) {
+            return "Save success";
+        } else {
+            return "Save failed";
+        }
+    },
+    
+    getJsonLocations: function() {
+        
+        var location = new GlideRecord('cmn_location');
+        location.addJoinQuery('x_lsmcb_fm_floor', 'sys_id', 'location');
+        location.orderBy('name');
+        location.query();
+        
+        var list = [];
+        var current;
+        
+        while (location.next()) {
+            
+            var roomGR = new GlideRecord('x_lsmcb_fm_room');
+            roomGR.addQuery('floor.location', location.getValue('sys_id'));
+            roomGR.addQuery('active', true);
+            roomGR.addQuery('settings', '!=', '2');
+            roomGR.query();
+            if(roomGR.next()) {
+                
+                current = {
+                    label: location.getValue('name'),
+                    value: location.getValue('sys_id')
+                };
+                list.push(current);
+            }
+        }
+        
+        return JSON.stringify(list);
+        
+    },
+    
+    getSpecialRoomLocations: function() {
+        
+        var loc = new GlideRecord('cmn_location');
+        loc.addJoinQuery('x_lsmcb_fm_floor', 'sys_id', 'location');
+        loc.orderBy('name');
+        loc.query();
+        
+        var list = [];
+        var current;
+        
+        while (loc.next()) {
+            
+            var room = new GlideRecord('x_lsmcb_fm_room');
+            room.addJoinQuery('x_lsmcb_fm_floor', 'floor', 'sys_id');
+            room.addQuery('floor.location', loc.getUniqueValue());
+            room.addQuery('active', true);
+            room.addQuery('settings', '0').addOrCondition('settings', '1');
+            room.addQuery('portal_settings', '!=', '0');
+            room.query();
+            
+            if (room.next()) {
+                
+                current = {
+                    label: loc.getValue('name'),
+                    value: loc.getValue('sys_id')
+                };
+                list.push(current);
+                
+            }
+            
+        }
+        
+        return JSON.stringify(list);
+        
+    },
+    
+    getJsonFloors: function() {
+        
+        var location = this.getParameter('sysparm_location');
+        
+        var floor = new GlideRecord('x_lsmcb_fm_floor');
+        floor.addQuery('location', location);
+        floor.orderBy('name');
+        floor.query();
+        
+        var list = [];
+        var current;
+        list.push({label: gs.getMessage('fm_all'),
+        value: undefined});
+        while (floor.next()) {
+            
+            var room = new GlideRecord('x_lsmcb_fm_room');
+            room.addQuery('floor', floor.sys_id.toString());
+            room.addQuery('active', 'true');
+            room.addQuery('category', '2');
+            room.addQuery('settings', '!=', '2');
+            room.query();
+            if(!room.hasNext()) {
+                continue;
+            }
+            current = {
+                label: floor.getValue('name'),
+                value: floor.getValue('sys_id')
+            };
+            list.push(current);
+        }
+        
+        return JSON.stringify(list);
+    },
+    
+    getLocationsFloorsList: function() {
+        var list = this.rru.getLocationsFloorsList();
+        return JSON.stringify(list);
+    },
+    
+    updateConflictingReservation: function (){
+        
+        var sysid = this.getParameter('sysparm_sysid');
+        var stime = this.getParameter('sysparm_stime');
+        var etime = this.getParameter('sysparm_etime');
+        var room = this.getParameter('sysparm_room');
+        var location = this.getParameter('sysparm_location');
+        
+        var updtRecord = new GlideRecord('x_lsmcb_fm_room_reservation');
+        
+        
+        if (updtRecord.get(sysid)){
+            updtRecord.setValue('meeting_start_time', stime);
+            updtRecord.setValue('meeting_end_time', etime);
+            updtRecord.setValue('room', room);
+            updtRecord.setValue('location', location);
+            updtRecord.setValue('state', '2');
+            updtRecord.update();
+            answer = true;
+            return answer;
+        }
+    },
+    
+    getReservationInfo: function() {
+        var id = this.getParameter('sysparm_reservation_id');
+        return JSON.stringify(this.rru.getReservationInfo(id));
+    },
+    
+    getLocationProperty: function() {
+        
+        var answer = false;
+        
+        if (gs.getProperty('x_lsmcb_fm.show_rooms_without_location') == 'true') {
+            answer = true;
+        }
+        
+        return answer;
+    },
+    
+    //Returns a JSON object with Rooms and Reservations, to populate Special Rooms Gantt
+    getSpecialRoomsAndReservations: function() {
+        
+        var location = this.getParameter('sysparm_location');
+        var fromDate = this.getParameter('sysparm_fromDate');
+        var toDate = this.getParameter('sysparm_toDate');
+        var locations = this.rru.getSpecialRoomsAndReservations(location, fromDate, toDate);
+        return locations;
+    },
+    
+    // Used to populate data from facility order into Reserve Room RP
+    populateFromOrder: function() {
+        var order = this.getParameter('sysparm_order_id');
+        return JSON.stringify(this.rru.populateFromOrder(order));
+    },
+    
+    insertOrderRoom: function() {
+        var order = this.getParameter('sysparm_order_id');
+        var id = this.getParameter('sysparm_room_id');
+        this.rru.insertOrderRoom(order,id);
+    },
+    
+    cancelFutureLinkedReservations: function() {
+        
+        var rReservation = this.getParameter('sysparm_reservationId');
+        this.rru.cancelFutureLinkedReservations(rReservation);
+        
+    },
+    
+    type: 'FMRoomReservationAjaxUtils'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>laura.schuch</sys_created_by>
+        <sys_created_on>2016-09-06 15:39:46</sys_created_on>
+        <sys_id>981f0d440f71a20011bec3ace1050ec3</sys_id>
+        <sys_mod_count>254</sys_mod_count>
+        <sys_name>FMRoomReservationAjaxUtils</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_981f0d440f71a20011bec3ace1050ec3</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-08-02 12:24:02</sys_updated_on>
+    </sys_script_include>
+</record_update>

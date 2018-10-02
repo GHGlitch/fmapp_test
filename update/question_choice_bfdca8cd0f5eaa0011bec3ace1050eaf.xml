@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="question_choice">
+    <question_choice action="INSERT_OR_UPDATE">
+        <misc>0</misc>
+        <order>100</order>
+        <question display_value="Every">b39954090f5eaa0011bec3ace1050ebe</question>
+        <rec_misc>0</rec_misc>
+        <sys_class_name>question_choice</sys_class_name>
+        <sys_created_by>laura.schuch</sys_created_by>
+        <sys_created_on>2016-10-04 12:03:02</sys_created_on>
+        <sys_id>bfdca8cd0f5eaa0011bec3ace1050eaf</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>1</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>question_choice_bfdca8cd0f5eaa0011bec3ace1050eaf</sys_update_name>
+        <sys_updated_by>laura.schuch</sys_updated_by>
+        <sys_updated_on>2016-10-04 12:03:02</sys_updated_on>
+        <text>1</text>
+        <value>1</value>
+    </question_choice>
+    <fx_price action="delete_multiple" query="id=bfdca8cd0f5eaa0011bec3ace1050eaf"/>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>0</amount>
+        <currency display_value="USD">USD</currency>
+        <field>misc</field>
+        <id>bfdca8cd0f5eaa0011bec3ace1050eaf</id>
+        <parent/>
+        <reference_amount>0</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>laura.schuch</sys_created_by>
+        <sys_created_on>2016-10-04 12:03:02</sys_created_on>
+        <sys_id>d7ec6c0d0f5eaa0011bec3ace1050e56</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>laura.schuch</sys_updated_by>
+        <sys_updated_on>2016-10-04 12:03:02</sys_updated_on>
+        <table>question_choice</table>
+        <type>calculated</type>
+    </fx_price>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>0</amount>
+        <currency display_value="USD">USD</currency>
+        <field>rec_misc</field>
+        <id>bfdca8cd0f5eaa0011bec3ace1050eaf</id>
+        <parent/>
+        <reference_amount>0</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>laura.schuch</sys_created_by>
+        <sys_created_on>2016-10-04 12:03:02</sys_created_on>
+        <sys_id>57ec6c0d0f5eaa0011bec3ace1050e56</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>laura.schuch</sys_updated_by>
+        <sys_updated_on>2016-10-04 12:03:02</sys_updated_on>
+        <table>question_choice</table>
+        <type>calculated</type>
+    </fx_price>
+</record_update>

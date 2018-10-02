@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_message">
+    <sys_ui_message action="INSERT_OR_UPDATE">
+        <application>Facilities Management</application>
+        <key>fm_visitors_mandatory_fields</key>
+        <language>en</language>
+        <message>Please make sure all mandatory fields are correctly filed!&#13;
+&#13;
+* First Name&#13;
+* Last Name&#13;
+* Email&#13;
+* Company Name</message>
+        <sys_class_name>sys_ui_message</sys_class_name>
+        <sys_created_by>laura.schuch</sys_created_by>
+        <sys_created_on>2016-10-12 10:13:36</sys_created_on>
+        <sys_id>598069670f5a6e0011bec3ace1050e4f</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>fm_visitors_mandatory_fields</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_message_598069670f5a6e0011bec3ace1050e4f</sys_update_name>
+        <sys_updated_by>nelson.oliveira</sys_updated_by>
+        <sys_updated_on>2016-10-26 08:12:52</sys_updated_on>
+    </sys_ui_message>
+</record_update>

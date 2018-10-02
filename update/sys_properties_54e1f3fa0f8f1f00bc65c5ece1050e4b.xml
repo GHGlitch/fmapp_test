@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices>Disabled=disabled,Enabled=enabled</choices>
+        <description>Outlook integration</description>
+        <ignore_cache>false</ignore_cache>
+        <is_private>false</is_private>
+        <name>x_lsmcb_fm.calendar_integration</name>
+        <read_roles>x_lsmcb_fm.fm_facilities_admin</read_roles>
+        <suffix>calendar_integration</suffix>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-07-06 08:17:41</sys_created_on>
+        <sys_id>54e1f3fa0f8f1f00bc65c5ece1050e4b</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>x_lsmcb_fm.calendar_integration</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_properties_54e1f3fa0f8f1f00bc65c5ece1050e4b</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-07-06 08:53:08</sys_updated_on>
+        <type>choicelist</type>
+        <value>enabled</value>
+        <write_roles>x_lsmcb_fm.fm_facilities_admin</write_roles>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=54e1f3fa0f8f1f00bc65c5ece1050e4b"/>
+</record_update>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="" label="Fm M2m Spaces Zones" language="en" table="x_lsmcb_fm_m2m_spaces_zones">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element/>
+            <help/>
+            <hint/>
+            <label>Fm M2m Spaces Zones</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_m2m_spaces_zones</name>
+            <plural>Fm M2m Spaces Zones</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-01-02 14:47:54</sys_created_on>
+            <sys_id>ccc1b04a0fc0f60011bec3ace1050ef3</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Fm M2m Spaces Zones</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_documentation_x_lsmcb_fm_m2m_spaces_zones__en</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-01-02 14:47:54</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

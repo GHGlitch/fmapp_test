@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="catalog_ui_policy_action">
+    <catalog_ui_policy_action action="INSERT_OR_UPDATE">
+        <catalog_item display_value="Book a Room">2f98b4dc0f35a20011bec3ace1050e82</catalog_item>
+        <catalog_variable>IO:97935b810fe9320011bec3ace1050e8e</catalog_variable>
+        <disabled>ignore</disabled>
+        <field/>
+        <mandatory>ignore</mandatory>
+        <sys_class_name>catalog_ui_policy_action</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-03-15 13:37:14</sys_created_on>
+        <sys_id>40049bc10fe9320011bec3ace1050e4f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>recurring_redirect</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>catalog_ui_policy_action_40049bc10fe9320011bec3ace1050e4f</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-03-15 13:37:14</sys_updated_on>
+        <table/>
+        <ui_policy display_value="Hides Reservation ID and recurring_redirect">9f0e8af00f10ba0011bec3ace1050e51</ui_policy>
+        <variable>recurring_redirect</variable>
+        <variable_set/>
+        <visible>false</visible>
+    </catalog_ui_policy_action>
+</record_update>

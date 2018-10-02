@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sc_cat_item_producer">
+    <sc_cat_item_producer action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <availability>on_desktop</availability>
+        <billable>false</billable>
+        <can_cancel>false</can_cancel>
+        <category display_value="Registration">95ec8ca70fdd224011bec3ace1050e7b</category>
+        <cost>0</cost>
+        <custom_cart/>
+        <delivery_plan/>
+        <delivery_plan_script/>
+        <delivery_time>1970-01-03 00:00:00</delivery_time>
+        <description/>
+        <entitlement_script/>
+        <group/>
+        <hide_sp>false</hide_sp>
+        <icon/>
+        <ignore_price>true</ignore_price>
+        <image/>
+        <list_price>0</list_price>
+        <location/>
+        <meta/>
+        <mobile_hide_price>false</mobile_hide_price>
+        <mobile_picture/>
+        <mobile_picture_type>use_desktop_picture</mobile_picture_type>
+        <model/>
+        <name>Book a Room</name>
+        <no_cart>false</no_cart>
+        <no_order>false</no_order>
+        <no_order_now>false</no_order_now>
+        <no_proceed_checkout>false</no_proceed_checkout>
+        <no_quantity>false</no_quantity>
+        <no_search>false</no_search>
+        <omit_price>false</omit_price>
+        <order>0</order>
+        <ordered_item_link/>
+        <picture/>
+        <preview>JavaScript: popupOpenStandard("com.glideapp.servicecatalog_cat_item_view.do?v=1&amp;sysparm_id=2f98b4dc0f35a20011bec3ace1050e82&amp;sysparm_preview=true", "summary");</preview>
+        <price>0</price>
+        <recurring_frequency/>
+        <recurring_price>0</recurring_price>
+        <redirect_url>generated_record</redirect_url>
+        <roles/>
+        <sc_catalogs>b19c0ca70fdd224011bec3ace1050eab</sc_catalogs>
+        <sc_ic_item_staging/>
+        <sc_ic_version/>
+        <script><![CDATA[var rru = new FMRoomReservationUtils();
+var recurringVar = 'false';
+
+if (producer.room == '') {
+    current.setAbortAction(true);
+}
+
+var sh = producer.start_hours;
+var sm = producer.start_minutes;
+var eh = producer.end_hours;
+var em = producer.end_minutes;
+
+var gdts = new GlideDateTime();
+gdts.setDisplayValue(producer.date.getDisplayValue());
+gdts.addSeconds(60 * sm);
+gdts.addSeconds(60 * 60 * sh);
+
+var gdte = new GlideDateTime();
+gdte.setDisplayValue(producer.date.getDisplayValue());
+gdte.addSeconds(60 * em);
+gdte.addSeconds(60 * 60 * eh);
+
+current.meeting_start_time = gdts;
+current.meeting_end_time = gdte;
+current.requested_by = gs.getUserID();
+current.recurring = producer.recurrent.toString();
+var currentSysId = current.sys_id;
+
+if (producer.reservation_id.toString().length > 10) {
+    
+    currentSysId = producer.reservation_id;
+    current.setAbortAction(true);
+    
+    var gr = new GlideRecord("x_lsmcb_fm_room_reservation");
+    gr.get(producer.reservation_id);
+    
+    if (producer.recurring_reservation == "true") {
+        // Updating all reservations and parent itself
+        var conflicting = false;
+		recurringVar = 'true';
+        var grr = new GlideRecord('x_lsmcb_fm_room_reservation');
+        
+        if(!gr.getValue('parent')) {
+            grr.addQuery('parent', gr.getUniqueValue());
+        } else {
+            grr.addQuery('parent', gr.getValue('parent'));
+        }
+        grr.addQuery('state', '!=', '0');
+        grr.addQuery('state', '!=', '1');
+        grr.addQuery('end_time', '>', gr.start_time);
+        grr.addQuery('sys_id', '!=', gr.getUniqueValue());
+        grr.query();
+        
+        while (grr.next()) {
+            
+            var rgdt = new GlideDateTime();
+            rgdt.setValue(grr.getElement('start_time'));
+            var rdate = new GlideDate();
+            rdate.setDisplayValue(rgdt.getDate().getDisplayValue());
+            var rdts = new GlideDateTime();
+            rdts.setDisplayValue(rdate + ' 00:00:00');
+            rdts.addSeconds(60 * sm);
+            rdts.addSeconds(60 * 60 * sh);
+            var rdte = new GlideDateTime();
+            rdte.setDisplayValue(rdate + ' 00:00:00');
+            rdte.addSeconds(60 * em);
+            rdte.addSeconds(60 * 60 * eh);
+            
+            grr.setValue('meeting_start_time', rdts);
+            grr.setValue('meeting_end_time', rdte);
+            grr.setValue('requester', producer.requester);
+            grr.setValue('location', producer.location);
+            
+            if (producer.room.toString().length > 0) {
+                grr.setValue('room', producer.room);
+            }
+			grr.setValue('confidential', producer.confidential);
+            grr.setValue('meeting_subject', producer.meeting_subject);
+            grr.setValue('number_of_attendees', parseInt(producer.number_of_attendees, 10));
+            grr.setValue('costcenter', producer.costcenter);
+            conflicting = rru.checkConflictingReservationTimes(grr.room, grr.start_time, grr.end_time, grr.getUniqueValue());
+            
+            if (conflicting) {
+                grr.state = '4';
+            }
+            copyRoomReservationAttachment(current.sys_id, grr.sys_id);
+            grr.update();
+        }
+    }
+    gr.setValue('requester', producer.requester);
+    gr.setValue('location', producer.location);
+    if (producer.room.toString().length > 0) {
+        gr.setValue('room', producer.room);
+    }
+    if (producer.recurrent == 'true') {
+        gr.setValue('recurring', 'true');
+    }
+	gr.setValue('confidential', producer.confidential);
+    gr.setValue('meeting_start_time', gdts);
+    gr.setValue('meeting_end_time', gdte);
+    gr.setValue('state', '2');
+    gr.setValue('number_of_attendees', producer.number_of_attendees);
+    gr.setValue('meeting_subject', producer.meeting_subject);
+    copyRoomReservationAttachment(current.sys_id, gr.sys_id);
+    gr.update();
+}
+
+//If true, create recurrent reservation
+if (producer.recurrent == 'true') {
+    recurringVar = 'true';
+    //the difference between start and end time.
+    var secondsToAdd = (((eh-sh)*60) + (em-sm))*60;
+    //create glidedatetime objects for next reservation to be created and for the last one.
+    var nextReservationTime = new GlideDateTime();
+    nextReservationTime.setDisplayValue(gdts.getDisplayValue());
+    
+    
+    if(producer.period == 4) {
+        var conflictingReservationCreated = rru.createRecurringReservations(nextReservationTime, producer.period, 0, secondsToAdd, 0, producer.selected_dates_object.toString(), currentSysId);
+    } else {
+        
+        var finalReservationTime = new GlideDateTime();
+        finalReservationTime.setDisplayValue(producer.final_date.getDisplayValue());
+        finalReservationTime.addSeconds(60 * sm);
+        finalReservationTime.addSeconds(60 * 60 * sh);
+        var frequency = parseInt(producer.frequency + '');
+        
+        var conflictingReservationCreated = rru.createRecurringReservations(nextReservationTime, producer.period, frequency, secondsToAdd, finalReservationTime, 0, currentSysId);
+    }
+}
+
+if (producer.order_id.toString().length == 32) {
+    current.insert();
+    current.setAbortAction(true);
+    this.rru.insertOrderRoom(producer.order_id, current.sys_id);
+}
+
+//proceed to conflicting reservations UI page
+if (producer.recurring_redirect != 'false') {
+    producer.redirect ="x_lsmcb_fm_fm_resolve_conflicting_reservations.do?sysparm_parent=" + producer.recurring_redirect;
+} else if (conflictingReservationCreated) {
+    
+    if (producer.catering_order == 'true') {
+        sendToOrderInterceptor(currentSysId, recurringVar);
+        
+    }
+    producer.redirect ="x_lsmcb_fm_fm_resolve_conflicting_reservations.do?sysparm_parent=" + currentSysId;
+    
+} else if (producer.lastItem == 'true' && gs.getSession().getClientData('fm_reservation') != 'undefined') {
+    
+    producer.redirect = 'wizard_view.do?sysparm_parent=' + gs.getProperty('x_lsmcb_fm.order_interceptor_end_user');
+    
+} else if (producer.catering_order == 'true') {
+    sendToOrderInterceptor(currentSysId, recurringVar);
+    
+    producer.redirect = 'wizard_view.do?sysparm_parent=' + gs.getProperty('x_lsmcb_fm.order_interceptor_end_user');
+} else {
+    
+    if(gs.getUser().hasRole("x_lsmcb_fm.fm_room_reservation_coordinator")) {
+        producer.redirect="x_lsmcb_fm_room_reservation.do?sys_id=" + currentSysId;
+    } else {
+        producer.redirect=gs.getProperty('x_lsmcb_fm.ticket_redirect_from_room_reservation');
+    }
+}
+
+function sendToOrderInterceptor(reservationSysId, recurringVarS){
+
+	var reservationData = {
+        "id":reservationSysId.toString(),
+        "recurring": recurringVarS
+    };
+    
+    gs.getSession().putClientData('fm_reservation', JSON.stringify(reservationData));
+}
+
+function copyRoomReservationAttachment(source_sys_id, target_sys_id){
+    var sourceTable = "x_lsmcb_fm_room_reservation";
+    var sourceID = source_sys_id;
+    var targetTable = "x_lsmcb_fm_room_reservation";
+    var targetID = target_sys_id;
+    new GlideSysAttachment().copy(sourceTable, sourceID, targetTable, targetID);
+}]]></script>
+        <short_description>Make a room reservation with optional catering order.</short_description>
+        <show_variable_help_on_load>false</show_variable_help_on_load>
+        <start_closed>false</start_closed>
+        <sys_class_name>sc_cat_item_producer</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-09-07 08:29:25</sys_created_on>
+        <sys_id>2f98b4dc0f35a20011bec3ace1050e82</sys_id>
+        <sys_mod_count>211</sys_mod_count>
+        <sys_name>Book a Room</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sc_cat_item_producer_2f98b4dc0f35a20011bec3ace1050e82</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-07-09 11:12:09</sys_updated_on>
+        <table_name>x_lsmcb_fm_room_reservation</table_name>
+        <template/>
+        <type>item</type>
+        <use_sc_layout>true</use_sc_layout>
+        <vendor/>
+        <view/>
+        <visible_bundle>true</visible_bundle>
+        <visible_guide>true</visible_guide>
+        <visible_standalone>true</visible_standalone>
+        <workflow/>
+    </sc_cat_item_producer>
+    <sys_translated_text action="delete_multiple" query="documentkey=2f98b4dc0f35a20011bec3ace1050e82"/>
+    <fx_price action="delete_multiple" query="id=2f98b4dc0f35a20011bec3ace1050e82"/>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>0</amount>
+        <currency display_value="USD">USD</currency>
+        <field>price</field>
+        <id>2f98b4dc0f35a20011bec3ace1050e82</id>
+        <parent/>
+        <reference_amount>0</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-09-07 08:29:25</sys_created_on>
+        <sys_id>cf197cdc0f35a20011bec3ace1050e6b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>nelson.oliveira</sys_updated_by>
+        <sys_updated_on>2016-09-07 08:29:25</sys_updated_on>
+        <table>sc_cat_item_producer</table>
+        <type>calculated</type>
+    </fx_price>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>0</amount>
+        <currency display_value="USD">USD</currency>
+        <field>recurring_price</field>
+        <id>2f98b4dc0f35a20011bec3ace1050e82</id>
+        <parent/>
+        <reference_amount>0</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-09-07 08:29:25</sys_created_on>
+        <sys_id>c3197cdc0f35a20011bec3ace1050e6c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>nelson.oliveira</sys_updated_by>
+        <sys_updated_on>2016-09-07 08:29:25</sys_updated_on>
+        <table>sc_cat_item_producer</table>
+        <type>calculated</type>
+    </fx_price>
+</record_update>

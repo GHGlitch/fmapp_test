@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sysauto_script">
+    <sysauto_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <condition/>
+        <conditional>false</conditional>
+        <name>FM - Reservation Notification</name>
+        <run_as display_value="">92babcba0f576a0011bec3ace1050e2c</run_as>
+        <run_as_tz/>
+        <run_dayofmonth>1</run_dayofmonth>
+        <run_dayofweek>1</run_dayofweek>
+        <run_period/>
+        <run_start>2017-02-01 10:39:17</run_start>
+        <run_time>1970-01-01 06:45:00</run_time>
+        <run_type>daily</run_type>
+        <script><![CDATA[var now = new GlideDateTime();
+
+var gr = new GlideRecord('x_lsmcb_fm_room_reservation');
+gr.addQuery('state', '2');
+gr.addQuery('start_time', '>=', now);
+gr.query();
+while (gr.next()) {
+	var today = new GlideDateTime();
+	var resDate = new GlideDateTime(gr.start_time);
+	var dur = GlideDuration.subtract(today.getDate(), resDate.getDate()).getDisplayValue();
+	if (dur.split(' ')[0] == gs.getProperty('x_lsmcb_fm.prior_notification_time')) {
+		gs.eventQueue('x_lsmcb_fm.room.reservation.notification', gr, gs.getUserID(), gs.getUserName());
+	}
+}
+
+var gro = new GlideRecord('x_lsmcb_fm_facility_order');
+gro.addQuery('state', '!=', '4');
+gro.addQuery('category', '2');
+gro.addQuery('expected_start', '>=', now);
+gro.query();
+while(gro.next()) {
+	var today = new GlideDateTime();
+	var expectedStart = new GlideDateTime(gro.expected_start);
+	var dur = GlideDuration.subtract(today.getDate(), expectedStart.getDate()).getDisplayValue();
+	if (dur.split(' ')[0] == gs.getProperty('x_lsmcb_fm.prior_notification_time')) {
+		gs.eventQueue('x_lsmcb_fm.catering.order.notification', gro, gs.getUserID(), gs.getUserName());
+	}
+}]]></script>
+        <sys_class_name>sysauto_script</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-02-01 11:12:38</sys_created_on>
+        <sys_id>fa88d2e70fe4f20011bec3ace1050e06</sys_id>
+        <sys_mod_count>48</sys_mod_count>
+        <sys_name>FM - Reservation Notification</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sysauto_script_fa88d2e70fe4f20011bec3ace1050e06</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-09-08 09:06:04</sys_updated_on>
+        <upgrade_safe>false</upgrade_safe>
+    </sysauto_script>
+</record_update>

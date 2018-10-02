@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="u_name" label="Name" language="en" table="x_lsmcb_fm_imp_parking_lots">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>u_name</element>
+            <help/>
+            <hint/>
+            <label>Name</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_imp_parking_lots</name>
+            <plural>Names</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>patricia.gaudencio</sys_created_by>
+            <sys_created_on>2018-07-30 15:32:17</sys_created_on>
+            <sys_id>fa7c38f60f27d340bc65c5ece1050ec6</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Name</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_documentation_x_lsmcb_fm_imp_parking_lots_u_name_en</sys_update_name>
+            <sys_updated_by>patricia.gaudencio</sys_updated_by>
+            <sys_updated_on>2018-07-30 15:32:17</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

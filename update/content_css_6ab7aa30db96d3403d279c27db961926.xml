@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="content_css">
+    <content_css action="INSERT_OR_UPDATE">
+        <name>custom-spinner.css</name>
+        <style>.spinner {&#13;
+    display: inline-block;&#13;
+    position: relative;&#13;
+    border: 1px solid #dcdcdc;&#13;
+    border-radius: 4px;&#13;
+    overflow: hidden;&#13;
+    margin-left: 0.5em;&#13;
+    top: 0;&#13;
+}&#13;
+&#13;
+.spinner-input {&#13;
+    width: 3.2em;&#13;
+    height: 2.2em;&#13;
+    line-height: 2.2em;&#13;
+    border: none;&#13;
+    padding: 0 5px;&#13;
+    border-right: 1px solid #dcdcdc;&#13;
+    font-weight: bold;&#13;
+}&#13;
+&#13;
+.spinner-button {&#13;
+    text-decoration: none;&#13;
+    position: absolute;&#13;
+    right: 0;&#13;
+    background: #efefef;&#13;
+    height: 1.1em;&#13;
+    line-height: 1.1em;&#13;
+}&#13;
+&#13;
+.spinner-up {&#13;
+    width: 1em;&#13;
+    top: 0;&#13;
+    text-align: center;&#13;
+    color: #000;&#13;
+}&#13;
+&#13;
+.spinner-down {&#13;
+    width: 1em;&#13;
+    bottom: 0;&#13;
+    border-top: 1px solid #dcdcdc;&#13;
+    text-align: center;&#13;
+    color: #000;&#13;
+}&#13;
+&#13;
+.input-catering {&#13;
+    width: 100px;&#13;
+    float: left;&#13;
+    top: 0;&#13;
+}&#13;
+&#13;
+.remove-button {&#13;
+    color: red;&#13;
+    font-size: 1.8em;&#13;
+    margin-left: 0.3em;&#13;
+    display: inline-block;&#13;
+    margin-top:-0.08em;&#13;
+    position: absolute;&#13;
+}</style>
+        <sys_class_name>content_css</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-05-23 14:54:44</sys_created_on>
+        <sys_id>6ab7aa30db96d3403d279c27db961926</sys_id>
+        <sys_mod_count>153</sys_mod_count>
+        <sys_name>custom-spinner.css</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>content_css_6ab7aa30db96d3403d279c27db961926</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-05-24 17:04:40</sys_updated_on>
+        <type>local</type>
+        <url/>
+    </content_css>
+</record_update>

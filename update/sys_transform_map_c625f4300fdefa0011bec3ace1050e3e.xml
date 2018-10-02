@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_transform_map">
+    <sys_transform_map action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <copy_empty_fields>false</copy_empty_fields>
+        <enforce_mandatory_fields>No</enforce_mandatory_fields>
+        <name>Create Spaces</name>
+        <order>100</order>
+        <run_business_rules>true</run_business_rules>
+        <run_script>true</run_script>
+        <script><![CDATA[(function transformRow(source, target, map, log, isUpdate) {
+
+	
+	
+	var category = source.u_category + '';
+	target.category = getCategoryValue(category);
+	var floor_name = source.u_floor_name + '';
+	var floor_location = source.u_floor_location + '';
+	target.floor = getFloorByNameAndLocation(floor_name, floor_location);
+	var costcenter = getCostcenter(source.u_costcenter + '');
+	if (costcenter) target.costcenter = getCostcenterSysId(costcenter);
+// 	target.update();
+	
+	function getCategoryValue(category){
+		switch(category) {
+			case "Archive or Storage": return "19";
+			case "Computer/Repro space": return "18";
+			case "Elevator": return "9";
+			case "Grid": return "4";
+			case "Lounge": return "11";
+			case "Meeting room": return "2";
+			case "Not used": return "15";
+			case "Office": return "13";
+			case "Pantry": return "10";
+			case "Parking space": return "17";
+			case "Recreation": return "14";
+			case "Restaurant": return "16";
+			case "Sanitation": return "1";
+			case "Service space": return "20";
+			case "Shaft": return "7";
+			case "Special space": return "22";
+			case "Technical space": return "6";
+			case "Terrain": return "8";
+			case "Traffic horizontal": return "12";
+			case "Traffic vertical": return "3";
+			case "Unknown": return "21";
+			case "Working place": return "5";
+			default: return "";
+		}
+	}
+	function getFloorByNameAndLocation(name, location){
+		var location_sys_id = getLocationSysId(location);
+		var floor_sys_id = getFloorSysIdByNameAndLocationSysId(name, location_sys_id);
+		return floor_sys_id;
+	}
+	function getLocationSysId(location){
+		var gr = new GlideRecord("cmn_location");
+		gr.get("name", location);
+		return gr.getValue("sys_id");
+	}
+	function getFloorSysIdByNameAndLocationSysId(name, location_sys_id){
+		var gr = new GlideRecord("x_lsmcb_fm_floor");
+		gr.addQuery("name", name);
+		gr.addQuery("location", location_sys_id);
+		gr.setLimit(1);
+		gr.query();
+		gr.next();
+		return gr.getValue("sys_id");
+	}
+	function getCostcenter(costcenter){
+		var regex = /(^[0-9]*)/;
+		return regex.exec(costcenter)[0];
+	}
+	function getCostcenterSysId(costcenter){
+		var gr = new GlideRecord("cmn_cost_center");
+		gr.get("name", costcenter);
+		return gr.getValue("sys_id");
+	}
+
+})(source, target, map, log, action==="update");]]></script>
+        <source_table>x_lsmcb_fm_imp_space</source_table>
+        <sys_class_name>sys_transform_map</sys_class_name>
+        <sys_created_by>yuri.valle</sys_created_by>
+        <sys_created_on>2017-04-20 14:11:57</sys_created_on>
+        <sys_id>c625f4300fdefa0011bec3ace1050e3e</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Create Spaces</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_transform_map_c625f4300fdefa0011bec3ace1050e3e</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-03 15:41:24</sys_updated_on>
+        <target_table>x_lsmcb_fm_room</target_table>
+    </sys_transform_map>
+</record_update>

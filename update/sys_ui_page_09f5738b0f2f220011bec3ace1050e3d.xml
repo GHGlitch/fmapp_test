@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[// The image source is being fetched using the RP.getParameterValue.
+//It has been set by the Art Search UI Page
+function addLoadEvent() {
+	var abc = gel('info').value;
+	var htmlObject = gel('biography');
+	htmlObject.innerHTML = abc;
+}
+addLoadEvent();]]></client_script>
+        <description>Page to Popup the image thumbnail from the Art Search Ui Page</description>
+        <direct>false</direct>
+        <endpoint>x_lsmcb_fm_fm_art_piece_detail.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+		
+	<!-- The variable becomes available for access in the client script -->
+	<input type="hidden" id="info" value="${JS,HTML:RP.getParameterValue('sysparm_information')}"></input>
+	
+	<style>
+		.artistTable{
+		border-collapse: separate;
+		border: solid #ccc 1px;
+		border-top-left-radius: 10px;
+		-moz-border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		-moz-border-top-right-radius: 10px;
+		font-family: SourceSansPro, "Helvetica Neue", Arial;
+		font-size: 13px;
+		padding: 10px 10px 10px 10px;
+		color: #454545;
+		line-height: 50px;
+		background-color: #dcdcdc;
+		max-height: 400px;
+		width: 450px;
+		height:100%;
+		}
+
+		.label{
+		font-size: 14px;
+		font-weight: normal;
+		font-family: SourceSansPro, "Helvetica Neue", Arial;
+		color: #b2b2b2;
+		text-shadow: #efefef 1px 1px 0;
+		margin-bottom: -30px;
+		width: 100%;
+		text-align: center;
+		}
+		
+		.photo{
+		
+		width: 250px;
+		}
+		
+		.infoText{
+		padding-left: 15px;
+		line-height:12px;
+		font-size: 12px;
+		font-weight: normal;
+		color: #2d2d2d;
+		text-align: justify;
+		margin-top: -10px;
+		}
+
+	</style>
+	
+	
+	<table cellspacing="10" cellpadding="10" class="artistTable">
+		<tr>
+			<td colspan="4" style="padding:3px">
+				<b id="first_name" class="title">${JS,HTML:RP.getParameterValue('sysparm_title')} </b>
+			</td>
+		</tr>
+
+
+		<tr>
+			<td colspan="4" style="padding:3px">
+				<img src="${JS,HTML:RP.getParameterValue('sysparm_art_photo')}" border="0" class="photo"/>
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="1" style="padding:3px">
+				<b class="label">${gs.getMessage("fm_type")}: </b><span id="initials" class="infoText">${JS,HTML:RP.getParameterValue('sysparm_type')} </span>
+			</td>
+			<td colspan="3" style="padding:3px">
+				<b class="label">${gs.getMessage("fm_production_date")}: </b><span id="birth_year" class="infoText">${JS,HTML:RP.getParameterValue('sysparm_production_date')} </span>
+			</td>
+		</tr>
+		
+		<tr>
+			<td colspan="4" style="padding:3px">
+				<b class="label">${gs.getMessage("fm_technique")}: </b><div id="birth_year" class="infoText">${JS,HTML:RP.getParameterValue('sysparm_technique')} </div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4" style="padding:3px">
+				<b class="label">${gs.getMessage("fm_dimensions")}: </b><div id="birth_year" class="infoText">${JS,HTML:RP.getParameterValue('sysparm_dimensions')} </div>
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="4" style="padding:3px">
+				<b class="label">${gs.getMessage("fm_short_description")}: </b><div id="education" class="infoText">${JS,HTML:RP.getParameterValue('sysparm_short_description')} </div>
+			</td>
+		</tr>
+		
+		<tr>
+			<td colspan="4" style="padding:3px">
+				<b class="label">${gs.getMessage("fm_location")}: </b>
+				<b id="education" class="infoText">${JS,HTML:RP.getParameterValue('sysparm_location')} : </b>
+				<b id="education" class="infoText">${JS,HTML:RP.getParameterValue('sysparm_room')} </b>
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="4" style="padding:3px">
+				<b class="label">${gs.getMessage("fm_information")}: </b>
+				
+				<!-- The information is injected in this div -->
+				<div id="biography" class="infoText"></div>
+			</td>
+		</tr>
+
+		
+
+	</table>
+
+
+</j:jelly>]]></html>
+        <name>fm_art_piece_detail</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-12-12 11:10:27</sys_created_on>
+        <sys_id>09f5738b0f2f220011bec3ace1050e3d</sys_id>
+        <sys_mod_count>35</sys_mod_count>
+        <sys_name>fm_art_piece_detail</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_page_09f5738b0f2f220011bec3ace1050e3d</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-12-22 10:16:04</sys_updated_on>
+    </sys_ui_page>
+</record_update>

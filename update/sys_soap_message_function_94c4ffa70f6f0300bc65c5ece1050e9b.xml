@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_soap_message_function">
+    <sys_soap_message_function action="INSERT_OR_UPDATE">
+        <authentication_type>basic</authentication_type>
+        <basic_auth_password/>
+        <basic_auth_profile display_value="ServiceNow">e7c81f6b0f2f0300bc65c5ece1050ed9</basic_auth_profile>
+        <basic_auth_user/>
+        <certificate/>
+        <enable_mutual_auth>false</enable_mutual_auth>
+        <envelope><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" 
+       xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Header>
+    <t:RequestServerVersion Version="Exchange2007_SP1" />
+    <t:TimeZoneContext>
+      <t:TimeZoneDefinition Id="GMT Standard Time" />
+    </t:TimeZoneContext>
+	<t:ExchangeImpersonation>
+      <t:ConnectingSID>
+        <t:SmtpAddress>${requester}</t:SmtpAddress>
+      </t:ConnectingSID>
+    </t:ExchangeImpersonation>
+  </soap:Header>
+  <soap:Body>
+    <m:CreateItem SendMeetingInvitations="SendToAllAndSaveCopy">
+      <m:Items>
+        <t:CalendarItem>
+          <t:Subject>${subject}</t:Subject>
+          <t:Body BodyType="Text">${remarks}</t:Body>
+          <t:ReminderMinutesBeforeStart>60</t:ReminderMinutesBeforeStart>
+          <t:Start>${startTime}</t:Start>
+          <t:End>${endTime}</t:End>
+          <t:Location>${spaceName}</t:Location>
+          <t:MeetingTimeZone TimeZoneName="GMT Standard Time" />
+          <t:Resources>
+			  <t:Attendee>
+				  <t:Mailbox>
+					  <t:EmailAddress>${spaceEmail}</t:EmailAddress>
+				  </t:Mailbox>
+			  </t:Attendee>
+          </t:Resources>
+        </t:CalendarItem>
+      </m:Items>
+    </m:CreateItem>
+  </soap:Body>
+</soap:Envelope>]]></envelope>
+        <function_name>CreateItem</function_name>
+        <key_store/>
+        <key_store_alias/>
+        <key_store_password/>
+        <lock>false</lock>
+        <protocol_profile/>
+        <qualified_name>OutlookSOAP [ CreateItem ]</qualified_name>
+        <soap_action>CreateItem</soap_action>
+        <soap_endpoint>https://outlook.office365.com/EWS/Exchange.asmx</soap_endpoint>
+        <soap_message display_value="OutlookSOAP">42a89b6b0f2f0300bc65c5ece1050e5b</soap_message>
+        <strip_whitespace>false</strip_whitespace>
+        <sys_class_name>sys_soap_message_function</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2018-01-15 16:42:22</sys_created_on>
+        <sys_id>94c4ffa70f6f0300bc65c5ece1050e9b</sys_id>
+        <sys_mod_count>23</sys_mod_count>
+        <sys_name>CreateItem</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_soap_message_function_94c4ffa70f6f0300bc65c5ece1050e9b</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-03-09 18:40:50</sys_updated_on>
+        <use_basic_auth>false</use_basic_auth>
+        <use_mid_server/>
+        <use_ws_security>false</use_ws_security>
+        <ws_security_type/>
+        <ws_security_username_profile/>
+        <ws_security_x509_profile/>
+    </sys_soap_message_function>
+</record_update>

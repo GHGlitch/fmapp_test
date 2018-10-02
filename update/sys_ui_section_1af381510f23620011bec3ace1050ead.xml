@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_section caption="" section_id="1af381510f23620011bec3ace1050ead" sys_domain="global" table="x_lsmcb_fm_visit" version="3" view="">
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>process_flow.xml</element>
+            <position>0</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>b668e8130f7f1b00bc65c5ece1050ef4</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter display_value="Process Flow">6624daab0f9a6e0011bec3ace1050ec7</sys_ui_formatter>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type>formatter</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.begin_split</element>
+            <position>1</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>7e6824530f7f1b00bc65c5ece1050eb3</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type>.begin_split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>requester</element>
+            <position>2</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>fe6824530f7f1b00bc65c5ece1050eb3</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>host</element>
+            <position>3</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>726824530f7f1b00bc65c5ece1050eb4</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>contact</element>
+            <position>4</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>f26824530f7f1b00bc65c5ece1050eb4</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>phone</element>
+            <position>5</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>766824530f7f1b00bc65c5ece1050eb4</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>visitor_first_name</element>
+            <position>6</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>f66824530f7f1b00bc65c5ece1050eb4</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>visitor_last_name</element>
+            <position>7</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>7a6824530f7f1b00bc65c5ece1050eb4</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>company</element>
+            <position>8</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>fa6824530f7f1b00bc65c5ece1050eb4</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>email</element>
+            <position>9</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>7e6824530f7f1b00bc65c5ece1050eb4</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.split</element>
+            <position>10</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>fe6824530f7f1b00bc65c5ece1050eb4</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type>.split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>start_time</element>
+            <position>11</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>726824530f7f1b00bc65c5ece1050eb5</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>end_time</element>
+            <position>12</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>f26824530f7f1b00bc65c5ece1050eb5</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>location</element>
+            <position>13</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>766824530f7f1b00bc65c5ece1050eb5</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>access_method</element>
+            <position>14</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>f66824530f7f1b00bc65c5ece1050eb5</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>room_reservation</element>
+            <position>15</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>7a6824530f7f1b00bc65c5ece1050eb5</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>parking_reservation</element>
+            <position>16</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>fa6824530f7f1b00bc65c5ece1050eb5</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>remark</element>
+            <position>17</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>7e6824530f7f1b00bc65c5ece1050eb5</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>state</element>
+            <position>18</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>fe6824530f7f1b00bc65c5ece1050eb5</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>anonymous</element>
+            <position>19</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>726824530f7f1b00bc65c5ece1050eb6</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>internet</element>
+            <position>20</position>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-13 13:37:17</sys_created_on>
+            <sys_id>f26824530f7f1b00bc65c5ece1050eb6</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_visit" sys_domain="global" view="Default view">1af381510f23620011bec3ace1050ead</sys_ui_section>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-13 13:37:17</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_section action="INSERT_OR_UPDATE">
+            <caption/>
+            <header>false</header>
+            <name>x_lsmcb_fm_visit</name>
+            <roles/>
+            <sys_class_name>sys_ui_section</sys_class_name>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-12-06 13:35:00</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>1af381510f23620011bec3ace1050ead</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>x_lsmcb_fm_visit</sys_name>
+            <sys_overrides/>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_ui_section_1af381510f23620011bec3ace1050ead</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2016-12-06 13:35:00</sys_updated_on>
+            <sys_user/>
+            <title>false</title>
+            <view display_value="Default view" name="NULL">Default view</view>
+            <view_name/>
+        </sys_ui_section>
+    </sys_ui_section>
+</record_update>

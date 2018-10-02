@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_macro">
+    <sys_ui_macro action="INSERT_OR_UPDATE">
+        <active>false</active>
+        <category>layout</category>
+        <description>2 rows : 3 equal columns and 2 equal columns. Layout for the room reservations page.</description>
+        <media_type/>
+        <name>layout_room_res</name>
+        <scoped_name>x_lsmcb_fm_layout_room_res</scoped_name>
+        <sys_class_name>sys_ui_macro</sys_class_name>
+        <sys_created_by>tomas.ferreira</sys_created_by>
+        <sys_created_on>2016-09-06 15:51:47</sys_created_on>
+        <sys_id>3654d5c40f71a20011bec3ace1050ecb</sys_id>
+        <sys_mod_count>53</sys_mod_count>
+        <sys_name>layout_room_res</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_macro_3654d5c40f71a20011bec3ace1050ecb</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-08-01 09:08:39</sys_updated_on>
+        <xml><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null" >
+
+	<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js'> </script>
+
+	<link rel="stylesheet" href="https://npmcdn.com/leaflet@0.7.7/dist/leaflet.css" />
+	<link href="77ad306e0f39260011bec3ace1050e47.cssdbx?" rel="stylesheet" type="text/css" />
+
+
+
+	<link href="8c743e650f1aea0011bec3ace1050e91.cssdbx?" rel="stylesheet" type="text/css" />
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+	<g:requires name="x_lsmcb_fm.timeslider.098.jsdbx" />
+
+	<g:requires name="x_lsmcb_fm.fm_ jquery_ui.1.11.4.jsdbx" />
+	<script>jQuery.noConflict();</script>
+
+
+	<script src="https://npmcdn.com/leaflet@0.7.7/dist/leaflet.js"></script>
+
+	<g:requires name="x_lsmcb_fm.fm_room_res_app_ang_initializ.jsdbx" />
+
+	<div ng-app="FloorViewApp">
+		<table border="0" cellspacing="1" cellpadding="1" id="${jvar_name}" width="100%" >
+			<tr valign="top">
+				<td colspan="2" id="dropzone1" dropzone="true" valign="top" width="100%"  style="padding:10px"/>
+			</tr>
+			<tr valign="top">
+				<td valign="top" width="99%">
+					<table border="0" cellspacing="0" cellpadding="0" id="${jvar_name}" width="100%">
+
+						<tr valign="top">
+							<td id="dropzone2" dropzone="true" valign="top" width="100%" style="padding:10px"/>
+						</tr>
+						<tr valign="top">
+							<td id="dropzone3" dropzone="true" valign="bottom" width="100%" style="padding:10px"/>
+						</tr>
+
+					</table>
+				</td>
+
+				<td valign="top" width="1%">
+					<table border="0" cellspacing="0" cellpadding="0" id="${jvar_name}" width="100%" >
+
+						<tr valign="top" align="right">
+							<td id="dropzone4" dropzone="true" valign="top" width="100%" style="padding:10px"/>
+						</tr>
+						<tr valign="top" align="right">
+							<td id="dropzone5" dropzone="true" valign="top" width="100%" style="padding:10px"/>
+						</tr>
+
+					</table>
+				</td>
+			</tr>
+
+		</table>
+	</div>
+
+	<style>
+
+	</style>
+</j:jelly>
+]]></xml>
+    </sys_ui_macro>
+</record_update>

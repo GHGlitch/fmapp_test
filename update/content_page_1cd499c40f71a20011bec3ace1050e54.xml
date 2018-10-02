@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update node_type="content_page" unload_date="2018-10-02 09:46:28">
+    <sys_portal action="delete_multiple" query="page=1cd499c40f71a20011bec3ace1050e54">
+        <related_items_node>
+            <sys_portal action="INSERT_OR_UPDATE">
+                <dropzone>dropzone3</dropzone>
+                <offset>0</offset>
+                <page display_value="Room Reservations">1cd499c40f71a20011bec3ace1050e54</page>
+                <summary/>
+                <sys_created_by>nelson.oliveira</sys_created_by>
+                <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                <sys_id>19567f360f9e2e0011bec3ace1050e38</sys_id>
+                <sys_mod_count>0</sys_mod_count>
+                <sys_updated_by>nelson.oliveira</sys_updated_by>
+                <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                <related_items_node>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>renderer</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">19567f360f9e2e0011bec3ace1050e38</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>1d567f360f9e2e0011bec3ace1050e38</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>com.glide.cms.RenderBlock</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>current_page</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">19567f360f9e2e0011bec3ace1050e38</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>55567f360f9e2e0011bec3ace1050e39</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>1cd499c40f71a20011bec3ace1050e54</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>sys_id</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">19567f360f9e2e0011bec3ace1050e38</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>59567f360f9e2e0011bec3ace1050e38</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>9100de650fd6ea0011bec3ace1050e2f</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>type</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">19567f360f9e2e0011bec3ace1050e38</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>91567f360f9e2e0011bec3ace1050e39</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>content_block_programmatic</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>title</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">19567f360f9e2e0011bec3ace1050e38</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>dd567f360f9e2e0011bec3ace1050e38</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>Time Bar Block</value>
+                    </sys_portal_preferences>
+                </related_items_node>
+            </sys_portal>
+            <sys_portal action="INSERT_OR_UPDATE">
+                <dropzone>dropzone5</dropzone>
+                <offset>0</offset>
+                <page display_value="Room Reservations">1cd499c40f71a20011bec3ace1050e54</page>
+                <summary/>
+                <sys_created_by>nelson.oliveira</sys_created_by>
+                <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                <sys_id>2d567f360f9e2e0011bec3ace1050e3b</sys_id>
+                <sys_mod_count>0</sys_mod_count>
+                <sys_updated_by>nelson.oliveira</sys_updated_by>
+                <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                <related_items_node>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>renderer</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">2d567f360f9e2e0011bec3ace1050e3b</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>21567f360f9e2e0011bec3ace1050e3c</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>com.glide.cms.RenderBlock</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>current_page</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">2d567f360f9e2e0011bec3ace1050e3b</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>69567f360f9e2e0011bec3ace1050e3c</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>1cd499c40f71a20011bec3ace1050e54</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>sys_id</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">2d567f360f9e2e0011bec3ace1050e3b</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>6d567f360f9e2e0011bec3ace1050e3b</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>3825cf720f5e2e0011bec3ace1050e0d</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>title</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">2d567f360f9e2e0011bec3ace1050e3b</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>a5567f360f9e2e0011bec3ace1050e3c</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>Meeting Details Block</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>type</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">2d567f360f9e2e0011bec3ace1050e3b</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>e1567f360f9e2e0011bec3ace1050e3c</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>content_block_programmatic</value>
+                    </sys_portal_preferences>
+                </related_items_node>
+            </sys_portal>
+            <sys_portal action="INSERT_OR_UPDATE">
+                <dropzone>dropzone2</dropzone>
+                <offset>0</offset>
+                <page display_value="Room Reservations">1cd499c40f71a20011bec3ace1050e54</page>
+                <summary/>
+                <sys_created_by>nelson.oliveira</sys_created_by>
+                <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                <sys_id>51567b360f9e2e0011bec3ace1050e92</sys_id>
+                <sys_mod_count>0</sys_mod_count>
+                <sys_updated_by>nelson.oliveira</sys_updated_by>
+                <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                <related_items_node>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>type</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">51567b360f9e2e0011bec3ace1050e92</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>19567b360f9e2e0011bec3ace1050e92</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>content_block_programmatic</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>renderer</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">51567b360f9e2e0011bec3ace1050e92</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>55567b360f9e2e0011bec3ace1050e92</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>com.glide.cms.RenderBlock</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>sys_id</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">51567b360f9e2e0011bec3ace1050e92</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>91567b360f9e2e0011bec3ace1050e92</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>4d985d080f71a20011bec3ace1050ef9</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>current_page</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">51567b360f9e2e0011bec3ace1050e92</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>9d567b360f9e2e0011bec3ace1050e92</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>1cd499c40f71a20011bec3ace1050e54</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>title</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">51567b360f9e2e0011bec3ace1050e92</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>d9567b360f9e2e0011bec3ace1050e92</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>Floorview Block</value>
+                    </sys_portal_preferences>
+                </related_items_node>
+            </sys_portal>
+            <sys_portal action="INSERT_OR_UPDATE">
+                <dropzone>dropzone4</dropzone>
+                <offset>0</offset>
+                <page display_value="Room Reservations">1cd499c40f71a20011bec3ace1050e54</page>
+                <summary/>
+                <sys_created_by>nelson.oliveira</sys_created_by>
+                <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                <sys_id>91567f360f9e2e0011bec3ace1050e3a</sys_id>
+                <sys_mod_count>0</sys_mod_count>
+                <sys_updated_by>nelson.oliveira</sys_updated_by>
+                <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                <related_items_node>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>type</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">91567f360f9e2e0011bec3ace1050e3a</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>1d567f360f9e2e0011bec3ace1050e3a</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>content_block_programmatic</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>title</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">91567f360f9e2e0011bec3ace1050e3a</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>59567f360f9e2e0011bec3ace1050e3a</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>Room Reservation HTML Form</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>renderer</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">91567f360f9e2e0011bec3ace1050e3a</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>95567f360f9e2e0011bec3ace1050e3a</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>com.glide.cms.RenderBlock</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>sys_id</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">91567f360f9e2e0011bec3ace1050e3a</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>d1567f360f9e2e0011bec3ace1050e3a</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>fb6cd2140ff5a20011bec3ace1050e4c</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>current_page</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">91567f360f9e2e0011bec3ace1050e3a</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>dd567f360f9e2e0011bec3ace1050e3a</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>1cd499c40f71a20011bec3ace1050e54</value>
+                    </sys_portal_preferences>
+                </related_items_node>
+            </sys_portal>
+            <sys_portal action="INSERT_OR_UPDATE">
+                <dropzone>dropzone1</dropzone>
+                <offset>0</offset>
+                <page display_value="Room Reservations">1cd499c40f71a20011bec3ace1050e54</page>
+                <summary/>
+                <sys_created_by>nelson.oliveira</sys_created_by>
+                <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                <sys_id>d5567b360f9e2e0011bec3ace1050e90</sys_id>
+                <sys_mod_count>0</sys_mod_count>
+                <sys_updated_by>nelson.oliveira</sys_updated_by>
+                <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                <related_items_node>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>current_page</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">d5567b360f9e2e0011bec3ace1050e90</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>15567b360f9e2e0011bec3ace1050e91</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>1cd499c40f71a20011bec3ace1050e54</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>sys_id</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">d5567b360f9e2e0011bec3ace1050e90</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>19567b360f9e2e0011bec3ace1050e90</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>284991480f71a20011bec3ace1050eef</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>title</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">d5567b360f9e2e0011bec3ace1050e90</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>51567b360f9e2e0011bec3ace1050e91</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>Floor Fetcher Block</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>type</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">d5567b360f9e2e0011bec3ace1050e90</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>9d567b360f9e2e0011bec3ace1050e90</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>content_block_programmatic</value>
+                    </sys_portal_preferences>
+                    <sys_portal_preferences action="INSERT_OR_UPDATE">
+                        <name>renderer</name>
+                        <portal_section display_value="Created 2016-10-10 06:12:21">d5567b360f9e2e0011bec3ace1050e90</portal_section>
+                        <sys_created_by>nelson.oliveira</sys_created_by>
+                        <sys_created_on>2016-10-10 13:12:21</sys_created_on>
+                        <sys_id>d9567b360f9e2e0011bec3ace1050e90</sys_id>
+                        <sys_mod_count>0</sys_mod_count>
+                        <sys_updated_by>nelson.oliveira</sys_updated_by>
+                        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+                        <value>com.glide.cms.RenderBlock</value>
+                    </sys_portal_preferences>
+                </related_items_node>
+            </sys_portal>
+        </related_items_node>
+    </sys_portal>
+    <content_page action="INSERT_OR_UPDATE">
+        <content_site/>
+        <content_theme/>
+        <description>Room reservations page.</description>
+        <frame_buster>false</frame_buster>
+        <layout display_value="layout_room_res">3654d5c40f71a20011bec3ace1050ecb</layout>
+        <model_id/>
+        <model_table/>
+        <name>FM - Room Res Page</name>
+        <order/>
+        <parent_page/>
+        <read_roles/>
+        <roles/>
+        <selectable>true</selectable>
+        <sys_class_name>content_page</sys_class_name>
+        <sys_created_by>tomas.ferreira</sys_created_by>
+        <sys_created_on>2016-09-06 15:53:16</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>1cd499c40f71a20011bec3ace1050e54</sys_id>
+        <sys_mod_count>177</sys_mod_count>
+        <sys_name>FM - Room Res Page</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>content_page_1cd499c40f71a20011bec3ace1050e54</sys_update_name>
+        <sys_updated_by>nelson.oliveira</sys_updated_by>
+        <sys_updated_on>2016-10-10 13:12:21</sys_updated_on>
+        <title>Room Reservations</title>
+        <url_suffix>room_res</url_suffix>
+        <user/>
+        <view/>
+        <workflow_state>published</workflow_state>
+    </content_page>
+</record_update>

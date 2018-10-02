@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Space  Facility" max_length="40" name="x_lsmcb_fm_room_property" type="collection">
+        <element label="Description" max_length="4000" name="description" type="string"/>
+        <element label="Icon" max_length="40" name="icon" type="user_image"/>
+        <element display="true" label="Name" max_length="40" name="name" type="string"/>
+        <index name="index">
+            <element name="name"/>
+        </index>
+    </element>
+</database>

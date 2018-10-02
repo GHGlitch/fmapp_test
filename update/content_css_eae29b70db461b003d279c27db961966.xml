@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="content_css">
+    <content_css action="INSERT_OR_UPDATE">
+        <name>fm_outlook_addin.css</name>
+        <style>body {&#13;
+    background-color: powderblue;&#13;
+}&#13;
+&#13;
+.hide-this {&#13;
+    display: none;&#13;
+}&#13;
+&#13;
+#close-alert {&#13;
+    font-weight: bolder;&#13;
+    display: absolute;&#13;
+    float: right;&#13;
+    cursor: pointer;&#13;
+    color: black;&#13;
+    font-size: 20px;&#13;
+    text-alignment: right;&#13;
+    margin-top: -0.3em;&#13;
+    margin-right: -0.9em;&#13;
+}&#13;
+&#13;
+#close-alert:hover {&#13;
+    color: red;&#13;
+}&#13;
+&#13;
+.typeahead-demo .custom-popup-wrapper {&#13;
+    position: absolute;&#13;
+    top: 100%;&#13;
+    left: 0;&#13;
+    z-index: 1000;&#13;
+    display: none;&#13;
+    background-color: #f9f9f9;&#13;
+}&#13;
+&#13;
+.typeahead-demo .custom-popup-wrapper &gt; .message {&#13;
+    padding: 10px 20px;&#13;
+    border-bottom: 1px solid #ddd;&#13;
+    color: #868686;&#13;
+}&#13;
+&#13;
+.typeahead-demo .custom-popup-wrapper &gt; .dropdown-menu {&#13;
+    position: static;&#13;
+    float: none;&#13;
+    display: block;&#13;
+    min-width: 160px;&#13;
+    background-color: transparent;&#13;
+    border: none; border-radius: 0;&#13;
+    box-shadow: none;&#13;
+}&#13;
+&#13;
+.glyphicon:before {&#13;
+    visibility: visible;&#13;
+}&#13;
+&#13;
+.glyphicon.glyphicon-plus:checked:before {&#13;
+    font-family: "Glyphicons Halflings" content: "\\2212";&#13;
+}&#13;
+&#13;
+input[type=checkbox].glyphicon{&#13;
+    visibility: hidden;&#13;
+}&#13;
+&#13;
+.clearfix:first-child {&#13;
+    margin:1em 0em;&#13;
+}&#13;
+&#13;
+.tab-content {&#13;
+    border: none !important;&#13;
+}&#13;
+&#13;
+.remove-button {&#13;
+    cursor:pointer;&#13;
+}&#13;
+&#13;
+/*  Override the effects of the 'Compact the user interface' UI option */&#13;
+.compact .form-control {&#13;
+    height: 32px; &#13;
+    min-height: 24px; &#13;
+    font-size: 13px; &#13;
+    padding: 6px  9px; &#13;
+}</style>
+        <sys_class_name>content_css</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-05-11 07:50:58</sys_created_on>
+        <sys_id>eae29b70db461b003d279c27db961966</sys_id>
+        <sys_mod_count>91</sys_mod_count>
+        <sys_name>fm_outlook_addin.css</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>content_css_eae29b70db461b003d279c27db961966</sys_update_name>
+        <sys_updated_by>nelson.oliveira</sys_updated_by>
+        <sys_updated_on>2018-08-17 12:13:36</sys_updated_on>
+        <type>local</type>
+        <url/>
+    </content_css>
+</record_update>

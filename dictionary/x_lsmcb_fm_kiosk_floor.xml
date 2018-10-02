@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Kiosk Floor" max_length="40" name="x_lsmcb_fm_kiosk_floor" type="collection">
+        <element label="Floor" mandatory="true" max_length="32" name="floor" reference="x_lsmcb_fm_floor" reference_qual="image_nameISNOTEMPTY^EQ" reference_qual_condition="image_nameISNOTEMPTY^EQ" type="reference"/>
+        <element label="Floor User" mandatory="true" max_length="32" name="floor_user" reference="sys_user" reference_qual="roles=x_lsmcb_fm.fm_kiosk^EQ" reference_qual_condition="roles=x_lsmcb_fm.fm_kiosk^EQ" type="reference" unique="true"/>
+        <index name="index">
+            <element name="floor"/>
+        </index>
+        <index name="index2">
+            <element name="floor_user"/>
+        </index>
+    </element>
+</database>

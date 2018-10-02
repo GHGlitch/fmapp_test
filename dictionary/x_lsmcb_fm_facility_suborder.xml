@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element audit="true" extends="task" label="Facility Suborder" max_length="40" name="x_lsmcb_fm_facility_suborder" type="collection">
+        <element choice="1" choice_field="category" choice_table="x_lsmcb_fm_facility_order" label="Category" mandatory="true" max_length="40" name="category" reference_qual="parentISEMPTY^EQ" reference_qual_condition="parentISEMPTY^EQ" type="choice">
+            <choice>
+                <element label="Waste" sequence="0" value="0"/>
+                <element label="Security" sequence="1" value="security"/>
+                <element label="Catering" sequence="2" value="catering"/>
+                <element label="Financial" sequence="3" value="financial"/>
+                <element label="Building general" sequence="4" value="4"/>
+                <element label="Building access" sequence="5" value="building_access"/>
+                <element label="Handyman" sequence="6" value="handyman"/>
+                <element label="Housing" sequence="7" value="7"/>
+                <element label="Climate" sequence="8" value="climate"/>
+                <element label="Lighting" sequence="9" value="9"/>
+                <element label="Facility support AV" sequence="10" value="10"/>
+                <element label="Facility support general" sequence="11" value="11"/>
+                <element label="Printer" sequence="12" value="printer"/>
+                <element label="Sanitation" sequence="13" value="sanitation"/>
+                <element label="Cleaning" sequence="14" value="cleaning"/>
+                <element label="Technical" sequence="15" value="technical"/>
+                <element label="Terrain" sequence="16" value="16"/>
+                <element label="Landscaping" sequence="17" value="17"/>
+                <element label="Personal transportation" sequence="18" value="18"/>
+                <element label="Supplies" sequence="19" value="19"/>
+                <element label="Mail and repro" sequence="20" value="20"/>
+                <element label="Vending machines" sequence="21" value="21"/>
+                <element label="Coffee machines" sequence="22" value="22"/>
+                <element label="Plantscaping" sequence="23" value="23"/>
+            </choice>
+        </element>
+        <element label="Costcenter" mandatory="true" max_length="32" name="costcenter" reference="cmn_cost_center" reference_qual="valid_from&lt;=javascript:gs.daysAgoEnd(0)^valid_to&gt;=javascript:gs.daysAgoStart(0)^ORvalid_toISEMPTY^EQ" reference_qual_condition="valid_from&lt;=javascript:gs.daysAgoEnd(0)^valid_to&gt;=javascript:gs.daysAgoStart(0)^ORvalid_toISEMPTY^EQ" type="reference"/>
+        <element attributes="timeDimension=true" label="Expected end" max_length="40" name="expected_end" type="glide_date_time"/>
+        <element label="External Contact" max_length="32" name="external_contact" reference="x_lsmcb_fm_external_contact" type="reference"/>
+        <element label="External Reference" max_length="40" name="external_reference" type="string"/>
+        <element label="Facility Order" max_length="32" name="facility_order" read_only="true" reference="x_lsmcb_fm_facility_order" reference_cascade_rule="delete" reference_floats="true" type="reference"/>
+        <element choice="3" default="0" label="Reaction time" max_length="40" name="reactiontime" type="choice">
+            <choice>
+                <element label="N/A" sequence="0" value="0"/>
+                <element label="1h" sequence="1" value="1"/>
+                <element label="4h" sequence="2" value="4"/>
+                <element label="1d" sequence="3" value="24"/>
+            </choice>
+        </element>
+        <element attributes="ref_auto_completer=AJAXTableCompleter,ref_ac_columns=user_name;email,ref_ac_order_by=name,ref_ac_columns_search=true" label="Requester" mandatory="true" max_length="32" name="requester" reference="sys_user" type="reference"/>
+        <element label="Space" max_length="32" name="room" reference="x_lsmcb_fm_room" type="reference"/>
+        <element choice="1" choice_field="status" choice_table="x_lsmcb_fm_facility_order" default="open" label="Status" max_length="40" name="status" type="choice">
+            <choice/>
+        </element>
+        <element default="0" label="Total cost exc VAT" max_length="15" name="total_cost_exc_vat" read_only="true" type="price"/>
+        <element default="0" label="Total cost inc VAT" max_length="15" name="total_cost_inc_vat" read_only="true" type="price"/>
+        <element default="0" label="Total price" max_length="15" name="total_price" read_only="true" type="price"/>
+        <element choice="1" choice_field="type" choice_table="x_lsmcb_fm_facility_order" label="Type" mandatory="true" max_length="40" name="type" type="choice">
+            <choice>
+                <element label="Disruption" sequence="0" value="disruption"/>
+                <element label="Work order" sequence="1" value="work order"/>
+                <element label="Purchase order" sequence="2" value="purchase order"/>
+                <element label="Request" sequence="3" value="request"/>
+                <element label="Complaint" sequence="4" value="complaint"/>
+            </choice>
+        </element>
+        <element attributes="edge_encryption_enabled=true" label="WF Action" max_length="40" name="wf_action" type="string"/>
+        <element attributes="icons=WorkflowIconsSCR" choice="1" label="Phase" max_length="80" name="workflow_stage" type="workflow">
+            <choice/>
+        </element>
+    </element>
+</database>

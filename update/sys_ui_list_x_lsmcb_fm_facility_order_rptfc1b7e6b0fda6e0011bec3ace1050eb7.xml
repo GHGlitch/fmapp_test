@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_list parent="" relationship="" sys_domain="global" table="x_lsmcb_fm_facility_order" version="2" view="RPTfc1b7e6b0fda6e0011bec3ace1050eb7">
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>number</element>
+            <list_id display_value="x_lsmcb_fm_facility_order" element="NULL" name="x_lsmcb_fm_facility_order" parent="NULL" relationship="NULL" sys_domain="global" view="293119d3db7023005e9f5385ca961960">216ea2d90f24720011bec3ace1050ed2</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>0</position>
+            <sum>false</sum>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-01-25 12:28:27</sys_created_on>
+            <sys_id>656ea2d90f24720011bec3ace1050ed2</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-01-25 12:28:27</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>short_description</element>
+            <list_id display_value="x_lsmcb_fm_facility_order" element="NULL" name="x_lsmcb_fm_facility_order" parent="NULL" relationship="NULL" sys_domain="global" view="293119d3db7023005e9f5385ca961960">216ea2d90f24720011bec3ace1050ed2</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>1</position>
+            <sum>false</sum>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-01-25 12:28:27</sys_created_on>
+            <sys_id>e56ea2d90f24720011bec3ace1050ed2</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-01-25 12:28:27</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>state</element>
+            <list_id display_value="x_lsmcb_fm_facility_order" element="NULL" name="x_lsmcb_fm_facility_order" parent="NULL" relationship="NULL" sys_domain="global" view="293119d3db7023005e9f5385ca961960">216ea2d90f24720011bec3ace1050ed2</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>2</position>
+            <sum>false</sum>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-01-25 12:28:27</sys_created_on>
+            <sys_id>696ea2d90f24720011bec3ace1050ed2</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-01-25 12:28:27</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element/>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <name>x_lsmcb_fm_facility_order</name>
+            <parent/>
+            <position/>
+            <relationship/>
+            <sum>false</sum>
+            <sys_class_name>sys_ui_list</sys_class_name>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-01-25 12:28:27</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>216ea2d90f24720011bec3ace1050ed2</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>x_lsmcb_fm_facility_order</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_ui_list_x_lsmcb_fm_facility_order_RPTfc1b7e6b0fda6e0011bec3ace1050eb7</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-01-25 12:28:27</sys_updated_on>
+            <sys_user/>
+            <view display_value="Rptfc1b7e6b0fda6e0011bec3ace1050eb7" name="RPTfc1b7e6b0fda6e0011bec3ace1050eb7">293119d3db7023005e9f5385ca961960</view>
+            <view_name/>
+        </sys_ui_list>
+    </sys_ui_list>
+</record_update>

@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description/>
+        <global>false</global>
+        <name>x_lsmcb_fm.OfficeHelper</name>
+        <script><![CDATA[var mailboxItem;
+
+/**
+ * Initializes Office and sets a loop where, every 1 second, the information on Outlook is read and written on the add-in
+ * Saves the meeting to get the ID imediatly
+ * 
+ * @param {any} reason 
+ */
+Office.initialize = function(reason) {
+    
+    mailboxItem = Office.context.mailbox.item;
+    
+    $(document).ready(function() {
+        setInterval(loadOutlookContent, 1000);
+        saveMeeting();
+    });
+};
+
+
+/**
+ * Reads info from Outlook and saves it on the add-in
+ * 
+ */
+function loadOutlookContent() {
+
+    var scope = angular.element($('#outer')).scope();
+    var item = Office.context.mailbox.item;
+    
+    scope.options.requester = Office.context.mailbox.userProfile.emailAddress;
+
+    // Get subject
+    item.subject.getAsync(function(result) {
+        scope.options.subject = result.value;
+    });
+
+    // Get body
+	item.body.getAsync("text", function(result) {
+
+        scope.options.remarks = result.value.trim();
+    });
+	
+    // Get start time
+    item.start.getAsync(function(result) {
+        dateProcessor(result.value.toJSON(), 'start');
+    });
+
+    // Get end time
+    item.end.getAsync(function(result) {
+        dateProcessor(result.value.toJSON(), 'end');
+    });
+
+    var visitors = [];
+    var reqAttendees = [];
+    var optAttendees = [];
+
+    // Get required attendees
+    item.requiredAttendees.getAsync(function(result) {
+        
+        var attendee = {};
+
+        result.value.forEach(function(recip, index) {
+            
+            var company = splitCompany(recip.emailAddress);
+            
+            attendee = {
+                name: recip.displayName,
+                email: recip.emailAddress,
+                options: '0',
+                company: company,
+                lPlate: '',
+                parkingLot: '',
+                showNameAndEmail: recip.displayName != recip.emailAddress
+            };
+            
+            if (!scope.options.requesterInfo.name && scope.options.requester && scope.options.requester == attendee.email) {
+                scope.options.requesterInfo = attendee;
+                
+            } else if (scope.options.requester != attendee.email) {
+                reqAttendees.push(attendee);
+            }
+        });
+    });
+
+    // Get optional attendees
+    item.optionalAttendees.getAsync(function(result) {
+        
+        var attendee = {};
+
+        result.value.forEach(function(recip, index) {
+            
+            var company = splitCompany(recip.emailAddress);
+            
+            attendee = {
+                name: recip.displayName,
+                email: recip.emailAddress,
+                options: '0',
+                company: company,
+                lPlate: '',
+                parkingLot: ''
+            };
+            
+            optAttendees.push(attendee);
+        });
+		
+        visitors = reqAttendees.concat(optAttendees);
+        
+        visitors = arrayUnique(scope.options.visitors, visitors);
+
+        if (visitors != scope.options.lastVisitors) {
+            scope.options.lastVisitors = scope.options.visitors = visitors;
+        }
+
+        // If needed, update the catering quantities to reflect the number of attendees
+        if (scope.options.visitors.length != scope.options.lastNumberVisitors) {
+
+            scope.options.lastNumberVisitors = scope.options.visitors.length;
+
+            scope.options.availableCatering.forEach(function(elem) {
+                elem.quantity = scope.options.visitors.length + 1;
+            });
+
+            for (var i = 0; i < scope.options.selectedCatering.length; i++) {
+                if (!scope.checkBadSelection(i)) {
+                    scope.options.selectedCatering[i].quantity = scope.options.visitors.length + 1;
+                }
+            }
+        }
+
+        scope.options.attendees = scope.options.visitors.length;
+		
+        scope.$digest();
+    });
+	
+	// Get location
+    item.location.getAsync(function(result) {
+                
+        // Only change the addin's location fields if the Outlook location is not empty,
+        // if the set Outlook location has not changed or, if the addin already has a space,
+        // it is different from the Outlook location
+        
+        //while (!scope.options.locationsLoaded) {}
+        
+        if (scope.options.lastOutlookLocation == result.value || (scope.options.selectedSpace != undefined && result.value == scope.options.selectedSpace.name)) {
+            return;
+            
+        } else if (result.value == '') {
+            scope.options.spaceNotFound = false;
+            return;
+        }
+        
+        // Store the value in a variable
+        scope.options.lastOutlookLocation = result.value;
+		
+		// Check if the room exists in the available room list
+		var outlookRoom = checkOutlookRoomExists(scope, result.value);
+		
+		// Only update the addin location if the room exists
+		// and the focus is NOT on any of the 3 location-related fields in the addin
+		if (outlookRoom && !scope.options.focusLocationFields) {
+			
+			scope.options.spaceNotFound = false;
+
+			scope.options.selectedLocation = outlookRoom.location;
+			scope.options.selectedFloor = outlookRoom.floor;
+			scope.options.selectedSpace = outlookRoom.room;
+			scope.options.parkingLots = outlookRoom.location.parkingLots;
+            scope.options.floors = outlookRoom.floors;
+            
+            scope.options.counter++;
+		
+		// If the room does not exist, trigger the warning and do nothing else
+		// (condition needed because a simple else could be triggered if the room existed and the focus was in the fields)
+		} else if (!outlookRoom) {
+			
+            scope.options.spaceNotFound = true;
+			
+			// Clear out all the values
+			scope.options.selectedLocation = scope.options.selectedFloor = scope.options.selectedSpace = scope.options.parkingLots = '';
+		}
+	});
+}
+
+/**
+ * Save the meeting on load to get the event ID
+ * 
+ */
+function saveMeeting() {
+
+    var scope = angular.element($('#outer')).scope();
+    var item = Office.context.mailbox.item;
+
+    item.saveAsync(function(result) {
+
+        //scope.options.outlookID = encodeURI(result.value);
+        if (!scope.options.outlookID) {
+            scope.options.outlookID = outlookIdParser(result.value);
+        }
+    });
+    
+    //scope.options.requester = Office.context.mailbox.userProfile.emailAddress;
+    scope.options.hostName = Office.context.mailbox.diagnostics.hostName;
+}
+
+/**
+ * Compares the attendees on Outlook with the ones on the add-in, joins both arrays and removes duplicates
+ * 
+ * @param {array} array1 
+ * @param {array} array2 
+ * @returns  {array}
+ */
+function arrayUnique(array1, array2) {
+
+    loop1: for (var i = 0; i < array1.length; ++i) {
+
+        loop2: for (var j = 0; j < array2.length; ++j) {
+            
+            if (array1[i].email === array2[j].email) {
+                
+                array2.splice(j--, 1);
+                continue loop1;
+            }
+        }
+        array1.splice(i--, 1);
+    }
+
+    return array1.concat(array2);
+}
+
+/**
+ * Splits the visitor email, to get the domain
+ * 
+ * @param {string} email 
+ * @returns {string} email
+ */
+function splitCompany(email) {
+    
+    return email.split('@')[1].split('.')[0];
+}
+
+/**
+ * Parses start and end dates (one at a time), passing them to the addin's UI page
+ * 
+ * @param {string} date
+ * @param {string} type
+ */
+function dateProcessor(date, type) {
+    
+    var scope = angular.element($('#outer')).scope();
+    
+    date = date.replace('T', ' ');
+    date = date.replace('.000Z', '');
+    
+    var ga = new GlideAjax('OutlookProcessor');
+    ga.addParam('sysparm_name', 'gdtConverter');
+    ga.addParam('sysparm_date1', date);
+    
+    ga.getXML(getResponse);
+    
+    function getResponse(response) {
+        var answer = response.responseXML.documentElement.getAttribute("answer");
+        
+        var date = JSON.parse(answer);
+        date = date.date1;
+        
+        // Only clear the location if the update in hours *is not* coming from the floorplan
+        if (!scope.hoursUpdateFromFloorplan) {
+        
+            (function () {
+                if (type == 'start' && scope.options.lastStartTime != date) {
+
+                    // If it is not the first time set, clear the space input and the Outlook's location
+                    if (scope.options.lastStartTime != '') {
+                        scope.options.selectedSpace = '';
+                        scope.cleanOutlookLocation();
+                    }
+                    scope.options.lastStartTime = date;
+                    scope.options.sTime = date;
+                    scope.checkPastDate();
+
+                } else if (type == 'end' && scope.options.lastEndTime != date) {
+
+                    // If it is not the first time set, clear the space input and the Outlook's location
+                    if (scope.options.lastEndTime != '') {
+                        scope.options.selectedSpace = '';
+                        scope.cleanOutlookLocation();
+                    }
+                    scope.options.lastEndTime = date;
+                    scope.options.eTime = date;
+                }
+            })();
+        }
+    }
+}
+
+/**
+ * Checks if the room's name placed in Outlook's "Location" field exists and/or can be selected
+ * 
+ * @param {JSON} selection 
+ * @returns {bool}
+ */
+function checkOutlookRoomExists(scope, selection) {
+    
+    scope = angular.element($('#outer')).scope();
+    
+    var locations = scope.options.locations;
+    
+    if (!locations) {
+        this.checkOutlookRoomExists(selection);
+    }
+
+    // Loop through all the locations
+    for (var i = 0; i < locations.length; i++) {
+        
+        // Loop through each location's floors
+        for (var j = 0; j < locations[i].floors.length; j++) {
+            
+            // Loop through each floor's rooms
+            for (var k = 0; k < locations[i].floors[j].rooms.length; k++) {
+
+                if (locations[i].floors[j].rooms[k].name == selection) {
+					
+					var target = {
+                        location: locations[i],
+                        floor: locations[i].floors[j],
+                        room: locations[i].floors[j].rooms[k],
+                        floors: locations[i].floors
+                    };
+					
+                    return target;
+                }
+            } 
+        }
+    }
+    
+    return false;
+}
+
+function outlookIdParser(id) {
+
+    id = id.replace(/\+/g, '_');
+    id = id.replace(/\//g, '-');
+
+    return id;
+}]]></script>
+        <script_name>OfficeHelper</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>jeffrey.meijer</sys_created_by>
+        <sys_created_on>2017-08-30 09:35:49</sys_created_on>
+        <sys_id>8397e7470ff8470011bec3ace1050e7c</sys_id>
+        <sys_mod_count>504</sys_mod_count>
+        <sys_name>x_lsmcb_fm.OfficeHelper</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_script_8397e7470ff8470011bec3ace1050e7c</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-08-17 17:17:21</sys_updated_on>
+        <use_scoped_format>false</use_scoped_format>
+    </sys_ui_script>
+</record_update>

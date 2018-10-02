@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_macro">
+    <sys_ui_macro action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category>general</category>
+        <description>Custom Ui Date field with onchange value</description>
+        <media_type/>
+        <name>fm_ui_date_custom</name>
+        <scoped_name>x_lsmcb_fm_fm_ui_date_custom</scoped_name>
+        <sys_class_name>sys_ui_macro</sys_class_name>
+        <sys_created_by>tomas.ferreira</sys_created_by>
+        <sys_created_on>2016-09-29 08:32:38</sys_created_on>
+        <sys_id>827c0e530fc26a0011bec3ace1050e92</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>fm_ui_date_custom</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_macro_827c0e530fc26a0011bec3ace1050e92</sys_update_name>
+        <sys_updated_by>laura.schuch</sys_updated_by>
+        <sys_updated_on>2016-10-12 12:17:35</sys_updated_on>
+        <xml><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="true" xmlns:j="jelly:core" xmlns:g="glide">
+	
+<g:macro name="date" value="${gs.now()}" />
+   <label for="${jvar_name}" style="display:none">${jvar_name}</label>
+   <input id="${jvar_name}" type="text" name="${jvar_name}" value="${jvar_value}" onchange="${jvar_onchange}" />
+   <span style="margin: 2px" />
+	
+   <!-- user / system date format -->		  
+   <a onclick="new GwtDateTimePicker('${jvar_name}', '$[gs.getDateFormat()]', false);">
+      <img height="16" width="16" class="button" src="images/small_calendar.gifx" alt="${gs.getMessage('fm_choose_date')}"
+         title="${gs.getMessage('fm_choose_date')}" 
+         name="anchor${jvar_name}x" id="anchor${jvar_name}x" border="0" />
+	   </a>
+
+</j:jelly>]]></xml>
+    </sys_ui_macro>
+</record_update>

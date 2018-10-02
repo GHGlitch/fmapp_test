@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <applies_extended>false</applies_extended>
+        <condition/>
+        <description>Forces End time to be later than Start time.</description>
+        <field>start_time</field>
+        <global>true</global>
+        <messages/>
+        <name>Item Reservation Start time Enforcement</name>
+        <order/>
+        <script><![CDATA[function onChange(control, oldValue, newValue, isLoading, isTemplate) {
+	if (isLoading || newValue === '') {
+		return;
+	}
+	
+	//get start date
+	var start = newValue;
+	//get Date object using user display format
+	var dt = getDateFromFormat(start, g_user_date_time_format);
+	var rightNow = new Date();
+	
+	if (dt < rightNow) {
+		
+		alert("You cannot select a date in the past.");
+		var ajax = new GlideAjax('FMDateTimeAjaxUtils');
+		ajax.addParam('sysparm_name','getNowDateTime');
+		ajax.getXML(getResponse);
+	}
+	
+	function getResponse(response){
+		
+		var answer = response.responseXML.documentElement.getAttribute("answer");
+		g_form.setValue('start_time', answer);
+	}
+	
+	var startTime = g_form.getValue('start_time');
+	var endTime = g_form.getValue('end_time');
+	var format = g_user_date_time_format;
+	var isEndBeforeStart = compareDates(startTime, format, endTime, format);
+	
+	if (isEndBeforeStart == 1) {
+		g_form.setValue('end_time', g_form.getValue('start_time'));
+	}
+}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-01-03 17:33:02</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>c5216e5a0f88f60011bec3ace1050e17</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>Item Reservation Start time Enforcement</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_client_c5216e5a0f88f60011bec3ace1050e17</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-05-03 16:03:15</sys_updated_on>
+        <table>x_lsmcb_fm_item_reservation</table>
+        <type>onChange</type>
+        <ui_type>0</ui_type>
+        <view/>
+    </sys_script_client>
+</record_update>

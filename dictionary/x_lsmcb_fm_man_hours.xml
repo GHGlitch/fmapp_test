@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element extends="x_lsmcb_fm_base_costs" label="Man Hours" max_length="40" name="x_lsmcb_fm_man_hours" type="collection">
+        <element attributes="ref_auto_completer=AJAXTableCompleter,ref_ac_columns=number,ref_ac_order_by=name,ref_ac_columns_search=true" label="Rate Group" mandatory="true" max_length="32" name="rate_group" reference="x_lsmcb_fm_rate_group" reference_qual="javascript:new x_lsmcb_fm.FMFOrderUtils().getAvailableRateGroups();" type="reference" use_reference_qualifier="advanced"/>
+        <index name="index">
+            <element name="rate_group"/>
+        </index>
+    </element>
+</database>

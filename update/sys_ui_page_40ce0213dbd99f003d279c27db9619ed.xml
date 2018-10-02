@@ -1,0 +1,964 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[var app = angular.module('addinApp', ['ui.bootstrap']);
+
+app.controller('addinController', function($scope) {
+	
+	$scope.options = {
+		eventInThePast: false,
+		isUpdate: false,
+		focusLocationFields: false,
+		spaceNotAvailable: false,
+        spaceNotFound: false,
+		date: new Date().toJSON(),
+		visitOptions: [
+            {value:"0", label: "No action needed"},
+            {value:"1", label: "Visit"},
+            {value:"2", label: "Visit & Parking"}
+        ],
+		attendees: 1,
+        requester: '',
+        requesterInfo: {},
+		visitors: [],
+		locations: [],
+        locationsLoaded: false,
+		floors: [],
+		spaces: [],
+		parkingLots: [],
+		space: 'Select a space',
+		spaceID: '',
+		floorID: '',
+		locationID: '',
+        lastOutlookLocation: '',
+        lastStartTime: '',
+        lastEndTime: '',
+        lastVisitors: [],
+        locationChangeWarning: false,
+        hoursUpdateFromFloorplan: false,
+		showCatering: false,
+		selectedCatering: [{}],
+        lastNumberVisitors: 0,
+        counter: 0,
+		modelOptions: {
+			getterSetter: true,
+			debounce: {
+				'default': 500,
+				'blur': 250
+			}
+		}
+	};
+    
+    /**
+     * Gets all the settings (system properties) from the server via AJAX
+     */
+	$scope.getSettings = function() {
+		
+		var ga = new GlideAjax('OutlookProcessor');
+		ga.addParam('sysparm_name', 'getSettings');
+		
+		ga.getXML(getResponse);
+
+		function getResponse(response) {
+			var answer = response.responseXML.documentElement.getAttribute("answer");
+			answer = JSON.parse(answer);
+			
+			
+			
+			// Properties
+			$scope.typeaheadLimit = parseInt(answer.typeaheadLimit);
+			$scope.typeaheadMinChars = parseInt(answer.typeaheadMinChars);
+            $scope.instanceURL = answer.instanceURL;
+			$scope.allowCatering = answer.allowCatering == 'true';
+			
+			// Messages
+			$scope.welcomeMessage = answer.welcome;
+			$scope.createReservationMessage = answer.createReservation;
+			$scope.updateReservationMessage = answer.updateReservation;
+			$scope.spaceNotAvailableMessage = answer.spaceNotAvailable;
+            $scope.spaceNotFoundMessage = answer.spaceNotFound;
+			$scope.eventInThePastMessage = answer.eventInThePast;
+            $scope.locationChangeMessage = answer.locationChangeMessage;
+			$scope.subjectFieldPlaceholder = answer.subjectFieldPlaceholder;
+			$scope.locationFieldPlaceholder = answer.locationFieldPlaceholder;
+			$scope.floorFieldPlaceholder = answer.floorFieldPlaceholder;
+			$scope.spaceFieldPlaceholder = answer.spaceFieldPlaceholder;
+            $scope.cateringTitle = answer.cateringTitle;
+            $scope.cateringSelectionPlaceholder = answer.cateringSelectionPlaceholder;
+            $scope.addCateringItemButton = answer.addCateringItemButton;
+            $scope.visitsTitle = answer.visitsTitle;
+            $scope.visitType = answer.visitType;
+            $scope.visitNoAction = answer.visitNoAction;
+            $scope.visitVisit = answer.visitVisit;
+            $scope.visitParking = answer.visitParking;
+            $scope.visitCompany = answer.visitCompany;
+            $scope.visitLicensePlate = answer.visitLicensePlate;
+            $scope.visitParkingLot = answer.visitParkingLot;
+            $scope.parkingLotPlaceholder = answer.parkingLotPlaceholder;
+            $scope.remarksPlaceholder = answer.remarksPlaceholder;
+            $scope.requesterTitle = answer.requesterTitle;
+		}
+	};
+	
+    /**
+     * Obtains data from the server via AJAX, according to the 'data' parameter (can be 'locations' or 'catering')
+     *
+	 * @param {string} data
+     */
+	$scope.getData = function(data) {
+		
+		var ga = new GlideAjax('x_lsmcb_fm.OutlookProcessor');
+
+		if (data == 'locations') {
+			ga.addParam('sysparm_name', 'getLocations');
+		} else if (data == 'catering') {
+			ga.addParam('sysparm_name', 'getCatering');
+		}
+
+		// Error and debugging only
+		ga.setErrorCallback(function(e) {
+			console.error("Error occurred while attempting to read data from server " + e.statusText);
+		});
+
+		ga.getXML(getResponse);
+
+		function getResponse(response) {
+			
+			var answer = response.responseXML.documentElement.getAttribute("answer");
+			//console.log('>>> ANSWER: ' + answer);
+			answer = JSON.parse(answer);
+			
+			if (data == 'locations') {
+				$scope.options.locations = answer;
+                $scope.options.locationsLoaded = true;
+                
+			} else if (data == 'catering') {
+				$scope.options.availableCatering = answer;
+                $scope.checkReservation();
+			}
+		}
+	};
+	
+    /**
+     * Checks, via AJAX, if the current Outlook appointment already has a reservation in the FMA app
+     */
+	$scope.checkReservation = function() {
+		
+		var ga = new GlideAjax('OutlookProcessor');
+		ga.addParam('sysparm_name', 'checkReservation');
+		ga.addParam('sysparm_outlookID', $scope.options.outlookID);
+		
+		ga.getXML(getResponse);
+
+		function getResponse(response) {
+			var answer = response.responseXML.documentElement.getAttribute("answer");
+			$scope.inform = answer;
+            answer = JSON.parse(answer);
+			
+			if (answer.isUpdate) {
+                
+				$scope.options.isUpdate = true;
+                
+                if (answer.visitors.length > 0) {
+                    $scope.options.visitors = answer.visitors;
+                    
+                    for (var k = 0; k < $scope.options.visitors.length; k++) {
+                        
+                        if ($scope.options.visitors[k].email == $scope.options.requester) {
+                            
+                            $scope.options.requesterInfo = $scope.options.visitors[k];
+                            $scope.options.visitors.splice(k, 1);
+                            break;
+                        }
+                    }
+                }
+                
+                if (answer.catering.length > 0) {
+                    
+                    $scope.options.selectedCatering = answer.catering;
+                    $scope.options.showCatering = true;
+
+                    for (var i = 0; i < $scope.options.selectedCatering.length; i++) {
+
+                        for (var j = 0; j < $scope.options.availableCatering.length; j++) {
+
+                            if ($scope.options.availableCatering[j].value == $scope.options.selectedCatering[i].value) {
+
+                                $scope.options.availableCatering[j].quantity = $scope.options.selectedCatering[i].quantity;
+                                $scope.options.availableCatering[j].choiceIndex = $scope.options.selectedCatering[i].choiceIndex;
+                                $scope.options.availableCatering[j].choiceDisabled = true;
+                            }
+                        }
+                    }
+                }
+			}
+		}
+	};
+	
+    /**
+     * Performs the initial load of information to the addin
+     */
+	$scope.load = function() {
+		$scope.getSettings();
+		$scope.getData('locations');
+		$scope.getData('catering');
+	};
+	
+	$scope.load();
+	
+    /**
+     * Checks if the date set for the event occurs in the past (via AJAX because GlideDateTime is needed here)
+     * If so, shows a warning and stops the meeting to be created on SN
+     */
+	$scope.checkPastDate = function() {
+		
+		var start = $scope.options.sTime;
+		
+		var ga = new GlideAjax('OutlookProcessor');
+		ga.addParam('sysparm_name', 'checkPastDate');
+		ga.addParam('sysparm_start', start);
+		
+		ga.getXML(getResponse);
+
+		function getResponse(response) {
+			var answer = response.responseXML.documentElement.getAttribute("answer");
+			
+			// true means that the event occurs (even if partially) in the past
+			if (answer == 'true') {
+				$scope.options.eventInThePast = true;
+				$scope.options.selectedLocation = '';
+			} else {
+				$scope.options.eventInThePast = false;
+			}
+		}
+	};
+	
+    /**
+     * Reloads the floor and parking information on the addin, clearing the selected floor and space
+     */
+	$scope.updateFloors = function() {
+		
+		$scope.options.floors = $scope.options.selectedLocation.floors;
+        $scope.options.parkingLots = $scope.options.selectedLocation.parkingLots;
+		$scope.options.selectedFloor = '';
+		$scope.options.selectedSpace = '';
+	};
+	
+    /**
+     * Reloads the space information on the addin, clearing the selected space
+     */
+	$scope.updateSpaces = function() {
+		$scope.options.spaces = $scope.options.selectedFloor.rooms;
+        $scope.options.selectedSpace = '';
+	};
+	
+    /**
+     * Sets content on the Outlook side, according to the parameter (can be 'subject', 'body' or 'location')
+     *
+	 * @param {string} content
+     */
+	$scope.setOutlookContent = function(content) {
+		
+		var options = {
+			asyncContext: { verb: "Set" }
+		};
+		
+		try {
+			
+			switch (content) {
+					
+				case 'subject':
+					Office.context.mailbox.item.subject.setAsync($scope.options.subject, options, function (result) {});
+					break;
+					
+				case 'body':
+					Office.context.mailbox.item.body.setAsync($scope.options.remarks, options, function (result) {});
+					break;
+					
+				case 'location':
+					Office.context.mailbox.item.location.setAsync($scope.options.selectedSpace.name, options, function (result) {});
+					break;
+					
+				case 'locationAttendees':
+                    Office.context.mailbox.item.requiredAttendees.addAsync([{
+						displayName: $scope.options.selectedSpace.name,
+						emailAddress: $scope.options.selectedSpace.email
+					}]);
+                    
+			}
+		} catch(e) {}
+		
+	};
+	
+    /**
+     * Holds the needed logic to load the floorview inside an Outlook frame
+     */
+	$scope.loadFloorview = function() {
+        
+		var floorviewURL = 'x_lsmcb_fm_fm_outlook_floorview.do';
+        
+        var sDate = $scope.options.sTime;
+		var eDate = $scope.options.eTime;
+		var sTime = sDate.split(' ')[1];
+		var eTime = eDate.split(' ')[1];
+		var date = sDate.split(' ')[0];
+        
+		var sh = sTime.split(":")[0];
+		sh = sh.length == 1 ? "0" + sh : sh;
+		var sm = sTime.split(":")[1];
+		var eh = eTime.split(":")[0];
+		eh = eh.length == 1 ? "0" + eh : eh;
+		var em = eTime.split(":")[1];
+		
+		var locationName = $scope.options.selectedLocation.name;
+		var locationID = $scope.options.selectedLocation.value;
+		
+		var floorName = $scope.options.selectedFloor.name;
+		var floorID = $scope.options.selectedFloor.value;
+		
+		var spaceName = $scope.options.selectedSpace.name;
+		var spaceID = $scope.options.selectedSpace.value;
+		
+		// Will only work with https://
+		var url = $scope.instanceURL + floorviewURL + '?sysparm_location=' + locationID + '&sysparm_locDispVal=' + locationName;
+		url += '&sysparm_floor=' + floorID + '&sysparm_floorDispVal=' + floorName + '&sysparm_selectedDate=' + date;
+		url += '&sysparm_startHour=' + sh + '&sysparm_startMin=' + sm + '&sysparm_endHour=' + eh + '&sysparm_endMin=' + em;
+		
+		if ($scope.options.selectedSpace.name != undefined) {
+			url += '&sysparm_space=' + $scope.options.selectedSpace.spaceID;
+		}
+        
+        var dialog;
+        
+        Office.context.ui.displayDialogAsync(url, {height: 100, width: 100 }, dialogCallback);
+        
+        function dialogCallback(asyncResult) {
+            
+            dialog = asyncResult.value;
+                
+            // Messages are sent by developers programatically from the dialog using office.context.ui.messageParent(...)
+            dialog.addEventHandler(Office.EventType.DialogMessageReceived, messageHandler);
+        }
+        
+        function messageHandler(arg) {
+            
+            // Close the dialog window
+            dialog.close();
+            
+            // Process the info coming from the floorplan
+            $scope.processFloorplanSelection(arg.message);
+            
+            // Update all the location info
+            $scope.updateSpacesFromPopup();
+            
+            // Update time on Outlook
+            $scope.updateOutlookTime();
+        }
+	};
+    
+    /**
+     * Processes the received content selected by the user in the floorplan
+     *
+	 * @param {JSON} content
+     */
+    $scope.processFloorplanSelection = function(content) {
+        
+        var selection = JSON.parse(content);
+        
+        $scope.options.sTime = selection.sTime;
+        $scope.options.eTime = selection.eTime;
+        $scope.options.locationID = selection.locationID;
+        $scope.options.floorID = selection.floorID;
+        $scope.options.spaceID = selection.spaceID;
+    };
+    
+    /**
+     * Updates the addin with the info coming from the floorplan selection
+     */
+    $scope.updateSpacesFromPopup = function() {
+
+		$scope.options.selectedLocation = $scope.options.locations.filter(function(location) {
+			return location.value == $scope.options.locationID;
+		})[0];
+        
+		$scope.updateFloors();
+        
+		$scope.options.selectedFloor = $scope.options.floors.filter(function(floor) {
+			return floor.value == $scope.options.floorID;
+		})[0];
+        
+		$scope.updateSpaces();
+
+		$scope.options.selectedSpace = $scope.options.spaces.filter(function(space) {
+			return space.value == $scope.options.spaceID;
+		})[0];
+        
+        $scope.setOutlookContent('location');
+        
+        if ($scope.lastOutlookLocation != $scope.options.selectedSpace.name) {
+            $scope.setOutlookContent('locationAttendees');
+        }
+        
+        $scope.options.counter++;
+	};
+    
+    // This watch takes into account the number of updates made to the location. If it is more than 1, show a warning message.
+    // Needed because we cannot control the 'resources' field on the Outlook side, so there is no way of knowing how many location
+    // emails are there.
+    $scope.$watch('options.counter', function() {
+        if ($scope.options.counter > 1) {
+            $scope.options.locationChangeWarning = true;
+        }
+    });
+    
+    /**
+     * Updates the time on the Outlook side
+     */
+    $scope.updateOutlookTime = function() {
+        
+        $scope.hoursUpdateFromFloorplan = true;
+        
+        var sTime = $scope.convertToOutlookTime($scope.options.sTime);
+        sTime = new Date(sTime);
+        
+        var eTime = $scope.convertToOutlookTime($scope.options.eTime);
+        eTime = new Date(eTime);
+        
+        var options = {
+			asyncContext: { verb: "Set" }
+		};
+        
+        $scope.options.lastStartTime = $scope.options.sTime;
+        $scope.options.lastEndTime = $scope.options.eTime;
+        
+        Office.context.mailbox.item.start.setAsync(sTime, options, function (result) {});
+		Office.context.mailbox.item.end.setAsync(eTime, options, function (result) {
+            $scope.hoursUpdateFromFloorplan = false;
+        });
+    };
+	
+    /**
+     * Clears the selected floor and space, if there is no location selected
+     */
+	$scope.updateSelectionOptions = function() {
+        
+        $scope.options.spaceNotAvailable = false;
+		
+		if (!$scope.options.selectedLocation) {
+                
+            $scope.options.selectedFloor = '';
+            $scope.options.selectedSpace = '';
+            return;
+        }
+	};
+	
+    /**
+     * Creates a room reservation (via AJAX) in SN, saves the Outlook meeting, and closes the addin and the meeting
+     */
+	$scope.createRoomReservation = function() {
+
+		var reservationData = $scope.getReservationData();
+		
+		var ga = new GlideAjax('OutlookProcessor');
+		ga.addParam('sysparm_name', 'createRoomReservationFromAddin');
+		ga.addParam('sysparm_reservationData', JSON.stringify(reservationData));
+		
+		ga.getXML(getResponse);
+
+		function getResponse(response) {}
+		
+		Office.context.mailbox.item.saveAsync(function callback(result) {
+            Office.context.mailbox.item.close();
+        });
+	};
+    
+    /**
+     * Cleans the 'Location' field on the Outlook side
+     */
+    $scope.cleanOutlookLocation = function() {
+        var options = {
+			asyncContext: { verb: "Set" }
+		};
+        
+        Office.context.mailbox.item.location.setAsync('', options, function (result) {});
+    };
+    
+    /**
+     * Converts a date to the Outlook format (yyyy/mm/ddThh:mm:ss)
+     *
+     * @param {string} date
+	 * @returns {string} date
+     */
+    $scope.convertToOutlookTime = function(date) {
+        
+        date = date.replace(' ', 'T');
+        return date;
+    };
+    
+    /**
+     * Collects all the reservation data necessary to create a reservation in SN
+     *
+	 * @returns {JSON} reservationData
+     */
+    $scope.getReservationData = function() {
+        
+        var reservationData = {};
+        
+		reservationData.space = $scope.options.selectedSpace.value;
+		reservationData.requesterEmail = $scope.options.requester;
+		reservationData.subject = $scope.options.subject;
+		reservationData.attendees = $scope.options.attendees + 1; // Add 1 (the requester)
+		reservationData.visitors = JSON.parse(angular.toJson($scope.options.visitors.concat($scope.options.requesterInfo)));
+		reservationData.remarks = $scope.options.remarks;
+		reservationData.outlookID = $scope.options.outlookID;
+		reservationData.catering = JSON.parse(angular.toJson($scope.retrieveCateringInformation()));
+		reservationData.sTime = $scope.options.sTime;
+		reservationData.eTime = $scope.options.eTime;
+        reservationData.cancelled = false;
+        
+        return reservationData;
+    };
+    
+    /**
+     * Retrieves all the catering selected by the user
+     *
+	 * @returns {JSON} catering
+     */
+    $scope.retrieveCateringInformation = function() {
+        
+        var catering = [];
+        
+        if ($scope.options.selectedCatering.length > 0) {
+            
+            $scope.options.selectedCatering.forEach(function(elem){
+
+                if (angular.toJson(elem) != '{}') {
+                    catering.push(elem);
+                }
+            });
+        }
+        
+        return catering;
+    };
+    
+    /**
+     * Adds a new empty object to the selected catering, making it possible for the user to choose another catering option
+     */
+    $scope.addCateringItem = function() {
+        $scope.options.selectedCatering.push({});
+    };
+    
+    /**
+     * Removes the selected catering item from the selected catering list
+     *
+	 * @param {number} index
+     */
+    $scope.removeCateringItem = function(index) {
+		
+		// Only do this if it was not the last element being clicked or, if it was
+        // it was not empty (in that case only the splice is needed)
+		if (!$scope.checkBadSelection($scope.options.selectedCatering.length - 1)) {
+        
+			// Update the target element on the 'options.availableCatering' array
+			for (var i = 0; i < $scope.options.availableCatering.length; i++) {
+
+				if ($scope.options.availableCatering[i].choiceIndex == index) {
+
+					$scope.options.availableCatering[i].choiceIndex = '';
+					$scope.options.availableCatering[i].choiceDisabled = false;
+					break;
+				}
+			}
+
+			// Go through all the elements again, this time reducing the 'choiceIndex' property of all other elements by 1
+			for (var j = 0; j < $scope.options.availableCatering.length; j++) {
+                
+				if ($scope.options.availableCatering[j].choiceIndex != '') {
+					$scope.options.availableCatering[j].choiceIndex = $scope.options.availableCatering[j].choiceIndex - 1;
+				}
+			}
+		}
+        
+        // Remove the element from the 'options.selectedCatering' array (and, thus, the respective div from the selection part)
+        $scope.options.selectedCatering.splice(index, 1);
+    };
+    
+    /**
+     * Checks if the respective catering option should be disabled
+     *
+	 * @param {JSON} item
+     * @param {number} index
+     * @returns {boolean}
+     */
+    $scope.isCateringOptionDisabled = function(item, index) {    
+        return item.choiceDisabled && item.choiceIndex != index;
+    };
+    
+    /**
+     * Checks if the selection was not done properly (a proper selection requires an actual item and quantity selection)
+     *
+	 * @param {number} index
+     * @returns {boolean}
+     */
+    $scope.checkBadSelection = function(index) {
+        return angular.toJson($scope.options.selectedCatering[index]) == '{}' || !$scope.options.selectedCatering[index].quantity;
+    };
+    
+    /**
+     * Processes a change in the catering selection, by updating the list of available catering as well
+     *
+	 * @param {number} index
+     */
+    $scope.processCateringChange = function(index) {
+        
+        $scope.options.selectedCatering[index].choiceIndex = index;
+        $scope.options.selectedCatering[index].choiceDisabled = true;
+        
+        for (var i = 0; i < $scope.options.availableCatering.length; i++) {
+            
+            if ($scope.options.availableCatering[i].value == $scope.options.selectedCatering[index].value) {
+                $scope.options.availableCatering[i].choiceIndex = index;
+                $scope.options.availableCatering[i].choiceDisabled = true;
+                
+            } else if ($scope.options.availableCatering[i].value != $scope.options.selectedCatering[index].value && $scope.options.availableCatering[i].choiceIndex == index) {
+                $scope.options.availableCatering[i].choiceIndex = '';
+                $scope.options.availableCatering[i].choiceDisabled = false;
+            }
+            
+        }
+    };
+    
+    /**
+     * Controls the spinner input, by only allowing positive numbers bigger than 0 and removing leading zeros
+     *
+	 * @param {number} quantity
+     * @returns {string} quantity
+     */
+    $scope.spinnerHandler = function(quantity) {
+        
+        // No zeros shall be accepted, so replace it for a 1
+        if (quantity == 0) {
+            quantity = 1;
+            
+        // Remove any leading zeros    
+        } else {
+            quantity = parseInt(quantity, 10) + '';
+        }
+        
+        return quantity.replace(/[^0-9-]/g, '');
+    };
+    
+    /**
+     * Adds or removes 1 to the quantity spinner, depending on the 'operation' passed in the first parameter
+     *
+	 * @param {string} operation
+     * @param {JSON} item
+     */
+    $scope.cateringQuantitySpinner = function(operation, item) {
+        
+        if (operation == 'add') {
+            
+            item.quantity++;
+            
+        } else if (operation == 'sub') {
+            
+            if (item.quantity > 1) {
+                item.quantity--;
+            }
+        }
+    };
+    
+    /**
+     * Checks if the message indicating room unavailability is visible
+     *
+	 * @returns {boolean}
+     */
+    $scope.isRoomUnavailableMsgVisible = function() {
+        return $scope.options.spaceNotAvailable || $scope.options.spaceNotFound;
+    };
+    
+    /**
+     * Checks if the message indicating a possible location change is visible
+     *
+	 * @returns {boolean}
+     */
+    $scope.isLocationChangeMsgVisible = function() {
+        return $scope.options.locationChangeWarning && !$scope.isRoomUnavailableMsgVisible();
+    };
+    
+    /**
+     * Hides the message indicating a possible location change
+     */
+    $scope.toggleLocationChangeMsgProperty = function() {
+        
+        if ($scope.options.locationChangeWarning) {
+            $scope.options.locationChangeWarning = false;
+        }
+    };
+    
+});
+
+// Enforce that the #space field is NOT editable in any way other than using the floorplan selection
+$j("#space").on('keydown',  function(e) {
+	var key = e.charCode || e.keyCode || e.which;
+    
+	if (key == 8 || key == 46) {
+		e.preventDefault();
+		return false;
+	}
+});
+
+$j('#space').keypress(function(e) {
+	return false;
+});]]></client_script>
+        <description>UI page of the FMA's Outlook Addin</description>
+        <direct>false</direct>
+        <endpoint>x_lsmcb_fm_fm_outlook_addin.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	
+<html ng-app="addinApp">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<meta http-equiv="expires" content="0" />
+	<meta http-equiv="Cache-Control" content="no-cache" />
+	<meta http-equiv="Pragma" content="no-cache" />
+    <script src="//appsforoffice.microsoft.com/lib/1/hosted/office.js" />
+    <script src="/x_lsmcb_fm.angular1.4.8.jsdbx" type="text/javascript" />
+	<script src="/x_lsmcb_fm.angular-ui-bootstrap1.3.3.jsdbx" type="text/javascript" />
+    <script src="/x_lsmcb_fm.jquery3.2.1.jsdbx" type="text/javascript" />
+	<script src="/x_lsmcb_fm.bootstrap3.3.7.jsdbx" type="text/javascript" />
+	<script src="/x_lsmcb_fm.OfficeHelper.jsdbx" type="text/javascript" />
+	 
+	<!-- Addin's CSS (fm_outlook_addin.css) -->
+    <link href="eae29b70db461b003d279c27db961966.cssdbx?" rel="stylesheet" type="text/css"/>
+    <!-- Font Awesome's CSS (font_awesome.css) -->
+    <link href="ad2c74ce0fc0f60011bec3ace1050ecb.cssdbx?" rel="stylesheet" type="text/css"/>
+    <!-- Custom Spinner's CSS (custom-spinner.css) -->
+    <link href="6ab7aa30db96d3403d279c27db961926.cssdbx?" rel="stylesheet" type="text/css"/>
+</head>
+	
+<body ng-cloak="true" onLoad="window.scroll(0, 0)">
+	
+	<div class="container">
+		<div id="outer" ng-controller="addinController" style="margin-top: 1.5em;">
+			<p>{{inform}}</p>
+			<!-- These two spans are placedholders for typeahead settings ... -->
+			<span class="hide-this" ng-model="typeaheadLimit" />
+			<span class="hide-this" ng-model="typeaheadMinChars" />
+			
+			<!--<p style="width:20em; margin:2em 0em" ng-bind="welcomeMessage" />-->
+            
+            <p style="margin-bottom:2em">
+                <a class="btn btn-primary" id="instructionsButton" data-toggle="collapse" href="#instructionsTest" role="button" aria-expanded="false" aria-controls="instructionsTest" uib-btn-checkbox="" btn-checkbox-true="true" btn-checkbox-false="false" ng-model="buttonVisible">
+					
+                    <span style="font-size:12px;">{{buttonVisible ? 'Hide usage instructions' : 'Show usage instructions'}}</span>
+                </a>
+            </p>
+            
+            <div class="collapse" id="instructionsTest" style="font-size:12px; width:22em; margin-top:-1em; margin-bottom:2em">
+                <div class="card card-body" ng-bind="welcomeMessage" />
+            </div>
+            
+            <div class="alert alert-danger" role="alert" style="width:20.8em; margin-top:-1em" ng-show="options.eventInThePast">
+				<i class="glyphicon glyphicon-warning-sign" style="margin-right:0.5em" /><span ng-bind="eventInThePastMessage" />
+			</div>
+            
+			<form name="checkAvailablity">
+				
+				<!-- SUBJECT -->
+				<div class="input-group" style="margin-bottom:1.5em">
+					<span class="input-group-addon"><i class="fa fa-quote-right" style="width:1em" /></span>
+					<input type="text" id="subject" name="subject" data-toggle="tooltip" title="Subject" style="width:18.5em; text-align:left" class="form-control" placeholder="{{subjectFieldPlaceholder}}" ng-disabled="options.eventInThePast" ng-model="options.subject" ng-change="setOutlookContent('subject')"/>
+				</div>
+
+				<!-- LOCATION -->
+				<div class="input-group" style="margin-bottom:1.5em">
+					<span class="input-group-addon"><i class="fa fa-building" style="width:1em" /></span>
+					<input type="text" id="location" name="location" title="Location" style="width:18.5em; text-align:left" class="form-control" placeholder="{{locationFieldPlaceholder}}" ng-model="options.selectedLocation" ng-disabled="options.eventInThePast" ng-focus="options.focusLocationFields=true;" ng-blur="options.focusLocationFields=false;" ng-change="updateSelectionOptions()" uib-typeahead="location as location.name for location in options.locations | filter:$viewValue | limitTo:typeaheadLimit" typeahead-min-length="typeaheadMinChars" typeahead-on-select="updateFloors()" typeahead-editable="false" />
+				</div>
+
+				<!-- FLOOR -->
+				<div class="input-group" style="margin-bottom:1.5em">
+					<span class="input-group-addon"><i class="fa fa-align-justify" style="width:1em;" /></span>
+					<input type="text" id="floor" name="floor" title="Floor" style="width:18.5em; text-align:left" class="form-control" placeholder="{{floorFieldPlaceholder}}" ng-model="options.selectedFloor" ng-disabled="options.eventInThePast || !options.selectedLocation" ng-focus="options.focusLocationFields=true;" ng-blur="options.focusLocationFields=false;" uib-typeahead="floor as floor.name for floor in options.floors | filter:$viewValue | limitTo:typeaheadLimit" typeahead-min-length="typeaheadMinChars" typeahead-on-select="updateSpaces()" typeahead-editable="false" />
+				</div>
+
+				<!-- SPACE -->
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-map-marker" style="width:1em;" /></span>
+					<input type="text" id="space" name="space" title="Space" style="width:18.5em; text-align:left" class="form-control" placeholder="{{spaceFieldPlaceholder}}" ng-disabled="options.eventInThePast || !options.selectedFloor" ng-click="loadFloorview()" ng-model="options.selectedSpace.name" ng-focus="options.focusLocationFields=true;" ng-blur="options.focusLocationFields=false;" />
+				</div>
+				<div class="alert alert-danger" role="alert" style="width:20.9em; margin-top:0.4em" ng-show="isRoomUnavailableMsgVisible()">
+					<i class="glyphicon glyphicon-exclamation-sign" style="margin-right:0.5em;" /><span ng-bind="options.spaceNotAvailable ? spaceNotAvailableMessage : spaceNotFoundMessage" />
+				</div>
+                <div class="alert alert-info alert-dismissible" role="alert" style="width:20.9em; margin-top:0.4em" ng-if="isLocationChangeMsgVisible()">
+                    <div id="close-alert" data-dismiss="alert" ng-click="toggleLocationChangeMsgProperty()">
+                        &#215;
+                    </div>
+                    <i class="glyphicon glyphicon-info-sign" style="margin-right:0.5em" />
+                    <span ng-bind="locationChangeMessage" />
+                </div>
+                <br/>
+
+				<!-- CATERING -->
+				<div id="catering_div" ng-show="allowCatering">
+				<div class="container-fluid">
+					<div class="row" style="font-size:large; margin-top:0.5em; margin-bottom:1em">
+						<div class="col-xs-12" ng-style="options.showCatering ? {color:'black'} : {color:'grey'}">
+							<input type="checkbox" style="margin-top:-0.15em; cursor:pointer; margin-right:1em;" ng-model="options.showCatering" />
+                            <i class="fa fa-cutlery" style="width:1em; margin-right:0.3em;" ng-show="cateringTitle" /><span ng-bind="cateringTitle" />
+						</div>
+					</div>
+				</div>
+                
+                <!-- CATERING ITEMS && QUANTITIES -->
+				<div class="input-group" ng-show="options.showCatering" ng-repeat="selection in options.selectedCatering" style="width:23em">
+					<div class="input-group input-catering">
+                        <select id="catering" name="catering" style="width:17.5em; text-align:left; font-size:85%;" class="form-control" ng-model="options.selectedCatering[options.selectedCatering.indexOf(selection)]" ng-options="item.name disable when isCateringOptionDisabled(item, $index) for item in options.availableCatering track by item.name" ng-change="processCateringChange($index)">
+							<option disabled="true" value="" ng-bind="cateringSelectionPlaceholder" />
+						</select>
+					</div>
+                    <div class="spinner">
+                        <input class="spinner-input" type="text" id="quantity" name="quantity" ng-model="selection.quantity" ng-disabled="!options.selectedCatering || checkBadSelection($index)" ng-change="selection.quantity = spinnerHandler(selection.quantity)" />
+                        <a class="spinner-button spinner-up" ng-click="cateringQuantitySpinner('add', selection)" ng-disabled="!options.selectedCatering">▴</a>
+                        <a class="spinner-button spinner-down" ng-click="cateringQuantitySpinner('sub', selection)" ng-disabled="!options.selectedCatering">▾</a>
+                    </div>
+                    <div class="remove-button" ng-click="removeCateringItem($index)"><i class="fa fa-times" /></div>
+				</div>
+                
+                <div class="input-group" ng-show="options.showCatering" style="margin-top:1em;">
+                    <button type="button" class="btn btn-warning btn-sm" ng-disabled="checkBadSelection(options.selectedCatering.length - 1) || options.selectedCatering.length == options.availableCatering.length" ng-click="addCateringItem()">
+                        <span ng-bind="addCateringItemButton" />
+                    </button>
+                </div>
+				</div>
+				
+				<!-- VISITS -->
+                <br/>
+				<div class="row" style="font-size:large">
+					<div class="col-xs-12" ng-show="options.requesterInfo != {} || options.visitors.length > 0" style="top:-0.1em; margin-bottom:1em; font-weight:bold">
+                        <span ng-bind="visitsTitle" />
+                    </div>
+				</div>
+                
+                <!-- REQUESTER -->
+                <div class="row clearfix" style="width:23em" ng-show="options.requester">
+					<div class="col-xs-12" style="font-size:x-small; font-weight:bold; margin-bottom:1em">
+                        <span ng-bind="options.requesterInfo.name" />&#160;-&#160;<span ng-bind="requesterTitle" style="font-weight:normal; text-transform:uppercase" />
+                    </div>
+                    <div class="col-xs-12" ng-show="options.requesterInfo.showNameAndEmail" style="font-size:x-small; margin-top:-1em; margin-bottom:1em">
+                        <span ng-bind="options.requesterInfo.email" />
+                    </div>
+					<div class="col-xs-5" style="padding-top:0.6em">
+                        <span ng-bind="visitType" />
+                    </div>
+					<div class="col-xs-7">
+						<select id="visitOptions" name="visitOptions" class="form-control" ng-model="options.requesterInfo.options" ng-disabled="options.eventInThePast" ng-options="option.value as option.label for option in options.visitOptions" />
+					</div>
+					<div ng-show="options.requesterInfo.options!=0" style="margin-top:1em">
+						<div class="col-xs-5" style="padding-top:0.6em; margin:1em 0em; font-style:italic">
+                            <span ng-bind="visitCompany" />
+                        </div>
+						<div class="col-xs-7" style="margin:1em 0em">
+                            <input type="text" class="form-control" ng-model="options.requesterInfo.company" />
+                        </div>
+					</div>
+					<div ng-show="options.requesterInfo.options == '2'" style="margin-top:1em">
+						<div class="col-xs-5" style="padding-top:0.6em; font-style:italic;">
+                            <span ng-bind="visitLicensePlate" />
+                        </div>
+						<div class="col-xs-7">
+							<input type="text" class="form-control" placeholder="{{visitLicensePlate}}" ng-model="options.requesterInfo.lPlate" />
+						</div>
+						<div class="col-xs-5" style="padding-top:0.6em; margin-top:1em; font-style:italic">
+                            <span ng-bind="visitParkingLot" />
+                        </div>
+						<div class="col-xs-7" style="margin:1em 0em">
+							<input type="text" id="parkingLot" name="parkingLot" class="form-control" ng-model="options.requesterInfo.parkingLot" placeholder="{{parkingLotPlaceholder}}" uib-typeahead="parkingLot as parkingLot.name for parkingLot in options.parkingLots | filter:$viewValue | limitTo:typeaheadLimit" typeahead-min-length="typeaheadMinChars" />
+						</div>
+					</div>
+				<hr style="display:inline-block; width:99%; margin:1em 0em" />
+				</div>
+                
+                <!-- OTHER VISITS -->
+				<div class="row clearfix" ng-repeat="visitor in options.visitors" style="width:23em">
+					<div class="col-xs-12" style="font-size:x-small; font-weight:bold; margin-bottom:1em">
+                        <span ng-bind="visitor.name" />
+                    </div>
+                    <div class="col-xs-12" ng-show="visitor.showNameAndEmail" style="font-size:x-small; margin-top:-1em; margin-bottom:1em">
+                        <span ng-bind="visitor.email" />
+                    </div>
+					<div class="col-xs-5" style="font-size:small; padding-top:0.6em">
+                        <span ng-bind="visitType" />
+                    </div>
+					<div class="col-xs-7">
+						<select id="visitOptions" name="visitOptions" class="form-control" ng-model="visitor.options" ng-disabled="options.eventInThePast" ng-options="option.value as option.label for option in options.visitOptions" />
+					</div>
+					<div ng-show="visitor.options != 0" style="margin-top:1em">
+						<div class="col-xs-5" style="font-size:small; padding-top:0.6em; margin:1em 0em; font-style:italic">
+                            <span ng-bind="visitCompany" />
+                        </div>
+						<div class="col-xs-7" style="margin:1em 0em">
+                            <input type="text" class="form-control" ng-model="visitor.company" />
+                        </div>
+					</div>
+					<div ng-show="visitor.options == '2'" style="margin-top:1em">
+						<div class="col-xs-5" style="font-size:small; padding-top:0.6em; font-style:italic;">
+                            <span ng-bind="visitLicensePlate" />
+                        </div>
+						<div class="col-xs-7">
+							<input type="text" class="form-control" placeholder="{{visitLicensePlate}}" ng-model="visitor.lPlate" />
+						</div>
+						<div class="col-xs-5" style="font-size: mall; padding-top:0.6em; margin-top:1em; font-style:italic">
+                            <span ng-bind="visitParkingLot" />
+                        </div>
+						<div class="col-xs-7" style="margin:1em 0em">
+							<input type="text" id="parkingLot" name="parkingLot" class="form-control" ng-model="visitor.parkingLot" placeholder="{{parkingLotPlaceholder}}" uib-typeahead="parkingLot as parkingLot.name for parkingLot in options.parkingLots | filter:$viewValue | limitTo:typeaheadLimit" typeahead-min-length="typeaheadMinChars" />
+						</div>
+					</div>
+				<hr style="display:inline-block; width:99%; margin:1em 0em" />
+				</div>
+				<br/>
+
+				<!-- REMARKS -->
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-comment" /></span>
+					<textarea id="remarks" name="remarks" data-toggle="tooltip" title="Remarks" style="width:18.15em; text-align:left" class="form-control" ng-model="options.remarks" placeholder="{{remarksPlaceholder}}" ng-disabled="options.eventInThePast" ng-change="setOutlookContent('body')" />
+				</div>
+				<br/>
+
+				<!-- RESERVATION BUTTON -->
+				<div class="input-group">
+					<button type="submit" style="width:20.5em; text-align:center; font-weight:bold" class="btn btn-primary" ng-disabled="options.eventInThePast || !options.selectedSpace || options.spaceNotAvailable" ng-click="createRoomReservation()"><i class="glyphicon glyphicon-pushpin" style="margin-right: 1em;" />
+                        <span ng-bind="options.isUpdate ? updateReservationMessage : createReservationMessage" />
+                    </button>
+				</div>
+				<br/>
+                
+			</form>
+		</div>
+	</div>
+</body>
+</html>	
+</j:jelly>]]></html>
+        <name>fm_outlook_addin</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-04-11 14:35:17</sys_created_on>
+        <sys_id>40ce0213dbd99f003d279c27db9619ed</sys_id>
+        <sys_mod_count>1940</sys_mod_count>
+        <sys_name>fm_outlook_addin</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_page_40ce0213dbd99f003d279c27db9619ed</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-08-17 17:15:00</sys_updated_on>
+    </sys_ui_page>
+</record_update>

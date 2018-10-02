@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_list parent="x_lsmcb_fm_room_reservation" relationship="" sys_domain="global" table="x_lsmcb_fm_item_reservation" version="2" view="FM_Advanced_view">
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>start_time</element>
+            <list_id display_value="x_lsmcb_fm_item_reservation" element="NULL" name="x_lsmcb_fm_item_reservation" parent="x_lsmcb_fm_room_reservation" relationship="NULL" sys_domain="global" view="d8ff15ea0fdd360011bec3ace1050e7f">7351e2b40fa5320011bec3ace1050ea5</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>0</position>
+            <sum>false</sum>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-14 15:17:22</sys_created_on>
+            <sys_id>b751e2b40fa5320011bec3ace1050ea5</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-14 15:17:22</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>end_time</element>
+            <list_id display_value="x_lsmcb_fm_item_reservation" element="NULL" name="x_lsmcb_fm_item_reservation" parent="x_lsmcb_fm_room_reservation" relationship="NULL" sys_domain="global" view="d8ff15ea0fdd360011bec3ace1050e7f">7351e2b40fa5320011bec3ace1050ea5</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>1</position>
+            <sum>false</sum>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-14 15:17:22</sys_created_on>
+            <sys_id>3b51e2b40fa5320011bec3ace1050ea5</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-14 15:17:22</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>facility_item</element>
+            <list_id display_value="x_lsmcb_fm_item_reservation" element="NULL" name="x_lsmcb_fm_item_reservation" parent="x_lsmcb_fm_room_reservation" relationship="NULL" sys_domain="global" view="d8ff15ea0fdd360011bec3ace1050e7f">7351e2b40fa5320011bec3ace1050ea5</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>2</position>
+            <sum>false</sum>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-14 15:17:22</sys_created_on>
+            <sys_id>bb51e2b40fa5320011bec3ace1050ea5</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-14 15:17:22</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>room</element>
+            <list_id display_value="x_lsmcb_fm_item_reservation" element="NULL" name="x_lsmcb_fm_item_reservation" parent="x_lsmcb_fm_room_reservation" relationship="NULL" sys_domain="global" view="d8ff15ea0fdd360011bec3ace1050e7f">7351e2b40fa5320011bec3ace1050ea5</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>3</position>
+            <sum>false</sum>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-14 15:17:22</sys_created_on>
+            <sys_id>3f51e2b40fa5320011bec3ace1050ea5</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-14 15:17:22</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>short_description</element>
+            <list_id display_value="x_lsmcb_fm_item_reservation" element="NULL" name="x_lsmcb_fm_item_reservation" parent="x_lsmcb_fm_room_reservation" relationship="NULL" sys_domain="global" view="d8ff15ea0fdd360011bec3ace1050e7f">7351e2b40fa5320011bec3ace1050ea5</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>4</position>
+            <sum>false</sum>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-14 15:17:22</sys_created_on>
+            <sys_id>bf51e2b40fa5320011bec3ace1050ea5</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-14 15:17:22</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element/>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <name>x_lsmcb_fm_item_reservation</name>
+            <parent>x_lsmcb_fm_room_reservation</parent>
+            <position/>
+            <relationship/>
+            <sum>false</sum>
+            <sys_class_name>sys_ui_list</sys_class_name>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-14 15:17:22</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>7351e2b40fa5320011bec3ace1050ea5</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>x_lsmcb_fm_item_reservation</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_ui_list_x_lsmcb_fm_item_reservation_x_lsmcb_fm_room_reservation_FM_Advanced_view</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-14 15:17:22</sys_updated_on>
+            <sys_user/>
+            <view display_value="FM Advanced view" name="FM_Advanced_view">d8ff15ea0fdd360011bec3ace1050e7f</view>
+            <view_name/>
+        </sys_ui_list>
+    </sys_ui_list>
+</record_update>

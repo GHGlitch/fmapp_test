@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_choice action="INSERT_OR_UPDATE" field="type" table="x_lsmcb_fm_facility_item" version="3">
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Disruption</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_item</name>
+            <sequence>0</sequence>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-01-31 12:13:44</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>6c9421db0fa0f20011bec3ace1050e21</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-01-31 12:13:44</sys_updated_on>
+            <value>disruption</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Work order</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_item</name>
+            <sequence>1</sequence>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-01-31 12:13:44</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>a09421db0fa0f20011bec3ace1050e22</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-01-31 12:13:44</sys_updated_on>
+            <value>work order</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Purchase order</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_item</name>
+            <sequence>2</sequence>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-01-31 12:13:44</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>649421db0fa0f20011bec3ace1050e22</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-01-31 12:13:44</sys_updated_on>
+            <value>purchase order</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Request</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_item</name>
+            <sequence>3</sequence>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-01-31 12:13:44</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>289421db0fa0f20011bec3ace1050e22</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-01-31 12:13:44</sys_updated_on>
+            <value>request</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Complaint</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_item</name>
+            <sequence>4</sequence>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-01-31 12:13:44</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>e89421db0fa0f20011bec3ace1050e22</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-01-31 12:13:44</sys_updated_on>
+            <value>complaint</value>
+        </sys_choice>
+        <sys_choice_set action="INSERT_OR_UPDATE">
+            <element>type</element>
+            <name>x_lsmcb_fm_facility_item</name>
+            <sys_class_name>sys_choice_set</sys_class_name>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-01-31 12:13:44</sys_created_on>
+            <sys_id>5011d953db7023005e9f5385ca9619eb</sys_id>
+            <sys_mod_count>6</sys_mod_count>
+            <sys_name>type</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_choice_x_lsmcb_fm_facility_item_type</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-06-08 16:12:27</sys_updated_on>
+        </sys_choice_set>
+    </sys_choice>
+</record_update>

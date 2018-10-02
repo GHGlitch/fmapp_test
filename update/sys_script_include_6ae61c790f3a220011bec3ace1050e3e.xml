@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMParkingAjaxUtils</api_name>
+        <client_callable>true</client_callable>
+        <description>Ajax Utils for the parking reservations.</description>
+        <name>FMParkingAjaxUtils</name>
+        <script><![CDATA[var FMParkingAjaxUtils = Class.create();
+FMParkingAjaxUtils.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+	
+	pku: new FMParkingUtils(),
+	
+	getParkingAvailability: function() {
+		var lot = this.getParameter('sysparm_lot');
+		var date = this.getParameter('sysparm_date');
+		var availabilities = this.pku.getParkingAvailability(lot, date);
+		return availabilities;
+	},
+	isReservable: function() {
+		var parkingReservation = {};
+		parkingReservation.sys_id = this.getParameter("sysparm_sys_id");
+		parkingReservation.start_time = this.getParameter("sysparm_start_time");
+		parkingReservation.end_time = this.getParameter("sysparm_end_time");
+		parkingReservation.quantity = this.getParameter("sysparm_quantity");
+		parkingReservation.parking_lot_sys_id = this.getParameter("sysparm_parking_lot_sys_id");
+		return this.pku.isReservable(parkingReservation);
+	},
+	type: 'FMParkingAjaxUtils'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-10-31 15:01:20</sys_created_on>
+        <sys_id>6ae61c790f3a220011bec3ace1050e3e</sys_id>
+        <sys_mod_count>17</sys_mod_count>
+        <sys_name>FMParkingAjaxUtils</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_6ae61c790f3a220011bec3ace1050e3e</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-04 10:01:54</sys_updated_on>
+    </sys_script_include>
+</record_update>

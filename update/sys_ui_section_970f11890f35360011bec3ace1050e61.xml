@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_section caption="" section_id="970f11890f35360011bec3ace1050e61" sys_domain="global" table="x_lsmcb_fm_external_contact" version="3" view="">
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>title</element>
+            <position>0</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-27 09:19:21</sys_created_on>
+            <sys_id>6465ffba0f12be0011bec3ace1050ec0</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_external_contact" sys_domain="global" view="Default view">970f11890f35360011bec3ace1050e61</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-27 09:19:21</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>first_name</element>
+            <position>1</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-27 09:19:21</sys_created_on>
+            <sys_id>e465ffba0f12be0011bec3ace1050ec0</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_external_contact" sys_domain="global" view="Default view">970f11890f35360011bec3ace1050e61</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-27 09:19:21</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>last_name</element>
+            <position>2</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-27 09:19:21</sys_created_on>
+            <sys_id>6865ffba0f12be0011bec3ace1050ec0</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_external_contact" sys_domain="global" view="Default view">970f11890f35360011bec3ace1050e61</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-27 09:19:21</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>company</element>
+            <position>3</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-27 09:19:21</sys_created_on>
+            <sys_id>e865ffba0f12be0011bec3ace1050ec0</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_external_contact" sys_domain="global" view="Default view">970f11890f35360011bec3ace1050e61</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-27 09:19:21</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.split</element>
+            <position>4</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-27 09:19:21</sys_created_on>
+            <sys_id>6c65ffba0f12be0011bec3ace1050ec0</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_external_contact" sys_domain="global" view="Default view">970f11890f35360011bec3ace1050e61</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-27 09:19:21</sys_updated_on>
+            <sys_user/>
+            <type>.split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>user</element>
+            <position>5</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-27 09:19:21</sys_created_on>
+            <sys_id>ec65ffba0f12be0011bec3ace1050ec0</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_external_contact" sys_domain="global" view="Default view">970f11890f35360011bec3ace1050e61</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-27 09:19:21</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>email_address</element>
+            <position>6</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-27 09:19:21</sys_created_on>
+            <sys_id>6065ffba0f12be0011bec3ace1050ec1</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_external_contact" sys_domain="global" view="Default view">970f11890f35360011bec3ace1050e61</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-27 09:19:21</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>phone_number</element>
+            <position>7</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-27 09:19:21</sys_created_on>
+            <sys_id>e065ffba0f12be0011bec3ace1050ec1</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_external_contact" sys_domain="global" view="Default view">970f11890f35360011bec3ace1050e61</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-27 09:19:21</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>address</element>
+            <position>8</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-27 09:19:21</sys_created_on>
+            <sys_id>6465ffba0f12be0011bec3ace1050ec1</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_external_contact" sys_domain="global" view="Default view">970f11890f35360011bec3ace1050e61</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-27 09:19:21</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.end_split</element>
+            <position>9</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-27 09:19:21</sys_created_on>
+            <sys_id>e465ffba0f12be0011bec3ace1050ec1</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_external_contact" sys_domain="global" view="Default view">970f11890f35360011bec3ace1050e61</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-27 09:19:21</sys_updated_on>
+            <sys_user/>
+            <type>.end_split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>description</element>
+            <position>10</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-04-27 09:19:21</sys_created_on>
+            <sys_id>6865ffba0f12be0011bec3ace1050ec1</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_external_contact" sys_domain="global" view="Default view">970f11890f35360011bec3ace1050e61</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-04-27 09:19:21</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>first_last</element>
+            <position>11</position>
+            <sys_created_by>rafael.esteves</sys_created_by>
+            <sys_created_on>2017-05-15 14:02:43</sys_created_on>
+            <sys_id>7ed269bc0f3ef20011bec3ace1050e29</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_external_contact" sys_domain="global" view="Default view">970f11890f35360011bec3ace1050e61</sys_ui_section>
+            <sys_updated_by>rafael.esteves</sys_updated_by>
+            <sys_updated_on>2017-05-15 14:02:43</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_section action="INSERT_OR_UPDATE">
+            <caption/>
+            <header>false</header>
+            <name>x_lsmcb_fm_external_contact</name>
+            <roles/>
+            <sys_class_name>sys_ui_section</sys_class_name>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-27 15:21:47</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>970f11890f35360011bec3ace1050e61</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>x_lsmcb_fm_external_contact</sys_name>
+            <sys_overrides/>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_ui_section_970f11890f35360011bec3ace1050e61</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-03-27 15:21:47</sys_updated_on>
+            <sys_user/>
+            <title>true</title>
+            <view display_value="Default view" name="NULL">Default view</view>
+            <view_name/>
+        </sys_ui_section>
+    </sys_ui_section>
+</record_update>

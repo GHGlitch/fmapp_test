@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMArtRelatedAjaxUtils</api_name>
+        <client_callable>true</client_callable>
+        <description>Utils for the Art Management and Overall Art data.</description>
+        <name>FMArtRelatedAjaxUtils</name>
+        <script><![CDATA[var FMArtRelatedAjaxUtils = Class.create();
+FMArtRelatedAjaxUtils.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+    
+    /**
+     * Client callable function that receives a parameter with the artist sys_id number
+     * 
+     * @returns JSON String containing artist information and details
+     */
+    getArtistInfo: function(){
+        
+        var artist_obj = {};
+        var artist_sysid = this.getParameter('sysparm_artist_sysid');
+
+
+        var gr = new GlideRecord('x_lsmcb_fm_artist');
+        gr.addQuery('sys_id', artist_sysid );
+        gr.query();
+
+        if(gr.next()){
+            artist_obj.sys_id = gr.sys_id.toString();
+            artist_obj.id =  gr.getValue('id');
+            artist_obj.initials = gr.getDisplayValue('initials');
+            artist_obj.photo = gr.getDisplayValue('photo');
+            artist_obj.first_name = gr.getValue('first_name');
+            artist_obj.last_name = gr.getValue('last_name');
+            artist_obj.birth_year = gr.getDisplayValue('birth_year');
+            artist_obj.education = gr.getValue('education');
+            artist_obj.biography = gr.getValue('biography');
+            artist_obj.website = gr.getDisplayValue('website');
+        }
+
+        var answer = JSON.stringify(artist_obj);
+        return answer;
+    },
+
+    /**
+     * Client callable function that receives a parameter with the art sys_id number
+     * 
+     * @returns JSON string containing art information and details
+     */
+    getArtInfo: function(){
+
+        var art_obj = {};
+        var art_sysid = this.getParameter('sysparm_art_sysid');
+
+
+        var gr = new GlideRecord('x_lsmcb_fm_art');
+        gr.addQuery('sys_id', art_sysid );
+        gr.query();
+
+        if(gr.next()){
+            art_obj.title = gr.getValue('title');
+            art_obj.type =  gr.getDisplayValue('type');
+            art_obj.productionDate = gr.getValue('production');
+            art_obj.technique = gr.getValue('technique');
+            art_obj.material = gr.getDisplayValue('surface_material');
+            art_obj.shortDescription = gr.getDisplayValue('short_description');
+            art_obj.dimensions = gr.getValue('dimensions');
+            art_obj.information = gr.getValue('information');
+            art_obj.location = gr.getDisplayValue('location');
+            art_obj.room = gr.getDisplayValue('room');
+        }
+
+        var answer = JSON.stringify(art_obj);
+        return answer;
+    },
+    
+    /**
+     *  Server side function that returns every room for a specific location
+     * 
+     * @param String location_sysid 
+     * @returns String which is an encoded query with rooms' sys_id
+     */
+    roomRefQualifier: function(location_sysid){
+
+        var roomArray = [];
+
+        var gr = new GlideRecord('x_lsmcb_fm_room');
+        gr.addQuery('floor.location', location_sysid );
+        gr.query();
+
+        while(gr.next()){
+            roomArray.push(gr.sys_id.toString());
+        }
+
+        return 'sys_idIN' + roomArray.join(',');
+    },
+
+    /**
+     * Client callable function which returns art types in the user's language
+     * 
+     * @returns String containing an array with art types' labels
+     */
+    fetchArtTypes: function(){
+
+        var typeArray = [];
+
+        var gr = new GlideRecord('sys_choice');
+        gr.addQuery('name','x_lsmcb_fm_art');
+        gr.addQuery('element','type');
+        gr.addQuery('language', gs.getSession().getLanguage());
+        gr.query();
+
+        while (gr.next()){
+            typeArray.push(gr.getDisplayValue('label'));
+        }
+        var answer = JSON.stringify(typeArray);
+        return answer;
+    },
+
+    /**
+     * Client callable function which receives artist, location, room and art type
+     * 
+     * @returns String containing an array with objects containing art details
+     */
+    searchArtPieces: function(){
+
+        var artArray = [];
+
+        var artist = this.getParameter('sysparm_artist_sysid');
+        var location = this.getParameter('sysparm_location_sysid');
+        var room = this.getParameter('sysparm_room_sysid');
+        var arttype = this.getParameter('sysparm_arttype');
+
+        var art = new GlideRecord('x_lsmcb_fm_art');
+        art.addQuery('visible_on_portal', true);
+        if(location !== '') art.addQuery('location', location);
+        if(room !== '') art.addQuery('room', room);
+        if(artist !== '') art.addQuery('artist', artist);
+        if(arttype !== '') art.addQuery('type', arttype);
+        art.query();
+
+
+        while(art.next()){
+            artArray.push(
+                {
+                    artist_initials: art.getDisplayValue('artist'),
+                    artist_sysid: art.getValue('artist'),
+                    available_for_loan: art.getDisplayValue('available_for_loan'),
+                    code: art.getValue('code'),
+                    condition: art.getValue('condition'),
+                    dimensions: art.getValue('dimensions'),
+                    edition: art.getValue('edition'),
+                    image: art.getDisplayValue('photo'),
+                    information: art.getValue('information'),
+                    location: art.getDisplayValue('location'),
+                    location_sysid: art.getValue('location'),
+                    purchase_date: art.getDisplayValue('purchase_date'),
+                    purchase_price: art.getDisplayValue('purchase_price'),
+                    production_date: art.getDisplayValue('production'),
+                    room_sysid: art.getValue('room'),
+                    room: art.getDisplayValue('room'),
+                    short_description: art.getValue('short_description'),
+                    signature: art.getValue('signature'),
+                    surface_material: art.getValue('surface_material'),
+                    status: art.getValue('status'),
+                    status_display_value: art.getDisplayValue('status'),
+                    sys_id: art.sys_id.toString(),
+                    title: art.getValue('title'),
+                    type: art.getDisplayValue('type'),
+
+                }
+            );
+        }
+
+        var answer = JSON.stringify(artArray);
+        return answer;
+    },
+
+    type: 'FMArtRelatedAjaxUtils'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-12-05 14:47:15</sys_created_on>
+        <sys_id>1e93a8410feb220011bec3ace1050edc</sys_id>
+        <sys_mod_count>39</sys_mod_count>
+        <sys_name>FMArtRelatedAjaxUtils</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_1e93a8410feb220011bec3ace1050edc</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-11-21 11:09:22</sys_updated_on>
+    </sys_script_include>
+</record_update>

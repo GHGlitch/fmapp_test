@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMFacilityItemUtils</api_name>
+        <client_callable>false</client_callable>
+        <description>Utils for the item reservations.</description>
+        <name>FMFacilityItemUtils</name>
+        <script><![CDATA[var FMFacilityItemUtils = Class.create();
+FMFacilityItemUtils.prototype = {
+    initialize: function () { },
+
+    dtu: new FMDateTimeUtils(),
+
+	/**
+     * Called from the item reservation form
+     * 
+     * @param {sys_id} location 
+     * @param {GlideDateTime} dts 
+     * @param {GlideDateTime} dte 
+     * @returns enconded query for fetching available Facility Items given a location and a time interval.
+     */
+    getAvailableItems: function (location, dts, dte) {
+
+        var startTime = new GlideDateTime();
+        var endTime = new GlideDateTime();
+        startTime.setValue(dts);
+        endTime.setValue(dte);
+
+        var result = [];
+
+        var m2mGr = new GlideRecord('x_lsmcb_fm_m2m_locations_facility_items');
+        m2mGr.addQuery('location', location);
+        m2mGr.query();
+
+        while (m2mGr.next()) {
+
+            var gdts = new GlideDateTime();
+            gdts.setDisplayValue(startTime.getDisplayValue());
+
+            var gdte = new GlideDateTime();
+            gdte.setDisplayValue(endTime.getDisplayValue());
+            gdts.addSeconds(-parseInt(m2mGr.facility_item.minutes_before) * 60);
+            gdte.addSeconds(parseInt(m2mGr.facility_item.minutes_after) * 60);
+
+            if (this.checkAvailability(m2mGr.facility_item, gdts, gdte, '0')) {
+                result.push(m2mGr.getValue('facility_item'));
+            }
+        }
+        return 'sys_idIN' + result.join(',');
+    },
+
+	/**
+     * Called from the onChange of quantity on the item reservation form
+     * 
+     * @param {sys_id} item 
+     * @param {GlideDateTime} gdtsf 
+     * @param {GlideDateTime} gdtef 
+     * @param {sys_id} currentReservation 
+     * @returns the maximum number of items that can be reserved given an item and a window of time
+     */
+    isReservable: function (item, gdtsf, gdtef, currentReservation) {
+
+        var grItem = new GlideRecord("x_lsmcb_fm_facility_item");
+        grItem.get('sys_id', item);
+
+        var gdts = new GlideDateTime();
+        gdts.setDisplayValue(gdtsf);
+        var gdte = new GlideDateTime();
+        gdte.setDisplayValue(gdtef);
+        gdts.addSeconds(-grItem.minutes_before * 60);
+        gdte.addSeconds(grItem.minutes_after * 60);
+
+        var maxQuantity = parseInt(grItem.quantity);
+        var availableQuantity;
+
+        while (gdts <= gdte) {
+
+            availableQuantity = 0;
+
+            var gdtsQ = new GlideDateTime();
+            gdtsQ.setValue(gdts);
+            var gdteQ = new GlideDateTime();
+            gdteQ.setValue(gdte);
+
+            var reservedItems = 0;
+            var rgr = new GlideRecord("x_lsmcb_fm_item_reservation");
+            rgr.addQuery("facility_item", grItem.sys_id.toString());
+            rgr.addQuery("start_time", "<=", gdteQ);
+            rgr.addQuery("end_time", ">=", gdtsQ);
+			rgr.addQuery("state", "!=", "2");
+            rgr.addQuery('sys_id', '!=', currentReservation);
+            rgr.query();
+
+            while (rgr.next()) {
+
+                var stR = new GlideDateTime();
+                stR.setValue(rgr.start_time);
+                var endR = new GlideDateTime(rgr.end_time);
+                endR.setValue(rgr.end_time);
+
+                if (gdts > stR && gdts < endR) {
+                    reservedItems += parseInt(rgr.quantity, 10);
+                }
+            }
+            availableQuantity = parseInt(grItem.quantity) - reservedItems;
+
+            if (availableQuantity < maxQuantity) {
+                maxQuantity = availableQuantity;
+            }
+            gdts.addSeconds(15 * 60);
+        }
+        return maxQuantity;
+    },
+
+	/**
+     * Called from the item reservation record producer
+     * 
+     * @param {sys_id} location 
+     * @param {string} rsrvdate - Start date
+     * @param {string} rsrvedate - End date
+     * @param {string} stH - Start Hour
+     * @param {string} stM - Start Minutes
+     * @param {string} endH - End Hour
+     * @param {string} endM - End minutes
+     * @returns enconded query for fetching available Facility Items given a location and a time interval.
+     */
+    getAvailableItemsRP: function (location, rsrvdate, rsrvedate, stH, stM, endH, endM) {
+
+        var result = [];
+
+        var m2mGr = new GlideRecord('x_lsmcb_fm_m2m_locations_facility_items');
+        m2mGr.addQuery('location', location);
+        m2mGr.query();
+
+        while (m2mGr.next()) {
+
+            var gdts = new GlideDateTime();
+            gdts.setDisplayValue(rsrvdate + ' ' + stH + ':' + stM + ':00');
+
+            var gdte = new GlideDateTime();
+            gdte.setDisplayValue(rsrvedate + ' ' + endH + ':' + endM + ':00');
+            gdts.addSeconds(-parseInt(m2mGr.facility_item.minutes_before) * 60);
+            gdte.addSeconds(parseInt(m2mGr.facility_item.minutes_after) * 60);
+
+            if (this.checkAvailability(m2mGr.facility_item, gdts, gdte, '0')) {
+                result.push(m2mGr.getValue('facility_item'));
+            }
+        }
+        return 'sys_idIN' + result.join(',');
+    },
+
+	/**
+     * Gets available items for a set of 15 minutes timepoints, given a reservation start and end time.
+     * 
+     * @param {GlideRecord} fItem 
+     * @param {GlideDateTime} gdtsg 
+     * @param {GlideDateTime} gdteg 
+     * @param {sys_id} currentReservation 
+     * @returns boolean to indicate wether the FItem is available or not
+     */
+    checkAvailability: function (fItem, gdtsg, gdteg, currentReservation) {
+
+        var gdts = new GlideDateTime();
+		gdts.setValue(gdtsg);
+		var gdte = new GlideDateTime();
+		gdte.setValue(gdteg);
+
+        while (gdts <= gdte) {
+
+            var item = new GlideRecord("x_lsmcb_fm_facility_item");
+            item.get(fItem.sys_id.toString());
+
+            var reservedItems = 0;
+            var rgr = new GlideRecord('x_lsmcb_fm_item_reservation');
+            rgr.addQuery('facility_item', item.sys_id.toString());
+            rgr.addQuery('start_time', '<=', gdte);
+            rgr.addQuery('end_time', '>=', gdts);
+			rgr.addQuery("state", "!=", "2");
+            if (currentReservation.length > 2) rgr.addQuery('sys_id', '!=', currentReservation);
+            rgr.query();
+
+            while (rgr.next()) {
+
+				var stR = new GlideDateTime();
+				stR.setValue(rgr.start_time);
+				var endR = new GlideDateTime(rgr.end_time);
+				endR.setValue(rgr.end_time);
+                if (gdts > stR && gdts < endR) {
+                    reservedItems += parseInt(rgr.quantity, 10);
+                }
+
+                if (reservedItems >= parseInt(item.quantity, 10)) {
+                    return false;
+                }
+            }
+            gdts.addSeconds(15 * 60);
+        }
+        return true;
+    },
+
+	/**
+     * Checks if if item is available on Room reservation update
+     * Calls checkAvailability()
+     * 
+     * @param {GlideRecord} fItem 
+     * @param {GlideDateTime} dts 
+     * @param {GlideDateTime} dte 
+     * @param {sys_id} currentReservation 
+     * @returns boolean to indicate wether the FItem is available or not
+     */
+    checkAvailabilityonRRU: function (fItem, dts, dte, currentReservation) {
+
+        var gdts = new GlideDateTime();
+        gdts.setDisplayValue(dts);
+        var gdte = new GlideDateTime();
+        gdte.setDisplayValue(dte);
+
+        return this.checkAvailability(fItem, gdts, gdte, currentReservation);
+    },
+
+	/**
+     * Creates an array with the availability of the Fitem to display on the form formatter
+     * 
+     * @param {sys_id} item 
+     * @param {any} date 
+     * @returns array containing the availability of the item for the day
+     */
+    getItemAvailability: function (item, date) {
+
+        var answer = [];
+        var reserved = {
+            name: gs.getMessage('fm_reserved'),
+            times: []
+        };
+        var inUse = {
+            name: gs.getMessage('fm_in_use'),
+            times: []
+        };
+        var available = {
+            name: gs.getMessage('fm_available'),
+            times: []
+        };
+        var timeAv;
+
+        var time = new GlideTime();
+        time.setValue('08:00:00');
+        var timeLimit = new GlideTime();
+        timeLimit.setValue('20:00:00');
+
+        var now = new GlideDateTime();
+
+        var itemGr = new GlideRecord('x_lsmcb_fm_facility_item');
+        itemGr.get(item);
+
+        while (time <= timeLimit) {
+
+            var reservedn;
+            var inUsen;
+            var availablen;
+            var reservednn = 0;
+            var inUsenn = 0;
+
+            //facility item reservation table
+            var itemReservation = new GlideRecord('x_lsmcb_fm_item_reservation');
+            itemReservation.addQuery('facility_item', item);
+            var timeDay = new GlideDateTime();
+            timeDay.setValue(date);
+            timeDay.subtract(timeDay.getLocalTime());
+            timeDay.add(time);
+
+            itemReservation.addQuery('start_time', '<=', timeDay);
+            itemReservation.addQuery('end_time', '>', timeDay);
+			itemReservation.addQuery("state", "!=", "2");
+            itemReservation.query();
+            while (itemReservation.next()) {
+
+                if (itemReservation.start_time > now || itemReservation.end_time < now) {
+                    reservednn += itemReservation.quantity;
+                } else {
+					reservednn += itemReservation.quantity;
+                    inUsenn += itemReservation.quantity;
+                }
+            }
+            reservedn = {
+                name: time.getByFormat('HH:mm').toString(),
+                value: parseInt(reservednn)
+            };
+            inUsen = {
+                name: time.getByFormat('HH:mm').toString(),
+                value: parseInt(inUsenn)
+            };
+            availablen = {
+                name: time.getByFormat('HH:mm').toString(),
+                value: parseInt(itemGr.quantity) - parseInt(reservednn)
+            };
+            reserved.times.push(reservedn);
+            inUse.times.push(inUsen);
+            available.times.push(availablen);
+
+            time.add(15 * 60 * 1000);
+        }
+        answer.push(reserved);
+        answer.push(inUse);
+        answer.push(available);
+        return JSON.stringify(answer);
+    },
+
+	/**
+     * Creates suborders for the item reservations
+     * 
+     * @param {sys_id} item - Item Reservation
+     */
+    createSuborders: function (item) {
+
+        //query item reservation table for the given sys ID
+        var fou = new FMFOrderUtils();
+
+        var grItemReservation = new GlideRecord('x_lsmcb_fm_item_reservation');
+        grItemReservation.addQuery('sys_id', item);
+        grItemReservation.query();
+
+
+        if (grItemReservation.next()) {
+            var assignment_group;
+            var company = grItemReservation.facility_item.supplier + '';
+
+            var grSuppGrpAssignRule = new GlideRecord('x_lsmcb_fm_supplier_group_assignment_rules');
+            grSuppGrpAssignRule.addQuery('location', grItemReservation.getValue('location'));
+            grSuppGrpAssignRule.addQuery('type', grItemReservation.facility_item.type + '');
+            grSuppGrpAssignRule.addQuery('category', grItemReservation.facility_item.category + '');
+            grSuppGrpAssignRule.query();
+
+
+            if (grSuppGrpAssignRule.next()) {
+                assignment_group = grSuppGrpAssignRule.supplier_group + '';
+                //if there is a vendor set in the assignment rule then override the value from the productorder
+                if (grSuppGrpAssignRule.company) {
+                    company = grSuppGrpAssignRule.company + '';
+                }
+            }
+
+            //create a new Facility Suborder
+            var grFacilitySuborder = new GlideRecord('x_lsmcb_fm_facility_suborder');
+            grFacilitySuborder.initialize();
+
+            //populate all fields
+            grFacilitySuborder.facility_order = grItemReservation.getValue('facility_order');
+            grFacilitySuborder.company = company;
+            grFacilitySuborder.requester = grItemReservation.getValue('requester');
+            grFacilitySuborder.type = grItemReservation.facility_item.type + '';
+            grFacilitySuborder.category = grItemReservation.facility_item.category + '';
+            grFacilitySuborder.location = grItemReservation.getValue('location');
+            grFacilitySuborder.room = grItemReservation.getValue('room');
+            grFacilitySuborder.costcenter = grItemReservation.facility_order.costcenter + '';
+            grFacilitySuborder.short_description = grItemReservation.facility_item.suborder_short_description + ' (' + grItemReservation.quantity.toString() + ')';
+            grFacilitySuborder.description = grItemReservation.remark + '';
+            grFacilitySuborder.assignment_group = assignment_group;
+            grFacilitySuborder.expected_start = grItemReservation.start_time.getDisplayValue();
+            grFacilitySuborder.expected_end = grItemReservation.end_time.getDisplayValue();
+            var suborderSysId = grFacilitySuborder.insert() + '';
+
+
+            if (grItemReservation.facility_item.facility_product.sys_id.toString() != '') {
+                //query product order table for all those associated with this FO
+                var grProductOrder = new GlideRecord('x_lsmcb_fm_facility_product_order');
+                grProductOrder.initialize();
+                grProductOrder.facility_product = grItemReservation.facility_item.facility_product.sys_id.toString();
+                grProductOrder.facility_order = grItemReservation.getValue('facility_order');
+                grProductOrder.facility_suborder = suborderSysId;
+                grProductOrder.update();
+                // fou.createOrderlineCosts(grProductOrder);
+            }
+            grItemReservation.facility_suborder = suborderSysId;
+            grItemReservation.update();
+        }
+    },
+
+	/**
+     * 
+     * 
+     * @returns encoded query with the locations that have Fitems
+     */
+    getValidLocations: function () {
+        var result = [];
+
+        var loc = new GlideRecord("cmn_location");
+        loc.addJoinQuery('x_lsmcb_fm_m2m_locations_facility_items', 'sys_id', 'location');
+        loc.query();
+
+        while (loc.next()) {
+            result.push(loc.sys_id.toString());
+        }
+        return 'sys_idIN' + result.join(',');
+    },
+
+    reservationTime: function (sgdt, egdt) {
+        return sgdt < egdt;
+    },
+
+    type: 'FMFacilityItemUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-12-15 14:07:41</sys_created_on>
+        <sys_id>9419bf000f3f620011bec3ace1050e68</sys_id>
+        <sys_mod_count>213</sys_mod_count>
+        <sys_name>FMFacilityItemUtils</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_9419bf000f3f620011bec3ace1050e68</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-12-12 10:54:46</sys_updated_on>
+    </sys_script_include>
+</record_update>

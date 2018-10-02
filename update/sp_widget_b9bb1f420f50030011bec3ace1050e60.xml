@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function() {
+	var c = this;
+	c.uiAction = function(action) {
+		//console.log('RECURRING: ' + c.data.recurring);
+		if (c.data.table == 'x_lsmcb_fm_visit') {
+
+			if (action == 'cancel') {
+
+				if (!confirm('${fm_cancel_visit}'))
+					return;
+			}
+			proceed();
+
+		} else if (c.data.table == 'x_lsmcb_fm_room_reservation') {
+
+			if (action == 'cancel') {
+
+				var gac = new GlideAjax('x_lsmcb_fm.FMRoomReservationAjaxUtils');
+				gac.addParam('sysparm_name', 'checkOrders');
+				gac.addParam('sysparm_reservationId', c.data.sys_id);
+				gac.getXML(handleRC);
+
+			} else if (action == 'update') {
+
+				var gac = new GlideAjax('x_lsmcb_fm.FMRoomReservationAjaxUtils');
+				gac.addParam('sysparm_name', 'updateReserveRoomCheck');
+				gac.addParam('sysparm_reservationId', c.data.sys_id);
+				gac.getXML(handleRU);
+			}
+
+		} else if (c.data.table == 'x_lsmcb_fm_facility_order') {
+
+			if (action == 'cancel') {
+
+				var proceedBool = c.data.roomReservation == false ?
+						/* if true */ confirm('${fm_cancel_order}') :
+				/* if false */ confirm('${fm_cancel_order_with_reservation}');
+
+				if(proceedBool) proceed();
+
+			} else if (action == 'update') {
+
+				proceed();
+			}
+
+		}
+
+		function handleRU(response) {
+			var answer = response.responseXML.documentElement.getAttribute('answer');
+			//console.log(answer);
+			if (answer == '1') {
+				alert('${fm_no_item_reservation}');
+				return;
+			} else if (answer == '2') {
+				alert('${fm_reservation_too_soon_2}');
+				//alert('fm_reservation_too_soon_2');
+				return;
+			} else if (answer == '3') {
+				if (!confirm('${fm_update_room_with_orders}')) {
+					return;
+				}
+			}
+			proceed();
+		}
+
+		function handleRC(response) {
+			var answer = response.responseXML.documentElement.getAttribute('answer');
+			if (answer == '1') {
+				if (confirm('${fm_associated_orders_canceled}')) {
+					cancelFutureLinkedReservations();
+				} else {
+					return;
+				}
+			} else if (answer == '0') {
+				if (confirm('${fm_cancel_room_reservation}')) {
+					cancelFutureLinkedReservations();
+				} else {
+					return;
+				}
+			} else if (answer == '2') {
+				alert('${fm_reservation_too_soon_3}');
+				//alert('fm_reservation_too_soon_3');
+				return;
+			}
+			proceed();
+		}
+
+		function proceed() {
+			c.data.action = action;
+
+			c.server.update().then(function() {
+				var url = window.location.href.split('?id=')[0];
+				//console.log(url);
+				if(c.data.targetURL.length > '0')
+				window.location = url + c.data.targetURL;
+				c.data.action = undefined;
+				c.data.targetURL = '';
+			});
+		}
+	};
+
+	function cancelFutureLinkedReservations() {
+		if (c.data.recurring == 'true' && confirm('${fm_cancel_future_reservations}')) {
+
+			var ga = new GlideAjax('x_lsmcb_fm.FMRoomReservationAjaxUtils');
+			ga.addParam('sysparm_name', 'cancelFutureLinkedReservations');
+			ga.addParam('sysparm_reservationId', c.data.sys_id);
+			ga.getXML(function(response) {});
+
+		}
+	}
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>fm-buttons</id>
+        <internal>false</internal>
+        <link/>
+        <name>FM Buttons</name>
+        <option_schema/>
+        <public>false</public>
+        <roles>x_lsmcb_fm.fm_base</roles>
+        <script><![CDATA[(function() {
+
+    // Get table & sys_id
+    data.table = options.table || input.table;
+    data.sys_id = options.sys_id || input.sys_id;
+    data.recurring = options.recurring || input.recurring;
+		data.targetURL = '';
+		data.roomReservation = false;
+	
+    // Valid GlideRecord
+    var gr = new GlideRecordSecure(data.table);
+    if (!gr.isValid())
+        return;
+
+    // Valid sys_id
+    if (!gr.get(data.sys_id))
+        return;
+
+		
+
+    //Condition to show the buttons or not
+    if (data.table == 'x_lsmcb_fm_visit') {
+        data.showUpdateButton = gr.getValue('state') == 'Registered';
+        data.showCancelButton = gr.getValue('state') == 'Registered';
+    } else if (data.table == 'x_lsmcb_fm_room_reservation') {
+        data.showUpdateButton = canCancel();
+        data.showCancelButton = data.showUpdateButton;
+    } else if (data.table == 'x_lsmcb_fm_facility_order') {
+				data.roomReservation = gr.getValue('room_reservation') != '';
+        data.showUpdateButton = gs.getUserID() == gr.requester.sys_id && new GlideDateTime() < gr.cancel_datetime && gr.state != '7' && gr.state != '4' && gr.record_producer.toString() != "" && gr.getValue('locked') != '1';
+        data.showCancelButton = gs.getUserID() == gr.requester.sys_id && new GlideDateTime() < gr.cancel_datetime && gr.state != '7' && gr.state != '4'&& gr.getValue('locked') != '1';
+    } else {
+        data.showUpdateButton = false;
+        data.showCancelButton = false;
+    }
+
+    function canCancel() {
+			  var locked = false;
+			  var gRec = new GlideRecord('x_lsmcb_fm_facility_order');
+			  gRec.addQuery('room_reservation', gr.getUniqueValue());
+			  gRec.query();
+			  while(gRec.next()){
+					if(gRec.getValue('locked') == '1'){
+						locked = true;
+					}
+				}			
+        var state = gr.state != '0' && gr.state != '1';
+        var datetime = gr.cancel_datetime ? new GlideDateTime() < gr.cancel_datetime : new GlideDateTime() < gr.meeting_start_time;
+        return gs.getUserID() == gr.requester && state && datetime && !locked;
+    }
+
+
+    if (input && input.action) {
+        var action = input.action;
+
+        // If Visit table
+        if (data.table == 'x_lsmcb_fm_visit') {
+
+            if (action == 'cancel') {
+
+                gr.setValue('state', 'Canceled');
+
+                if (gr.parking_reservation != "") {
+
+                    var grP = new GlideRecordSecure('x_lsmcb_fm_parking_reservation');
+                    grP.get('sys_id', gr.getValue('parking_reservation'));
+                    grP.state = 'Canceled';
+                    grP.update();
+                }
+                gr.update();
+
+            } else if (action == 'update') {
+								
+                if (gr.parking_reservation && gr.parking_reservation.quantity != '1') {
+                    gs.addErrorMessage(gs.getMessage('fm_visit_parking_no_quantity'));
+						
+                } else {
+									
+										data.targetURL = "?id=fm_rp_iframes&sys_id=d7b2bb380fa2320011bec3ace1050ea7&visit_id=" + gr.getUniqueValue();
+
+                    //Redirect to Record producer
+                    //gs.addInfoMessage('REDIRECT TO RP');
+                }
+            }
+
+        } else if (data.table == 'x_lsmcb_fm_room_reservation') {
+
+            if (action == 'cancel') {
+
+                gr.setValue('state', '0');
+
+                var ordersGR = new GlideRecordSecure('x_lsmcb_fm_facility_order');
+                ordersGR.addQuery('room_reservation', data.sys_id);
+                ordersGR.addQuery('state', '!=', '4');
+                ordersGR.query();
+                while (ordersGR.next()) {
+                    var fsgr = new GlideRecordSecure('x_lsmcb_fm_facility_suborder');
+                    fsgr.addQuery('facility_order', ordersGR.sys_id);
+                    fsgr.query();
+
+                    while (fsgr.next()) {
+                        fsgr.state = '4';
+                        fsgr.update();
+                    }
+                    ordersGR.state = '4';
+                    ordersGR.wf_action = 'cancel';
+                    ordersGR.update();
+                }
+                gr.update();
+
+                var msg = gs.getMessage('fm_room_reservation_canceled', [gr.requester.first_name, gr.requester.last_name, gr.getDisplayValue('start_time').substring(0, 10), gr.getDisplayValue('start_time').substring(10), gr.getDisplayValue('end_time').substring(0, 10), gr.getDisplayValue('end_time').substring(10), gr.room.name]);
+                gs.addInfoMessage(msg);
+
+            } else if (action == 'update') {
+								data.targetURL = "?id=fm_rp_iframes&sys_id=2f98b4dc0f35a20011bec3ace1050e82&reservation_id=" + gr.getUniqueValue();
+                //Redirect to Record producer
+                //gs.addInfoMessage('REDIRECT TO RP');
+            }
+
+        } else if (data.table == 'x_lsmcb_fm_facility_order') {
+
+            if (action == 'cancel') {
+
+                var fsgr = new GlideRecordSecure('x_lsmcb_fm_facility_suborder');
+                fsgr.addQuery('facility_order', data.sys_id);
+                fsgr.query();
+
+                while (fsgr.next()) {
+                    fsgr.state = '4';
+                    fsgr.update();
+                }
+
+                gr.state = '4';
+                gr.wf_action = 'cancel';
+                gr.update();
+
+            } else if (action == 'update') {
+							var hasReservation = gr.room_reservation ? '&has_reservation=true' : '';
+								data.targetURL = "?id=fm_rp_iframes&sys_id=" + gr.record_producer + "&rec_id=" + gr.getUniqueValue() + hasReservation;
+                //Redirect to Record producer
+                //gs.addInfoMessage('REDIRECT TO RP');
+            }
+
+        }
+    }
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-08-02 09:37:20</sys_created_on>
+        <sys_id>b9bb1f420f50030011bec3ace1050e60</sys_id>
+        <sys_mod_count>44</sys_mod_count>
+        <sys_name>FM Buttons</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sp_widget_b9bb1f420f50030011bec3ace1050e60</sys_update_name>
+        <sys_updated_by>patricia.gaudencio</sys_updated_by>
+        <sys_updated_on>2018-07-23 10:22:55</sys_updated_on>
+        <template><![CDATA[<div style="display:inline-row;">
+  <div  ng-if="data.showUpdateButton" style="float:left; margin-right:1%">
+    <button type="button" class="btn btn-primary" ng-click="c.uiAction('update')" style="width:100px">Update</button>
+  </div>
+  <div ng-if="data.showCancelButton" style="float:left">
+    <button type="button" class="btn btn-danger" ng-click="c.uiAction('cancel')" style="width:100px">Cancel</button>
+  </div>
+</div>]]></template>
+    </sp_widget>
+</record_update>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="catalog_script_client">
+    <catalog_script_client action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <applies_catalog>true</applies_catalog>
+        <applies_extended>false</applies_extended>
+        <applies_req_item>false</applies_req_item>
+        <applies_sc_task>false</applies_sc_task>
+        <applies_target_record>false</applies_target_record>
+        <applies_to>set</applies_to>
+        <cat_item/>
+        <cat_variable>IO:d0e160ea0f062a0011bec3ace1050e09</cat_variable>
+        <condition/>
+        <description/>
+        <field/>
+        <global>true</global>
+        <messages/>
+        <name>Check Date</name>
+        <order/>
+        <script><![CDATA[//Prevents user from selecting a date in the past
+function onChange(control, oldValue, newValue, isLoading) {
+	if (isLoading || newValue === '') {
+		return;
+	}
+	
+	//current date
+	var currentDateObj = new Date();
+	var currentDateStr = formatDate(currentDateObj, g_user_date_format);
+	var currentDateNum = getDateFromFormat(currentDateStr, g_user_date_format);
+	
+	//get date
+	var startDateStr = g_form.getValue('date');
+	var startDateNum = getDateFromFormat(startDateStr, g_user_date_format);
+	
+	if (startDateNum < currentDateNum) {
+		alert(getMessage('fm_past_date'));
+		g_form.setValue('date', '');
+	}
+	
+	if(g_form.getBooleanValue('parking_needed')) {
+		var ga = new GlideAjax('x_lsmcb_fm.FMVisitorRecordProducerUtils');
+		ga.addParam('sysparm_name', 'checkUniqueParkingLot');
+		ga.addParam('sysparm_location', g_form.getValue('location'));
+		ga.addParam('sysparm_date', g_form.getValue('date'));
+		ga.addParam('sysparm_sth', g_form.getValue('start_hours'));
+		ga.addParam('sysparm_stm', g_form.getValue('start_minutes'));
+		ga.addParam('sysparm_endh', g_form.getValue('end_hours'));
+		ga.addParam('sysparm_endm', g_form.getValue('end_minutes'));
+		ga.addParam('sysparm_lot', g_form.getValue('parking_lot'));
+		if(g_form.getValue('parking_id')) {
+			ga.addParam('sysparm_parkingid', g_form.getValue('parking_id'));
+		} else {
+			ga.addParam('sysparm_parkingid', '0');
+		}
+		
+		ga.getXML(function(response) {
+			var answer = response.responseXML.documentElement.getAttribute('answer');
+			g_form.setValue('parking_lot', answer);
+		});
+	}
+}]]></script>
+        <sys_class_name>catalog_script_client</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-01-26 13:41:16</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>02a88cfd0f68720011bec3ace1050ef3</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>Check Date</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>catalog_script_client_02a88cfd0f68720011bec3ace1050ef3</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-01-10 10:20:56</sys_updated_on>
+        <table/>
+        <type>onChange</type>
+        <ui_type>0</ui_type>
+        <variable_set display_value="Meeting Information">85f0a0ea0f062a0011bec3ace1050eb3</variable_set>
+        <view/>
+    </catalog_script_client>
+</record_update>

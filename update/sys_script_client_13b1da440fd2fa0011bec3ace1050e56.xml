@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <applies_extended>false</applies_extended>
+        <condition/>
+        <description/>
+        <field>requester</field>
+        <global>true</global>
+        <messages/>
+        <name>Populate Costcenter and AGroup on Load</name>
+        <order/>
+        <script><![CDATA[function onLoad() {
+	
+	if(g_form.getValue('assignment_group') == '') {
+		var gaO = new GlideAjax('FMFOrderAjaxUtils');
+		gaO.addParam('sysparm_name', 'getDefaulTAssignmentGroup');
+		gaO.getXML(function(response) {
+			var answer = response.responseXML.documentElement.getAttribute('answer');
+			g_form.setValue('assignment_group', answer);
+		});
+	}
+	
+	if (g_form.getValue('costcenter') != '' || g_form.getValue('requester') == '') {
+		return;
+	}
+	
+	var ga = new GlideAjax('FMRoomReservationAjaxUtils');
+	
+	ga.addParam('sysparm_name', 'getRequesterCostcenter');
+	ga.addParam('sysparm_requester', g_form.getValue('requester'));
+	ga.getXML(function(response) {
+		var answer = response.responseXML.documentElement.getAttribute('answer');
+		if(answer != '' && g_form.getValue('costcenter') == '') {
+			g_form.setValue('costcenter', answer);
+		}
+	});
+}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-04-18 13:00:43</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>13b1da440fd2fa0011bec3ace1050e56</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>Populate Costcenter and AGroup on Load</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_client_13b1da440fd2fa0011bec3ace1050e56</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-12 09:57:11</sys_updated_on>
+        <table>x_lsmcb_fm_facility_order</table>
+        <type>onLoad</type>
+        <ui_type>0</ui_type>
+        <view/>
+    </sys_script_client>
+</record_update>

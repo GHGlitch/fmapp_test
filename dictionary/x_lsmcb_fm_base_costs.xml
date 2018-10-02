@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Base Cost" max_length="40" name="x_lsmcb_fm_base_costs" type="collection">
+        <element label="Cost ex VAT" max_length="40" name="cost_ex_vat" type="price"/>
+        <element label="Cost VAT" max_length="40" name="cost_vat" read_only="true" type="price"/>
+        <element label="Cost with VAT" max_length="40" name="cost_with_vat" read_only="true" type="price"/>
+        <element display="true" label="Description" max_length="4000" name="description" type="string"/>
+        <element label="Facility Order" max_length="32" name="facility_order" reference="x_lsmcb_fm_facility_order" type="reference"/>
+        <element label="Facility Suborder" mandatory="true" max_length="32" name="facility_suborder" reference="x_lsmcb_fm_facility_suborder" reference_cascade_rule="delete" type="reference"/>
+        <element label="Price" max_length="40" name="price" read_only="true" type="price"/>
+        <element default="1" label="Quantity" max_length="20" name="quantity" type="decimal"/>
+        <element label="Total cost ex VAT" max_length="40" name="total_cost_ex_vat" read_only="true" type="price"/>
+        <element label="Total cost VAT" max_length="40" name="total_cost_vat" read_only="true" type="price"/>
+        <element label="Total cost with VAT" max_length="40" name="total_cost_with_vat" read_only="true" type="price"/>
+        <element label="Total price" max_length="40" name="total_price" read_only="true" type="price"/>
+        <element default="0" label="Uplift %" max_length="40" name="uplift" type="integer"/>
+        <element default="javascript:getVATPercentage('Miscellaneous Costs');" dynamic_default_value="9a8d80cb0f390b4011bec3ace1050e3c" label="VAT %" max_length="40" name="vat" type="integer" use_dynamic_default="true"/>
+        <index name="index">
+            <element name="facility_suborder"/>
+        </index>
+        <index name="index2">
+            <element name="facility_order"/>
+        </index>
+    </element>
+</database>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sc_cat_item_producer">
+    <sc_cat_item_producer action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <availability>on_desktop</availability>
+        <billable>false</billable>
+        <can_cancel>false</can_cancel>
+        <category display_value="Registration">95ec8ca70fdd224011bec3ace1050e7b</category>
+        <cost>0</cost>
+        <custom_cart/>
+        <delivery_plan/>
+        <delivery_plan_script/>
+        <delivery_time>1970-01-03 00:00:00</delivery_time>
+        <description/>
+        <entitlement_script/>
+        <group/>
+        <hide_sp>false</hide_sp>
+        <icon/>
+        <ignore_price>true</ignore_price>
+        <image/>
+        <list_price>0</list_price>
+        <location/>
+        <meta/>
+        <mobile_hide_price>false</mobile_hide_price>
+        <mobile_picture/>
+        <mobile_picture_type>use_desktop_picture</mobile_picture_type>
+        <model/>
+        <name>Reserve an Employee Parking Place</name>
+        <no_cart>false</no_cart>
+        <no_order>false</no_order>
+        <no_order_now>false</no_order_now>
+        <no_proceed_checkout>false</no_proceed_checkout>
+        <no_quantity>false</no_quantity>
+        <no_search>false</no_search>
+        <omit_price>false</omit_price>
+        <order>0</order>
+        <ordered_item_link/>
+        <picture/>
+        <preview>JavaScript: popupOpenStandard("com.glideapp.servicecatalog_cat_item_view.do?v=1&amp;sysparm_id=332e88a90fffa20011bec3ace1050e75&amp;sysparm_preview=true", "summary");</preview>
+        <price>0</price>
+        <recurring_frequency/>
+        <recurring_price>0</recurring_price>
+        <redirect_url>generated_record</redirect_url>
+        <roles/>
+        <sc_catalogs>b19c0ca70fdd224011bec3ace1050eab</sc_catalogs>
+        <sc_ic_item_staging/>
+        <sc_ic_version/>
+        <script><![CDATA[//Mapping of start and end hours
+var gdts = new GlideDateTime();
+gdts.setDisplayValue(producer.date.toString());
+gdts.addSeconds(60 * producer.start_minutes);
+gdts.addSeconds(60 * 60 * producer.start_hours);
+gdts.addSeconds(-15 * 60);
+
+var gdte = new GlideDateTime();
+gdte.setDisplayValue(producer.date.toString());
+gdte.addSeconds(60 * producer.end_minutes);
+gdte.addSeconds(60 * 60 * producer.end_hours);
+gdte.addSeconds(15 * 60);
+
+current.start_time = gdts;
+
+
+current.end_time = gdte;
+current.employee = producer.reserved_for;
+current.license_plate = producer.license_plate;
+current.parking_lot = producer.parking_lot;
+current.quantity = 1;
+
+gs.addInfoMessage(gs.getMessage('fm_employee_parking_reservation', [current.employee.name, current.parking_lot.name, current.start_time.getDisplayValue(), current.end_time.getDisplayValue()]));
+
+if(gs.getUser().hasRole('x_lsmcb_fm.fm_visit_coordinator')) {
+	// redirect back here
+	producer.redirect=gs.getProperty('x_lsmcb_fm.coordinator_redirect_from_employee_parking_reservation');
+} else {
+	producer.redirect = gs.getProperty('x_lsmcb_fm.ticket_redirect_from_employee_reservation');
+}
+]]></script>
+        <short_description>Make a parking place reservation for an employee.</short_description>
+        <show_variable_help_on_load>false</show_variable_help_on_load>
+        <start_closed>false</start_closed>
+        <sys_class_name>sc_cat_item_producer</sys_class_name>
+        <sys_created_by>laurens.brand</sys_created_by>
+        <sys_created_on>2016-12-19 12:39:50</sys_created_on>
+        <sys_id>332e88a90fffa20011bec3ace1050e75</sys_id>
+        <sys_mod_count>32</sys_mod_count>
+        <sys_name>Reserve an Employee Parking Place</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sc_cat_item_producer_332e88a90fffa20011bec3ace1050e75</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-11-13 16:42:52</sys_updated_on>
+        <table_name>x_lsmcb_fm_parking_reservation</table_name>
+        <template/>
+        <type>item</type>
+        <use_sc_layout>true</use_sc_layout>
+        <vendor/>
+        <view/>
+        <visible_bundle>true</visible_bundle>
+        <visible_guide>true</visible_guide>
+        <visible_standalone>true</visible_standalone>
+        <workflow/>
+    </sc_cat_item_producer>
+    <sys_translated_text action="delete_multiple" query="documentkey=332e88a90fffa20011bec3ace1050e75"/>
+    <fx_price action="delete_multiple" query="id=332e88a90fffa20011bec3ace1050e75"/>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>0</amount>
+        <currency display_value="USD">USD</currency>
+        <field>price</field>
+        <id>332e88a90fffa20011bec3ace1050e75</id>
+        <parent/>
+        <reference_amount>0</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>laurens.brand</sys_created_by>
+        <sys_created_on>2016-12-19 12:39:50</sys_created_on>
+        <sys_id>3b2e88a90fffa20011bec3ace1050e75</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>laurens.brand</sys_updated_by>
+        <sys_updated_on>2016-12-19 12:39:50</sys_updated_on>
+        <table>sc_cat_item_producer</table>
+        <type>calculated</type>
+    </fx_price>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>0</amount>
+        <currency display_value="USD">USD</currency>
+        <field>recurring_price</field>
+        <id>332e88a90fffa20011bec3ace1050e75</id>
+        <parent/>
+        <reference_amount>0</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-12-19 12:39:50</sys_created_on>
+        <sys_id>bf2e08a90fffa20011bec3ace1050e7f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2016-12-19 12:39:50</sys_updated_on>
+        <table>sc_cat_item_producer</table>
+        <type>calculated</type>
+    </fx_price>
+</record_update>

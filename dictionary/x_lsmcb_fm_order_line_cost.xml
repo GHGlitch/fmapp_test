@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element extends="x_lsmcb_fm_base_costs" label="Order Line Cost" max_length="40" name="x_lsmcb_fm_order_line_cost" type="collection">
+        <element label="Facility Product" max_length="32" name="facility_product" read_only="true" reference="x_lsmcb_fm_facility_product" type="reference"/>
+        <element dependent="facility_product" dependent_on_field="facility_product" label="Order Line" max_length="32" name="order_line" read_only="true" reference="x_lsmcb_fm_order_line" type="reference" use_dependent_field="true"/>
+        <index name="index">
+            <element name="facility_product"/>
+        </index>
+        <index name="index2">
+            <element name="order_line"/>
+        </index>
+    </element>
+</database>

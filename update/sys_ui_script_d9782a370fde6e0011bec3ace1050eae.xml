@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description/>
+        <global>false</global>
+        <name>x_lsmcb_fm.fm_gantt_controller</name>
+        <script><![CDATA[/**
+ * @ngdoc overview
+ * @name ganttFM
+ * @description
+ * # ganttFM
+ *
+ * Main module of the application.
+ */
+var ganttApp = angular.module('ganttFM', [
+    'gantt', // angular-gantt.
+    'gantt.sortable',
+    'gantt.movable',
+    'gantt.drawtask',
+    'gantt.tooltips',
+    'gantt.bounds',
+    'gantt.table',
+    'gantt.tree',
+    'gantt.groups',
+    'gantt.overlap',
+    'gantt.resizeSensor',
+    'ngAnimate',
+    'mgcrea.ngStrap'
+]).config(['$compileProvider', function($compileProvider) {
+    $compileProvider.debugInfoEnabled(false); // Remove debug info (angularJS >= 1.3)
+}]);
+
+/**
+ * @ngdoc function
+ * @name ganttFM.controller:MainCtrl
+ * @description
+ * # MainCtrl
+ * Controller of the angularGanttDemoApp
+ */
+ganttApp.controller('MainCtrl', ['$scope', '$timeout', '$log', '$window', 'ganttUtils', 'GanttObjectModel', 'Sample', 'ganttMouseOffset', 'ganttDebounce', 'moment', function($scope, $timeout, $log, $window, utils, ObjectModel, Sample, mouseOffset, debounce, moment) {
+
+    var objectModel;
+    var counter = 0;
+
+    moment.locale('en');
+    moment.updateLocale('en', {
+        longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            l: "D/M/YYYY",
+            LL: "dddd, Do [of] MMMM YYYY",
+            ll: "D MM YYYY",
+            LLL: "Do MMMM YYYY LT",
+            lll: "D MM YYYY LT",
+            LLLL: "dddd, Do MMMM YYYY LT",
+            llll: "ddd, D MM YYYY LT"
+        },
+        week: {
+            // Monday is the first day of the week.
+            dow: 1,
+            // The week that contains Jan 4th is the first week of the year.
+            doy: 4
+        }
+    });
+
+
+    // angular-gantt options
+    $scope.options = {
+        mode: 'custom',
+        scale: 'hour',
+        sortMode: '-model.capacity',
+        sideMode: 'Table',
+        daily: false,
+        maxHeight: false,
+        width: true,
+        zoom: 1,
+        columns: ['model.name', 'model.capacity'],
+        columnsHeaders: {
+            'model.name': getMessage("fm_room"),
+            'model.capacity': getMessage("fm_capacity")
+        },
+        columnsClasses: {
+            'model.name': 'gantt-column-name',
+            'model.capacity': 'gantt-column-capacity'
+        },
+        tooltipContent: '{{task.model.number}}</br> {{task.model.requester}}</br><small> {{task.model.subject}}</br> {{getFromLabel()}} - {{getToLabel(task.model.number)}} </small>',
+        autoExpand: 'none',
+        taskOutOfRange: 'truncate',
+        fromDate: moment().startOf('day').add(6, 'h'),
+        toDate: moment().endOf('day'),
+        rowContent: '<i class="fa fa-align-justify"></i> {{row.model.name}}',
+        taskContent: 'New Reservation - {{task.model.subject}}',
+        allowSideResizing: true,
+        labelsEnabled: true,
+        currentDate: 'line',
+        currentDateValue: new Date(),
+        lastDateValue: moment().startOf('day').add(8, 'h').subtract(1, 'd'),
+        draw: true,
+        bounds: true,
+        readOnly: false,
+        filterTask: '',
+        filterTaskSubject: '',
+        filterRow: '',
+        filterRowFloor: '',
+        locations: [],
+        location: '',
+        floors: [],
+        timeFrames: {
+            'day': {
+                start: moment('08:00', 'HH:mm'),
+                end: moment('20:00', 'HH:mm'),
+                working: true, // This is a working period
+                'default': true // It will be used for each day
+            },
+
+            'closed': {
+                magnet: false, // This will disable magnet snapping
+                working: false, // We don't work when it's closed
+                drawTask: false,
+                movable: false,
+            },
+
+            'holiday': {
+                working: false,
+                color: 'red',
+                drawTask: false,
+                movable: false
+            }
+        },
+        dateFrames: {
+            'weekend': {
+                evaluator: function(date) {
+                    return date.isoWeekday() === 6 || date.isoWeekday() === 7;
+                },
+                targets: ['closed']
+            },
+            'closed': {
+                evaluator: function(date) {
+                    return date.hour() >= 20 || date.hour() < 8;
+                },
+                targets: ['closed']
+// 			},
+// 			'new-years-day': {
+// 				evaluator: function(date) {
+// 					return date.month() === 0 && date.date() === 1;
+// 				},
+// 				targets: ['holiday']
+            }
+        },
+        timeFramesWorkingMode: 'hidden',
+        timeFramesNonWorkingMode: 'visible',
+        columnMagnet: '15 minutes',
+        timeFramesMagnet: true,
+        canDraw: function(event) {
+            var isLeftMouseButton = event.button === 0 || event.button === 1;
+            return $scope.options.draw && !$scope.options.readOnly && isLeftMouseButton;
+        },
+        drawTaskFactory: function() {
+              
+            return {
+                id: utils.randomUuid(),
+                name: 'New Reservation',
+                requester: '',
+                color: '#f8d29f',
+                subject: 'Planboard Reservation',
+                movable: true,
+                modified: true,
+            };
+
+        },
+
+
+        api: function(api) {
+            // API Object is used to control methods and events from angular-gantt.
+            $scope.api = api;
+
+            api.core.on.ready($scope, function() {
+
+                if (api.tasks.on.moveBegin) {
+                    api.tasks.on.moveEnd($scope, function(task) {
+                        if (task.model.modified == false) {
+                            task.model.color = '#f8d29f';
+                            task.model.modified = true;
+                        }
+                        checkAvailability(task);
+                    });
+                    api.tasks.on.resizeEnd($scope, function(task) {
+                        if (task.model.modified == false) {
+                            task.model.color = '#f8d29f';
+                            task.model.modified = true;
+                        }
+                        checkAvailability(task);
+                    });
+                }
+
+                api.tasks.on.remove($scope, function(task) {
+                    api.rows.refresh();
+                });
+
+                api.tasks.on.rowChange($scope, function(task) {
+                    if (task.model.modified == false) {
+                        task.model.color = '#f8d29f';
+                        task.model.modified = true;
+                    }
+                    checkAvailability(task);
+                });
+
+                var checkAvailability = function(task) {
+                    //console.debug(task);
+                };
+
+                // When gantt is ready, load data.
+                $scope.load();
+
+                // Add some DOM events
+                api.directives.on.new($scope, function(directiveName, directiveScope, element) {
+                    if (directiveName === 'ganttTask') {
+                        element.bind('click', function(event) {
+                            event.stopPropagation();
+                        });
+                        element.bind('dblclick', function(event) {
+                            event.stopPropagation();
+
+                            popupOpenStandard('/x_lsmcb_fm_room_reservation.do?sys_id=' + directiveScope.task.model.id);
+                        });
+                    } else if (directiveName === 'ganttRow') {
+                        element.bind('click', function(event) {
+                            event.stopPropagation();
+                        });
+                        element.bind('dblclick', function(event) {
+                            event.stopPropagation();
+                        });
+                    }
+                });
+				api.tasks.on.drawBegin($scope, function(task) {
+// 					console.log(task.model.from.toString());
+					
+				});
+                api.tasks.on.drawEnd($scope, function(task) {
+                           if(task.model.from.toString() == task.model.to.toString()){
+							    dataToRemove = [{
+                                'id': task.row.model.id,
+                                'tasks': [{
+                                    'id': task.model.id
+                                }]
+                            }];
+                            $scope.api.data.remove(dataToRemove);
+                            dataToRemove = undefined;
+							   return;}
+                    var sDay = task.model.from.toString().split(' ')[2];
+                    var eDay = task.model.to.toString().split(' ')[2];
+					
+
+                    function returnMonthNumber(month) {
+                        switch (month) {
+                            case 'Jan':
+                                return '01';
+                            case 'Feb':
+                                return '02';
+                            case 'Mar':
+                                return '03';
+                            case 'Apr':
+                                return '04';
+                            case 'May':
+                                return '05';
+                            case 'Jun':
+                                return '06';
+                            case 'Jul':
+                                return '07';
+                            case 'Aug':
+                                return '08';
+                            case 'Sep':
+                                return '09';
+                            case 'Oct':
+                                return '10';
+                            case 'Nov':
+                                return '11';
+                            case 'Dec':
+                                return '12';
+                        }
+                    }
+                    var sMonth = returnMonthNumber(task.model.from.toString().split(' ')[1]);
+                    var eMonth = returnMonthNumber(task.model.to.toString().split(' ')[1]);
+
+                    var sYear = task.model.from.toString().split(' ')[3];
+                    var eYear = task.model.to.toString().split(' ')[3];
+                    var startTime = task.model.from.toString().split(' ')[4];
+                    var startHour = startTime.split(':')[0];
+                    var startMin = startTime.split(':')[1];
+                    var endTime = task.model.to.toString().split(' ')[4];
+                    var endHour = endTime.split(':')[0];
+                    var endMin = endTime.split(':')[1];
+
+                    var sdTime = sYear + '-' + sMonth + '-' + sDay + ' ' + startHour + ':' + startMin + ':00';
+                    var edTime = eYear + '-' + eMonth + '-' + eDay + ' ' + endHour + ':' + endMin + ':00';
+					
+
+
+
+                    if (task.model.from < $scope.options.currentDateValue) {
+                        if (confirm(getMessage("fm_past_reservation"))) {
+                            var dialog = new GlidePaneForm(task.model.subject, "x_lsmcb_fm_room_reservation");
+                            dialog.setPreference('sys_id', -1);
+                            dialog.addParm('sysparm_view', 'Default View');
+                            dialog.setLoadCallback(function(iframeDoc) {
+                                // To get the iframe: document.defaultView in non-IE, document.parentWindow in IE
+                                var dialogFrame = 'defaultView' in iframeDoc ? iframeDoc.defaultView : iframeDoc.parentWindow;
+
+                                dialogFrame.g_form.setValue('meeting_start_time', sdTime);
+                                dialogFrame.g_form.setValue('meeting_end_time', edTime);
+                                dialogFrame.g_form.setValue('location', task.row.model.location);
+                                dialogFrame.g_form.setValue('room', task.row.model.id);
+                                dialogFrame = null;
+                            });
+
+                            dialog.setCompletionCallback(function() {
+                                $timeout(function() {
+                                    $scope.reload();
+                                }, 0);
+                                return false;
+
+                            });
+                            dialog.render();
+                        } else {
+                            dataToRemove = [{
+                                'id': task.row.model.id,
+                                'tasks': [{
+                                    'id': task.model.id
+                                }]
+                            }];
+                            $scope.api.data.remove(dataToRemove);
+                            dataToRemove = undefined;
+
+                        }
+                    } else {
+                        var dialog = new GlidePaneForm(task.model.subject, "x_lsmcb_fm_room_reservation");
+                        dialog.setPreference('sys_id', -1);
+                        dialog.setLoadCallback(function(iframeDoc) {
+                            // To get the iframe: document.defaultView in non-IE, document.parentWindow in IE
+                            var dialogFrame = 'defaultView' in iframeDoc ? iframeDoc.defaultView : iframeDoc.parentWindow;
+
+                            dialogFrame.g_form.setValue('meeting_start_time', sdTime);
+                            dialogFrame.g_form.setValue('meeting_end_time', edTime);
+                            dialogFrame.g_form.setValue('location', task.row.model.location);
+                            dialogFrame.g_form.setValue('room', task.row.model.id);
+                            dialogFrame = null;
+                        });
+                        dialog.setCompletionCallback(function() {
+                            $timeout(function() {
+                                $scope.reload();
+                            }, 0);
+                            return false;
+
+                        });
+                        dialog.render();
+                    }
+                });
+
+                objectModel = new ObjectModel(api);
+            });
+        }
+    };
+
+    $scope.getParmValonLoad = function() {
+
+        var url = document.URL.parseQuery();
+        var location = decodeURI(url['sysparm_location']);
+        var date = decodeURI(url['sysparm_date']);
+        $scope.options.location = location;
+        if ((date.split('-')[0]).length == 4) {
+            $scope.options.fromDate = moment(date, "YYYY-MM-DD").startOf('day').add(6, 'h');
+            $scope.options.toDate = moment(date, "YYYY-MM-DD").endOf('day');
+        } else {
+            $scope.options.fromDate = moment(date, "DD-MM-YYYY").startOf('day').add(6, 'h');
+            $scope.options.toDate = moment(date, "DD-MM-YYYY").endOf('day');
+        }
+    };
+
+    $scope.updateDates = function setDate(scaleChanged) {
+
+        switch ($scope.options.scale) {
+            case 'hour':
+                if (scaleChanged == 'true') {
+                    $scope.options.fromDate = moment().startOf('day').add(6, 'h');
+                } else {
+                    $scope.options.fromDate = moment($scope.options.fromDate).startOf('day').add(6, 'h');
+                }
+                $scope.options.toDate = moment($scope.options.fromDate).endOf('day');
+                $scope.options.timeFramesNonWorkingMode = 'visible';
+                $scope.options.bounds = true;
+                $scope.options.readOnly = false;
+                break;
+            case 'day':
+                $scope.options.fromDate = moment($scope.options.fromDate).startOf('week');
+                $scope.options.toDate = moment($scope.options.fromDate).endOf('week');
+                $scope.options.timeFramesNonWorkingMode = 'hidden';
+                $scope.options.bounds = false;
+                $scope.options.readOnly = false;
+                break;
+            case 'week':
+                $scope.options.fromDate = moment($scope.options.fromDate).startOf('month');
+                $scope.options.toDate = moment($scope.options.fromDate).endOf('month');
+                $scope.options.timeFramesNonWorkingMode = 'hidden';
+                $scope.options.bounds = false;
+                $scope.options.readOnly = true;
+                break;
+        }
+        $timeout(function() {
+            $scope.reload();
+        }, 0);
+    };
+
+    $scope.handleTaskIconClick = function(sys_id) {
+
+        //console.debug(sys_id);
+        //alert(sys_id);
+    };
+
+
+    $scope.canAutoWidth = function(scale) {
+        if (scale.match(/.*?hour.*?/) || scale.match(/.*?minute.*?/)) {
+            return false;
+        }
+        return true;
+    };
+
+    $scope.getColumnWidth = function(widthEnabled, scale, zoom) {
+        if (!widthEnabled && $scope.canAutoWidth(scale)) {
+            return undefined;
+        }
+
+        if (scale.match(/.*?day.*?/)) {
+            return 180 * zoom;
+        }
+
+        if (scale.match(/.*?week.*?/)) {
+            return 252 * zoom;
+        }
+
+        return 70 * zoom;
+    };
+
+    // Reload data action
+    $scope.load = function() {
+        console.debug("<--On Load-->");
+        $scope.options.columnMagnet = '15 minutes';
+        Sample.getLocations();
+        Sample.getFloors($scope.options.location);
+        Sample.getSampleData($scope.options.location, $scope.options.fromDate, $scope.options.toDate);
+    };
+
+    $scope.$on('handleData', function() {
+        $timeout(function() {
+            $scope.data = Sample.data;
+        }, 0);
+    });
+
+    $scope.$on('handleSave', function() {
+        $timeout(function() {
+            $scope.reload();
+        }, 0);
+    });
+
+    $scope.$on('handleLocations', function() {
+        $timeout(function() {
+            $scope.options.locations = Sample.locations;
+        }, 0);
+    });
+
+    $scope.$on('handleFloors', function() {
+        $timeout(function() {
+            $scope.options.floors = Sample.floors;
+        }, 0);
+    });
+
+    $scope.reload = function() {
+        $scope.load();
+    };
+
+    // Save data action
+    $scope.save = function() {
+        var dataToSave = $scope.data;
+        Sample.saveData(dataToSave);
+    };
+
+}]);
+
+/**
+ * @ngdoc service
+ * @name ganttFM.Sample
+ * @description
+ * # Sample
+ * Service in the ganttFM.
+ */
+ganttApp.service('Sample', function($rootScope) {
+
+    var Sample = {};
+
+    Sample.getSampleData = function(location, fromDate, toDate) {
+        var answer;
+        var mFromDate = moment(fromDate);
+        var mToDate = moment(toDate);
+        mFromDate.startOf('day').subtract(1, 'd');
+        mToDate.endOf('day').add(1, 'd');
+
+        var ga = new GlideAjax('x_lsmcb_fm.FMRoomReservationAjaxUtils');
+        ga.addParam('sysparm_name', 'getRoomsAndReservationsServiceDesk');
+        ga.addParam('sysparm_location', location);
+        ga.addParam('sysparm_fromDate', mFromDate.format('L LTS'));
+        ga.addParam('sysparm_toDate', mToDate.format('L LTS'));
+        ga.getXML(parseResponse);
+
+        function parseResponse(response) {
+            var answer = response.responseXML.documentElement.getAttribute("answer");
+            Sample.data = JSON.parse(answer);
+            $rootScope.$broadcast('handleData');
+        }
+    };
+
+    Sample.saveData = function(dataToSave) {
+		
+        var ga = new GlideAjax('x_lsmcb_fm.FMRoomReservationAjaxUtils');
+        ga.addParam('sysparm_name', 'saveRoomsAndReservations');
+        ga.addParam('sysparm_data', JSON.stringify(dataToSave));
+        ga.getXML(confirm);
+
+        function confirm(response) {
+            var answer = response.responseXML.documentElement.getAttribute("answer");
+            $rootScope.$broadcast('handleSave');
+        }
+    };
+
+    Sample.getLocations = function() {
+
+        var ga = new GlideAjax('x_lsmcb_fm.FMRoomReservationAjaxUtils');
+        ga.addParam('sysparm_name', 'getJsonLocations');
+        ga.getXML(confirm);
+
+        function confirm(response) {
+            var answer = response.responseXML.documentElement.getAttribute("answer");
+            Sample.locations = JSON.parse(answer);
+            $rootScope.$broadcast('handleLocations');
+        }
+    };
+
+    Sample.getFloors = function(location) {
+
+        var ga = new GlideAjax('x_lsmcb_fm.FMRoomReservationAjaxUtils');
+        ga.addParam('sysparm_name', 'getJsonFloors');
+        ga.addParam('sysparm_location', location);
+        ga.getXML(confirm);
+
+        function confirm(response) {
+            var answer = response.responseXML.documentElement.getAttribute("answer");
+            Sample.floors = JSON.parse(answer);
+            $rootScope.$broadcast('handleFloors');
+        }
+    };
+    return Sample;
+});]]></script>
+        <script_name>fm_gantt_controller</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-10-13 10:07:37</sys_created_on>
+        <sys_id>d9782a370fde6e0011bec3ace1050eae</sys_id>
+        <sys_mod_count>594</sys_mod_count>
+        <sys_name>x_lsmcb_fm.fm_gantt_controller</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_script_d9782a370fde6e0011bec3ace1050eae</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-05-02 12:23:34</sys_updated_on>
+        <use_scoped_format>false</use_scoped_format>
+    </sys_ui_script>
+</record_update>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_instance_table">
+    <sp_instance_table action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <class_name/>
+        <color>default</color>
+        <css/>
+        <display_field/>
+        <field_list/>
+        <filter/>
+        <glyph/>
+        <id/>
+        <maximum_entries>5</maximum_entries>
+        <order>1</order>
+        <order_by/>
+        <order_direction>asc</order_direction>
+        <roles/>
+        <short_description/>
+        <size>md</size>
+        <sp_column display_value="2">6cd2a8160f90030011bec3ace1050eb6</sp_column>
+        <sp_page/>
+        <sp_widget display_value="FM Form">ec402fc20f50030011bec3ace1050e96</sp_widget>
+        <sys_class_name>sp_instance_table</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-08-02 14:48:19</sys_created_on>
+        <sys_id>c1e2a4160f90030011bec3ace1050e42</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sp_instance_table_c1e2a4160f90030011bec3ace1050e42</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-02 14:48:32</sys_updated_on>
+        <table/>
+        <title/>
+        <url/>
+        <widget_parameters><![CDATA[{
+	"disableUIActions": {
+		"value": "true",
+		"displayValue": "true"
+	},
+	"showFormView": {
+		"value": "",
+		"displayValue": ""
+	},
+	"omitHeaderOptions": {
+		"value": "true",
+		"displayValue": "true"
+	}
+}]]></widget_parameters>
+    </sp_instance_table>
+    <sys_translated_text action="delete_multiple" query="documentkey=c1e2a4160f90030011bec3ace1050e42"/>
+</record_update>

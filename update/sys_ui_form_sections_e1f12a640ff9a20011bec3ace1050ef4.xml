@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_form_sections form_id="e1f12a640ff9a20011bec3ace1050ef4" sys_domain="global" table="x_lsmcb_fm_room_property" version="3">
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>0</position>
+            <sys_created_by>laura.schuch</sys_created_by>
+            <sys_created_on>2016-09-08 10:46:00</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>e5f12a640ff9a20011bec3ace1050ef4</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_lsmcb_fm_room_property" name="x_lsmcb_fm_room_property" sys_domain="global" view="Default view">e1f12a640ff9a20011bec3ace1050ef4</sys_ui_form>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_room_property" sys_domain="global" view="Default view">7f51e6640ff9a20011bec3ace1050e89</sys_ui_section>
+            <sys_updated_by>laura.schuch</sys_updated_by>
+            <sys_updated_on>2016-09-08 10:46:00</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form action="INSERT_OR_UPDATE">
+            <name>x_lsmcb_fm_room_property</name>
+            <roles/>
+            <sys_class_name>sys_ui_form</sys_class_name>
+            <sys_created_by>laura.schuch</sys_created_by>
+            <sys_created_on>2016-09-08 10:46:00</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>e1f12a640ff9a20011bec3ace1050ef4</sys_id>
+            <sys_mod_count>18</sys_mod_count>
+            <sys_name>x_lsmcb_fm_room_property</sys_name>
+            <sys_overrides/>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_ui_form_sections_e1f12a640ff9a20011bec3ace1050ef4</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-06-08 16:12:23</sys_updated_on>
+            <sys_user/>
+            <view display_value="Default view" name="NULL">Default view</view>
+            <view_name/>
+        </sys_ui_form>
+    </sys_ui_form_sections>
+</record_update>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMVisitorRecordProducerUtils</api_name>
+        <client_callable>true</client_callable>
+        <description>Util for the Visit Record Producer</description>
+        <name>FMVisitorRecordProducerUtils</name>
+        <script><![CDATA[var FMVisitorRecordProducerUtils = Class.create();
+FMVisitorRecordProducerUtils.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+	
+	dtu : new FMDateTimeUtils(),
+	pu : new FMParkingUtils(),
+	
+	createVisitRecord: function (){
+		
+		var visitor = this.getParameter('sysparm_visitor');
+		var visitor_first_name = this.getParameter('sysparm_visitor_first_name');
+		var visitor_last_name = this.getParameter('sysparm_visitor_last_name');
+		var host = this.getParameter('sysparm_host_sysid');
+		var phone = this.getParameter('sysparm_phone');
+		var requester = this.getParameter('sysparm_requester_sysid');
+		var accessMethod = this.getParameter('sysparm_accessMethod');
+		var isParking = this.getParameter('sysparm_isparking');
+		var date = this.getParameter('sysparm_date');
+		var location = this.getParameter('sysparm_location_sysid');
+		var license_plate = this.getParameter('sysparm_license_plate');
+		var parking_lot = this.getParameter('sysparm_plot_sysid');
+		var reservationID = this.getParameter('sysparm_reservation');
+		var email = this.getParameter('sysparm_email');
+		var company = this.getParameter('sysparm_company');
+		var contact = this.getParameter('sysparm_contact');
+		var sh = this.getParameter('sysparm_sh');
+		var sm = this.getParameter('sysparm_sm');
+		var eh = this.getParameter('sysparm_eh');
+		var em = this.getParameter('sysparm_em');
+		var anonymous = this.getParameter('sysparm_anonymous');		
+		var internet_needed = this.getParameter('sysparm_internet_needed');
+		var remark = this.getParameter('sysparm_remark');
+		
+		//Mapping of start and end hours
+		var gdts = new GlideDateTime();
+		gdts.setDisplayValue(date);
+		gdts.addSeconds(60 * sm);
+		gdts.addSeconds(60 * 60 * sh);
+		
+		var gdte = new GlideDateTime();
+		gdte.setDisplayValue(date);
+		gdte.addSeconds(60 * em);
+		gdte.addSeconds(60 * 60 * eh);
+		
+		
+		var gdtsP = new GlideDateTime();
+		var gdteP = new GlideDateTime();
+		gdtsP.setGlideDateTime(gdts);
+		gdteP.setGlideDateTime(gdte);
+		gdtsP.addSeconds(-15 * 60);
+		gdteP.addSeconds(15 * 60);
+		
+		
+		var pgr;
+		var parkingReservation;
+		
+		if (isParking == 'true') {
+			pgr = new GlideRecord('x_lsmcb_fm_parking_reservation');
+			
+			pgr.initialize();
+			pgr.visitor = visitor;
+			pgr.license_plate = license_plate;
+			pgr.parking_lot = parking_lot;
+			pgr.location = location;
+			pgr.start_time = gdtsP.getDisplayValue();
+			pgr.end_time = gdteP.getDisplayValue();
+			pgr.quantity = 1;
+			parkingReservation = pgr.insert();
+			
+		}
+		
+		var vgr = new GlideRecord("x_lsmcb_fm_visit");
+		vgr.initialize();
+		vgr.requester = requester;
+		vgr.host = host;
+		vgr.phone = phone;
+		vgr.contact = contact;
+		vgr.visitor = visitor;
+		vgr.visitor_first_name = visitor_first_name;
+		vgr.visitor_last_name = visitor_last_name;
+		vgr.email = email;
+		vgr.company = company;
+		vgr.room_reservation = reservationID;
+		vgr.start_time = gdts;
+		vgr.end_time = gdte;
+		vgr.location = location;
+		vgr.access_method = accessMethod;
+		vgr.anonymous = anonymous;
+		vgr.internet = internet_needed;
+		vgr.remark = remark;
+		if (isParking == 'true') {
+			vgr.parking_reservation = parkingReservation;
+		}
+		var currentVisit = vgr.insert();
+		if (isParking == 'true') {
+			pgr.visit = currentVisit;
+			pgr.update();
+		}
+		
+		var answer = currentVisit.toString();
+		return answer;
+		
+	},
+	
+	removeVisitRecord: function (){
+		
+		var sysId = this.getParameter('sysparm_visit_sysid');
+		
+		var gr = new GlideRecord('x_lsmcb_fm_visit');
+		gr.addQuery('sys_id',sysId); //to delete one record
+		gr.query();
+		
+		if (gr.next()){
+			
+			if (gr.parking_reservation != ''){
+				var pgr = new GlideRecord('x_lsmcb_fm_parking_reservation');
+				pgr.addQuery('sys_id', gr.parking_reservation); //to delete one record
+				pgr.query();
+				pgr.next();
+				pgr.deleteRecord();
+			}
+			
+			gr.deleteRecord();
+			gs.addErrorMessage('Deleted the Visit Registration for ' + gr.visitor.getDisplayValue());
+			return 'true';
+		}
+	},
+	
+	getAccessProperty: function() {
+		
+		var answer = false;
+		
+		if (gs.getProperty('x_lsmcb_fm.access_method_mechanism') == 'user_defined') {
+			answer = true;
+		}
+		
+		return answer;
+	},
+	
+	checkUniqueParkingLot: function() {
+		
+		var parkingLot = '';
+		var locationLot = '';
+		
+		var location = this.getParameter('sysparm_location');
+		var rsrvdate = this.getParameter('sysparm_date');
+		var stH = this.getParameter('sysparm_sth');
+		var stM = this.getParameter('sysparm_stm');
+		var endH = this.getParameter('sysparm_endh');
+		var endM = this.getParameter('sysparm_endm');
+		var lot = this.getParameter('sysparm_lot');
+		var parkingID = this.getParameter('sysparm_parkingid');
+		
+		var gdts = new GlideDateTime();
+		gdts.setDisplayValue(rsrvdate + ' ' + stH + ':' + stM + ':00');
+		
+		var gdte = new GlideDateTime();
+		gdte.setDisplayValue(rsrvdate + ' ' + endH + ':' + endM + ':00');
+		
+		gdts.addSeconds(-15 * 60);
+		gdte.addSeconds(15 * 60);
+		
+		var grPark = new GlideRecord('x_lsmcb_fm_m2m_locations_parking_lots');
+		grPark.addQuery('location', location);
+		grPark.addQuery('parking_lot.type', 'visitors');
+		grPark.query();
+		while (grPark.next()) {
+			if(this.pu.checkAvailability(grPark.parking_lot, gdts, gdte, parkingID) == 'true') {
+				parkingLot = grPark.getValue('parking_lot');
+				
+				if(parkingLot == lot) {
+					return parkingLot;
+				}
+				
+				if(grPark.parking_lot.location == location) {
+					locationLot = parkingLot;
+				}
+			}
+		}
+		
+		if(locationLot.length > 10) {
+			return locationLot;
+		} else {
+			return parkingLot;
+		}
+	},
+	
+	type: 'FMVisitorRecordProducerUtils'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-11-22 15:18:25</sys_created_on>
+        <sys_id>2b7ca5fc0fd7e60011bec3ace1050ece</sys_id>
+        <sys_mod_count>117</sys_mod_count>
+        <sys_name>FMVisitorRecordProducerUtils</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_2b7ca5fc0fd7e60011bec3ace1050ece</sys_update_name>
+        <sys_updated_by>patricia.gaudencio</sys_updated_by>
+        <sys_updated_on>2018-07-25 09:40:36</sys_updated_on>
+    </sys_script_include>
+</record_update>

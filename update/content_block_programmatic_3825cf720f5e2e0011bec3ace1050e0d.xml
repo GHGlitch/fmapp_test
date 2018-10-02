@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="content_block_programmatic">
+    <content_block_programmatic action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category>general</category>
+        <condition/>
+        <conditional>false</conditional>
+        <frame/>
+        <logged_on>false</logged_on>
+        <name>Meeting Details Block</name>
+        <programmatic_content><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+
+    <!--
+            <input name="Room" class="drop" ng-model="roomID" disabled="true">
+
+            </input>
+            <br></br>
+
+        </form>
+
+        <button ng-click="clicked()">Proceed</button>
+
+    </div> -->
+
+
+<table width="200" border="1" cellspacing="3" cellpadding="3" class="meeting_table" ng-controller="MeetingDetailsController" ng-cloak="">
+  <tbody>
+    <tr>
+      <td valign="top">
+     	<table width="94%" border="0" cellspacing="5" cellpadding="5" bgcolor="#eee" align="center" style="margin:15px">
+  			<tbody>
+   				 <tr>
+     				 <td width="110px" bgcolor="#666464"><div class="meeting_title">MEETING DETAILS</div></td>
+     				 <td valign="middle" bgcolor="#666464"><div id="meeting_title_strip"></div></td>
+   				 </tr>
+  			</tbody>
+		</table>
+</td>
+    </tr>
+    <tr>
+      <td valign="top">
+      <table width="165" border="0" cellspacing="5" cellpadding="5" class="meetingDetails_table " align="center"  ng-show="isResSelected">
+ 		 <tbody>
+   			 <tr>
+     			 <td valign="top"><div class="meetingDetails_title">{{ roomData.roomInfo.name || 'Select a room.' }}</div></td>
+   			 </tr>
+   			 <tr>
+    			  <td valign="top"><span class="meetingDetails_desctitle">Requester: </span><span class="meetingDetails_decvalue">{{ selectedReservation.requester }}</span></td>
+   			 </tr>
+			 <tr>
+    			  <td valign="top"><span class="meetingDetails_desctitle">Subject: </span><span class="meetingDetails_decvalue">{{ selectedReservation.meeting_subject }}</span></td>
+   			 </tr>
+			 <tr>
+    			  <td valign="top"><span class="meetingDetails_desctitle">Date: </span><span class="meetingDetails_decvalue">{{ selectedReservation.startTime.substring(0,11) }}</span></td>
+   			 </tr>
+			  <tr>
+    			  <td valign="top"><span class="meetingDetails_desctitle">Start Time: </span><span class="meetingDetails_decvalue">{{ selectedReservation.startTime.substring(11,16) }}</span></td>
+   			 </tr>
+			 <tr>
+    			  <td valign="top"><span class="meetingDetails_desctitle">End Time: </span><span class="meetingDetails_decvalue">{{ selectedReservation.endTime.substring(11,16) }}</span></td>
+   			 </tr>
+   			 <tr>
+				 <td valign="top"><!-- <div class="roomprops_shortdesc">Short description, like lorem ipsum dolor sit amet.</div> --></td>
+   			 </tr>
+ 		 </tbody>
+	</table>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+    <g:requires name="x_lsmcb_fm.fm_meeting_details_controller.jsdbx"/>
+
+
+</j:jelly>
+]]></programmatic_content>
+        <sys_class_name>content_block_programmatic</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-10-10 09:37:42</sys_created_on>
+        <sys_id>3825cf720f5e2e0011bec3ace1050e0d</sys_id>
+        <sys_mod_count>22</sys_mod_count>
+        <sys_name>Meeting Details Block</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>content_block_programmatic_3825cf720f5e2e0011bec3ace1050e0d</sys_update_name>
+        <sys_updated_by>tomas.ferreira</sys_updated_by>
+        <sys_updated_on>2016-10-10 16:40:40</sys_updated_on>
+        <two_phase>true</two_phase>
+    </content_block_programmatic>
+</record_update>

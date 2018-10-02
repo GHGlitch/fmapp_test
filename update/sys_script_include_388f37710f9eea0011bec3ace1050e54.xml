@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMFOrderAjaxUtils</api_name>
+        <client_callable>true</client_callable>
+        <description>Ajax Utils for the Facility orders and suborders.</description>
+        <name>FMFOrderAjaxUtils</name>
+        <script><![CDATA[var FMFOrderAjaxUtils = Class.create();
+FMFOrderAjaxUtils.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+	
+	fou: new FMFOrderUtils(),
+	
+	
+	//return user's costcenter
+	getUserCostcenter: function() {
+		var user = this.getParameter('sysparm_user');
+		var response = this.fou.getUserCostcenter(user);
+		return response;
+	},
+	
+	getDefaulTAssignmentGroup: function(){
+		return gs.getProperty('x_lsmcb_fm.default_order_assignment_group');
+	},
+	
+	// Clear the reservation context from the session data.
+	// This is set by specific UI actions to allow data to flow from the form on which the UI action is displayed to the record producers for orders or the order form. Clearing prevents it from 'spilling over' to other actions on orders.
+	clearReservationContext: function(){
+		gs.getSession().putClientData('fm_reservation_id', undefined);
+		gs.getSession().putClientData('fm_order_id', undefined);
+		gs.getSession().putClientData('fm_reservation', undefined);
+		gs.getSession().clearClientData('fm_reservation');
+		gs.getSession().clearClientData('fm_reservation_id');
+		gs.getSession().clearClientData('fm_order_id');
+	},
+	
+	// Stores sys_id of the email client template into the session.
+	storeSessionData: function () {
+		
+		var sysid = this.getParameter('sysparm_sysid');
+		gs.getSession().putClientData('template_sysid', sysid);
+		return true;
+	},
+	
+	getFOInfo: function() {
+		var fo = this.getParameter('sysparm_facility_order');
+		var answer = this.fou.getFOInfo(fo);
+		return answer;
+	},
+	
+	getFOInfoForm: function() {
+		
+		var fo = this.getParameter('sysparm_facility_order');
+		return this.fou.getFOInfoForm(fo);
+		
+	},
+	
+	getProducts: function() {
+		var id = this.getParameter('sysparm_id');
+		var answer = this.fou.getProducts(id);
+		return answer;
+	},
+	
+	updateFOrders: function() {
+		
+		var id = this.getParameter('sysparm_facility_order');
+		var orderGr = new GlideRecord('x_lsmcb_fm_facility_order');
+		orderGr.get(id);
+		
+		var childOrderGr = new GlideRecord('x_lsmcb_fm_facility_order');
+		if(orderGr.parent_order.toString() == '') {
+			childOrderGr.addQuery('parent_order', orderGr.sys_id.toString());
+		} else {
+			childOrderGr.addQuery('parent_order', orderGr.getValue('parent_order'));
+			childOrderGr.addQuery('expected_start', '>', orderGr.expected_start);
+		}
+		childOrderGr.addQuery('state', '!=', '4');
+		childOrderGr.addQuery('state', '!=', '6');
+		childOrderGr.addQuery('state', '!=', '7');
+		childOrderGr.query();
+		
+		var startDateTime = new GlideDateTime(orderGr.expected_start.getDisplayValue());
+		startDateTime.setValue(orderGr.expected_start.getDisplayValue());
+		var endDateTime = new GlideDateTime(orderGr.expected_end.getDisplayValue());
+		endDateTime.setValue(orderGr.expected_end.getDisplayValue());
+		
+		var startTime = new GlideTime();
+		startTime.setValue(startDateTime.getTime());
+		var endTime = new GlideTime();
+		endTime.setValue(endDateTime.getTime());
+		
+		var numStartTime = startTime.getByFormat('HH:mm:ss').toString();
+		var numEndTime = endTime.getByFormat('HH:mm:ss').toString();
+		
+		var start_hour = numStartTime.split(':')[0];
+		var start_min = numStartTime.split(':')[1];
+		var end_hour = numEndTime.split(':')[0];
+		var end_min = numEndTime.split(':')[1];
+		
+		while(childOrderGr.next()) {
+			
+			var glideDate = new GlideDateTime(childOrderGr.expected_start);
+			glideDate.setValue(childOrderGr.expected_start);
+			var startDate = new GlideDate();
+			startDate.setValue(glideDate.getDate());
+			var date = startDate.toString();
+			
+			this.fou.updateOrderForm(childOrderGr.sys_id.toString(), date, start_hour, end_hour, start_min, end_min, orderGr.getValue('location') + '', orderGr.getValue('room') + '');
+		}
+	},
+	
+	type: 'FMFOrderAjaxUtils'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-10-07 11:21:26</sys_created_on>
+        <sys_id>388f37710f9eea0011bec3ace1050e54</sys_id>
+        <sys_mod_count>83</sys_mod_count>
+        <sys_name>FMFOrderAjaxUtils</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_388f37710f9eea0011bec3ace1050e54</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-11-23 11:13:40</sys_updated_on>
+    </sys_script_include>
+</record_update>

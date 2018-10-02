@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_filter_option_dynamic">
+    <sys_filter_option_dynamic action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <available_for_default>true</available_for_default>
+        <available_for_filter>false</available_for_filter>
+        <available_for_ref_qual>false</available_for_ref_qual>
+        <field_type display_value="Decimal">f52567c1bf3320001875647fcf07396a</field_type>
+        <label>Get VAT Percentage - Miscellaneous Costs</label>
+        <order/>
+        <roles/>
+        <script>getVATPercentage('Miscellaneous Costs');</script>
+        <script_reference_id/>
+        <script_reference_table/>
+        <sys_class_name>sys_filter_option_dynamic</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-10-18 10:45:05</sys_created_on>
+        <sys_id>9a8d80cb0f390b4011bec3ace1050e3c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Get VAT Percentage - Miscellaneous Costs</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_filter_option_dynamic_9a8d80cb0f390b4011bec3ace1050e3c</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-10-18 10:45:05</sys_updated_on>
+        <table/>
+        <table_containing_filter/>
+    </sys_filter_option_dynamic>
+</record_update>

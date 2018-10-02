@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element audit="true" extends="task" label="Facility Event" max_length="40" name="x_lsmcb_fm_facility_event" type="collection">
+        <element label="Planned End" max_length="40" name="u_planned_end" type="glide_date_time"/>
+        <element label="Planned Start" max_length="40" name="u_planned_start" type="glide_date_time"/>
+    </element>
+</database>

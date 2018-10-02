@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_app_module">
+    <sys_app_module action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <application display_value="Facility Management">89a248e30fdd224011bec3ace1050e47</application>
+        <assessment/>
+        <content_page/>
+        <device_type/>
+        <filter/>
+        <hint/>
+        <homepage/>
+        <image/>
+        <link_type>DIRECT</link_type>
+        <map_page/>
+        <mobile_title>Room Reservations Graphical Planboard</mobile_title>
+        <mobile_view_name>Mobile</mobile_view_name>
+        <name/>
+        <order>405</order>
+        <override_menu_roles>false</override_menu_roles>
+        <query>x_lsmcb_fm_fm_gantt.do</query>
+        <report/>
+        <roles>x_lsmcb_fm.fm_room_reservation_reporter</roles>
+        <sys_class_name>sys_app_module</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-10-11 14:01:38</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>f1a8c5d70f166e0011bec3ace1050e24</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>Room Reservations Planboard</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_app_module_f1a8c5d70f166e0011bec3ace1050e24</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-03-29 15:10:34</sys_updated_on>
+        <timeline_page/>
+        <title>Room Reservations Planboard</title>
+        <uncancelable>false</uncancelable>
+        <view_name/>
+        <window_name/>
+    </sys_app_module>
+</record_update>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_security_acl_role">
+    <sys_security_acl_role action="INSERT_OR_UPDATE">
+        <sys_class_name>sys_security_acl_role</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-02-09 16:36:31</sys_created_on>
+        <sys_id>a907b49e0fb0b60011bec3ace1050e3c</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>x_lsmcb_fm_price_update.x_lsmcb_fm.fm_facilities_admin</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_security_acl display_value="x_lsmcb_fm_price_update">6d07b49e0fb0b60011bec3ace1050e3b</sys_security_acl>
+        <sys_update_name>sys_security_acl_role_a907b49e0fb0b60011bec3ace1050e3c</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-02-09 17:45:10</sys_updated_on>
+        <sys_user_role display_value="x_lsmcb_fm.fm_facilities_manager" name="x_lsmcb_fm.fm_facilities_manager">e191f3410fa6ee0011bec3ace1050e51</sys_user_role>
+        <transaction_id/>
+    </sys_security_acl_role>
+</record_update>

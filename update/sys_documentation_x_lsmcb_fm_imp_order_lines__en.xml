@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="" label="imp_order_lines" language="en" table="x_lsmcb_fm_imp_order_lines">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element/>
+            <help/>
+            <hint/>
+            <label>imp_order_lines</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_imp_order_lines</name>
+            <plural>imp_order_lines</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-03-16 11:04:32</sys_created_on>
+            <sys_id>bbaa37190fed320011bec3ace1050e5e</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>imp_order_lines</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_documentation_x_lsmcb_fm_imp_order_lines__en</sys_update_name>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-03-16 11:04:32</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

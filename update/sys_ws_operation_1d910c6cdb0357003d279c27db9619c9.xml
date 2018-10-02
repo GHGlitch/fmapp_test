@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/json,application/xml,text/xml,text/plain</consumes>
+        <consumes_customized>true</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl>cf9d01d3e73003009d6247e603f6a990</enforce_acl>
+        <http_method>POST</http_method>
+        <name>Outlook Calendar Notification</name>
+        <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+    
+    var fmii = new FMInboundIntegrations();
+    gs.info('==============Outlook calendar notification is now running');
+    // Verify if the Outlook REST integration is activated - if not, do nothing.
+    if (!fmii.restIntegrationActivated()) {
+        gs.error('>>> FMA: Cannot process the request - REST integration not active.');
+        return;
+    }
+    
+    // VENDOR INSTANCE DEV ONLY!!!
+    // Instead of a plain sys_id, should be: gs.getProperty('x_lsmcb_fm.outlook_integration_user_sys_id')
+    var integrationUserSysID = 'ff3b7d9d0ff31700bc65c5ece1050e65';
+    
+    var impersonator = new global.FMAGlobalUtils().impersonateUser(integrationUserSysID);
+    
+    if (!request.queryParams.validationToken) {
+        
+        var data = request.body.data.value[0];
+        
+        gs.info('>>> OPERATION: ' + JSON.stringify(data));
+        
+        try {
+            
+            if (data.clientState != 'FMOutlookIntegration') {
+                gs.error('>>> FMA: Unauthorized inbound REST request');
+
+            } else if (!data.resourceData.id) {
+                gs.error('>>> FMA: No ID available - event likely non-existing');
+
+            } else {
+				gs.info('Going to process the REST info from the email');
+                fmii.processUpdateREST(data.changeType, data.resourceData.id);
+            }
+            
+        } catch (ex) {
+            //gs.error('FMA: Endpoint Error\n\n' + ex.message);
+            gs.error('FMA: Endpoint Error');
+            
+        } finally {
+            response.setStatus(202);
+        }
+        
+    } else {
+        
+        response.setStatus(200);
+        response.setContentType('text/plain');
+
+        var writer = response.getStreamWriter();
+        writer.writeString(request.queryParams.validationToken);
+        
+        gs.info('>>> REST MESSAGE:\n- Subscription request is successful.');
+    }
+
+})(request, response);]]></operation_script>
+        <operation_uri>/api/x_lsmcb_fm/outlook/notifications</operation_uri>
+        <produces>application/json,application/xml,text/xml,text/plain</produces>
+        <produces_customized>true</produces_customized>
+        <relative_path>/notifications</relative_path>
+        <request_example/>
+        <requires_acl_authorization>false</requires_acl_authorization>
+        <requires_authentication>false</requires_authentication>
+        <short_description/>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-06-28 15:01:20</sys_created_on>
+        <sys_id>1d910c6cdb0357003d279c27db9619c9</sys_id>
+        <sys_mod_count>161</sys_mod_count>
+        <sys_name>Outlook Calendar Notification</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ws_operation_1d910c6cdb0357003d279c27db9619c9</sys_update_name>
+        <sys_updated_by>daniel.baeta</sys_updated_by>
+        <sys_updated_on>2018-08-17 14:50:15</sys_updated_on>
+        <web_service_definition display_value="Outlook REST Endpoint">6b41886cdb0357003d279c27db96195d</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+</record_update>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_macro">
+    <sys_ui_macro action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category>general</category>
+        <description>Button that throws the pop-up window for choosing a new room from the record producer.</description>
+        <media_type/>
+        <name>fm choose room</name>
+        <scoped_name>x_lsmcb_fm_fm choose room</scoped_name>
+        <sys_class_name>sys_ui_macro</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-09-22 14:29:21</sys_created_on>
+        <sys_id>ae8a93450f02e60011bec3ace1050e96</sys_id>
+        <sys_mod_count>152</sys_mod_count>
+        <sys_name>fm choose room</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_macro_ae8a93450f02e60011bec3ace1050e96</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-03-14 14:08:30</sys_updated_on>
+        <xml><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	<div style="margin-top:3px;">	
+		<!-- <button data-original-title="Choose Room" type="button" onclick="openChangeRoomWindow();" name="choose_room_btn" id="choose_room_btn" class="request_catalog_button header_button btn cat-btn btn-secundary" aria-label="Choose Room">${gs.getMessage('fm_choose_room')}</button> -->
+
+		
+		 <div>
+			<a href="#" onclick="openPlanboardWindow();">
+				<button class="request_catalog_button header_button btn cat-btn btn-secundary" id="choose_room_btn">${gs.getMessage('fm_open_planboard')}</button>
+			</a>
+		</div>
+		
+		<script>
+			
+			function openPlanboardWindow() {
+				var selectedLocation = g_form.getValue("location");
+				var selectedDate = g_form.getValue("date");
+			
+			window.open('/x_lsmcb_fm_fm_gantt_portal.do?sysparm_location=' + selectedLocation + '&amp;sysparm_date=' + selectedDate, '_blank', 'location=no,toolbar=no,menubar=no,scrollbars=yes,height='+screen.height+', width='+screen.width);
+			}
+			
+		</script>
+	</div>
+</j:jelly>]]></xml>
+    </sys_ui_macro>
+</record_update>

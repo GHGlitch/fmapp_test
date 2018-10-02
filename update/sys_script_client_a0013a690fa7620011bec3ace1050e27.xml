@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <applies_extended>false</applies_extended>
+        <condition/>
+        <description>Fills form fields from available reservation context data and clear reservation context data.</description>
+        <field>active</field>
+        <global>true</global>
+        <messages/>
+        <name>Fill Order From Reservation</name>
+        <order/>
+        <script><![CDATA[function onLoad() {
+	// Get the context reservation for this order
+	var reservationData = g_user.getClientData('fm_reservation');
+	// If available get the data from this reservation
+	var reservation = JSON.parse(reservationData);
+	// If available get the data from this reservation
+	if (reservation){
+		
+		// Set form values
+		var gar = new GlideAjax('x_lsmcb_fm.FMRoomReservationAjaxUtils');
+		gar.addParam('sysparm_name', 'getReservationInfo');
+		gar.addParam('sysparm_reservation_id', reservation.id);
+		
+		g_form.setValue('room_reservation', reservation.id);
+		
+		gar.getXML(function(response) {
+			var answer = response.responseXML.documentElement.getAttribute("answer");
+			if(answer) {
+				var obj = JSON.parse(answer);
+				
+				g_form.setValue('requester', obj.requester);
+				g_form.setValue('expected_start', obj.start_time);
+				g_form.setValue('expected_end', obj.end_time);
+				g_form.setValue('room', obj.room);
+				g_form.setValue('location', obj.location);
+				g_form.setValue('costcenter', obj.costcenter);
+				g_form.setValue('short_description', obj.meeting_subject);
+			}
+		});
+	}
+}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>bjorn.van.dommelen</sys_created_by>
+        <sys_created_on>2016-12-07 14:24:23</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>a0013a690fa7620011bec3ace1050e27</sys_id>
+        <sys_mod_count>7</sys_mod_count>
+        <sys_name>Fill Order From Reservation</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_client_a0013a690fa7620011bec3ace1050e27</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-06-21 14:18:08</sys_updated_on>
+        <table>x_lsmcb_fm_facility_order</table>
+        <type>onLoad</type>
+        <ui_type>0</ui_type>
+        <view/>
+    </sys_script_client>
+</record_update>

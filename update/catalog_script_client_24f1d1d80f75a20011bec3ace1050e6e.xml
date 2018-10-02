@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="catalog_script_client">
+    <catalog_script_client action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <applies_catalog>true</applies_catalog>
+        <applies_extended>false</applies_extended>
+        <applies_req_item>false</applies_req_item>
+        <applies_sc_task>false</applies_sc_task>
+        <applies_target_record>false</applies_target_record>
+        <applies_to>set</applies_to>
+        <cat_item display_value="Book a Room">2f98b4dc0f35a20011bec3ace1050e82</cat_item>
+        <cat_variable>IO:5d53dc050f5eaa0011bec3ace1050e5a</cat_variable>
+        <condition/>
+        <description/>
+        <field/>
+        <global>true</global>
+        <messages/>
+        <name>R_Check Date</name>
+        <order/>
+        <script><![CDATA[function onChange(control, oldValue, newValue, isLoading) {
+	if (isLoading || newValue === '') {
+		return;
+	}
+	//Prevents user from selecting a date in the past
+	
+	g_form.hideErrorBox('date');
+	
+// 	//get minimum date
+// 	var ga = new GlideAjax('FMDateTimeAjaxUtils');
+// 	ga.addParam('sysparm_name', 'getInsertDate');
+// 	ga.addParam('sysparm_day', g_form.getValue('insert_day_condition'));
+// 	ga.addParam('sysparm_hour', g_form.getValue('insert_hour_condition'));
+// 	ga.getXML(function(response) {
+// 		var answer = response.responseXML.documentElement.getAttribute('answer');
+// 		var currentDateObj = new Date(answer);
+		var currentDateObj = new Date();
+
+		var currentDateStr = formatDate(currentDateObj, g_user_date_format);
+		
+		//get selected date
+		var startDateStr = g_form.getValue('date');
+		var format = g_user_date_format;
+		
+		var isEndBeforeStart = compareDates(currentDateStr, format, startDateStr, format);
+		
+		if (isEndBeforeStart == 1) {
+			g_form.setValue('date', currentDateStr);
+			g_form.showErrorBox('date', getMessage('fm_min_date'));
+		}
+// 	});
+	
+}]]></script>
+        <sys_class_name>catalog_script_client</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-09-07 10:18:30</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>24f1d1d80f75a20011bec3ace1050e6e</sys_id>
+        <sys_mod_count>24</sys_mod_count>
+        <sys_name>R_Check Date</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>catalog_script_client_24f1d1d80f75a20011bec3ace1050e6e</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-06-02 11:01:17</sys_updated_on>
+        <table/>
+        <type>onChange</type>
+        <ui_type>0</ui_type>
+        <variable_set display_value="Meeting Information">4d4930100f75a20011bec3ace1050e8c</variable_set>
+        <view/>
+    </catalog_script_client>
+</record_update>

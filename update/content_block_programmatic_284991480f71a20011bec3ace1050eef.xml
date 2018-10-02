@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="content_block_programmatic">
+    <content_block_programmatic action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category>general</category>
+        <condition/>
+        <conditional>false</conditional>
+        <frame/>
+        <logged_on>false</logged_on>
+        <name>Location and Time Block</name>
+        <programmatic_content><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	
+	<!-- <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js'> </script> -->
+	
+			
+	<div ng-controller="ReservationController" ng-cloak="" id="reservation-div" style="top:0px; margin-top:-20px">
+		
+		<table border="0" cellspacing="5" cellpadding="5" class="form_table">
+  <tbody>
+    <tr>
+      <td colspan="8">
+      <table width="98%" border="0" cellspacing="5" cellpadding="5" bgcolor="#eee" align="center">
+  <tbody>
+    <tr>
+      <td width="150px" bgcolor="#eee"><div class="form_title">SEARCH FOR ROOM</div></td>
+      <td bgcolor="#eee" align="right"><div class="search_title_strip"></div></td>
+    </tr>
+  </tbody>
+</table>
+</td>
+    </tr>
+    <tr>
+    
+      <td valign="top" style="padding:22px">   
+		  <div class="field_title">LOCATION</div>
+		  
+		  <!-- try to call script include -->
+		  <g:evaluate var="jvar_locations">
+				var location = new GlideRecord('cmn_location');
+				location.addJoinQuery('x_lsmcb_fm_floor', 'sys_id', 'location');
+				location.query();
+ 
+				var list = [];
+				while (location.next()) {
+					 list.push(location.getValue('sys_id'));
+				}
+				var locations = list.join(',');
+				locations; 
+		  </g:evaluate>
+		  
+		  <g:ui_reference name="location" query="sys_idIN${jvar_locations}" table="cmn_location" value="$[location.sys_id]"  displayValue="$[location.name]" onchange="setFilterOverDependentReferenceField();"/>
+	   	  	
+      </td>
+      
+      <td valign="top" style="padding:22px">   
+		  <div class="field_title">FLOOR</div>
+		<g:ui_reference name="floor" table="x_lsmcb_fm_floor" value="$[floor.sys_id]" displayValue="$[floor.name]" query="" onchange="validateAndUpdate();" />
+      </td>
+      
+      <td valign="top" style="padding:22px">   
+		  <div class="field_title">DATE</div>
+		  <g:evaluate>var gDate = new GlideDate().getDisplayValue();</g:evaluate> 		 
+       <g:ui_date  class="form-control" name="date" id="date" value="${gDate}" onchange="console.log('asd');"/>
+		  <!-- <g:inline template="x_lsmcb_fm_fm_ui_date_custom" name="date" id="date" value="${gDate}" onchange="validateAndUpdate();" /> -->
+      </td>
+		
+      <td colspan="2" valign="top" style="padding:22px">  
+		  
+		<div class="alert" ng-show="invalidTimes">
+		  <span class="closebtn" onclick="this.parentElement.style.display='none';">↩</span>
+			<span style="font-size:20px; padding-right:15px">⚠ </span> Start time cant be after End time!
+		</div>
+		  
+		  <div class="field_title">START TIME</div>
+      <label>
+       <select name="start_hour" class="time_fields" ng-model="startHour" ng-change="validateTimes()">
+          	    <option value="" disabled="true" selected="true">Hours</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+            </select>     
+          </label>
+		  
+		  <label>
+      <select name="start_minutes" class="time_fields" ng-model="startMin" ng-change="validateTimes()">
+                <option value="" disabled="true" selected="true">Minutes</option>
+                <option value="00">00</option>
+                <option value="15">15</option>
+                <option value="30">30</option>
+                <option value="45">45</option>
+            </select>
+      </label>
+      </td>
+      
+      <td colspan="2" valign="top" style="padding:22px">   
+		  <div class="field_title">END TIME</div>
+      <label>
+      <select name="end_hour" class="time_fields" ng-model="endHour" ng-change="validateTimes()">
+                <option value="" disabled="true" selected="true">Hours</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+            </select>
+       </label>
+		  
+		   <label>
+       <select name="end_minutes"  class="time_fields" ng-model="endMin" ng-change="validateTimes()">
+                <option value="" disabled="true" selected="true">Minutes</option>
+                <option value="00">00</option>
+                <option value="15">15</option>
+                <option value="30">30</option>
+                <option value="45">45</option>
+            </select>
+      </label>
+      </td>
+      
+      <td valign="bottom" style="padding:22px">   		 
+       <!--  <button ng-click="updateMap()" id="findRoomBtn">${gs.getMessage("FIND ROOMS")}</button> -->
+      </td>
+      
+    </tr>
+  </tbody>
+</table>	
+		
+		
+	</div>
+	
+		<g:requires name="x_lsmcb_fm.fm_reservation_controller.jsdbx" />
+	
+</j:jelly>]]></programmatic_content>
+        <sys_class_name>content_block_programmatic</sys_class_name>
+        <sys_created_by>tomas.ferreira</sys_created_by>
+        <sys_created_on>2016-09-06 16:13:22</sys_created_on>
+        <sys_id>284991480f71a20011bec3ace1050eef</sys_id>
+        <sys_mod_count>211</sys_mod_count>
+        <sys_name>Location and Time Block</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>content_block_programmatic_284991480f71a20011bec3ace1050eef</sys_update_name>
+        <sys_updated_by>nelson.oliveira</sys_updated_by>
+        <sys_updated_on>2016-10-06 09:57:28</sys_updated_on>
+        <two_phase>true</two_phase>
+    </content_block_programmatic>
+</record_update>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_transform_script">
+    <sys_transform_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <map display_value="Create Parking Lots">237cb0f60f27d340bc65c5ece1050e8d</map>
+        <order>100</order>
+        <script><![CDATA[(function runTransformScript(source, map, log, target /*undefined onStart*/ ) {
+
+	var locations = source.u_locations_available.toString().split(',');	
+	
+	for(var i = 0; i < locations.length; i++){
+		var grLoc = new GlideRecord('cmn_location');
+	    grLoc.addQuery('name',locations[i]);
+		grLoc.query();
+		if(grLoc.next()){			
+			var gr = new GlideRecord('x_lsmcb_fm_m2m_locations_parking_lots');
+			gr.initialize();
+			gr.location = grLoc.getUniqueValue();
+			gr.parking_lot = target.sys_id;
+			gr.insert();
+		}		
+	}	
+
+})(source, map, log, target);]]></script>
+        <sys_class_name>sys_transform_script</sys_class_name>
+        <sys_created_by>patricia.gaudencio</sys_created_by>
+        <sys_created_on>2018-07-30 15:36:15</sys_created_on>
+        <sys_id>d15dbcf60f27d340bc65c5ece1050e71</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>onAfter</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_transform_script_d15dbcf60f27d340bc65c5ece1050e71</sys_update_name>
+        <sys_updated_by>patricia.gaudencio</sys_updated_by>
+        <sys_updated_on>2018-07-30 15:44:44</sys_updated_on>
+        <when>onAfter</when>
+    </sys_transform_script>
+</record_update>

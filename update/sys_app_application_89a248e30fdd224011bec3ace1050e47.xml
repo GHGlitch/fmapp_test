@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_app_application">
+    <sys_app_application action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category display_value="Custom Applications">e0355b31ef303000a61d5a3615c0fb78</category>
+        <description/>
+        <device_type>browser</device_type>
+        <hint/>
+        <name>Facilities Management</name>
+        <order>100</order>
+        <roles>x_lsmcb_fm.fm_base</roles>
+        <sys_class_name>sys_app_application</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-08-23 10:20:17</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>89a248e30fdd224011bec3ace1050e47</sys_id>
+        <sys_mod_count>11</sys_mod_count>
+        <sys_name>Facility Management</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_app_application_89a248e30fdd224011bec3ace1050e47</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-06-18 15:14:59</sys_updated_on>
+        <title>Facility Management</title>
+        <view_name/>
+    </sys_app_application>
+</record_update>

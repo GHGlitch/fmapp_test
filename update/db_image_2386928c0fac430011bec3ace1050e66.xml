@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="db_image">
+    <db_image action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category/>
+        <format>png</format>
+        <height>64</height>
+        <image/>
+        <name>fm_toilet_paper.png</name>
+        <size_bytes>885</size_bytes>
+        <sys_class_name>db_image</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-08-08 09:43:34</sys_created_on>
+        <sys_id>2386928c0fac430011bec3ace1050e66</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>fm_toilet_paper.png</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>db_image_2386928c0fac430011bec3ace1050e66</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-08 09:57:40</sys_updated_on>
+        <thumbnail/>
+        <width>64</width>
+    </db_image>
+    <sys_attachment action="INSERT_OR_UPDATE">
+        <average_image_color/>
+        <chunk_size_bytes/>
+        <compressed>true</compressed>
+        <content_type>image/png</content_type>
+        <file_name>image</file_name>
+        <image_height/>
+        <image_width/>
+        <size_bytes>885</size_bytes>
+        <size_compressed>875</size_compressed>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-08-08 09:43:54</sys_created_on>
+        <sys_id>ecc65e4c0fac430011bec3ace1050e0c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-08 09:43:54</sys_updated_on>
+        <table_name>ZZ_YYdb_image</table_name>
+        <table_sys_id>2386928c0fac430011bec3ace1050e66</table_sys_id>
+    </sys_attachment>
+    <sys_attachment_doc action="INSERT_OR_UPDATE">
+        <data>H4sIAAAAAAAAAA==</data>
+        <length>16</length>
+        <position>0</position>
+        <sys_attachment display_value="image" sys_id="ecc65e4c0fac430011bec3ace1050e0c">ecc65e4c0fac430011bec3ace1050e0c</sys_attachment>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-08-08 09:43:54</sys_created_on>
+        <sys_id>20c65e4c0fac430011bec3ace1050e0d</sys_id>
+    </sys_attachment_doc>
+    <sys_attachment_doc action="INSERT_OR_UPDATE">
+        <data>6wzwc+flkuJiYGDg9fRwCQLSDiDMwQIkGRJ2hgJJlnRHX0cGho393H8SWYF8hWSPIF8Ghio1BoaGFgaGX0ChhhcMDKUGDAyvEhgYrGYwMIgXzNkVaAOUYErydndhYFjVq2wE5HEWeEQWA226DsKMThqzK4CC7CWevq7sDzk4uNXNu1R/KgE1OXu6OIZk3Hs7/by3SKLEcXvrPnbHHNdc8w8SB+O4UiYf2eDA39kk29SkcMJpj0ug+H+mjwntrxZNmM6nlOWUxTLphj+/7CZfGxeORZs0dWc+4He59nHDrXPW584IffTxfL+7/XvtvPenf/8983nf5j3M/6u5NS+yRh2d01bhZGr6J6Uncjvnzy+JnX/VNBaX5+85amveEOf4219mYfxJE+u357lvLbc86Oqe15r8yvOHAoeBw4wnjW8myD7YtGCv65zj6356Rzasb/qmr5l2O7Ryf768cO0/tXUV83qFDBqsNpbLl1W4Lm5PC9DnNzgr9XVelnLDyVUP2Gwerenf1ZRZMEvpINeepQfdeYNzBcS3tJcfqfk6w9HlQl33kuTabvM1tx91OM5UcODq0Jq5e87irrfxhSFiD6w1RD0+CsxIOxDXuHgRg6vIjUcs1gw+rOGMpcxCfXKLNol6WPY9SHfnF2zeoHBA7aWM8aW2BbYHJgnNLfqyQYV3wxzmhEiphLmmrAr8DV0PtBbkOXFub5y8bXcAMCrVSj7N8jyzJuvfu6r6EEaOwMWrPonO+BT+lNGtdouK/FJGLk+D9yvtjk9iW7HoznI25ZneK1NOP5ZSlrul9vgTQ8Fczqd8U3If57AwFszxerf7ia6VAgdDxrK5+uyb7s7036zAsK6oTUxH9XvvtjMKHA01bJEL3E/eTTI1nvBfm00jdUaU0x2GhGZrm7vTlzA+q9hg3lU8WS/r50FusbfBKvZnrYuE2QrZTBrYLjBIOTBnMPAuYDQ5sJ834ZNPwdeZ+/9WtC98y+R21zc5yiV/LzCFqZa4RpSkJJakWiUXpQIpBiMDQ3NdAwsgCjE0tDK2tDI11TYwsjIw+LC23hRFQ25+SmZaJW4NjR+OdwI1SII0BOenlZQnFqUylJeX62XmZRcnJxak6uUXpc9+ZyMFyk6ern4u65wSmgDL0MfjdQMAAA==</data>
+        <length>1156</length>
+        <position>1</position>
+        <sys_attachment display_value="image" sys_id="ecc65e4c0fac430011bec3ace1050e0c">ecc65e4c0fac430011bec3ace1050e0c</sys_attachment>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-08-08 09:43:54</sys_created_on>
+        <sys_id>a0c65e4c0fac430011bec3ace1050e0d</sys_id>
+    </sys_attachment_doc>
+</record_update>

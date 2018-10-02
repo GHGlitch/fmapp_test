@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_index">
+    <sys_index action="INSERT_OR_UPDATE">
+        <col_name_string>room,date,year,month,day</col_name_string>
+        <index_col_name>6798b17f0f7bfa0011bec3ace1050eeb,2b98b17f0f7bfa0011bec3ace1050ee8,e398b17f0f7bfa0011bec3ace1050eed,a798b17f0f7bfa0011bec3ace1050eea,e798b17f0f7bfa0011bec3ace1050ee9</index_col_name>
+        <logical_table_name>x_lsmcb_fm_room_utilisation</logical_table_name>
+        <sys_class_name>sys_index</sys_class_name>
+        <sys_created_by>laurens.brand</sys_created_by>
+        <sys_created_on>2016-12-21 13:37:11</sys_created_on>
+        <sys_id>937e2e020ffbe20011bec3ace1050e61</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_lsmcb_fm_room_utilisation</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_index_x_lsmcb_fm_room_utilisation_room_date_year_month_day</sys_update_name>
+        <sys_updated_by>laurens.brand</sys_updated_by>
+        <sys_updated_on>2016-12-21 13:37:11</sys_updated_on>
+        <table/>
+        <unique_index>false</unique_index>
+    </sys_index>
+</record_update>

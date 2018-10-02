@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="catalog_ui_policy_action">
+    <catalog_ui_policy_action action="INSERT_OR_UPDATE">
+        <catalog_item/>
+        <catalog_variable>IO:a3890f5b0f36b60011bec3ace1050e4f</catalog_variable>
+        <disabled>true</disabled>
+        <field/>
+        <mandatory>ignore</mandatory>
+        <sys_class_name>catalog_ui_policy_action</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-05-23 17:02:28</sys_created_on>
+        <sys_id>6ea8539f0f36b60011bec3ace1050e82</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>cancel_hour_condition</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>catalog_ui_policy_action_6ea8539f0f36b60011bec3ace1050e82</sys_update_name>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-05-23 17:02:28</sys_updated_on>
+        <table/>
+        <ui_policy display_value="Hide Conditions">85389f5f0f36b60011bec3ace1050e3e</ui_policy>
+        <variable>cancel_hour_condition</variable>
+        <variable_set/>
+        <visible>false</visible>
+    </catalog_ui_policy_action>
+</record_update>

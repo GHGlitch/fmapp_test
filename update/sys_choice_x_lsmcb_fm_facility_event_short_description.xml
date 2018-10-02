@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_choice action="INSERT_OR_UPDATE" field="short_description" table="x_lsmcb_fm_facility_event" version="3">
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>short_description</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Issue with a web page</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_event</name>
+            <sequence>0</sequence>
+            <sys_created_by>bjorn.van.dommelen</sys_created_by>
+            <sys_created_on>2016-12-02 09:59:57</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>fb86c8400f6baa0011bec3ace1050e26</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>bjorn.van.dommelen</sys_updated_by>
+            <sys_updated_on>2016-12-02 09:59:57</sys_updated_on>
+            <value>Issue with a web page</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>short_description</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Issue with email</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_event</name>
+            <sequence>1</sequence>
+            <sys_created_by>bjorn.van.dommelen</sys_created_by>
+            <sys_created_on>2016-12-02 09:59:57</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>3b86c8400f6baa0011bec3ace1050e27</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>bjorn.van.dommelen</sys_updated_by>
+            <sys_updated_on>2016-12-02 09:59:57</sys_updated_on>
+            <value>Issue with email</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>short_description</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Issue with networking</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_event</name>
+            <sequence>2</sequence>
+            <sys_created_by>bjorn.van.dommelen</sys_created_by>
+            <sys_created_on>2016-12-02 09:59:57</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>f386c8400f6baa0011bec3ace1050e28</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>bjorn.van.dommelen</sys_updated_by>
+            <sys_updated_on>2016-12-02 09:59:57</sys_updated_on>
+            <value>Issue with networking</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>short_description</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>New employee hire</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_event</name>
+            <sequence>3</sequence>
+            <sys_created_by>bjorn.van.dommelen</sys_created_by>
+            <sys_created_on>2016-12-02 09:59:57</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>bf86c8400f6baa0011bec3ace1050e28</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>bjorn.van.dommelen</sys_updated_by>
+            <sys_updated_on>2016-12-02 09:59:57</sys_updated_on>
+            <value>New employee hire</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>short_description</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Request for a Blackberry</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_event</name>
+            <sequence>4</sequence>
+            <sys_created_by>bjorn.van.dommelen</sys_created_by>
+            <sys_created_on>2016-12-02 09:59:57</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>7b86c8400f6baa0011bec3ace1050e29</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>bjorn.van.dommelen</sys_updated_by>
+            <sys_updated_on>2016-12-02 09:59:57</sys_updated_on>
+            <value>Request for a Blackberry</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>short_description</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Request for a new service</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_event</name>
+            <sequence>5</sequence>
+            <sys_created_by>bjorn.van.dommelen</sys_created_by>
+            <sys_created_on>2016-12-02 09:59:57</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>3786c8400f6baa0011bec3ace1050e2a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>bjorn.van.dommelen</sys_updated_by>
+            <sys_updated_on>2016-12-02 09:59:57</sys_updated_on>
+            <value>Request for a new service</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>short_description</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Request for help</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_event</name>
+            <sequence>6</sequence>
+            <sys_created_by>bjorn.van.dommelen</sys_created_by>
+            <sys_created_on>2016-12-02 09:59:57</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>ff86c8400f6baa0011bec3ace1050e2a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>bjorn.van.dommelen</sys_updated_by>
+            <sys_updated_on>2016-12-02 09:59:57</sys_updated_on>
+            <value>Request for help</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>short_description</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Request for new or upgraded hardware</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_event</name>
+            <sequence>7</sequence>
+            <sys_created_by>bjorn.van.dommelen</sys_created_by>
+            <sys_created_on>2016-12-02 09:59:57</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>bb86c8400f6baa0011bec3ace1050e2b</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>bjorn.van.dommelen</sys_updated_by>
+            <sys_updated_on>2016-12-02 09:59:57</sys_updated_on>
+            <value>Request for new or upgraded hardware</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>short_description</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Request for new or upgraded software</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_event</name>
+            <sequence>8</sequence>
+            <sys_created_by>bjorn.van.dommelen</sys_created_by>
+            <sys_created_on>2016-12-02 09:59:57</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>7786c8400f6baa0011bec3ace1050e2c</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>bjorn.van.dommelen</sys_updated_by>
+            <sys_updated_on>2016-12-02 09:59:57</sys_updated_on>
+            <value>Request for new or upgraded software</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>short_description</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Reset my password</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_facility_event</name>
+            <sequence>9</sequence>
+            <sys_created_by>bjorn.van.dommelen</sys_created_by>
+            <sys_created_on>2016-12-02 09:59:57</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>3386c8400f6baa0011bec3ace1050e2d</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>bjorn.van.dommelen</sys_updated_by>
+            <sys_updated_on>2016-12-02 09:59:57</sys_updated_on>
+            <value>Reset my password</value>
+        </sys_choice>
+        <sys_choice_set action="INSERT_OR_UPDATE">
+            <element>short_description</element>
+            <name>x_lsmcb_fm_facility_event</name>
+            <sys_class_name>sys_choice_set</sys_class_name>
+            <sys_created_by>bjorn.van.dommelen</sys_created_by>
+            <sys_created_on>2016-12-02 09:59:57</sys_created_on>
+            <sys_id>1811d953db7023005e9f5385ca961991</sys_id>
+            <sys_mod_count>13</sys_mod_count>
+            <sys_name>short_description</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_choice_x_lsmcb_fm_facility_event_short_description</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-06-08 16:11:44</sys_updated_on>
+        </sys_choice_set>
+    </sys_choice>
+</record_update>

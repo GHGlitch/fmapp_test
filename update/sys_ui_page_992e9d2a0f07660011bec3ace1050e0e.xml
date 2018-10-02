@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[var i = 0;
+//Gets the template name from the selected value
+function getTemplateName(){
+	var e, str, template;
+	//gets the template list
+	e = document.getElementById("vrList");
+	//retrieves the selected value
+	str = e.options[e.selectedIndex].value;
+	template = str.split(";")[1];
+	return template;
+}
+//Gets the attachment sys_id from the selected value
+function getAttachmentID(){
+	var e, str, attachmentId;
+	//gets the template list
+	e = document.getElementById("vrList");
+	//retrieves the selected value
+	str = e.options[e.selectedIndex].value;
+	attachmentId = str.split(";")[0];
+	return attachmentId;
+}
+//Gets the attachment sys_id from the selected value
+function getAttachmentType(){
+	var e, str, attachmentType;
+	//gets the template list
+	e = document.getElementById("vrList");
+	//retrieves the selected value
+	str = e.options[e.selectedIndex].value;
+	attachmentType = str.split(";")[2];
+	return attachmentType;
+}
+//retrieves the proccessed response from the server trough the ajax script include
+function getResponse(record, attachmentId) {
+	var ga, response;
+	//calls the script include with the Record from the function call and the attachmentID from the template list
+	ga = new GlideAjax('x_lsmcb_fm.DocxTemplateAjaxUtils');
+	ga.addParam('sysparm_name', 'getReportingValues');
+	ga.addParam('sysparm_sysId', record);
+	ga.addParam('sysparm_attachmentId', attachmentId);
+	ga.getXMLWait();
+	response = JSON.parse(ga.getAnswer());
+	return response;
+}
+//Gets the attachmentId and adds in the prefix needed to navigate to it
+function getAttachmentURL(attachmentId){
+	var urlfile;
+	urlfile = '/sys_attachment.do?sys_id=';
+	urlfile += attachmentId;
+	return urlfile;
+}
+//loops through all the properties of the response obj to find a 'file_title' property
+function getTitle(response, template){
+	var title = "";
+	//if there is a 'file_title' property add its contents to the title var
+	for (var prop in response) {
+		if (prop == 'file_title') {
+			title += response[prop] + " ";
+		}
+	}
+	//adds the name of the template to the title of the file
+	title += template;
+	return title;
+}
+
+//converts base64 into an arraybuffer
+function base64DataURLToArrayBuffer(dataURL) {
+    //var string_base64 = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+	var string_base64 = dataURL;
+    var binary_string;
+    if (typeof window !== "undefined") {
+        binary_string = window.atob(string_base64);
+    }
+    else {
+        binary_string = new Buffer(string_base64, 'base64').toString('binary');
+    }
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+        var ascii = binary_string.charCodeAt(i);
+        bytes[i] = ascii;
+    }
+    return bytes.buffer;
+}
+
+//JSZIPUtils callback function.
+function loadFile(url, callback) {
+	JSZipUtils.getBinaryContent(url, callback);
+}
+//function to create the word doc based on the information from the script includes.
+//calls the other functions in the correct order to make the document work.
+//uses the DocXTemplater Main Module, Image Module, fileSaver and JSZipUtils UI Scripts to create the doc.
+//Documentation available on each of those.
+function createDoc(record){
+	var template, attachmentId, attachmentType, response, urlfile, title;
+	template = getTemplateName();
+	attachmentId = getAttachmentID();
+	attachmentType = getAttachmentType();
+	response = getResponse(record, attachmentId);
+	urlfile = getAttachmentURL(attachmentId);
+	title = getTitle(response, template);
+	loadFile(urlfile,function(err,content){
+		if (err) {
+			throw e;
+		}
+		var zip = new JSZip(content);
+		var doc = new Docxtemplater()
+		.loadZip(zip)
+		.setOptions({fileType:attachmentType})
+		.setData(response) //set the templateVariables
+		.render();
+		out = doc.getZip().generate({type:"blob"}); //Output the document using Data-URI
+		if(i === 3){
+			i = 0;
+			saveAs(out, title + "." + attachmentType);
+			GlideDialogWindow.get().destroy();
+		} else {
+			i++;
+			createDoc(record);
+		}
+	});
+}]]></client_script>
+        <description>Renders a page to select and download a docx file from a template.</description>
+        <direct>false</direct>
+        <endpoint>x_lsmcb_fm_fm_print_doc.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	<g:requires name="x_lsmcb_fm.docxtemplater.v3.0.3.js.jsdbx" />
+    <g:requires name="x_lsmcb_fm.jszip.js.jsdbx" />
+    <g:requires name="x_lsmcb_fm.jszip-utils.js.jsdbx" />
+    <g:requires name="x_lsmcb_fm.fileSaver.min.js.jsdbx" />
+
+    <script>
+		
+        var w = window.innerWidth ||
+            document.documentElement.clientWidth ||
+            document.body.clientWidth;
+
+        var h = window.innerHeight ||
+            document.documentElement.clientHeight ||
+            document.body.clientHeight;
+		
+    </script>
+
+    <g:evaluate var="jvar_thisTable">
+		<!-- Retrieves the table parameter from the UI Action -->
+        var thisTable = '${JS,HTML:RP.getParameterValue("sysparm_thisTable")}'; thisTable;
+    </g:evaluate>
+
+    <g:evaluate var="jvar_thisSysID">
+		<!-- Retrieves the sys_id parameter from the UI Action -->
+        var thisSysID = '${JS,HTML:RP.getParameterValue("sysparm_thisSysID")}'; thisSysID;
+    </g:evaluate>
+
+    <g:evaluate var="jvar_gr" object="true" jelly="true">
+        var templateList = [];
+		var table = '${thisTable}';
+
+		<!-- checks the Word Templates table for templates that have attachements that match this table -->
+		var gr = new GlideRecord('x_lsmcb_fm_docx_template');
+		gr.addQuery('table', table);
+		gr.addQuery('active', true);
+		gr.orderBy('tag');
+		gr.addNotNullQuery('attachment_sys_id');
+		gr.query();
+		
+		while(gr.next()){
+		
+		<!-- Adds those templates to an array -->
+			templateList.push({
+				name:gr.getValue('tag'),
+				attachment_sys_id:gr.getValue('attachment_sys_id'),
+				attachment_type:gr.getValue('attachment_type')
+			});
+		}
+    </g:evaluate>
+
+	<!-- Actual contents of the UI Page -->
+	<h4>${gs.getMessage("fm_select_template")}</h4>
+	<!-- Lists the array of templates -->
+    <select id="vrList" name="vrList">
+	<j:forEach items="${templateList}" var="jvar_data">
+		
+		<!-- Data for each field on the list. Name is what is displayed and attachmentSysid/type is used for the script includes. -->
+		<g:evaluate var="jvar_name" jelly="true" expression="var name = jelly.jvar_data.name; name;"/>
+		<g:evaluate var="jvar_attachmentSysid" jelly="true" expression="var attachmentSysid = jelly.jvar_data.attachment_sys_id; attachmentSysid;"/>
+		<g:evaluate var="jvar_attachmentType" jelly="true" expression="var attachmentType = jelly.jvar_data.attachment_type; attachmentType;"/>
+
+		<option  value="${jvar_attachmentSysid};${jvar_name};${jvar_attachmentType}" title="">${jvar_name}</option>
+		
+	</j:forEach>
+	
+	</select>
+
+    <br/><br/><br/><button id="addBtn1" onclick="createDoc('${jvar_thisSysID}')">${gs.getMessage('fm_print')}</button>
+
+
+</j:jelly>]]></html>
+        <name>fm_print_doc</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-11-15 14:29:33</sys_created_on>
+        <sys_id>992e9d2a0f07660011bec3ace1050e0e</sys_id>
+        <sys_mod_count>134</sys_mod_count>
+        <sys_name>fm_print_doc</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_page_992e9d2a0f07660011bec3ace1050e0e</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-12-22 10:59:24</sys_updated_on>
+    </sys_ui_page>
+</record_update>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_rest_message_fn_parameters">
+    <sys_rest_message_fn_parameters action="INSERT_OR_UPDATE">
+        <name>requester</name>
+        <rest_message_function display_value="CreateItem">90941f5adb8b1b003d279c27db9619ad</rest_message_function>
+        <sys_class_name>sys_rest_message_fn_parameters</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-07-09 13:36:25</sys_created_on>
+        <sys_id>a4989cc00f9b1300bc65c5ece1050e9c</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>requester</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_rest_message_fn_parameters_a4989cc00f9b1300bc65c5ece1050e9c</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-07-10 10:22:48</sys_updated_on>
+        <type>string</type>
+        <value>ruud.koot@fruitiondevelopment.nl</value>
+    </sys_rest_message_fn_parameters>
+</record_update>

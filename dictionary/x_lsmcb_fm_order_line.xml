@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Order Line" max_length="40" name="x_lsmcb_fm_order_line" type="collection">
+        <element attributes="format=none" label="Cost VAT" max_length="40" name="costvat" read_only="true" type="price"/>
+        <element attributes="format=none" label="Cost ex VAT" max_length="40" name="cost_ex_vat" read_only="true" type="price"/>
+        <element attributes="format=none" label="Cost with VAT" max_length="40" name="cost_with_vat" read_only="true" type="price"/>
+        <element display="true" label="Description" mandatory="true" max_length="4000" name="description" type="string"/>
+        <element label="Product" mandatory="true" max_length="32" name="product" reference="x_lsmcb_fm_facility_product" reference_cascade_rule="delete" type="reference"/>
+        <element label="Valid From" max_length="40" name="valid_from" type="glide_date"/>
+        <element default="0" label="VAT %" max_length="40" name="vat" read_only="true" type="integer"/>
+        <index name="index">
+            <element name="product"/>
+        </index>
+    </element>
+</database>

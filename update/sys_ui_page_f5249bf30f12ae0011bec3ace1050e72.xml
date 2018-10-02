@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[angular.bootstrap($('angularApp'), ['FloorViewApp']);
+
+
+function getFloorName(floor_sysid){
+
+	var ga = new GlideAjax ('x_lsmcb_fm.FMRoomReservationAjaxUtils');
+	ga.addParam('sysparm_name' , 'getOnlyFloorName');
+	ga.addParam('sysparm_floor_sysid' , floor_sysid);
+	ga.getXML(nameResponse);
+
+	function nameResponse(response){
+		var answer = response.responseXML.documentElement.getAttribute("answer");
+
+		$('sys_display.floor').value = answer;
+	}
+}
+
+
+function getLocationName(location_sysid){
+
+	var ga = new GlideAjax ('x_lsmcb_fm.FMRoomReservationAjaxUtils');
+	ga.addParam('sysparm_name' , 'getOnlyLocationName');
+	ga.addParam('sysparm_loc_sysid' , location_sysid);
+	ga.getXML(nameResponse);
+
+	function nameResponse(response){
+		var answer = response.responseXML.documentElement.getAttribute("answer");
+
+		$('sys_display.location').value = answer;
+
+	}
+}
+
+function floorFill(location_sysid){
+
+	var ga = new GlideAjax ('x_lsmcb_fm.FMRoomReservationAjaxUtils');
+	ga.addParam('sysparm_name' , 'checkOnlyFloor');
+	ga.addParam('sysparm_loc_sysid' , location_sysid);
+	ga.getXML(floorResponse);
+
+	function floorResponse(response){
+		var answer = response.responseXML.documentElement.getAttribute("answer");
+
+		if(!answer) return alert('Error fetching Floor Data, or there are no Floors available!');	
+		var floorArray = JSON.parse(answer);
+
+		if (floorArray.length == '1') {
+			var onlyFloor = floorArray[0].toString();
+			gel('floor').setValue(onlyFloor);
+			getFloorName(onlyFloor);
+			validateAndUpdate();
+		} else {
+			$('sys_display.floor').value = '';
+			gel('floor').setValue('');
+		}
+	}
+}
+
+
+function isOnlyOne(){
+
+	var ga = new GlideAjax ('x_lsmcb_fm.FMRoomReservationAjaxUtils');
+	ga.addParam('sysparm_name' , 'checkOnlyLocation');
+	ga.getXML(locationResponse);
+
+	function locationResponse(response){
+		
+		var answer = response.responseXML.documentElement.getAttribute("answer");
+
+		var locationArray = JSON.parse(answer);
+		floorFill(gel('location').value);
+
+		if (locationArray.length == '1') {
+			var onlyLocation = locationArray[0].toString();
+			gel('location').setValue(onlyLocation);
+			getLocationName(onlyLocation);
+			floorFill(onlyLocation);
+
+		}
+	}
+}
+
+isOnlyOne();
+
+
+]]></client_script>
+        <description>Interface for all Room Reservations control and display.</description>
+        <direct>false</direct>
+        <endpoint>x_lsmcb_fm_fm_room_reservation_interface.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+
+    <!--
+   *****************************************************
+   ****************** Start of Styles ******************
+   *****************************************************
+  -->
+
+    <!-- Leaflet CSS -->
+    <link href="2f995bb70f12ae0011bec3ace1050e0c.cssdbx?" rel="stylesheet" type="text/css"/>
+
+    <!-- Room Rerservation CSS -->
+    <link href="77ad306e0f39260011bec3ace1050e47.cssdbx?" rel="stylesheet" type="text/css"/>
+
+    <!-- jQueryUI_v1.11.4 CSS -->
+    <link href="8c743e650f1aea0011bec3ace1050e91.cssdbx?" rel="stylesheet" type="text/css"/>
+
+    <!--
+   *****************************************************
+   ************* Start of Librarie Includes ************
+   *****************************************************
+  -->
+
+    <g:requires name="x_lsmcb_fm.fm_angular.1.4.9.min.jsdbx"/>
+    <g:requires name="x_lsmcb_fm.fm_jquery.1.11.3.min.jsdbx"/>
+    <script>
+        jQueryOld.noConflict();
+    </script>
+    <g:requires name="x_lsmcb_fm.fm_leaflet.0.7.7.min.jsdbx"/>
+    <g:requires name="x_lsmcb_fm.fm_timeslider.098.jsdbx"/>
+
+    <g:evaluate object="true" var="jvar_data">
+        var data = JSON.stringify({ source: '${JS,HTML:RP.getParameterValue("sysparm_source")}', location: '${JS,HTML:RP.getParameterValue("sysparm_location")}', floor: '${JS,HTML:RP.getParameterValue("sysparm_floor")}', room: '${JS,HTML:RP.getParameterValue("sysparm_room")}', selectedDate:
+        '${JS,HTML:RP.getParameterValue("sysparm_selectedDate")}', resID: '${JS,HTML:RP.getParameterValue("sysparm_reservationID")}', startMin: '${JS,HTML:RP.getParameterValue("sysparm_startMin")}', startHour: '${JS,HTML:RP.getParameterValue("sysparm_startHour")}', endMin:
+        '${JS,HTML:RP.getParameterValue("sysparm_endMin")}', endHour: '${JS,HTML:RP.getParameterValue("sysparm_endHour")}'}); data;
+    </g:evaluate>
+
+    <script>
+        function getSourceData() {
+            return JSON.parse('${jvar_data}');
+        }
+    </script>
+
+    <div id="angularApp">
+        <div border="0" cellspacing="1" cellpadding="1" id="${jvar_name}" width="100%">
+            <div valign="top">
+
+                <!--
+*************************************************************************************************************
+********************************************** SEARCH FOR ROOM **********************************************
+*************************************************************************************************************
+  -->
+
+                <div colspan="2" id="dropzone1" dropzone="true" valign="top" width="100%" style="padding:10px">
+                    <div ng-controller="ReservationController" ng-cloak="" id="reservation-div" style="top:0px; margin-top:-20px">
+                        <div border="0" cellspacing="5" cellpadding="5" class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="form_title">${gs.getMessage("fm_kiosk_interface")}</div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="form-inline">
+                                                <div class="form-group input-append">
+                                                    <div class="textlabels">
+                                                        <label class="control-label">${gs.getMessage("fm_location")}</label>
+                                                    </div>
+
+                                                    <!-- try to call script include -->
+                                                    <g:evaluate var="jvar_locations">
+                                                        var location = new GlideRecord('cmn_location');
+														location.orderBy('name');
+														location.query();
+														var list = [];
+														while (location.next()) {
+															var floor = new GlideRecord('x_lsmcb_fm_floor');
+															floor.addQuery('location', location.getUniqueValue());
+															floor.addQuery('image_name', '!=', '');
+															floor.query();
+															if(floor.hasNext())
+															list.push(location.getValue('sys_id'));
+														}
+														var locations = list.join(',');
+                                                        locations;
+                                                    </g:evaluate>
+
+                                                    <div class="bigSpacer"><g:ui_reference
+                                                        id="location"
+                                                        class="form-control"
+                                                        name="location"
+                                                        query="sys_idIN${jvar_locations}"
+                                                        table="cmn_location"
+                                                        value="${JS,HTML:RP.getParameterValue('sysparm_location')}"
+                                                        displayValue="${JS,HTML:RP.getParameterValue('sysparm_locDispVal')}"
+                                                        onchange="isOnlyOne()"/>
+													</div>
+												</div>
+                                                <div class="form-group input-append">
+                                                    <div class="textlabels">
+                                                        <label class="control-label">${gs.getMessage("fm_floor")}</label>
+                                                    </div>
+                                                    <div class="bigSpacer"><g:ui_reference
+                                                        id="floor"
+                                                        class="form-control"
+                                                        name="floor"
+                                                        table="x_lsmcb_fm_floor"
+                                                        value="${JS,HTML:RP.getParameterValue('sysparm_floor')}"
+                                                        displayValue="${JS,HTML:RP.getParameterValue('sysparm_floorDispVal')}"
+                                                        query="'+function() {if(gel('location').value !== '') {return 'image_nameISNOTEMPTY^location=' + gel('location').value;} else {return 'image_nameISNOTEMPTY';}}()+'"
+                                                        onchange="validateAndUpdate();"/></div>
+                                                </div>
+                                                <div class="form-group input-append">
+                                                    <div class="textlabels">
+                                                        <label class="control-label">${gs.getMessage("fm_date")}</label>
+                                                    </div>
+                                                    <input class="bigSpacer form-control" id="date" type="date" min="{{currentDate  | date: 'dd-mm-yyyy'}}" ng-model="selectedDate" ng-change="update()"/>
+                                                    <div class="alert" ng-show="invalidTimes">
+                                                        <span class="closebtn" onclick="this.parentElement.style.display='none';">↩</span>
+                                                        <span style="font-size:20px; padding-right:15px">⚠</span>
+                                                        ${gs.getMessage("fm_sTime_cannot_be_after_eTime")} !
+                                                    </div>
+                                                </div>
+                                                <div class="form-group input-append">
+                                                    <div class="textlabels">
+                                                        <label class="control-label">${gs.getMessage("fm_start_time")}</label>
+                                                    </div>
+                                                    <select name="start_hour" class="smallSpacer form-control" ng-model="startHour" ng-change="validateTimes()" value="${JS,HTML:RP.getParameterValue('sysparm_startHour')}">
+                                                        <option value="" disabled="true" selected="true">${gs.getMessage("fm_hours")}</option>
+                                                        <option value="00">00</option>
+                                                        <option value="01">01</option>
+                                                        <option value="02">02</option>
+                                                        <option value="03">03</option>
+                                                        <option value="04">04</option>
+                                                        <option value="05">05</option>
+                                                        <option value="06">06</option>
+                                                        <option value="07">07</option>
+                                                        <option value="08">08</option>
+                                                        <option value="09">09</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                        <option value="12">12</option>
+                                                        <option value="13">13</option>
+                                                        <option value="14">14</option>
+                                                        <option value="15">15</option>
+                                                        <option value="16">16</option>
+                                                        <option value="17">17</option>
+                                                        <option value="18">18</option>
+                                                        <option value="19">19</option>
+                                                        <option value="20">20</option>
+                                                        <option value="21">21</option>
+                                                        <option value="22">22</option>
+                                                        <option value="23">23</option>
+                                                    </select>
+
+                                                    <select name="start_minutes" class="bigSpacer form-control" ng-model="startMin" ng-change="validateTimes()" value="${JS,HTML:RP.getParameterValue('sysparm_startMin')}">
+                                                        <option value="" disabled="true" selected="true">${gs.getMessage("fm_minutes")}</option>
+                                                        <option value="00">00</option>
+                                                        <option value="15">15</option>
+                                                        <option value="30">30</option>
+                                                        <option value="45">45</option>
+                                                    </select>
+
+                                                </div>
+
+                                                <div class="form-group input-append">
+                                                    <div class="textlabels">
+                                                        <label class="control-label">${gs.getMessage("fm_end_time")}</label>
+                                                    </div>
+                                                    <select name="end_hour" class="smallSpacer form-control" ng-model="endHour" ng-change="validateTimes()" value="${JS,HTML:RP.getParameterValue('sysparm_endHour')}">
+                                                        <option value="" disabled="true" selected="true">${gs.getMessage("fm_hours")}</option>
+                                                        <option value="00">00</option>
+                                                        <option value="01">01</option>
+                                                        <option value="02">02</option>
+                                                        <option value="03">03</option>
+                                                        <option value="04">04</option>
+                                                        <option value="05">05</option>
+                                                        <option value="06">06</option>
+                                                        <option value="07">07</option>
+                                                        <option value="08">08</option>
+                                                        <option value="09">09</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                        <option value="12">12</option>
+                                                        <option value="13">13</option>
+                                                        <option value="14">14</option>
+                                                        <option value="15">15</option>
+                                                        <option value="16">16</option>
+                                                        <option value="17">17</option>
+                                                        <option value="18">18</option>
+                                                        <option value="19">19</option>
+                                                        <option value="20">20</option>
+                                                        <option value="21">21</option>
+                                                        <option value="22">22</option>
+                                                        <option value="23">23</option>
+                                                    </select>
+
+                                                    <select name="end_minutes" class="bigSpacer form-control" ng-model="endMin" ng-change="validateTimes()" value="${JS,HTML:RP.getParameterValue('sysparm_endMin')}">
+                                                        <option value="" disabled="true" selected="true">${gs.getMessage("fm_minutes")}</option>
+                                                        <option value="00">00</option>
+                                                        <option value="15">15</option>
+                                                        <option value="30">30</option>
+                                                        <option value="45">45</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group input-append">
+                                                    <div class="textlabels">
+                                                        <label class="control-label">${gs.getMessage("fm_filter")}</label>
+                                                    </div>
+                                                    <input type="text" class="smallSpacer form-control" style="width: 8em; text-align: left" placeholder="${gs.getMessage('fm_requester')}" ng-model="requesterFilter" ng-change="filterLayers()"/>
+                                                    <input type="text" class="smallSpacer form-control" style="width: 8em; text-align: left" placeholder="${gs.getMessage('fm_subject')}" ng-model="subjectFilter" ng-change="filterLayers()"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--
+*************************************************************************************************************
+********************************************** FLOORPLAN VIEW ***********************************************
+*************************************************************************************************************
+ -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-10 col-sm-10">
+                        <div valign="top" width="99%">
+                            <div border="0" cellspacing="0" cellpadding="0" id="${jvar_name}" width="100%">
+                                <div valign="top">
+                                    <div id="dropzone2" dropzone="true" valign="top" width="100%" style="padding:10px">
+                                        <div id="outerwrapper" class="outerdivcontent">
+                                            <div id="Floorview" class="tabcontent">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div ng-controller="FloorViewController">
+                                                                <div id="map" ng-cloak="" ng-show="isFloorview"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!--
+**************************************************************************************************************
+************************************************** TIMEBAR SCHEDULE ******************************************
+**************************************************************************************************************
+  -->
+                                                    <div class="row">
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div id="timebarslider" ng-controller="TimebarController" style="padding-top:5px;margin-top:5px">
+                                                                <div id="slider" class="time-slider" ng-cloak="" ng-show="isFloorview"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div valign="top">
+                                    <div id="dropzone3" dropzone="true" valign="bottom" width="100%" style="padding:10px">
+                                        <p id="messages"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--
+*****************************************************************************************************************
+******************************************** SELECTED ROOM PROPERTIES *******************************************
+*****************************************************************************************************************
+  -->
+                   <div class="col-md-2 col-sm-2" valign="top">
+                        <table border="0" cellspacing="0" cellpadding="0" id="${jvar_name}" width="100%">
+                            <tr valign="top" align="right">
+                                <td id="dropzone4" dropzone="true" valign="top" width="100%" style="padding:10px">
+                                    <table width="200" border="1" cellspacing="3" cellpadding="3" class="reservation_table" ng-controller="RoomDetailsController" ng-cloak="">
+                                        <tbody>
+                                            <tr>
+                                                <td valign="top">
+                                                    <table width="94%" border="0" cellspacing="5" cellpadding="5" bgcolor="#eee" align="center" style="margin:15px">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td width="100px" bgcolor="#eee">
+                                                                    <div class="reservation_title">${gs.getMessage("fm_reservation")}</div>
+                                                                </td>
+                                                                <td valign="middle" bgcolor="#eee">
+                                                                    <div id="reservation_title_strip"></div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="top">
+                                                    <table width="165" border="0" cellspacing="5" cellpadding="5" class="roomprops_table" align="center" ng-show="roomSelected">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td valign="top">
+                                                                    <div class="roomprops_title">{{ roomData.roomInfo.name || '${gs.getMessage("fm_select_room")}' }}</div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr ng-show="reservable &amp;&amp; active">
+                                                                <td valign="top">
+                                                                    <span class="roomprops_proptitle">${gs.getMessage("fm_capacity")}:   
+                                                                    </span>
+                                                                    <span class="roomprops_value" style="float:right; padding-right:40px">{{ roomData.roomInfo.capacity }}
+                                                                        {{roomData.roomInfo.capacity ? 'p' : '' }}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr ng-show="reservable &amp;&amp; active">
+                                                                <td valign="top">
+                                                                    <span class="roomprops_proptitle">${gs.getMessage("fm_room_open_time")}:
+                                                                    </span>
+                                                                    <span class="roomprops_value" style="float:right; padding-right:40px">{{roomData.openTimeDisplay}}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr ng-show="reservable &amp;&amp; active">
+                                                                <td valign="top">
+                                                                    <span class="roomprops_proptitle">${gs.getMessage("fm_room_close_time")}:
+                                                                    </span>
+                                                                    <span class="roomprops_value" style="float:right; padding-right:40px">{{roomData.closeTimeDisplay}}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr ng-show="unavailable &amp;&amp; reservable &amp;&amp; active">
+                                                                <td valign="top">
+                                                                    <span class="roomprops_value" style="font-size:70%;">${gs.getMessage("fm_facility_desk")}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr ng-show="!reservable &amp;&amp; active">
+                                                                <td valign="top" align="center">
+                                                                    <span class="roomprops_value">${gs.getMessage("fm_not_reservable")}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr ng-show="!active">
+                                                                <td valign="top" align="center">
+                                                                    <span class="roomprops_value">${gs.getMessage("fm_not_active")}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td valign="top"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td valign="top">
+                                                                    <table width="170" border="0" cellspacing="4" cellpadding="4" class="roomprops_proptable" align="center" ng-show="reservable &amp;&amp; active">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td width="24" height="24" align="center" ng-repeat="property in roomData.roomInfo.properties">
+                                                                                    <img class="room_prop_reservation_icon" ng-src="{{property.imageid}}" alt="{{property.name}}" title="{{property.name}}"/>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="middle" align="center">
+                                                    <div ng-hide="roomSelected" class="selectRoomInfo">${gs.getMessage("fm_please_select_a_room")}</div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="middle" align="center">
+                                                    <button ng-click="quickRes()" id="quickReservationBtn" ng-show="roomSelected &amp;&amp; !isDialog &amp;&amp; reservable &amp;&amp; active">${gs.getMessage("fm_quick_reservation")}</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="middle" align="center">
+
+                                                    <button ng-click="chooseRoom()" id="chooseRoomBtn" ng-show="roomSelected &amp;&amp; isDialog &amp;&amp; !unavailable &amp;&amp; reservable &amp;&amp; active">${gs.getMessage('fm_choose_room').toUpperCase()}</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="middle" align="center">
+                                                    <button ng-click="cancel()" id="cancelBtn" ng-show="isDialog">${gs.getMessage('fm_cancel').toUpperCase()}</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <!--
+*****************************************************************************************************************
+******************************************** MEETING DETAILS *******************************************
+*****************************************************************************************************************
+ -->
+
+                            <tr valign="top" align="right">
+                                <td id="dropzone5" dropzone="true" valign="top" width="100%" style="padding:10px">
+                                    <table width="200" border="1" cellspacing="3" cellpadding="3" class="meeting_table" ng-controller="MeetingDetailsController" ng-cloak="">
+                                        <tbody>
+                                            <tr>
+                                                <td valign="top">
+                                                    <table width="94%" border="0" cellspacing="5" cellpadding="5" bgcolor="#eee" align="center" style="margin:15px">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td width="110px" bgcolor="#666464">
+                                                                    <div class="meeting_title">${gs.getMessage("fm_meeting_details")}</div>
+                                                                </td>
+                                                                <td valign="middle" bgcolor="#666464">
+                                                                    <div id="meeting_title_strip"></div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="top">
+                                                    <table width="165" border="0" cellspacing="5" cellpadding="5" class="meetingDetails_table " align="center" ng-show="isResSelected">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td valign="top">
+                                                                    <div class="meetingDetails_title">{{ roomData.roomInfo.name || '${gs.getMessage("fm_select_room")}' }}</div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td valign="top">
+                                                                    <span class="meetingDetails_desctitle">${gs.getMessage("fm_requester")}:
+                                                                    </span>
+                                                                    <span class="meetingDetails_decvalue">{{ selectedReservation.requester }}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td valign="top">
+                                                                    <span class="meetingDetails_desctitle">${gs.getMessage("fm_subject")}:
+                                                                    </span>
+                                                                    <span class="meetingDetails_decvalue">{{ selectedReservation.meeting_subject }}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td valign="top">
+                                                                    <span class="meetingDetails_desctitle">${gs.getMessage("fm_date")}:
+                                                                    </span>
+                                                                    <span class="meetingDetails_decvalue">{{ selectedReservation.startTime.substring(0,11) }}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td valign="top">
+                                                                    <span class="meetingDetails_desctitle">${gs.getMessage("fm_start_time")}:
+                                                                    </span>
+                                                                    <span class="meetingDetails_decvalue">{{ selectedReservation.startTime.substring(11,16) }}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td valign="top">
+                                                                    <span class="meetingDetails_desctitle">${gs.getMessage("fm_end_time")}:
+                                                                    </span>
+                                                                    <span class="meetingDetails_decvalue">{{ selectedReservation.endTime.substring(11,16) }}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td valign="top">
+                                                                    <!-- <div class="roomprops_shortdesc">Short description, like lorem ipsum dolor sit amet.</div> -->
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--
+   *****************************************************
+   ****************** Start of Scripts *****************
+   *****************************************************
+   -->
+    <g:requires name="x_lsmcb_fm.fm_room_res_init_service.jsdbx"/>
+    <g:requires name="x_lsmcb_fm.fm_reservation_controller.jsdbx"/>
+    <g:requires name="x_lsmcb_fm.fm_floorview_controller.jsdbx"/>
+    <g:requires name="x_lsmcb_fm.fm_time_bar_controller.jsdbx"/>
+    <g:requires name="x_lsmcb_fm.fm_room_details_controller.jsdbx"/>
+    <g:requires name="x_lsmcb_fm.fm_meeting_details_controller.jsdbx"/>
+
+</j:jelly>]]></html>
+        <name>fm_room_reservation_interface</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-10-13 13:51:51</sys_created_on>
+        <sys_id>f5249bf30f12ae0011bec3ace1050e72</sys_id>
+        <sys_mod_count>526</sys_mod_count>
+        <sys_name>fm_room_reservation_interface</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_page_f5249bf30f12ae0011bec3ace1050e72</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-06-08 15:58:01</sys_updated_on>
+    </sys_ui_page>
+</record_update>

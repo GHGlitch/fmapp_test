@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description>GlideAjax Angular Module - UI Page</description>
+        <global>false</global>
+        <name>x_lsmcb_fm.sn-glideAjax</name>
+        <script><![CDATA[angular.module('sn-glideAjax', []);
+angular.module('sn-glideAjax').service('GlideAjax', function($rootScope) {
+	var glideAjax = window.GlideAjax;
+	glideAjax.prototype.getJSON = function(callback) {
+		this.getXMLAnswer(function(answer) {
+			var answerJSON = JSON.parse(answer);
+			callback(answerJSON);
+			$rootScope.$apply();
+		});
+	};
+	
+	return glideAjax;
+});]]></script>
+        <script_name>sn-glideAjax</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-10-12 16:09:17</sys_created_on>
+        <sys_id>c3a17ea70fda6e0011bec3ace1050e7c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_lsmcb_fm.sn-glideAjax</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_script_c3a17ea70fda6e0011bec3ace1050e7c</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2016-10-12 16:09:17</sys_updated_on>
+        <use_scoped_format>false</use_scoped_format>
+    </sys_ui_script>
+</record_update>

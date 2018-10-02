@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_instance_table">
+    <sp_instance_table action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <class_name/>
+        <color>default</color>
+        <css/>
+        <display_field/>
+        <field_list>number,short_description,text_location,type,category,state</field_list>
+        <filter table="x_lsmcb_fm_facility_order">requester=javascript:gs.getUserID()^ORopened_by=javascript:gs.getUserID();^expected_end&gt;javascript:gs.endOfLastWeek();^ORexpected_endISEMPTY^state!=4^ORDERBYDESCnumber<item endquery="false" field="requester" goto="false" newquery="false" operator="=" or="false" value="javascript:gs.getUserID()"/>
+            <item endquery="false" field="opened_by" goto="false" newquery="false" operator="=" or="true" value="javascript:gs.getUserID();"/>
+            <item endquery="false" field="expected_end" goto="false" newquery="false" operator="&gt;" or="false" value="javascript:gs.endOfLastWeek();"/>
+            <item endquery="false" field="expected_end" goto="false" newquery="false" operator="ISEMPTY" or="true" value=""/>
+            <item endquery="false" field="state" goto="false" newquery="false" operator="!=" or="false" value="4"/>
+            <item endquery="false" field="" goto="false" newquery="false" operator="ORDERBYDESC" or="false" value="number"/>
+        </filter>
+        <glyph/>
+        <id/>
+        <maximum_entries>5</maximum_entries>
+        <order>1</order>
+        <order_by/>
+        <order_direction>asc</order_direction>
+        <roles/>
+        <short_description/>
+        <size>md</size>
+        <sp_column display_value="2">b67bac960f90030011bec3ace1050e5d</sp_column>
+        <sp_page/>
+        <sp_widget display_value="FM Data Table">88af97420f50030011bec3ace1050ef3</sp_widget>
+        <sys_class_name>sp_instance_table</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-08-03 11:22:25</sys_created_on>
+        <sys_id>ba5df06a0f94030011bec3ace1050ef8</sys_id>
+        <sys_mod_count>7</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sp_instance_table_ba5df06a0f94030011bec3ace1050ef8</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-11-17 11:23:08</sys_updated_on>
+        <table>x_lsmcb_fm_facility_order</table>
+        <title/>
+        <url/>
+        <widget_parameters><![CDATA[{
+	"window_size": {
+		"value": null,
+		"displayValue": ""
+	}
+}]]></widget_parameters>
+    </sp_instance_table>
+    <sys_translated_text action="delete_multiple" query="documentkey=ba5df06a0f94030011bec3ace1050ef8"/>
+</record_update>

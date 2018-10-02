@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="catalog_ui_policy_action">
+    <catalog_ui_policy_action action="INSERT_OR_UPDATE">
+        <catalog_item display_value="Item Reservation">534938de0fb0b60011bec3ace1050e34</catalog_item>
+        <catalog_variable>IO:42b9282a0fb4b60011bec3ace1050ea5</catalog_variable>
+        <disabled>true</disabled>
+        <field/>
+        <mandatory>false</mandatory>
+        <sys_class_name>catalog_ui_policy_action</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-04-03 15:31:27</sys_created_on>
+        <sys_id>d04425df0ff5b60011bec3ace1050ea0</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>item</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>catalog_ui_policy_action_d04425df0ff5b60011bec3ace1050ea0</sys_update_name>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-04-03 17:10:22</sys_updated_on>
+        <table/>
+        <ui_policy display_value="Edit facility item">17a3659f0ff5b60011bec3ace1050e7d</ui_policy>
+        <variable>item</variable>
+        <variable_set/>
+        <visible>ignore</visible>
+    </catalog_ui_policy_action>
+</record_update>

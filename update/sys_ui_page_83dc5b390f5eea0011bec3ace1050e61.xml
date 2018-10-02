@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[var gURL = new GlideURL();
+gURL.setFromCurrent();
+var parent = gURL.getParam('sysparm_parent');
+
+var ga = new GlideAjax('x_lsmcb_fm.FMRoomReservationAjaxUtils');
+ga.addParam('sysparm_name', 'getConflictingRoomReservations');
+ga.addParam('sysparm_parent', parent);
+ga.getXMLWait();
+var reservations = JSON.parse(ga.getAnswer());
+
+for(var i = 0; i < reservations.length; i++) {
+	if(reservations.length == 1) {
+		reservations[i].lastItem = true;
+	} else {
+		reservations[i].lastItem = false;
+	}
+	addRowToTable(reservations[i]);
+}
+
+function addRowToTable(reservation) {
+
+	
+	var cdum = $j('#dummy').clone(true, true);
+	var $dum = $j(cdum);
+	var $chil = $dum.children();
+
+	$chil.eq(0).html(reservation.date);
+	$chil.eq(1).html(reservation.startHours + ':' + reservation.startMinutes);
+	$chil.eq(2).html(reservation.endHours + ':' + reservation.endMinutes);
+	$chil.eq(3).html(reservation.roomName);
+	$chil.eq(4).html(JSON.stringify(reservation));
+	$chil.eq(5).find('input').attr('style', 'background-color:#a4a4a4; color: white; border :1px solid white; width:100px; height:30px;white-space: nowrap; margin:5px; visibility:visible');
+
+	$dum.appendTo('#reservationlist');
+}
+
+function openChangeRoomWindow(tableRow) {
+
+	var object = JSON.parse(tableRow.cells[4].innerText);
+
+	var selectedLocation = object.location;
+	var selectedDate = object.date;
+	var lastItem = object.lastItem;
+	
+	window.location.replace('/com.glideapp.servicecatalog_cat_item_view.do?v=1&sysparm_id=2f98b4dc0f35a20011bec3ace1050e82&sysparm_reservation_id=' + object.id + '&sysparm_recurring=' + parent + '&sysparm_lastItem=' + lastItem);
+}]]></client_script>
+        <description>Shows the conflicting reservations.</description>
+        <direct>false</direct>
+        <endpoint>x_lsmcb_fm_fm_resolve_conflicting_reservations.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+
+
+
+
+	<!--                                       THE JELLY RETRIVAL PART  
+  
+                                    ****************************************  
+  
+-->
+	<input id="act" type="hidden" value="active"></input>
+
+
+	<!--                                     END OF JELLY RETRIEVAL PART  
+                                       ***************************************  -->
+
+
+
+
+
+
+	<!--                                               Including jQUery  
+                                          **********************************  
+-->
+
+
+	<script type='text/javascript' src='jquery.min.jsdbx'>
+	</script>
+
+
+
+	<!-- Ending jQuery inclusion-->
+
+
+
+	<!--                                   THE HTML  
+                               *************************  
+  
+-->
+	<table></table>
+	<form>
+		<input type="text" id="cou" value="0" style="display:none; visibility:hidden"></input>
+		<!-- Input count - Used for counting - Initially zero -->
+		<table id="reservationlist" width="100%">
+			<TR style="background-color:#b0b0b0; border :1px solid white; width : 75px; height:30px" class="used">
+				<td colspan="5" align="center" style="color: #4A4A4A">
+					<B> ${gs.getMessage('fm_conflictingreslist')}</B>
+				</td>
+			</TR>
+			<TR style="background-color:#e9e9e9; border :1px solid white; width : 75px; height:30px" class="used" id="dummy">
+				<td style="color: #4A4A4A">
+					<B> ${gs.getMessage('fm_date')}</B>
+				</td>
+				<td style="color: #4A4A4A">
+					<B> ${gs.getMessage('fm_start_time')}</B>
+				</td>
+				<td style="color: #4A4A4A">
+					<B> ${gs.getMessage('fm_end_time')}</B>
+				</td>
+				<td style="color: #4A4A4A">
+					<B> ${gs.getMessage('fm_room')}</B>
+				</td>
+				<td style="color: #4A4A4A; display:none; visibility:hidden">
+				</td>
+				<td align="right">
+					<INPUT TYPE="button" VALUE="Edit Reservation" name="editreservation" id="editreservation" ONCLICK="var row = $(this).closest('tr'); openChangeRoomWindow(row);" align="right" style="visibility:hidden"></INPUT>
+				</td>
+			</TR>
+		</table>
+		<br></br><br></br>
+	</form>
+
+	<!--  
+  
+                                 END OF HTML  
+                            *********************  
+-->
+
+
+
+
+
+</j:jelly>]]></html>
+        <name>fm_resolve_conflicting_reservations</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>laura.schuch</sys_created_by>
+        <sys_created_on>2016-10-07 09:30:00</sys_created_on>
+        <sys_id>83dc5b390f5eea0011bec3ace1050e61</sys_id>
+        <sys_mod_count>127</sys_mod_count>
+        <sys_name>fm_resolve_conflicting_reservations</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_page_83dc5b390f5eea0011bec3ace1050e61</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-07-30 16:20:56</sys_updated_on>
+    </sys_ui_page>
+</record_update>

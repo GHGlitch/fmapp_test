@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_macro">
+    <sys_ui_macro action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category>general</category>
+        <description>QR Macro for the Meeting Rooms</description>
+        <media_type/>
+        <name>fm_qr_meeting_room</name>
+        <scoped_name>x_lsmcb_fm_fm_qr_meeting_room</scoped_name>
+        <sys_class_name>sys_ui_macro</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-05-09 09:28:03</sys_created_on>
+        <sys_id>a039a5be0f6e720011bec3ace1050e81</sys_id>
+        <sys_mod_count>23</sys_mod_count>
+        <sys_name>fm_qr_meeting_room</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_macro_a039a5be0f6e720011bec3ace1050e81</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-12-12 12:58:26</sys_updated_on>
+        <xml><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+    <div id="isRoom">
+        <h3>Room Details</h3>
+        <table id="roomDetails" class="room_details_list" border="0" width="98%" cellspacing="5" cellpadding="5" align="center">
+            <tbody>
+                <tr id="roomdummy" class="used">
+                    <td valign="top" style="padding:3px;margin:3px">
+                        <B>${gs.getMessage('fm_id')}</B>
+                    </td>
+                    <td valign="top" style="padding:3px;margin:3px">
+                        <B>${gs.getMessage('fm_name')}</B>
+                    </td>
+                    <td valign="top" style="padding:3px;margin:3px">
+                        <B>${gs.getMessage('fm_floor')}</B>
+                    </td>
+                    <td valign="top" style="padding:3px;margin:3px">
+                        <B>${gs.getMessage('fm_capacity')}</B>
+                    </td>
+                    <td valign="top" style="padding:3px;margin:3px">
+                        <B>${gs.getMessage('fm_room_properties')}</B>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Today's Scheduled Reservations</h3>
+        <table id="reservationDetails" class="room_reserv_list" border="0" width="98%" cellspacing="5" cellpadding="5" align="center">
+            <tbody>
+                <tr id="resdummy" class="used">
+                    <td valign="top" style="padding:3px;margin:3px">
+                        <B>${gs.getMessage('fm_requester')}</B>
+                    </td>
+
+                    <td valign="top" style="padding:3px;margin:3px">
+                        <B>${gs.getMessage('fm_subject')}</B>
+                    </td>
+
+                    <td valign="top" style="padding:3px;margin:3px">
+                        <B>${gs.getMessage('Attendees')}</B>
+                    </td>
+
+                    <td valign="top" style="padding:3px;margin:3px" align="center">
+                        <B>${gs.getMessage('fm_start')}</B>
+                    </td>
+
+                    <td valign="top" style="padding:3px;margin:3px" align="center">
+                        <B>${gs.getMessage('fm_end')}</B>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <style>
+        .props { /* in case images are black */
+            -webkit-filter: invert(100%); /* Safari */
+            filter: invert(100%);
+        }
+    </style>
+	
+    <script>
+        var roomObj;
+
+        function getRoomData() {
+
+            var reference = gel('fmsysid').value;
+            var table = gel('fmtable').value;
+
+            var ga = new GlideAjax('x_lsmcb_fm.FMMobileLandingPageAjaxUtils');
+            ga.addParam('sysparm_name', 'getDetails');
+            ga.addParam('sysparm_table', table);
+            ga.addParam('sysparm_sysid', reference);
+            ga.getXML(handleResponse);
+
+            function handleResponse(response) {
+                var answer = response.responseXML.documentElement.getAttribute("answer");
+                if (!answer) return alert('Error fetching record!');
+                var queryObj = JSON.parse(answer);
+
+                var title = gel('itemTitle');
+                title.innerHTML = title.innerHTML + queryObj.name;
+
+                roomObj = queryObj;
+                populateRoomPropsTable(queryObj);
+                getReservationData(queryObj);
+            }
+        }
+
+        function getReservationData(query_object) {
+
+            var reference = query_object.sys_id;
+
+            var ga = new GlideAjax('x_lsmcb_fm.FMMobileLandingPageAjaxUtils');
+            ga.addParam('sysparm_name', 'getRoomReservations');
+            ga.addParam('sysparm_sysid', reference);
+            ga.getXML(handleResponse);
+
+            function handleResponse(response) {
+                var answer = response.responseXML.documentElement.getAttribute("answer");
+                if (!answer) return alert('Error fetching record!');
+                var queryObj = JSON.parse(answer);
+                populateRoomResTable(queryObj);
+            }
+        }
+
+        function populateRoomPropsTable(query_object) {
+
+            //Cloning the header
+            var cdum = $j('#roomdummy').clone(true, true);
+
+            // Draw table row with the fetched data from Visitor.
+            var $dum = $j(cdum);
+
+            var roomID = query_object.room_id;
+
+            $dum.attr('id', roomID).removeClass("used").addClass("new").attr("style", '');
+
+            var $chil = $dum.children();
+
+            var ga = new GlideAjax('x_lsmcb_fm.FMMobileLandingPageAjaxUtils');
+            ga.addParam('sysparm_name', 'getRoomProperties');
+            ga.addParam('sysparm_sysid', gel('fmsysid').value);
+            ga.getXML(function(response) {
+
+                var props = response.responseXML.documentElement.getAttribute("answer");
+        // console.log(props);
+
+                $chil.eq(0).html(roomID);
+                $chil.eq(1).html(query_object.name);
+                $chil.eq(2).html(query_object.floor);
+                $chil.eq(3).html(query_object.capacity);
+                $chil.eq(4).html(props);
+                $dum.appendTo('#roomDetails').fadeIn(600);
+
+            });
+
+        }
+
+        function populateRoomResTable(query_object_array) {
+
+            for (var i = query_object_array.length - 1; i >= 0; i--) {
+
+                var day = query_object_array[i].start_time.substring(0, 10);
+                var startHour = query_object_array[i].start_time.substring(11, 16);
+                var endHour = query_object_array[i].end_time.substring(11, 16);
+
+                //Cloning the header
+                var cdum = $j('#resdummy').clone(true, true);
+
+                // Draw table row with the fetched data from Visitor.
+                var $dum = $j(cdum);
+
+                $dum.attr('id', query_object_array[i].sys_id).removeClass("used").addClass("new").attr("style", '');
+
+                var $chil = $dum.children();
+
+                $chil.eq(0).html(query_object_array[i].requester);
+                $chil.eq(1).html(query_object_array[i].meeting_subject);
+                $chil.eq(2).html(query_object_array[i].number_of_attendees);
+                $chil.eq(3).html(startHour);
+                $chil.eq(4).html(endHour);
+                $dum.appendTo('#reservationDetails').fadeIn(600);
+            }
+        }
+        getRoomData();
+    </script>
+	
+</j:jelly>]]></xml>
+    </sys_ui_macro>
+</record_update>

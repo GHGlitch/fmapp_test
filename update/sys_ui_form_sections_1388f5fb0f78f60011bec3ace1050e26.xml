@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_form_sections form_id="1388f5fb0f78f60011bec3ace1050e26" sys_domain="global" table="x_lsmcb_fm_artist" version="3">
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>0</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-02-14 13:13:41</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>9788f5fb0f78f60011bec3ace1050e26</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_lsmcb_fm_artist" name="x_lsmcb_fm_artist" sys_domain="global" view="Default view">1388f5fb0f78f60011bec3ace1050e26</sys_ui_form>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_artist" sys_domain="global" view="Default view">8e1dbbbc0f6b220011bec3ace1050e65</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-02-14 13:13:41</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>1</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-02-14 13:13:41</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>1b88f5fb0f78f60011bec3ace1050e26</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_lsmcb_fm_artist" name="x_lsmcb_fm_artist" sys_domain="global" view="Default view">1388f5fb0f78f60011bec3ace1050e26</sys_ui_form>
+            <sys_ui_section caption="Information" display_value="Information" name="x_lsmcb_fm_artist" sys_domain="global" view="Default view">9b88f5fb0f78f60011bec3ace1050e25</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-02-14 13:13:41</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form action="INSERT_OR_UPDATE">
+            <name>x_lsmcb_fm_artist</name>
+            <roles/>
+            <sys_class_name>sys_ui_form</sys_class_name>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-02-14 13:13:41</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>1388f5fb0f78f60011bec3ace1050e26</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>x_lsmcb_fm_artist</sys_name>
+            <sys_overrides/>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_ui_form_sections_1388f5fb0f78f60011bec3ace1050e26</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-02-14 13:13:41</sys_updated_on>
+            <sys_user/>
+            <view display_value="Default view" name="NULL">Default view</view>
+            <view_name/>
+        </sys_ui_form>
+    </sys_ui_form_sections>
+</record_update>

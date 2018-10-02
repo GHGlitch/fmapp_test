@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_email">
+    <sys_script_email action="INSERT_OR_UPDATE">
+        <name>facility_order_email_client</name>
+        <new_lines_to_html>false</new_lines_to_html>
+        <script><![CDATA[(function runMailScript(/* GlideRecord */ current, /* TemplatePrinter */ template,
+          /* Optional EmailOutbound */ email, /* Optional GlideRecord */ email_action,
+          /* Optional GlideRecord */ event) {
+
+          // Add your code here
+	template.print("<h1 style='color:#6AAFE6'>Opdrachtbon Maas</h1>");
+	template.print("<br/><p>Hierbij bevestigen wij jouw aanvraag voor extra openstelling gebouw.</p><br/>");
+	template.print("<table style='border: 1px solid black'>");
+	template.print("<tr>");
+	template.print("<td style='background-color:#D4DFE6; border: 1px solid black' colspan='2'><h2 style='color:#6AAFE6'>Opdrachtgevens</h2></td>");
+	template.print("</tr>");
+	template.print("<tr>");
+	template.print("<td style='border: 1px solid black'>Ordernr.</td><td style='border: 1px solid black'>${number}</td>");
+	template.print("</tr>");
+	template.print("<tr>");
+	template.print("<td style='border: 1px solid black'>Datum gemeld</td><td style='border: 1px solid black'>${sys_created_on}</td>");
+	template.print("</tr>");
+	template.print("<tr>");
+	template.print("<td style='border: 1px solid black'>Omschrijving order</td><td style='border: 1px solid black'>${short_description}</td>");
+	template.print("</tr>");
+	template.print("<tr>");
+	template.print("<td style='border: 1px solid black'>Gebouw</td><td style='border: 1px solid black'>${location}</td>");
+	template.print("</tr>");
+	template.print("<tr>");
+	template.print("<td style='border: 1px solid black'>Ruimte</td><td style='border: 1px solid black'>${room}</td>");
+	template.print("</tr>");
+	template.print("<tr>");
+	template.print("<td style='border: 1px solid black'>Melder</td><td style='border: 1px solid black'>${requester.name}</td>");
+	template.print("</tr>");
+	template.print("<tr>");
+	template.print("<td style='border: 1px solid black'>Overige details</td><td style='border: 1px solid black'>${description}</td>");
+	template.print("</tr>");
+	template.print("</table>");
+
+})(current, template, email, email_action, event);]]></script>
+        <sys_class_name>sys_script_email</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2016-12-16 15:16:27</sys_created_on>
+        <sys_id>d3055d2c0f73a20011bec3ace1050e47</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>facility_order_email_client</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_email_d3055d2c0f73a20011bec3ace1050e47</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-24 12:58:09</sys_updated_on>
+    </sys_script_email>
+</record_update>

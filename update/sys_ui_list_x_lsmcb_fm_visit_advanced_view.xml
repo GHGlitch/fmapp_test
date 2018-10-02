@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_list parent="" relationship="" sys_domain="global" table="x_lsmcb_fm_visit" version="2" view="Advanced_view">
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>day</element>
+            <list_id display_value="x_lsmcb_fm_visit" element="NULL" name="x_lsmcb_fm_visit" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">0fe34ab30fbbfa0011bec3ace1050e8e</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>0</position>
+            <sum>false</sum>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-07-13 17:11:44</sys_created_on>
+            <sys_id>43e34ab30fbbfa0011bec3ace1050e8f</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-07-13 17:11:44</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>start_hours</element>
+            <list_id display_value="x_lsmcb_fm_visit" element="NULL" name="x_lsmcb_fm_visit" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">0fe34ab30fbbfa0011bec3ace1050e8e</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>1</position>
+            <sum>false</sum>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-07-13 17:11:44</sys_created_on>
+            <sys_id>c3e34ab30fbbfa0011bec3ace1050e8f</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-07-13 17:11:44</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>end_hours</element>
+            <list_id display_value="x_lsmcb_fm_visit" element="NULL" name="x_lsmcb_fm_visit" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">0fe34ab30fbbfa0011bec3ace1050e8e</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>2</position>
+            <sum>false</sum>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-07-13 17:11:44</sys_created_on>
+            <sys_id>47e34ab30fbbfa0011bec3ace1050e8f</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-07-13 17:11:44</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>visitor</element>
+            <list_id display_value="x_lsmcb_fm_visit" element="NULL" name="x_lsmcb_fm_visit" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">0fe34ab30fbbfa0011bec3ace1050e8e</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>3</position>
+            <sum>false</sum>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-07-13 17:11:44</sys_created_on>
+            <sys_id>c7e34ab30fbbfa0011bec3ace1050e8f</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-07-13 17:11:44</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>company</element>
+            <list_id display_value="x_lsmcb_fm_visit" element="NULL" name="x_lsmcb_fm_visit" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">0fe34ab30fbbfa0011bec3ace1050e8e</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>4</position>
+            <sum>false</sum>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-07-13 17:11:44</sys_created_on>
+            <sys_id>4be34ab30fbbfa0011bec3ace1050e8f</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-07-13 17:11:44</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>host</element>
+            <list_id display_value="x_lsmcb_fm_visit" element="NULL" name="x_lsmcb_fm_visit" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">0fe34ab30fbbfa0011bec3ace1050e8e</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>5</position>
+            <sum>false</sum>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-07-13 17:11:44</sys_created_on>
+            <sys_id>cbe34ab30fbbfa0011bec3ace1050e8f</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-07-13 17:11:44</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>location</element>
+            <list_id display_value="x_lsmcb_fm_visit" element="NULL" name="x_lsmcb_fm_visit" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">0fe34ab30fbbfa0011bec3ace1050e8e</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>6</position>
+            <sum>false</sum>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-07-13 17:11:44</sys_created_on>
+            <sys_id>4fe34ab30fbbfa0011bec3ace1050e8f</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-07-13 17:11:44</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>state</element>
+            <list_id display_value="x_lsmcb_fm_visit" element="NULL" name="x_lsmcb_fm_visit" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">0fe34ab30fbbfa0011bec3ace1050e8e</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>7</position>
+            <sum>false</sum>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-07-13 17:11:44</sys_created_on>
+            <sys_id>cfe34ab30fbbfa0011bec3ace1050e8f</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-07-13 17:11:44</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element/>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <name>x_lsmcb_fm_visit</name>
+            <parent/>
+            <position/>
+            <relationship/>
+            <sum>false</sum>
+            <sys_class_name>sys_ui_list</sys_class_name>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-03-07 10:56:43</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>e992e52e0fdd360011bec3ace1050ecc</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_name>x_lsmcb_fm_visit</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_ui_list_x_lsmcb_fm_visit_Advanced_view</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-06-08 16:12:26</sys_updated_on>
+            <sys_user display_value="">f1266e220f0d2e0011bec3ace1050e59</sys_user>
+            <view display_value="Advanced_view" name="Advanced_view">27e559150f18ba0011bec3ace1050ec9</view>
+            <view_name/>
+        </sys_ui_list>
+    </sys_ui_list>
+</record_update>

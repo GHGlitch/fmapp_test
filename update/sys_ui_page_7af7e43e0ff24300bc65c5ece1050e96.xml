@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[function printDiv(divName) {
+	var printContents = document.getElementById(divName).innerHTML;
+	var originalContents = document.body.innerHTML;
+
+	document.body.innerHTML = printContents;
+	window.print();
+	document.body.innerHTML = originalContents;
+}
+
+function closeDialog(e, redirect_url) {
+	// Don't execute all Snow default onclick handlers
+	e.preventDefault();
+	// Before executing window.print(), close window using the OOTB GlideDialogWindow destroy method
+	if(GlideDialogWindow.get()) {
+		GlideDialogWindow.get().destroy();
+	}
+	else {
+		// In case we don't have a GlideDialogWindow anymore, redirect to the current page (basically a reload)
+		window.location.replace(redirect_url);	
+	}
+}]]></client_script>
+        <description>Page to display all records related to an event.</description>
+        <direct>false</direct>
+        <endpoint>x_lsmcb_fm_fm_event_overview.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">	
+	<g:evaluate var="jvar_redirect" jelly="true">
+		var redirect = gs.getProperty("glide.servlet.uri") + gs.action.getGlideURI().get('x_referer');
+		redirect;
+	</g:evaluate>
+	<g:evaluate var="jvar_eventid" jelly="true">
+		var eventid = '${JS,HTML:RP.getParameterValue('sysparm_eventid')}';
+		eventid;
+	</g:evaluate>
+	<g:evaluate var="jvar_grEvent" jelly="true">
+		var grEvent = new GlideRecord('x_lsmcb_fm_facility_event');
+		grEvent.get(jelly.jvar_eventid);
+		grEvent;
+	</g:evaluate>
+	<g:evaluate var="jvar_grReservations" jelly="true">
+		var grReservations = new GlideRecord('x_lsmcb_fm_room_reservation');
+		grReservations.addQuery('fm_event', jelly.jvar_eventid );
+		grReservations.orderBy("number");
+		grReservations.query();
+		grReservations;
+	</g:evaluate>
+	<g:evaluate var="jvar_grItemReservationSubOrders" jelly="true">
+		var grItemReservationSubOrders = new GlideRecord('x_lsmcb_fm_facility_suborder');
+		var grItemReservationSubOrdersJQ = grItemReservationSubOrders.addJoinQuery('x_lsmcb_fm_item_reservation', 'facility_order', 'facility_order');
+		grItemReservationSubOrdersJQ.addCondition('facility_order.fm_event', jelly.jvar_eventid);
+		grItemReservationSubOrders.orderBy("number");
+		grItemReservationSubOrders.query();
+		grItemReservationSubOrders;
+	</g:evaluate>
+	<g:evaluate var="jvar_grProductOrders" jelly="true">
+		var grProductOrders = new GlideRecord('x_lsmcb_fm_facility_product_order');
+		grProductOrders.addQuery('facility_order.fm_event', jelly.jvar_eventid );
+		grProductOrders.orderBy("facility_suborder");
+		grProductOrders.query();
+		grProductOrders;
+	</g:evaluate>
+	<div id="printableArea">
+	<br/>
+	<b>Event details</b>
+	<div id="eventdetails" >
+		<table width="1400px">
+			<tr>
+				<td>Event Number</td>
+				<td>${grEvent.number}</td>
+				<td>Planned Start</td>
+				<td>${grEvent.u_planned_start.getDisplayValue()}</td>
+				<td>Location</td>
+				<td>${grEvent.location.getDisplayValue()}</td>
+			</tr>
+			<tr>
+				<td>Description</td>
+				<td>${grEvent.short_description}</td>
+				<td>Planned End</td>
+				<td>${grEvent.u_planned_end.getDisplayValue()}</td>
+				<td>Assignment Group</td>
+				<td>${grEvent.assignment_group.getDisplayValue()}</td>
+			</tr>
+		</table>
+	</div>
+	<br/>
+	<br/>
+	<b>Room Reservations</b>
+	<div>
+		<table width="100%">
+				<tr>
+					<td>Reservation Number</td>				
+					<td>Meeting Subject</td>
+					<td>Location</td>
+					<td>Space</td>
+					<td>Meeting Comments</td>
+					<td>Start Time</td>
+					<td>End Time</td>
+					<td>Requester</td>
+				</tr>			
+			<j:while test="${grReservations.next()}">	
+				<tr>
+					<td>${grReservations.number}</td>				
+					<td>${grReservations.meeting_subject}</td>
+					<td>${grReservations.location.getDisplayValue()}</td>	
+					<td>${grReservations.room.getDisplayValue()}</td>
+					<td>${grReservations.meeting_comments}</td>
+					<td>${grReservations.meeting_start_time.getDisplayValue()}</td>
+					<td>${grReservations.meeting_end_time.getDisplayValue()}</td>
+					<td>${grReservations.requester.getDisplayValue()}</td>
+				</tr>
+			</j:while>	
+		</table>		
+	</div>
+	<br/>
+	<br/>
+	<b>Item Reservation Suborders</b>
+	<div>
+		<table width="100%">
+				<tr>
+					<td>Suborder Number</td>					
+					<td>Description</td>
+					<td>Location</td>	
+					<td>Space</td>
+					<td>Remarks</td>
+					<td>Expected Start</td>
+					<td>Expected End</td>
+					<td>Requester</td>
+					<td>Assignment Group</td>
+				</tr>			
+			<j:while test="${grItemReservationSubOrders.next()}">	
+				<tr>
+					<td>${grItemReservationSubOrders.number}</td>					
+					<td>${grItemReservationSubOrders.short_description}</td>
+					<td>${grItemReservationSubOrders.location.getDisplayValue()}</td>	
+					<td>${grItemReservationSubOrders.room.getDisplayValue()}</td>
+					<td>${grItemReservationSubOrders.remark}</td>
+					<td>${grItemReservationSubOrders.expected_start.getDisplayValue()}</td>
+					<td>${grItemReservationSubOrders.expected_end.getDisplayValue()}</td>
+					<td>${grItemReservationSubOrders.requester.getDisplayValue()}</td>
+					<td>${grItemReservationSubOrders.assignment_group.getDisplayValue()}</td>
+				</tr>
+			</j:while>	
+		</table>		
+	</div>
+	<br/>
+	<br/>
+	<b>Ordered Products</b>
+	<div>
+		<table width="100%">
+				<tr>
+					<td>Suborder Number</td>					
+					<td>Description</td>
+					<td>Location</td>	
+					<td>Space</td>
+					<td>Product</td>
+					<td>Quantity</td>
+					<td>Expected Start</td>
+					<td>Expected End</td>
+					<td>Requester</td>
+					<td>Assignment Group</td>
+				</tr>			
+			<j:while test="${grProductOrders.next()}">	
+				<tr>
+					<td>${grProductOrders.facility_suborder.number}</td>					
+					<td>${grProductOrders.facility_suborder.short_description}</td>
+					<td>${grProductOrders.facility_suborder.location.getDisplayValue()}</td>	
+					<td>${grProductOrders.facility_suborder.room.getDisplayValue()}</td>
+					<td>${grProductOrders.facility_product.getDisplayValue()}</td>
+					<td>${grProductOrders.quantity}</td>
+					<td>${grProductOrders.facility_suborder.expected_start.getDisplayValue()}</td>
+					<td>${grProductOrders.facility_suborder.expected_end.getDisplayValue()}</td>
+					<td>${grProductOrders.facility_suborder.requester.getDisplayValue()}</td>
+					<td>${grProductOrders.facility_suborder.assignment_group.getDisplayValue()}</td>
+				</tr>
+			</j:while>	
+		</table>		
+	</div>
+	<br/>
+	<br/>
+	<div style="height: 20px" class="print_hide" align="right">
+		<button type="submit" onclick="closeDialog(event, '${redirect}');">
+			<span>Close</span>
+        </button>
+        <button type="submit" onclick="printDiv('printableArea');">
+			<span>Click to Print</span>
+        </button>
+    </div>
+	<br/>
+	</div>
+</j:jelly>
+
+]]></html>
+        <name>fm_event_overview</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-12-06 11:05:43</sys_created_on>
+        <sys_id>7af7e43e0ff24300bc65c5ece1050e96</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>fm_event_overview</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_page_7af7e43e0ff24300bc65c5ece1050e96</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-01-04 10:23:05</sys_updated_on>
+    </sys_ui_page>
+</record_update>

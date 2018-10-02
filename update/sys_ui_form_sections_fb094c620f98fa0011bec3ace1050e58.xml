@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_form_sections form_id="fb094c620f98fa0011bec3ace1050e58" sys_domain="global" table="x_lsmcb_fm_facility_order" version="3">
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>0</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-01-16 11:22:46</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>73094c620f98fa0011bec3ace1050e59</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_lsmcb_fm_facility_order" name="x_lsmcb_fm_facility_order" sys_domain="global" view="768cd6560f88f60011bec3ace1050ecf">fb094c620f98fa0011bec3ace1050e58</sys_ui_form>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_facility_order" sys_domain="global" view="768cd6560f88f60011bec3ace1050ecf">c4d5a0a50fd8ba0011bec3ace1050e08</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-01-16 11:22:46</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>1</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-01-16 11:22:46</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>f3094c620f98fa0011bec3ace1050e59</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_lsmcb_fm_facility_order" name="x_lsmcb_fm_facility_order" sys_domain="global" view="768cd6560f88f60011bec3ace1050ecf">fb094c620f98fa0011bec3ace1050e58</sys_ui_form>
+            <sys_ui_section caption="Cost" display_value="Cost" name="x_lsmcb_fm_facility_order" sys_domain="global" view="768cd6560f88f60011bec3ace1050ecf">77094c620f98fa0011bec3ace1050e58</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-01-16 11:22:46</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form action="INSERT_OR_UPDATE">
+            <name>x_lsmcb_fm_facility_order</name>
+            <roles/>
+            <sys_class_name>sys_ui_form</sys_class_name>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-01-16 11:22:46</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>fb094c620f98fa0011bec3ace1050e58</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>x_lsmcb_fm_facility_order</sys_name>
+            <sys_overrides/>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_ui_form_sections_fb094c620f98fa0011bec3ace1050e58</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-01-16 11:22:46</sys_updated_on>
+            <sys_user/>
+            <view display_value="FM Simple_view" name="fm_simple_view">768cd6560f88f60011bec3ace1050ecf</view>
+            <view_name/>
+        </sys_ui_form>
+    </sys_ui_form_sections>
+</record_update>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices/>
+        <description>Azure tenant (domain in the form &lt;em&gt;*domain*.onmicrosoft.com&lt;/em&gt;):</description>
+        <ignore_cache>false</ignore_cache>
+        <is_private>false</is_private>
+        <name>x_lsmcb_fm.azure_tenant</name>
+        <read_roles>x_lsmcb_fm.fm_facilities_admin</read_roles>
+        <suffix>azure_tenant</suffix>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-07-11 15:28:25</sys_created_on>
+        <sys_id>e205c7680f5b9300bc65c5ece1050ea5</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>x_lsmcb_fm.azure_tenant</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_properties_e205c7680f5b9300bc65c5ece1050ea5</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-07-11 15:31:09</sys_updated_on>
+        <type>string</type>
+        <value>fruitiondevelopment.onmicrosoft.com</value>
+        <write_roles>x_lsmcb_fm.fm_facilities_admin</write_roles>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=e205c7680f5b9300bc65c5ece1050ea5"/>
+</record_update>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="External Contact" max_length="40" name="x_lsmcb_fm_external_contact" type="collection">
+        <element label="Address" max_length="400" name="address" type="string"/>
+        <element label="Company" max_length="40" name="company" type="string"/>
+        <element label="Description" max_length="4000" name="description" type="string"/>
+        <element label="Email address" max_length="40" name="email_address" type="string"/>
+        <element calculation="(function calculatedFieldValue(current) {&#10;&#9;// Add your code here&#10;&#9;return current.first_name + ' ' + current.last_name;  // return the calculated value&#10;&#10;})(current);" display="true" label="First Last" max_length="100" name="first_last" read_only="true" type="string" virtual="true"/>
+        <element label="First Name" max_length="40" name="first_name" type="string"/>
+        <element label="Last Name" mandatory="true" max_length="40" name="last_name" type="string"/>
+        <element label="Phone number" max_length="40" name="phone_number" type="string"/>
+        <element label="Title" max_length="40" name="title" type="string"/>
+        <element label="User" max_length="32" name="user" reference="sys_user" type="reference"/>
+        <index name="index">
+            <element name="user"/>
+        </index>
+    </element>
+</database>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>true</action_insert>
+        <action_query>false</action_query>
+        <action_update>true</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>x_lsmcb_fm_base_costs</collection>
+        <condition/>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition/>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>Update Costs with quantities/hours</name>
+        <order>100</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
+
+	// Get base currency and cost ex vat
+	var baseCurrency = current.cost_ex_vat.getSessionCurrencyCode();
+	var cost_ex_vat = current.cost_ex_vat;
+	var cost_vat = (current.vat / 100) * cost_ex_vat;
+	var cost_with_vat = (1 + (current.vat / 100)) * cost_ex_vat;
+	
+	// For total cost multiply with the quantity
+	var total_cost_ex_vat = cost_ex_vat * current.quantity;
+	var total_cost_vat = cost_vat * current.quantity;
+	var total_cost_with_vat = cost_with_vat * current.quantity;
+	
+	// For the price add the uplift percentage
+	var uplift_perc = 1 + (current.uplift / 100);
+	var price = uplift_perc * cost_with_vat;
+	var total_price = uplift_perc * cost_with_vat * current.quantity;
+	
+	// Set all values with base currency and converting the numbers into a string, keeping only two decimals 
+	current.total_cost_ex_vat = baseCurrency + ';' + total_cost_ex_vat.toFixed(2);
+	current.total_cost_vat = baseCurrency + ';' + total_cost_vat.toFixed(2);
+	current.total_cost_with_vat = baseCurrency + ';' + total_cost_with_vat.toFixed(2);
+	current.price = baseCurrency + ';' + price.toFixed(2);
+	current.total_price = baseCurrency + ';' + total_price.toFixed(2);
+
+})(current, previous);]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-11-29 17:45:18</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>7473d20f0fdb6a0011bec3ace1050eef</sys_id>
+        <sys_mod_count>32</sys_mod_count>
+        <sys_name>Update Costs with quantities/hours</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_7473d20f0fdb6a0011bec3ace1050eef</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-12-06 10:57:10</sys_updated_on>
+        <template/>
+        <when>before</when>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=7473d20f0fdb6a0011bec3ace1050eef"/>
+</record_update>

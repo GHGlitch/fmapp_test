@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="minutes_after" label="Extra minutes after reservation" language="en" table="x_lsmcb_fm_room">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>minutes_after</element>
+            <help/>
+            <hint/>
+            <label>Extra minutes after reservation</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_room</name>
+            <plural>Extra minutes after reservations</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-01-06 10:18:09</sys_created_on>
+            <sys_id>ef5a589b0fc43a0011bec3ace1050e19</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Extra minutes after reservation</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_documentation_x_lsmcb_fm_room_minutes_after_en</sys_update_name>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-01-06 10:18:09</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Room Utilisation" max_length="40" name="x_lsmcb_fm_room_utilisation" type="collection">
+        <element label="Date" max_length="40" name="date" type="glide_date"/>
+        <element label="Day" max_length="2" name="day" type="string"/>
+        <element label="Month" max_length="40" name="month" type="string"/>
+        <element label="Space" mandatory="true" max_length="32" name="room" reference="x_lsmcb_fm_room" type="reference"/>
+        <element label="Value" max_length="40" name="value" type="integer"/>
+        <element label="Year" max_length="40" name="year" type="string"/>
+        <index name="index">
+            <element name="room"/>
+            <element name="date"/>
+            <element name="year"/>
+            <element name="month"/>
+            <element name="day"/>
+        </index>
+    </element>
+</database>

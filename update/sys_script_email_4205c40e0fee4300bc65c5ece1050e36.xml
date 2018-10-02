@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_email">
+    <sys_script_email action="INSERT_OR_UPDATE">
+        <name>visit_notification_email_client</name>
+        <new_lines_to_html>false</new_lines_to_html>
+        <script><![CDATA[(function runMailScript(/* GlideRecord */ current, /* TemplatePrinter */ template,
+          /* Optional EmailOutbound */ email, /* Optional GlideRecord */ email_action,
+          /* Optional GlideRecord */ event) {
+
+	
+	template.print("<br><p>Dear ${visitor},</p><br>");
+
+	template.print("<p>Tomorrow, you have a meeting with ${host.name} at our office in ${location.city}.</p>");
+	template.print("<br>");
+	template.print("<p>Adress:</p>");
+	template.print("<p>${location.name}</p>");
+	template.print("<p>${location.street}</p>");
+	template.print("<p>${location.zip}</p>");
+	template.print("<p>${location.city}</p>");
+	template.print("<p>Contact: ${location.phone}</p>");
+	template.print("<br>");
+	
+	if(current.parking_reservation) {
+		template.print("<p>Please find attached a route description to our office. If you send us your license plate number, the parking gate will open automatically for you. Please use the parking lots that are marked with 'visitor'.</p>");
+		template.print("<br>");
+		template.print("<p>Ex:</p>");
+		template.print("<p>License plate: XX-XX-XX</p>");
+		template.print("<br>");
+	}
+	template.print("<br>");
+	template.print("<p>We look forward to you visit,</p>");
+
+	template.print("<p>Best regards</p>");
+
+	template.print("<br>");
+	template.print("<p>Fruition Partners</p>");
+
+})(current, template, email, email_action, event);]]></script>
+        <sys_class_name>sys_script_email</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-11-21 14:20:39</sys_created_on>
+        <sys_id>4205c40e0fee4300bc65c5ece1050e36</sys_id>
+        <sys_mod_count>9</sys_mod_count>
+        <sys_name>visit_notification_email_client</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_email_4205c40e0fee4300bc65c5ece1050e36</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-11-24 11:57:04</sys_updated_on>
+    </sys_script_email>
+</record_update>

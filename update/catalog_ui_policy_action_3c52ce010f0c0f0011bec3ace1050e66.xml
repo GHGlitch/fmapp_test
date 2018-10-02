@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="catalog_ui_policy_action">
+    <catalog_ui_policy_action action="INSERT_OR_UPDATE">
+        <catalog_item/>
+        <catalog_variable>IO:38e10e010f0c0f0011bec3ace1050ec5</catalog_variable>
+        <disabled>true</disabled>
+        <field/>
+        <mandatory>ignore</mandatory>
+        <sys_class_name>catalog_ui_policy_action</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-17 14:17:21</sys_created_on>
+        <sys_id>3c52ce010f0c0f0011bec3ace1050e66</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>producer_id</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>catalog_ui_policy_action_3c52ce010f0c0f0011bec3ace1050e66</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-28 10:23:49</sys_updated_on>
+        <table/>
+        <ui_policy display_value="Hide variables">fd328e010f0c0f0011bec3ace1050e79</ui_policy>
+        <variable>producer_id</variable>
+        <variable_set display_value="Mobile RP">17b11d010f67760011bec3ace1050e93</variable_set>
+        <visible>false</visible>
+    </catalog_ui_policy_action>
+</record_update>

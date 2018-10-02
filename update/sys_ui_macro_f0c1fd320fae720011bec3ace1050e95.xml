@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_macro">
+    <sys_ui_macro action="INSERT_OR_UPDATE">
+        <active>false</active>
+        <category>general</category>
+        <description>QR Macro for the Facility Products</description>
+        <media_type/>
+        <name>fm_qr_facility_products</name>
+        <scoped_name>x_lsmcb_fm_fm_qr_facility_products</scoped_name>
+        <sys_class_name>sys_ui_macro</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-05-09 10:09:29</sys_created_on>
+        <sys_id>f0c1fd320fae720011bec3ace1050e95</sys_id>
+        <sys_mod_count>18</sys_mod_count>
+        <sys_name>fm_qr_facility_products</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_macro_f0c1fd320fae720011bec3ace1050e95</sys_update_name>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-07-10 10:23:18</sys_updated_on>
+        <xml><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+
+    <script>
+        var prodObj;
+
+        function getProductData() {
+
+            var reference = gel('fmsysid').value;
+            var table = gel('fmtable').value;
+
+            var ga = new GlideAjax('x_lsmcb_fm.FMMobileLandingPageAjaxUtils');
+            ga.addParam('sysparm_name', 'getDetails');
+            ga.addParam('sysparm_table', table);
+            ga.addParam('sysparm_sysid', reference);
+            ga.getXML(handleResponse);
+
+            function handleResponse(response) {
+                var answer = response.responseXML.documentElement.getAttribute("answer");
+                if (!answer) return alert('Error fetching record!');
+                var queryObj = JSON.parse(answer);
+
+                prodObj = queryObj;
+
+                var title = gel('itemTitle');
+                title.innerHTML = title.innerHTML + queryObj.name;
+				
+                insertProduct(queryObj);
+            }
+        }
+		
+        function insertProduct (query_object){
+              var pic = gel('itemBody');
+              pic.innerHTML = pic.innerHTML + '	<img id="'+query_object.sys_id+'" src="'+query_object.image+'" class="square"/>';
+              pic.innerHTML = pic.innerHTML + '<span class="price_description">${gs.getMessage('fm_price')}:   <B style="color:#fff">'+query_object.price+' </B> '+query_object.unit+'</span>';
+              pic.innerHTML = pic.innerHTML + '<p class="product_description">'+query_object.short_description+'</p>';
+        }
+
+        getProductData();
+    </script>
+</j:jelly>]]></xml>
+    </sys_ui_macro>
+</record_update>

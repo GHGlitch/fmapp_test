@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMRoomAjaxUtils</api_name>
+        <client_callable>true</client_callable>
+        <description>Ajax utils for rooms</description>
+        <name>FMRoomAjaxUtils</name>
+        <script><![CDATA[var FMRoomAjaxUtils = Class.create();
+FMRoomAjaxUtils.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+	
+	getLocationUser: function() {
+		var result = {};
+		
+		var gr = new GlideRecord('x_lsmcb_fm_kiosk_floor');
+		if(gr.get('floor_user', gs.getUserID())) {
+			result.location = gr.floor.location.toString();
+			result.floor = gr.getValue('floor');
+			result.locationName = gr.floor.location.getDisplayValue();
+			result.floorName = gr.getDisplayValue('floor');
+		} else {
+			gr = new GlideRecord('x_lsmcb_fm_kiosk_floor');
+			gr.query();
+			if(gr.next()) {
+				result.location = gr.floor.location.toString();
+				result.floor = gr.getValue('floor');
+				result.locationName = gr.floor.location.getDisplayValue();
+				result.floorName = gr.getDisplayValue('floor');
+			}
+		}
+		return JSON.stringify(result);
+	},
+	
+	getRoomFloorLocation: function(id) {
+		
+		var obj = {};
+		
+		var room = new GlideRecord('x_lsmcb_fm_room');
+		if (room.get(id)) {
+			obj.room = {
+				name: room.getDisplayName(),
+				value: room.getUniqueValue()
+			};
+			obj.floor = {
+				name: room.floor.getDisplayName(),
+				value: room.floor.getUniqueValue()
+			};
+			obj.location = {
+				name: room.floor.location.getDisplayName(),
+				value: room.floor.location.getUniqueValue()
+			};
+		}
+		
+		return obj;
+		
+	},
+	
+	type: 'FMRoomAjaxUtils'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2016-12-23 09:14:35</sys_created_on>
+        <sys_id>13a444fe0ff3260011bec3ace1050ea1</sys_id>
+        <sys_mod_count>21</sys_mod_count>
+        <sys_name>FMRoomAjaxUtils</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_13a444fe0ff3260011bec3ace1050ea1</sys_update_name>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-09-08 16:34:34</sys_updated_on>
+    </sys_script_include>
+</record_update>

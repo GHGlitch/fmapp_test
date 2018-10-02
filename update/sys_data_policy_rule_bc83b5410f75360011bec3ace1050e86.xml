@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_data_policy_rule">
+    <sys_data_policy_rule action="INSERT_OR_UPDATE">
+        <disabled>ignore</disabled>
+        <field>vat</field>
+        <mandatory>true</mandatory>
+        <sys_class_name>sys_data_policy_rule</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-03-27 16:51:24</sys_created_on>
+        <sys_data_policy display_value="Mandatory Fields">dc53f1410f75360011bec3ace1050eed</sys_data_policy>
+        <sys_id>bc83b5410f75360011bec3ace1050e86</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>vat</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_data_policy_rule_bc83b5410f75360011bec3ace1050e86</sys_update_name>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-03-27 16:51:24</sys_updated_on>
+        <table>x_lsmcb_fm_order_line_cost</table>
+    </sys_data_policy_rule>
+</record_update>

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description>Controller for the time bar content block.</description>
+        <global>false</global>
+        <name>x_lsmcb_fm.fm_time_bar_controller</name>
+        <script><![CDATA[// Angular controller for the time bar content block.
+angRR.controller('TimebarController', function($scope, $timeout, sharedService) {
+	
+	var roomData;
+	var current_time = (new Date()).getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1);
+	
+	// get the offset between user timezone and UTC
+	var offset = new Date().getTimezoneOffset();
+	
+	var dayStart = new Date();
+	dayStart.setHours(7);
+	dayStart.setMinutes(0 - offset - 30);
+	dayStart.setSeconds(0);
+	
+	var dayEnd= new Date();
+	dayEnd.setHours(19);
+	dayEnd.setMinutes(0 - offset + 30);
+	dayEnd.setSeconds(0);
+	
+	// listens for the broadcast of the roomData and sets it in the $scope variable
+	// when this is called (when the room is selected), also refreshes the slider with the new data
+	$scope.$on('handleRoomData', function() {
+		$timeout(function() {
+			roomData = sharedService.roomData;
+			$scope.reservations = roomData.reservations;
+			refreshSlider();
+		}, 0);
+	});
+	
+	$scope.isFloorview = true;
+	
+	// listens for a room clear request and clears the slider
+	$scope.$on('roomClear', function() {
+		clearSlider();
+	});
+	
+	$scope.$on('handleFilters', function() {
+		$timeout(function() {
+			roomData = sharedService.roomData;
+			$scope.reservations = roomData.reservations;
+			$scope.requesterFilter = sharedService.requester;
+			$scope.subjectFilter = sharedService.subject;
+			
+			refreshSlider();
+		}, 0);
+	});
+	
+	
+	// calls the sharedService function with the selected room sys_id
+	$scope.selectReservation = function(id, start, stop) {
+		selectSlider(id, start, stop);
+		sharedService.prepForResDetailsBroadcast(id);
+	};
+	
+	function refreshSlider() {
+		clearSlider();
+		fillSlider();
+	}
+	
+	// starts the slider and sets the default values
+	// is inside JQuery function because SN has JQuery in no conflict mode as default
+	function startSlider() {
+		
+		jQueryOld(function ($) {
+			
+			var slider = $('#slider');
+			
+			slider.TimeSlider({
+				start_timestamp: dayStart.getTime(),
+				end_timestamp: dayEnd.getTime(),
+				ruler_enable_move: false,
+				timecell_enable_move: false,
+				timecell_enable_resize: false,
+				on_click_timecell_callback: function(id, start, stop) {
+					$scope.selectReservation(id, start, stop);
+				},
+			});
+		});
+	}
+	
+	// fills the time bar with the reservation cells from the selected room for the selected day
+	function fillSlider() {
+		jQueryOld(function($) {
+			var slider = $('#slider');
+			
+			dayStart = new Date(sharedService.selectedDate);
+			dayStart.setHours(7);
+			dayStart.setMinutes(0 - offset - 30);
+			dayStart.setSeconds(0);
+			
+			slider.TimeSlider('new_start_timestamp', dayStart);
+			
+			var reservationCells = getReservationCells();
+			var addCell = function(cell) {
+				slider.TimeSlider('add', cell);
+			};
+			
+			reservationCells.map(addCell);
+		});
+	}
+	
+	// clears all the reservation cells from the slider
+	function clearSlider() {
+		jQueryOld(function ($) {
+			var slider = $('#slider');
+			slider.TimeSlider('remove_all');
+		});
+	}
+	
+	// removes the selected cell and draws a new one with the new style
+	function selectSlider(id, start, stop) {
+		refreshSlider();
+		jQueryOld(function($) {
+			
+			var slider = $('#slider');
+			var newSelectedCell = {
+				_id: id,
+				start: start,
+				stop: stop,
+				style: {
+					'-webkit-box-shadow':' 0px 0px 15px 5px rgba(255, 169, 150, .50)',
+					'-moz-box-shadow': '0px 0px 15px 5px rgba(255, 169, 150, .50)',
+					'box-shadow': '0px 0px 15px 5px rgba(255, 169, 150, .50)',
+					'background-image': 'linear-gradient(#d20000,#ff2828)',
+					'-ms-transform': 'scale(1.02, 1.1)',
+					'-webkit-transform':' scale(1.02, 1.1)' ,
+					'transform': 'scale(1.02, 1.1)',
+					'color' : '#ffffff'
+				}
+			};
+			slider.TimeSlider('remove', id);
+			slider.TimeSlider('add', newSelectedCell);
+		});
+	}
+	
+	// removes the selected cell and draws a new one with the new style
+	function highlightSlider(id, start, stop) {
+		refreshSlider();
+		jQueryOld(function($) {
+			
+			var slider = $('#slider');
+			var newSelectedCell = {
+				_id: id,
+				start: start,
+				stop: stop,
+				style: {
+					'-webkit-box-shadow':' 0px 0px 15px 5px rgba(255, 169, 150, .50)',
+					'-moz-box-shadow': '0px 0px 15px 5px rgba(255, 169, 150, .50)',
+					'box-shadow': '0px 0px 15px 5px rgba(255, 169, 150, .50)',
+					'background-image': 'linear-gradient(#d20000,#ff2828)',
+					'-ms-transform': 'scale(1.02, 1.1)',
+					'-webkit-transform':' scale(1.02, 1.1)' ,
+					'transform': 'scale(1.02, 1.1)',
+					'color' : '#ffffff'
+				}
+			};
+			slider.TimeSlider('remove', id);
+			slider.TimeSlider('add', newSelectedCell);
+		});
+	}
+	
+	// transforms the reservations from the $scope variable to reservation cells readable by the time slider
+	function getReservationCells() {
+		var reservations = $scope.reservations.map(createCell);
+		
+		// creates a reservation cell from the reservation object
+		// the id of the cell is the sys_id of the reservation
+		// all the reservation cells have the date set as the current date, and the reservation times
+		function createCell(reservation) {
+			var current = new Date();
+            
+            var sTime = reservation.startTime.replace(' ', 'T');
+            var eTime = reservation.endTime.replace(' ', 'T');
+			
+			var startTime = new Date(sTime);
+			startTime.setMinutes(startTime.getMinutes() - offset);
+			var endTime = new Date(eTime);
+			endTime.setMinutes(endTime.getMinutes() - offset);
+			
+			if (($scope.subjectFilter != undefined && $scope.subjectFilter != '') || ($scope.requesterFilter != undefined  && $scope.requesterFilter != '')) {
+				if ($scope.subjectFilter != undefined && $scope.requesterFilter != undefined && $scope.subjectFilter != '' && $scope.requesterFilter != '') {
+					if (reservation.meeting_subject.toLowerCase().includes($scope.subjectFilter.toLowerCase()) && reservation.requester.toLowerCase().includes($scope.requesterFilter.toLowerCase())) {
+						return {
+							_id: reservation.sysID,
+							start: startTime.getTime(),
+							stop: endTime.getTime(),
+							style: {
+								'-webkit-box-shadow':' 0px 0px 15px 5px rgba(243, 177, 88, .50)',
+								'-moz-box-shadow': '0px 0px 15px 5px rgba(243, 177, 88, .50)',
+								'box-shadow': '0px 0px 15px 5px rgba(243, 177, 88, .50)',
+								'background': '#d20000',
+								'opacity': '0.5',
+								'background-image': 'linear-gradient(#d20000,#ff2828)',
+								'color' : '#ffffff'
+							}
+						};
+					}
+				} else if ($scope.subjectFilter != undefined && $scope.subjectFilter != '' && reservation.meeting_subject.toLowerCase().includes($scope.subjectFilter.toLowerCase())) {
+					return {
+						_id: reservation.sysID,
+						start: startTime.getTime(),
+						stop: endTime.getTime(),
+						style: {
+							'-webkit-box-shadow':' 0px 0px 15px 5px rgba(243, 177, 88, .50)',
+							'-moz-box-shadow': '0px 0px 15px 5px rgba(243, 177, 88, .50)',
+							'box-shadow': '0px 0px 15px 5px rgba(243, 177, 88, .50)',
+							'background': '#d20000',
+							'opacity': '0.5',
+							'background-image': 'linear-gradient(#d20000,#ff2828)',
+							'color' : '#ffffff'
+						}
+					};
+				} else if ($scope.requesterFilter != undefined && $scope.requesterFilter != '' && reservation.requester.toLowerCase().includes($scope.requesterFilter.toLowerCase())) {
+					return {
+						_id: reservation.sysID,
+						start: startTime.getTime(),
+						stop: endTime.getTime(),
+						style: {
+							'-webkit-box-shadow':' 0px 0px 15px 5px rgba(243, 177, 88, .50)',
+							'-moz-box-shadow': '0px 0px 15px 5px rgba(243, 177, 88, .50)',
+							'box-shadow': '0px 0px 15px 5px rgba(243, 177, 88, .50)',
+							'background': '#d20000',
+							'opacity': '0.5',
+							'background-image': 'linear-gradient(#d20000,#ff2828)',
+							'color' : '#ffffff'
+						}
+					};
+				}
+			}else {
+				return {
+					_id: reservation.sysID,
+					start: startTime.getTime(),
+					stop: endTime.getTime(),
+					style: {
+						'background': '#d20000',
+						'opacity': '0.5',
+						'background-image': 'linear-gradient(#d20000,#ff2828)',
+						'color' : '#ffffff'
+						
+					}
+				};
+			}
+		}
+		return reservations;
+	}
+	
+	startSlider();
+	clearSlider();
+});]]></script>
+        <script_name>fm_time_bar_controller</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>tomas.ferreira</sys_created_by>
+        <sys_created_on>2016-10-03 16:15:07</sys_created_on>
+        <sys_id>62cc14f40f5aaa0011bec3ace1050eb2</sys_id>
+        <sys_mod_count>245</sys_mod_count>
+        <sys_name>x_lsmcb_fm.fm_time_bar_controller</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_script_62cc14f40f5aaa0011bec3ace1050eb2</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-05-30 12:14:46</sys_updated_on>
+        <use_scoped_format>false</use_scoped_format>
+    </sys_ui_script>
+</record_update>

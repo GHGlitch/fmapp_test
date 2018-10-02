@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_user_role">
+    <sys_user_role action="INSERT_OR_UPDATE">
+        <assignable_by/>
+        <can_delegate>true</can_delegate>
+        <description>This role has the ability to CREATE / DELETE / WRITE / READ the following records:&#13;
+&#13;
+- floor records&#13;
+- room records&#13;
+- room properties records&#13;
+- parking lot records</description>
+        <elevated_privilege>false</elevated_privilege>
+        <grantable>true</grantable>
+        <includes_roles/>
+        <name>x_lsmcb_fm.fm_facilities_admin</name>
+        <scoped_admin>false</scoped_admin>
+        <suffix>fm_facilities_admin</suffix>
+        <sys_class_name>sys_user_role</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-10-17 12:43:08</sys_created_on>
+        <sys_id>f522bb410fa6ee0011bec3ace1050e56</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>x_lsmcb_fm.fm_facilities_admin</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_user_role_f522bb410fa6ee0011bec3ace1050e56</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-03-29 09:37:33</sys_updated_on>
+    </sys_user_role>
+</record_update>

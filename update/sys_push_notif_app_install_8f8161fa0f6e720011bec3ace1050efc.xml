@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_push_notif_app_install">
+    <sys_push_notif_app_install action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <last_registered_on>2017-08-03 13:24:17</last_registered_on>
+        <sys_class_name>sys_push_notif_app_install</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-05-09 08:49:09</sys_created_on>
+        <sys_id>8f8161fa0f6e720011bec3ace1050efc</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>3fcb78830cd4d3dbefd81d5cca30c6396fec47827552fa2f5dc55befb1ee682b</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_push_application_id display_value="ServiceNow Mobile Application">ab704041ff1102009738ffffffffff33</sys_push_application_id>
+        <sys_push_platform_id display_value="Apple">20e71f30ff0002009738ffffffffff6b</sys_push_platform_id>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_push_notif_app_install_8f8161fa0f6e720011bec3ace1050efc</sys_update_name>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-08-03 13:24:17</sys_updated_on>
+        <sys_user_id display_value="">92babcba0f576a0011bec3ace1050e2c</sys_user_id>
+        <token>3fcb78830cd4d3dbefd81d5cca30c6396fec47827552fa2f5dc55befb1ee682b</token>
+    </sys_push_notif_app_install>
+</record_update>

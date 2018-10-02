@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_macro">
+    <sys_ui_macro action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category>general</category>
+        <description/>
+        <media_type/>
+        <name>fm_parking_availability</name>
+        <scoped_name>x_lsmcb_fm_fm_parking_availability</scoped_name>
+        <sys_class_name>sys_ui_macro</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-11-02 10:19:36</sys_created_on>
+        <sys_id>1cfa69520f72620011bec3ace1050eed</sys_id>
+        <sys_mod_count>31</sys_mod_count>
+        <sys_name>fm_parking_availability</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_macro_1cfa69520f72620011bec3ace1050eed</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-12-22 11:36:26</sys_updated_on>
+        <xml><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+
+<style>
+
+		.datePicker
+		{
+		font-family:Century Gothic, Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-weight:normal;
+		text-align:center;
+		font-size:13px;
+		color:#e9e9e9;
+		line-height:-2px;
+		-webkit-border-radius:4px;
+		-moz-border-radius:4px;
+		border-radius:4px;
+		border: 1px solid #cacaca;
+		padding: 6px;
+		height:35px;
+		width:140px;
+		bottom:0;
+		-moz-border-image: -moz-linear-gradient(top bottom, #F0F1F2 0%, #8A8C8E 100%);
+		-webkit-border-image: -webkit-linear-gradient(top bottom, #F0F1F2 0%, #8A8C8E 100%);
+		border-image: linear-gradient(to bottom top, #F0F1F2 0%, #8A8C8E 100%);
+		background-color: #a2a2a2;
+		color: #ffffff;
+		}
+
+		input[type=date]::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		display: none;
+		}
+
+		.form_table {
+		margin-top:35px;
+		width:300px;
+		height:75px;
+		background: #eee;
+		-webkit-border-radius:7px;
+		-moz-border-radius:7px;
+		border-radius:7px;
+		padding: 10px;
+		-webkit-box-shadow: inset 0px 0px 0px 1px rgba(204,204,204,1);
+		-moz-box-shadow: inset 0px 0px 0px 1px rgba(204,204,204,1);
+		box-shadow: inset 0px 0px 0px 1px rgba(204,204,204,1);
+		}
+
+		.label
+		{
+		font-family:Century Gothic, Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-weight:normal;
+		text-align:center;
+		font-size:13px;
+		}
+
+	</style>
+
+	<table  border="0" cellspacing="10" cellpadding="10" class="form_table">
+		<tr>
+			<td align="center" valign="middle"><span>Select Date:</span></td>
+			<td  align="center" valign="middle">
+				<input id="datePicker" type="date" onchange="tableGeneratorFunction(this.value)" class="datePicker" required="required"></input>
+			</td>
+		</tr>
+	</table>
+	
+	<p></p>
+	
+    <form>
+        <input type="text" id="cou" value="0" style="display:none; visibility:hidden"></input>
+        <table id="availabilityList" width="150%">
+            <TR style="background-color:#e9e9e9; border :1px solid white; width : 75px; height:30px" class="used" id="dummy">
+
+                <g:evaluate var="jvar_gr" object="true" jelly="true">
+                    var timeList = [];
+                    var time = new GlideTime();
+                    time.setValue('08:00:00');
+                    var timeLimit = new GlideTime();
+                    timeLimit.setValue('20:00:00');
+                    while(time &lt;= timeLimit) {
+                        timeList.push(time.getByFormat('HH:mm').toString());
+                        time.add(15*60*1000);
+                    }
+                </g:evaluate>
+
+                <td style="color: #4A4A4A">
+                    <B> ${gs.getMessage("fm_state")}</B>
+                </td>
+
+                <j:forEach items="${timeList}" var="jvar_data">
+                    <g:evaluate var="jvar_time" jelly="true" expression="var time = jelly.jvar_data; time;" />
+                    <td style="color: #4A4A4A; border-left:1px #ffffff solid; padding:5px" align="center">
+                        <B> ${jvar_time}</B>
+                    </td>
+                </j:forEach>
+				
+				<td style="color: #4A4A4A; border-left:1px #ffffff solid; padding:5px" align="right">
+                    <B> ${gs.getMessage("fm_state")}</B>
+                </td>
+            </TR>
+
+        </table>
+        <br></br><br></br>
+    </form>
+
+    <script>
+		var now = new Date();
+
+		var day = ("0" + now.getDate()).slice(-2);
+		var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+
+		var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+		
+		$j('#datePicker').val(today);
+		
+		var todayDate = $j('#datePicker').val();
+		
+		tableGeneratorFunction(todayDate);
+		
+		function tableGeneratorFunction(date) {
+			
+		$j("#availabilityList").find("tr:gt(0)").remove(); 
+		
+
+        var ga = new GlideAjax('x_lsmcb_fm.FMParkingAjaxUtils');
+        ga.addParam('sysparm_name', 'getParkingAvailability');
+        ga.addParam('sysparm_lot', '${JS,HTML:RP.getParameterValue("sys_id")}');
+		ga.addParam('sysparm_date', date);
+        ga.getXMLWait();
+        var parkingSpaces = JSON.parse(ga.getAnswer());
+
+		var i = 0;
+		while(true) {
+			if (i == parkingSpaces.length) {
+				break;
+			}
+			addRowToTable(parkingSpaces[i]);
+			i++;
+		}
+		
+		}
+        
+
+        function addRowToTable(reservation) {
+
+            var cdum = $j('#dummy').clone(true, true);
+            var $dum = $j(cdum);
+            var $chil = $dum.children();
+            $chil.eq(0).html(reservation.name);
+
+            var i = 1;
+
+            reservation.times.forEach(function(arrayItem) {
+                $chil.eq(i).html(arrayItem.value);
+                i++;
+
+            });
+			$chil.eq(i).html(reservation.name);
+
+            $dum.appendTo('#availabilityList');
+        } 
+    </script>
+
+</j:jelly>]]></xml>
+    </sys_ui_macro>
+</record_update>

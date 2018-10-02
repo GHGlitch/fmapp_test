@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[var room;
+
+function populateRooms(query_array) {
+
+
+	$j("#visitorlist").find("tr:gt(0)").remove();
+	
+	if (query_array.length == 0) {
+		
+		//Cloning the header
+		var cdumo = $j('#dummy').clone(true, true);
+
+		// Draw table row 
+		var $dumo = $j(cdumo);
+		$dumo.attr('id', 'not_found').removeClass("used").addClass("new").attr("style", '');
+		$dumo.html('<td colspan="6" align="center"><h4>No results found! Please change your search criteria!</h4></td>');
+		$dumo.appendTo('#visitorlist');
+		
+	} else {
+
+		for (var i=0; i<query_array.length; i++ ) {
+			//Get query object
+			var cmdbObj = query_array[i];
+
+			//Cloning the header
+			var cdum = $j('#dummy').clone(true, true);
+
+			// Draw table row with the fetched data from Visitor.
+			var $dum = $j(cdum);
+			$dum.attr('id', cmdbObj.sys_id).removeClass("used").addClass("new").attr("style", 'line-height:8px;');
+			if (i == query_array.length - 1) {
+				$dum.attr('id', cmdbObj.sys_id).attr('valign', 'top');
+				$dum.attr('id', cmdbObj.sys_id).attr('style', 'line-height:20px');
+			}
+			var $chil = $dum.children();
+			$chil.eq(0).find('input').attr('style', 'display:block').addClass('checkBoxes');
+			$chil.eq(1).html('<img src="' + cmdbObj.image + '" border="1" alt="" width="20px" style="margin:5px; cursor:pointer" onclick="getImage(&quot;' + cmdbObj.name + '&quot;, this.src)"/>');
+			$chil.eq(2).html('<div class="couponcode">' + cmdbObj.name + generateTooltip(cmdbObj.properties) + '</div>');
+			$chil.eq(3).html(cmdbObj.room_id);
+			$chil.eq(4).html(cmdbObj.location);
+			$chil.eq(5).html(cmdbObj.capacity);
+			$chil.eq(6).html(cmdbObj.sys_id);
+			$dum.appendTo('#visitorlist');
+		}
+		
+	}
+
+
+}
+
+function getImage(title, img_src) {
+	var dialog = new GlideDialogWindow("x_lsmcb_fm_fm_product_image");
+	dialog.setTitle(title);
+	dialog.setPreference("sysparm_product_photo", img_src);
+	dialog.render(); //Open the dialog
+}
+
+function generateTooltip(properties) {
+	var result = '<span class="coupontooltip"><h4>' + getMessage("fm_room_properties") + ':</h4><p>N/A</p>';
+	for (var j = 0; j < properties.length; j++) {
+		if (j == 0) {
+			result = '<span class="coupontooltip"><h4>' + getMessage("fm_room_properties") + ':</h4><div style="display:table-row; line-height:8px; margin-bottom:-10px"><img src="' + properties[j].img + '" style="margin: 5px" width="15px" border="0"/><span>' + properties[j].name + '</span></div>';
+		} else {
+			result += '<div style="display:table-row; line-height:8px; margin-bottom:-10px"><img src="' + properties[j].img + '" style="margin: 5px" width="15px" border="0"/><span style="display:inline">' + properties[j].name + '</span></div>';
+		}
+	}
+	result += '</span>';
+	return result;
+}
+
+
+function selectRoom() {
+	$j('.checkBoxes').each(function() {
+		if (this.checked) {
+			var thisRoomSysid = $j(this).closest('tr').attr('id');
+			g_form.setValue('room', thisRoomSysid);
+		}
+	});
+}
+
+// fills room checkbox in the list
+function filledRoom() {
+	var count = 0;	
+	var state = false;
+	
+	if(g_form.getValue('room') != ''){
+		room = g_form.getValue('room') + '';
+	}
+	
+	$j('.checkBoxes').each(function() {
+		if ($j(this).closest('tr').attr('id') == room) {
+			this.checked = true;
+			state = true;
+		}
+	});
+	return state;
+}
+
+function roomListTrigger() {
+	if (g_form.getValue('location_property') == 'true' || g_form.getValue('location') != '') {
+		updateRoomList();
+	}
+}
+
+// called on every single onChange client script on the Room Reservation RP
+function updateRoomList() {
+	var location = g_form.getValue('location');
+	var rsrvdate = g_form.getValue('date');
+	var nmratt = g_form.getValue('number_of_attendees');
+	var stH = g_form.getValue('start_hours');
+	var stM = g_form.getValue('start_minutes');
+	var endH = g_form.getValue('end_hours');
+	var endM = g_form.getValue('end_minutes');
+	var ownReservation = g_form.getValue('reservation_id');
+	var ga = new GlideAjax('x_lsmcb_fm.FMRoomReservationAjaxUtils');
+	ga.addParam('sysparm_name', 'getRoomsForRP');
+	ga.addParam('sysparm_location', location);
+	ga.addParam('sysparm_rsrvdate', rsrvdate);
+	ga.addParam('sysparm_nmratt', nmratt);
+	ga.addParam('sysparm_sth', stH);
+	ga.addParam('sysparm_stm', stM);
+	ga.addParam('sysparm_endh', endH);
+	ga.addParam('sysparm_endm', endM);
+	ga.addParam('sysparm_reservation', ownReservation);
+
+	ga.setErrorCallback(function(e){  
+ 		console.error("Error occurred while attempting to read data from server " + e.statusText);  
+	});
+
+	ga.getXML(getAvailableRooms);
+
+	function getAvailableRooms(response){
+		var answer = response.responseXML.documentElement.getAttribute("answer");
+		if(!answer) return alert('Error fetching Room Data!');
+		var obj = JSON.parse(answer);
+		populateRooms(obj);
+		if (!filledRoom()) {
+			g_form.setValue('room', '');
+			
+		} else {
+			selectRoom();
+		}
+	}
+}]]></client_script>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_lsmcb_fm_fm_room_listing.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+
+
+    <!-- *************************************************
+    ****************** Load Controllers ******************
+    ************************************************** -->
+
+	<g:requires name="x_lsmcb_fm.fm_messages_controler.jsdbx" />
+
+	<!-- *************************************************
+    ************************ CSS *************************
+    ************************************************** -->
+
+	<link href="cf25d7750f5eea0011bec3ace1050e0f.cssdbx?" rel="stylesheet" type="text/css" />
+	<style>
+		.couponcode:hover .coupontooltip {
+			display: block;
+		}
+
+
+		.coupontooltip {
+			display: none;
+			background: #F2F2F2;
+			opacity:0.9;
+			padding: 10px;
+			margin-left: 58px;
+			margin-top: -40px;
+			position: absolute;
+			z-index: 1000;
+			border-radius:10px;
+		}
+
+		.couponcode {}
+		
+	</style>
+
+	<!-- *************************************************
+    ********************* The HTML ***********************
+    ************************************************** -->
+
+	<h2>${gs.getMessage('fm_room_list_label')}</h2>
+	<table cellspacing="0" cellpadding="0" border="0" id="visitorlist" width="100%" align="center">
+		<tr class="used" id="dummy">
+			<td style="width:40px" align="center">
+				<B> <input type="radio" onclick="selectRoom();" style="display:none" name="selectedRoom"></input> </B>
+			</td>
+			<td>
+				<B></B>
+			</td> 
+			<td>
+				<B>${gs.getMessage('fm_room')}</B>
+			</td>
+			<td align="center">
+				<B>${gs.getMessage('fm_space_number')}</B>
+			</td>
+			<td align="center">
+				<B>${gs.getMessage('fm_location')}</B>
+			</td>
+			<td align="center">
+				<B>${gs.getMessage('fm_capacity')}</B>
+			</td>
+			<td align="center" style="display:none; visibility:hidden">
+				<B>${gs.getMessage('fm_sys_id')}</B>
+			</td>
+		</tr>
+
+	</table>
+
+
+	<!-- *************************************************
+    ******************** End of HTML *********************
+    ************************************************** -->
+
+
+
+</j:jelly>]]></html>
+        <name>fm_room_listing</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-11-29 11:40:12</sys_created_on>
+        <sys_id>ab80054b0f5b6a0011bec3ace1050e42</sys_id>
+        <sys_mod_count>242</sys_mod_count>
+        <sys_name>fm_room_listing</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_page_ab80054b0f5b6a0011bec3ace1050e42</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-06-22 07:40:49</sys_updated_on>
+    </sys_ui_page>
+</record_update>

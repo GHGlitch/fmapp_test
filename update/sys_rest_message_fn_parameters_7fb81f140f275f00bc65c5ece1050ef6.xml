@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_rest_message_fn_parameters">
+    <sys_rest_message_fn_parameters action="INSERT_OR_UPDATE">
+        <name>token</name>
+        <rest_message_function display_value="iCalGetItem">0f6713140f275f00bc65c5ece1050e90</rest_message_function>
+        <sys_class_name>sys_rest_message_fn_parameters</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-07-23 08:30:13</sys_created_on>
+        <sys_id>7fb81f140f275f00bc65c5ece1050ef6</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>token</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_rest_message_fn_parameters_7fb81f140f275f00bc65c5ece1050ef6</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-07-23 08:31:18</sys_updated_on>
+        <type>string</type>
+        <value>eyJ0eXAiOiJKV1QiLCJub25jZSI6IkFRQUJBQUFBQUFEWHpaM2lmci1HUmJEVDQ1ek5TRUZFQTRsUnRHTGg5TWtBMVFyVWliVnVPcEVqaGdmSHh4QWNrSnk1Q0lVSmt1bFZ2T09ZajNkbkdKU1pabVFXZlZRVGFLRV9zM2pjOTdqdE03Sy1EeXJjUVNBQSIsImFsZyI6IlJTMjU2IiwieDV0IjoiVGlvR3l3d2xodmRGYlhaODEzV3BQYXk5QWxVIiwia2lkIjoiVGlvR3l3d2xodmRGYlhaODEzV3BQYXk5QWxVIn0.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC82NDhiNTg0Zi02NGE5LTRkNTItOWJiYi04OTExMjNmNjI1YTAvIiwiaWF0IjoxNTMyMzMyNzQ3LCJuYmYiOjE1MzIzMzI3NDcsImV4cCI6MTUzMjMzNjY0NywiYWlvIjoiNDJCZ1lLaWMrZlZiVXZmc3JJZC9OU3lPVnRoOUFBQT0iLCJhcHBfZGlzcGxheW5hbWUiOiJGTUEiLCJhcHBpZCI6ImM3ZThmMDU0LTBlMWEtNDA0Yi04NTg1LTI5NWJjMWI2NzRmOCIsImFwcGlkYWNyIjoiMSIsImlkcCI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzY0OGI1ODRmLTY0YTktNGQ1Mi05YmJiLTg5MTEyM2Y2MjVhMC8iLCJvaWQiOiJmZDgxZTBjOS1hYTU1LTQ4ZjgtYWUzOC1lNTIxNTkyNWVlMDEiLCJyb2xlcyI6WyJDYWxlbmRhcnMuUmVhZFdyaXRlIl0sInN1YiI6ImZkODFlMGM5LWFhNTUtNDhmOC1hZTM4LWU1MjE1OTI1ZWUwMSIsInRpZCI6IjY0OGI1ODRmLTY0YTktNGQ1Mi05YmJiLTg5MTEyM2Y2MjVhMCIsInV0aSI6IkNVSDRvd0s0dkUtV296V0pTd0V0QUEiLCJ2ZXIiOiIxLjAifQ.KrRGyVVM6RWMDb9bkD_mAThTmybsJJoIjyF4l8-p7kpZa1FrsTBCAkbsXSiV8egQ3ClxS9ys41m8TyhJ4PmDRYekcaV0oKzrW80uUpwCV2pTz6nZzDQ06h4stn8JC3HoM8gOY3bU3tvNYHgRNYsYiXHqXBal4OWFm5X181SoSrFWmG5D5ExzLzIsJ3yrs0Mw9pewEJJqfpdNTDPEWB-Jv4S3Oki7bZgkYSdcHtdxkkHqM3pU0JktAq6OEFNJjrc_olWD3MjXz4bDF3TFw0OtCUHMkj9iseD6h1TeAPk2kCS_Dy61zzbMVZDKoFrKVmDlXbmGC-ZQP3iw1dYBwytBaQ</value>
+    </sys_rest_message_fn_parameters>
+</record_update>

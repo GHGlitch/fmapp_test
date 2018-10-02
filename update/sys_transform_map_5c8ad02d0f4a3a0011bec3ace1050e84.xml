@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_transform_map">
+    <sys_transform_map action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <copy_empty_fields>false</copy_empty_fields>
+        <enforce_mandatory_fields>No</enforce_mandatory_fields>
+        <name>Create Arts</name>
+        <order>100</order>
+        <run_business_rules>true</run_business_rules>
+        <run_script>true</run_script>
+        <script><![CDATA[(function transformRow(source, target, map, log, isUpdate) {
+	
+	var artistGr = new GlideRecord('x_lsmcb_fm_artist');
+	if (artistGr.get('id', source.artist_code)) {
+		target.artist = artistGr.sys_id.toString();
+	}
+	
+	var location = source.location.toString();
+	var locationGr = new GlideRecord('cmn_location');
+	if (locationGr.get('name', location)) {
+		target.location = locationGr.sys_id.toString();
+	}
+	
+	var roomGr = new GlideRecord('x_lsmcb_fm_room');
+	if (roomGr.get('room_id', source.space)) {
+		target.room = roomGr.sys_id.toString();
+	}
+	
+	var status;
+	switch (source.status.toString()) {
+		case 'In use':
+			status = '1';
+			break;
+		case 'Loaned':
+			status = '2';
+			break;
+		case 'Missing':
+			status = '3';
+			break;
+		case 'Sold':
+			status = '4';
+			break;
+		case 'Archived':
+			status = '5';
+			break;
+		default:
+			status = '1';
+	}
+	target.status = status;
+	
+	var loan = true;
+	if(source.available_for_loan == 'No') {
+		loan = false;
+	}
+	target.available_for_loan = loan;
+	
+	target.purchase_price = source.purchase_price + '€';
+	
+})(source, target, map, log, action==="update");]]></script>
+        <source_table>x_lsmcb_fm_imp_arts</source_table>
+        <sys_class_name>sys_transform_map</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-04-10 09:55:12</sys_created_on>
+        <sys_id>5c8ad02d0f4a3a0011bec3ace1050e84</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>Create Arts</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_transform_map_5c8ad02d0f4a3a0011bec3ace1050e84</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-03 14:49:34</sys_updated_on>
+        <target_table>x_lsmcb_fm_art</target_table>
+    </sys_transform_map>
+</record_update>

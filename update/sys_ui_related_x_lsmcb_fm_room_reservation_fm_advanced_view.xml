@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_related sys_domain="global" table="x_lsmcb_fm_room_reservation" version="2" view="FM_Advanced_view">
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="Room Reservation - FM Advanced view" name="x_lsmcb_fm_room_reservation" related_list="NULL" sys_domain="global" view="d8ff15ea0fdd360011bec3ace1050e7f">b2fd29d60ffb9700bc65c5ece1050e8a</list_id>
+            <order_by/>
+            <position>0</position>
+            <related_list>x_lsmcb_fm_facility_order.room_reservation</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-10 16:07:17</sys_created_on>
+            <sys_id>fefd29d60ffb9700bc65c5ece1050e8a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-10 16:07:17</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="Room Reservation - FM Advanced view" name="x_lsmcb_fm_room_reservation" related_list="NULL" sys_domain="global" view="d8ff15ea0fdd360011bec3ace1050e7f">b2fd29d60ffb9700bc65c5ece1050e8a</list_id>
+            <order_by/>
+            <position>1</position>
+            <related_list>x_lsmcb_fm_item_reservation.room_reservation</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-10 16:07:17</sys_created_on>
+            <sys_id>3afd29d60ffb9700bc65c5ece1050e8b</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-10 16:07:17</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="Room Reservation - FM Advanced view" name="x_lsmcb_fm_room_reservation" related_list="NULL" sys_domain="global" view="d8ff15ea0fdd360011bec3ace1050e7f">b2fd29d60ffb9700bc65c5ece1050e8a</list_id>
+            <order_by/>
+            <position>2</position>
+            <related_list>x_lsmcb_fm_room_reservation.parent</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-10 16:07:17</sys_created_on>
+            <sys_id>3efd29d60ffb9700bc65c5ece1050e8b</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-10 16:07:17</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="Room Reservation - FM Advanced view" name="x_lsmcb_fm_room_reservation" related_list="NULL" sys_domain="global" view="d8ff15ea0fdd360011bec3ace1050e7f">b2fd29d60ffb9700bc65c5ece1050e8a</list_id>
+            <order_by/>
+            <position>3</position>
+            <related_list>x_lsmcb_fm_visit.room_reservation</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-10 16:07:17</sys_created_on>
+            <sys_id>32fd29d60ffb9700bc65c5ece1050e8c</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-10 16:07:17</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="Room Reservation - FM Advanced view" name="x_lsmcb_fm_room_reservation" related_list="NULL" sys_domain="global" view="d8ff15ea0fdd360011bec3ace1050e7f">b2fd29d60ffb9700bc65c5ece1050e8a</list_id>
+            <order_by/>
+            <position>4</position>
+            <related_list>x_lsmcb_fm_internal_visits.room_reservation</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-10 16:07:17</sys_created_on>
+            <sys_id>36fd29d60ffb9700bc65c5ece1050e8c</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-10 16:07:17</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list action="INSERT_OR_UPDATE">
+            <calculated_name>Room Reservation - FM Advanced view</calculated_name>
+            <filter/>
+            <name>x_lsmcb_fm_room_reservation</name>
+            <order_by/>
+            <position/>
+            <related_list/>
+            <sys_class_name>sys_ui_related_list</sys_class_name>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-08-10 16:07:17</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>b2fd29d60ffb9700bc65c5ece1050e8a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Room Reservation - FM Advanced view</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_ui_related_x_lsmcb_fm_room_reservation_FM_Advanced_view</sys_update_name>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-08-10 16:07:17</sys_updated_on>
+            <sys_user/>
+            <view display_value="FM Advanced view" name="FM_Advanced_view">d8ff15ea0fdd360011bec3ace1050e7f</view>
+            <view_name/>
+        </sys_ui_related_list>
+    </sys_ui_related>
+</record_update>

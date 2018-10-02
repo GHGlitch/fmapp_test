@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="oauth_entity">
+    <oauth_entity action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <access_token_lifespan>1800</access_token_lifespan>
+        <active>true</active>
+        <auth_code_lifespan>0</auth_code_lifespan>
+        <auth_url>https://login.microsoftonline.com/fruitiondevelopment.onmicrosoft.com/oauth2/v2.0/authorize</auth_url>
+        <certificate_url/>
+        <client_id>c7e8f054-0e1a-404b-8585-295bc1b674f8</client_id>
+        <client_secret>LMreBCM7qsSfNbLe/oJO1MjKRLltSVftKuHZ20tWoa35YWG4waS3fWAo80nHNAvE</client_secret>
+        <client_uuid>c3bcefd0db0357003d279c27db961905</client_uuid>
+        <comments/>
+        <default_grant_type>authorization_code</default_grant_type>
+        <id_token_lifespan>0</id_token_lifespan>
+        <logo_url/>
+        <message_signature_lifespan>0</message_signature_lifespan>
+        <name>OutlookREST</name>
+        <oauth_api_script/>
+        <redirect_url>https://ven01223.service-now.com/oauth_redirect.do</redirect_url>
+        <refresh_token_lifespan>157784630</refresh_token_lifespan>
+        <revoke_token_url/>
+        <salt>0</salt>
+        <sys_class_name>oauth_entity</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-06-28 13:28:37</sys_created_on>
+        <sys_id>47bcefd0db0357003d279c27db961905</sys_id>
+        <sys_mod_count>23</sys_mod_count>
+        <sys_name>OutlookREST</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>oauth_entity_47bcefd0db0357003d279c27db961905</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-07-13 15:16:49</sys_updated_on>
+        <token_url>https://login.microsoftonline.com/fruitiondevelopment.onmicrosoft.com/oauth2/v2.0/token</token_url>
+        <type>oauth_provider</type>
+        <user/>
+    </oauth_entity>
+</record_update>

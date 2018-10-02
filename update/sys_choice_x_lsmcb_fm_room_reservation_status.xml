@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_choice action="INSERT_OR_UPDATE" field="status" table="x_lsmcb_fm_room_reservation" version="3">
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>status</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Registered</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_room_reservation</name>
+            <sequence>10</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-09-08 14:14:35</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>5ca1dbe40f3da20011bec3ace1050e6b</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2016-09-08 14:14:35</sys_updated_on>
+            <value>Registered</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>status</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Running</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_room_reservation</name>
+            <sequence>20</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-09-08 14:15:06</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>96b193a40f3da20011bec3ace1050e76</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2016-09-08 14:15:06</sys_updated_on>
+            <value>Running</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>status</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Closed</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_room_reservation</name>
+            <sequence>30</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-09-08 14:15:30</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>c2d1d3e40f3da20011bec3ace1050eab</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2016-09-08 14:15:30</sys_updated_on>
+            <value>Closed</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>status</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Canceled</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_room_reservation</name>
+            <sequence>40</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-09-08 14:15:43</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>dbe1dfe40f3da20011bec3ace1050e4f</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2016-09-08 14:15:55</sys_updated_on>
+            <value>Canceled</value>
+        </sys_choice>
+        <sys_choice_set action="INSERT_OR_UPDATE">
+            <element>status</element>
+            <name>x_lsmcb_fm_room_reservation</name>
+            <sys_class_name>sys_choice_set</sys_class_name>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-09-08 14:14:35</sys_created_on>
+            <sys_id>7c119d53db7023005e9f5385ca9619e1</sys_id>
+            <sys_mod_count>21</sys_mod_count>
+            <sys_name>status</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_choice_x_lsmcb_fm_room_reservation_status</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-06-08 16:10:40</sys_updated_on>
+        </sys_choice_set>
+    </sys_choice>
+</record_update>

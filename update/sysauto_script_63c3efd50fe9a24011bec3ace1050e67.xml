@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sysauto_script">
+    <sysauto_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <condition><![CDATA[var getProperty = gs.getProperty('x_lsmcb_fm.checkout_park_mechanism');
+getProperty != "manual";]]></condition>
+        <conditional>true</conditional>
+        <name>FM - Overdue Parking Reservations</name>
+        <run_as display_value="">f1266e220f0d2e0011bec3ace1050e59</run_as>
+        <run_as_tz/>
+        <run_dayofmonth>1</run_dayofmonth>
+        <run_dayofweek>1</run_dayofweek>
+        <run_period>1970-01-01 00:15:00</run_period>
+        <run_start>2016-08-29 13:13:25</run_start>
+        <run_time>1970-01-01 23:00:00</run_time>
+        <run_type>daily</run_type>
+        <script><![CDATA[// Query through Parking Reservations to get Reserved and Arrived Reservation Status
+var prk = new GlideRecord('x_lsmcb_fm_parking_reservation');
+prk.addQuery('state', 'Registered').addOrCondition('state', 'Checked-In');
+prk.query();
+
+var canceledParking = [];
+var overdueParking = [];
+
+while(prk.next()){
+		
+	
+	// Fetch the users Time for comparison with Parking Registration End Time. 
+	//Then set the State to 'Overdue' or 'Canceled' accordingly.
+	
+	var recordDateTime = new GlideDateTime();
+	recordDateTime.setValue(prk.end_time);
+	var userDateTime =  new GlideDateTime();
+
+	if(recordDateTime.getNumericValue() < userDateTime.getNumericValue()){
+		
+		if (prk.state == 'Registered'){
+			prk.state = 'Canceled';
+			canceledParking.push(prk.license_plate.toString());
+		}
+		
+		if (prk.state == 'Checked-In'){
+			prk.state = 'Overdue';
+			overdueParking.push(prk.license_plate.toString());
+
+		}	
+	}
+	
+	prk.update();
+	
+} 
+
+gs.info("FM - Overdue Parking Reservations Scheduled Job Executed: \n\n Canceled Parking Reservation: " +canceledParking.toString() + "\nOverdue Parking Reservations: " +overdueParking.toString());
+]]></script>
+        <sys_class_name>sysauto_script</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-08-29 13:17:11</sys_created_on>
+        <sys_id>63c3efd50fe9a24011bec3ace1050e67</sys_id>
+        <sys_mod_count>23</sys_mod_count>
+        <sys_name>FM - Overdue Parking Reservations</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sysauto_script_63c3efd50fe9a24011bec3ace1050e67</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-10-25 14:04:52</sys_updated_on>
+        <upgrade_safe>false</upgrade_safe>
+    </sysauto_script>
+</record_update>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_section caption="Activity log" section_id="9db2cab30fbbfa0011bec3ace1050ea0" sys_domain="global" table="x_lsmcb_fm_room_reservation" version="3" view="FM_Advanced_view">
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>work_notes</element>
+            <position>0</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-07-13 17:06:26</sys_created_on>
+            <sys_id>9db2cab30fbbfa0011bec3ace1050ea1</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Activity log" display_value="Activity log" name="x_lsmcb_fm_room_reservation" sys_domain="global" view="d8ff15ea0fdd360011bec3ace1050e7f">9db2cab30fbbfa0011bec3ace1050ea0</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-07-13 17:06:26</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>activity.xml</element>
+            <position>1</position>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-07-13 17:06:26</sys_created_on>
+            <sys_id>11b2cab30fbbfa0011bec3ace1050ea2</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter display_value="Activities (filtered)">444ea5c6bf310100e628555b3f0739d6</sys_ui_formatter>
+            <sys_ui_section caption="Activity log" display_value="Activity log" name="x_lsmcb_fm_room_reservation" sys_domain="global" view="d8ff15ea0fdd360011bec3ace1050e7f">9db2cab30fbbfa0011bec3ace1050ea0</sys_ui_section>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-07-13 17:06:26</sys_updated_on>
+            <sys_user/>
+            <type>formatter</type>
+        </sys_ui_element>
+        <sys_ui_section action="INSERT_OR_UPDATE">
+            <caption>Activity log</caption>
+            <header>false</header>
+            <name>x_lsmcb_fm_room_reservation</name>
+            <roles/>
+            <sys_class_name>sys_ui_section</sys_class_name>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-07-13 17:06:26</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>9db2cab30fbbfa0011bec3ace1050ea0</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Activity log</sys_name>
+            <sys_overrides/>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_ui_section_9db2cab30fbbfa0011bec3ace1050ea0</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-07-13 17:06:26</sys_updated_on>
+            <sys_user/>
+            <title>false</title>
+            <view display_value="FM Advanced view" name="FM_Advanced_view">d8ff15ea0fdd360011bec3ace1050e7f</view>
+            <view_name/>
+        </sys_ui_section>
+    </sys_ui_section>
+</record_update>

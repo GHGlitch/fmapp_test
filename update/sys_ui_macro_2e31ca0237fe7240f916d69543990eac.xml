@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_macro">
+    <sys_ui_macro action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category>general</category>
+        <description>QR Macro for the Printers</description>
+        <media_type/>
+        <name>fm_qr_printer</name>
+        <scoped_name>x_lsmcb_fm_fm_qr_printer</scoped_name>
+        <sys_class_name>sys_ui_macro</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-05-19 13:27:49</sys_created_on>
+        <sys_id>2e31ca0237fe7240f916d69543990eac</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>fm_qr_printer</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_macro_2e31ca0237fe7240f916d69543990eac</sys_update_name>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-07-07 10:56:00</sys_updated_on>
+        <xml><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+    <div id="isRoom">
+        <h3>Printer Details</h3>
+        <table id="roomDetails" class="room_details_list" border="0" width="98%" cellspacing="5" cellpadding="5" align="center">
+            <tbody>
+                <tr id="roomdummy" class="used">
+                    <td valign="top" style="padding:3px;margin:3px">
+                        <B>${gs.getMessage('fm_manufacturer')}</B>
+                    </td>
+                    <td valign="top" style="padding:3px;margin:3px">
+                        <B>${gs.getMessage('fm_name')}</B>
+                    </td>
+                    <td valign="top" style="padding:3px;margin:3px">
+                        <B>${gs.getMessage('fm_location')}</B>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+	
+    <script>
+        var roomObj;
+
+        function getRoomData() {
+
+            var reference = gel('fmsysid').value;
+            var table = gel('fmtable').value;
+
+            var ga = new GlideAjax('x_lsmcb_fm.FMMobileLandingPageAjaxUtils');
+            ga.addParam('sysparm_name', 'getDetails');
+            ga.addParam('sysparm_table', table);
+            ga.addParam('sysparm_sysid', reference);
+            ga.getXML(handleResponse);
+
+            function handleResponse(response) {
+                var answer = response.responseXML.documentElement.getAttribute("answer");
+                if (!answer) return alert('Error fetching record!');
+                var queryObj = JSON.parse(answer);
+
+                var title = gel('itemTitle');
+                title.innerHTML = title.innerHTML + queryObj.name;
+
+                roomObj = queryObj;
+                populateRoomPropsTable(queryObj);
+            }
+        }
+
+
+        function populateRoomPropsTable(query_object) {
+
+            //Cloning the header
+            var cdum = $j('#roomdummy').clone(true, true);
+
+            // Draw table row with the fetched data from Visitor.
+            var $dum = $j(cdum);
+
+            $dum.attr('id', query_object.room_id).removeClass("used").addClass("new").attr("style", '');
+
+            var $chil = $dum.children();
+
+            $chil.eq(0).html(query_object.manufacturer);
+            $chil.eq(1).html(query_object.name);
+            $chil.eq(2).html(query_object.location);
+            $dum.appendTo('#roomDetails').fadeIn(600);
+        }
+
+        
+        getRoomData();
+    </script>
+	
+</j:jelly>]]></xml>
+    </sys_ui_macro>
+</record_update>

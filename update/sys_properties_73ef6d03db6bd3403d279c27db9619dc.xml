@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices/>
+        <description>Facility Event activity formatter fields</description>
+        <ignore_cache>false</ignore_cache>
+        <is_private>false</is_private>
+        <name>glide.ui.x_lsmcb_fm_facility_event_activity.fields</name>
+        <read_roles/>
+        <suffix/>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2018-07-31 13:55:35</sys_created_on>
+        <sys_id>73ef6d03db6bd3403d279c27db9619dc</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>glide.ui.x_lsmcb_fm_facility_event_activity.fields</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_properties_73ef6d03db6bd3403d279c27db9619dc</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-07-31 13:55:35</sys_updated_on>
+        <type>string</type>
+        <value>assignment_group,assigned_to,location,u_planned_start,u_planned_end,work_notes,comments,*Attachments*</value>
+        <write_roles/>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=73ef6d03db6bd3403d279c27db9619dc"/>
+</record_update>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="first_last" label="First Last" language="en" table="x_lsmcb_fm_external_contact">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>first_last</element>
+            <help/>
+            <hint/>
+            <label>First Last</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_external_contact</name>
+            <plural>First Lasts</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>rafael.esteves</sys_created_by>
+            <sys_created_on>2017-05-15 14:02:43</sys_created_on>
+            <sys_id>f2d269bc0f3ef20011bec3ace1050e2a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>First Last</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_documentation_x_lsmcb_fm_external_contact_first_last_en</sys_update_name>
+            <sys_updated_by>rafael.esteves</sys_updated_by>
+            <sys_updated_on>2017-05-15 14:02:43</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

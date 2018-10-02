@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sc_cat_item_producer">
+    <sc_cat_item_producer action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <availability>on_both</availability>
+        <billable>false</billable>
+        <can_cancel>false</can_cancel>
+        <category display_value="Disruption">294a711a0f72620011bec3ace1050e12</category>
+        <cost>0</cost>
+        <custom_cart/>
+        <delivery_plan/>
+        <delivery_plan_script/>
+        <delivery_time>1970-01-03 00:00:00</delivery_time>
+        <description/>
+        <entitlement_script/>
+        <group/>
+        <hide_sp>false</hide_sp>
+        <icon/>
+        <ignore_price>true</ignore_price>
+        <image/>
+        <list_price>0</list_price>
+        <location/>
+        <meta/>
+        <mobile_hide_price>false</mobile_hide_price>
+        <mobile_picture/>
+        <mobile_picture_type>use_desktop_picture</mobile_picture_type>
+        <model/>
+        <name>General Disruption</name>
+        <no_cart>false</no_cart>
+        <no_order>false</no_order>
+        <no_order_now>false</no_order_now>
+        <no_proceed_checkout>false</no_proceed_checkout>
+        <no_quantity>false</no_quantity>
+        <no_search>false</no_search>
+        <omit_price>false</omit_price>
+        <order>0</order>
+        <ordered_item_link/>
+        <picture/>
+        <preview>JavaScript: popupOpenStandard("com.glideapp.servicecatalog_cat_item_view.do?v=1&amp;sysparm_id=585f9c6c0f24830011bec3ace1050e8c&amp;sysparm_preview=true", "summary");</preview>
+        <price>0</price>
+        <recurring_frequency/>
+        <recurring_price>0</recurring_price>
+        <redirect_url>generated_record</redirect_url>
+        <roles/>
+        <sc_catalogs>b19c0ca70fdd224011bec3ace1050eab</sc_catalogs>
+        <sc_ic_item_staging/>
+        <sc_ic_version/>
+        <script><![CDATA[var fou = new FMFOrderUtils();
+
+current.description = producer.description;
+
+fou.createOrder(producer, producer.category, 'disruption');
+
+
+// Redirect for end users using the portal. May be different per organisation
+if(gs.getUser().hasRole('x_lsmcb_fm.fm_facilities_order_coordinator') || gs.getUser().hasRole('x_lsmcb_fm.fm_room_reservation_coordinator')) {
+    producer.redirect = "x_lsmcb_fm_facility_order.do?sys_id=" + sysId;
+} else {
+    producer.redirect = gs.getProperty('x_lsmcb_fm.ticket_redirect_from_order');
+}]]></script>
+        <short_description>General purpose record producer to create Disruption Orders</short_description>
+        <show_variable_help_on_load>false</show_variable_help_on_load>
+        <start_closed>false</start_closed>
+        <sys_class_name>sc_cat_item_producer</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-08-09 14:44:07</sys_created_on>
+        <sys_id>585f9c6c0f24830011bec3ace1050e8c</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>General Disruption</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sc_cat_item_producer_585f9c6c0f24830011bec3ace1050e8c</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-25 14:05:03</sys_updated_on>
+        <table_name>x_lsmcb_fm_facility_order</table_name>
+        <template/>
+        <type>item</type>
+        <use_sc_layout>true</use_sc_layout>
+        <vendor/>
+        <view/>
+        <visible_bundle>true</visible_bundle>
+        <visible_guide>true</visible_guide>
+        <visible_standalone>true</visible_standalone>
+        <workflow/>
+    </sc_cat_item_producer>
+    <sys_translated_text action="delete_multiple" query="documentkey=585f9c6c0f24830011bec3ace1050e8c"/>
+    <fx_price action="delete_multiple" query="id=585f9c6c0f24830011bec3ace1050e8c"/>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>0</amount>
+        <currency display_value="GBP">GBP</currency>
+        <field>price</field>
+        <id>585f9c6c0f24830011bec3ace1050e8c</id>
+        <parent/>
+        <reference_amount>0</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-08-09 14:44:07</sys_created_on>
+        <sys_id>f30568ec0f24830011bec3ace1050e45</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-08-09 14:44:07</sys_updated_on>
+        <table>sc_cat_item_producer</table>
+        <type>calculated</type>
+    </fx_price>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>0</amount>
+        <currency display_value="GBP">GBP</currency>
+        <field>recurring_price</field>
+        <id>585f9c6c0f24830011bec3ace1050e8c</id>
+        <parent/>
+        <reference_amount>0</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-08-09 14:44:07</sys_created_on>
+        <sys_id>f70568ec0f24830011bec3ace1050e45</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-08-09 14:44:07</sys_updated_on>
+        <table>sc_cat_item_producer</table>
+        <type>calculated</type>
+    </fx_price>
+</record_update>

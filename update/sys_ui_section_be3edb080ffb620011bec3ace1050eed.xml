@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_section caption="" section_id="be3edb080ffb620011bec3ace1050eed" sys_domain="global" table="x_lsmcb_fm_facility_item" version="3" view="">
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>name</element>
+            <position>0</position>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-01-31 12:13:44</sys_created_on>
+            <sys_id>289421db0fa0f20011bec3ace1050e1d</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_facility_item" sys_domain="global" view="Default view">be3edb080ffb620011bec3ace1050eed</sys_ui_section>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-01-31 12:13:44</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>model</element>
+            <position>1</position>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-01-31 12:13:44</sys_created_on>
+            <sys_id>a89421db0fa0f20011bec3ace1050e1d</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_facility_item" sys_domain="global" view="Default view">be3edb080ffb620011bec3ace1050eed</sys_ui_section>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-01-31 12:13:44</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>supplier</element>
+            <position>2</position>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-01-31 12:13:44</sys_created_on>
+            <sys_id>2c9421db0fa0f20011bec3ace1050e1d</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_facility_item" sys_domain="global" view="Default view">be3edb080ffb620011bec3ace1050eed</sys_ui_section>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-01-31 12:13:44</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>description</element>
+            <position>3</position>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-01-31 12:13:44</sys_created_on>
+            <sys_id>ac9421db0fa0f20011bec3ace1050e1d</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_facility_item" sys_domain="global" view="Default view">be3edb080ffb620011bec3ace1050eed</sys_ui_section>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-01-31 12:13:44</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.split</element>
+            <position>4</position>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-01-31 12:13:44</sys_created_on>
+            <sys_id>209421db0fa0f20011bec3ace1050e1e</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_facility_item" sys_domain="global" view="Default view">be3edb080ffb620011bec3ace1050eed</sys_ui_section>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-01-31 12:13:44</sys_updated_on>
+            <sys_user/>
+            <type>.split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>location</element>
+            <position>5</position>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-01-31 12:13:44</sys_created_on>
+            <sys_id>a09421db0fa0f20011bec3ace1050e1e</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_facility_item" sys_domain="global" view="Default view">be3edb080ffb620011bec3ace1050eed</sys_ui_section>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-01-31 12:13:44</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>quantity</element>
+            <position>6</position>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-01-31 12:13:44</sys_created_on>
+            <sys_id>249421db0fa0f20011bec3ace1050e1e</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_facility_item" sys_domain="global" view="Default view">be3edb080ffb620011bec3ace1050eed</sys_ui_section>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-01-31 12:13:44</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>facility_product</element>
+            <position>7</position>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-01-31 12:13:44</sys_created_on>
+            <sys_id>a49421db0fa0f20011bec3ace1050e1e</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_facility_item" sys_domain="global" view="Default view">be3edb080ffb620011bec3ace1050eed</sys_ui_section>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-01-31 12:13:44</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>minutes_before</element>
+            <position>8</position>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-01-31 12:13:44</sys_created_on>
+            <sys_id>289421db0fa0f20011bec3ace1050e1e</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_facility_item" sys_domain="global" view="Default view">be3edb080ffb620011bec3ace1050eed</sys_ui_section>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-01-31 12:13:44</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>minutes_after</element>
+            <position>9</position>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-01-31 12:13:44</sys_created_on>
+            <sys_id>a89421db0fa0f20011bec3ace1050e1e</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_facility_item" sys_domain="global" view="Default view">be3edb080ffb620011bec3ace1050eed</sys_ui_section>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-01-31 12:13:44</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>image</element>
+            <position>10</position>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-01-31 12:13:44</sys_created_on>
+            <sys_id>2c9421db0fa0f20011bec3ace1050e1e</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_lsmcb_fm_facility_item" sys_domain="global" view="Default view">be3edb080ffb620011bec3ace1050eed</sys_ui_section>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-01-31 12:13:44</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_section action="INSERT_OR_UPDATE">
+            <caption/>
+            <header>false</header>
+            <name>x_lsmcb_fm_facility_item</name>
+            <roles/>
+            <sys_class_name>sys_ui_section</sys_class_name>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2016-12-15 11:57:55</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>be3edb080ffb620011bec3ace1050eed</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>x_lsmcb_fm_facility_item</sys_name>
+            <sys_overrides/>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_ui_section_be3edb080ffb620011bec3ace1050eed</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2016-12-15 11:57:55</sys_updated_on>
+            <sys_user/>
+            <title>true</title>
+            <view display_value="Default view" name="NULL">Default view</view>
+            <view_name/>
+        </sys_ui_section>
+    </sys_ui_section>
+</record_update>

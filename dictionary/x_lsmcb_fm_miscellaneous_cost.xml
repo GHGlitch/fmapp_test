@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element extends="x_lsmcb_fm_base_costs" label="Miscellaneous Cost" max_length="40" name="x_lsmcb_fm_miscellaneous_cost" type="collection"/>
+</database>

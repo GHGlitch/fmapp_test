@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_rest_message_fn">
+    <sys_rest_message_fn action="INSERT_OR_UPDATE">
+        <authentication_type>inherit_from_parent</authentication_type>
+        <basic_auth_password/>
+        <basic_auth_profile/>
+        <basic_auth_user/>
+        <content>client_id=${clientID}&amp;scope=https%3A%2F%2Fgraph.microsoft.com%2F.default&amp;client_secret=${clientSecret}&amp;grant_type=client_credentials</content>
+        <function_name>GetToken</function_name>
+        <http_method>post</http_method>
+        <lock>false</lock>
+        <oauth2_profile/>
+        <protocol_name/>
+        <qualified_name>OutlookREST [ GetToken ]</qualified_name>
+        <rest_endpoint>https://login.microsoftonline.com/${tenant}/oauth2/v2.0/token</rest_endpoint>
+        <rest_message display_value="OutlookREST">9ebbe7d0db0357003d279c27db9619dd</rest_message>
+        <sys_class_name>sys_rest_message_fn</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-07-11 13:44:57</sys_created_on>
+        <sys_id>0b5d2a240f1b9300bc65c5ece1050e45</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>GetToken</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_rest_message_fn_0b5d2a240f1b9300bc65c5ece1050e45</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-07-11 15:32:23</sys_updated_on>
+        <use_basic_auth>false</use_basic_auth>
+        <use_mid_server/>
+        <use_mutual_auth>false</use_mutual_auth>
+    </sys_rest_message_fn>
+</record_update>

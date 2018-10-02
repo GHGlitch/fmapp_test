@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[gel('artTypes').setAttribute('onchange','search();');
+// gel('artTypes').setAttribute('class','inline-form');
+
+/**
+ * Fetch the related Artist data from the serve trough a GlideAjax call to the Script Include (FMArtRelatedAjaxUtils).
+ * Then after answer, create the Artist object with all the data and call the function openArtistDetails(artist_obj);
+ * @param  {String} artist_sysid [The Sys_Id of the artist fetch from the ID that is created upon jQuery table creation]
+ * @return {alert} String [If no answer is retrieved, throw an alert]
+ */
+function getArtistData(artist_sysid) {
+
+    var ga = new GlideAjax('x_lsmcb_fm.FMArtRelatedAjaxUtils');
+    ga.addParam('sysparm_name', 'getArtistInfo');
+    ga.addParam('sysparm_artist_sysid', artist_sysid);
+
+    ga.setErrorCallback(function(e) {
+        console.error("Error occurred while attempting to read data from server " + e.statusText);
+    });
+
+    ga.getXML(artistDataResponse);
+
+    function artistDataResponse(response) {
+        var answer = response.responseXML.documentElement.getAttribute("answer");
+        if (!answer) return alert('Error fetching Artist Data!');
+        var artist_obj = JSON.parse(answer);
+        openArtistDetails(artist_obj);
+    }
+}
+
+/**
+ * From a retrieved object created after a call to the server, define the variables and pass them to the GlideDialogWindow through setPreference();
+ * @param  {Object} artist_obj [The object parsed from the server answer upon GlideAjax call]
+ */
+function openArtistDetails(artist_obj) {
+    var dialog = new GlideDialogWindow("x_lsmcb_fm_fm_artist_details");
+
+    var first_name = artist_obj.first_name;
+    var last_name = artist_obj.last_name;
+    var photo = artist_obj.photo;
+    var initials = artist_obj.initials;
+    var birth_year = artist_obj.birth_year;
+    var biography = artist_obj.biography;
+    var website = artist_obj.website;
+
+    dialog.setPreference("sysparm_first_name", first_name);
+    dialog.setPreference("sysparm_last_name", last_name);
+    dialog.setPreference("sysparm_artist_photo", photo);
+    dialog.setPreference("sysparm_initials", initials);
+    dialog.setPreference("sysparm_birth_year", birth_year);
+    dialog.setPreference("sysparm_biography", biography);
+    dialog.setPreference("sysparm_website", website);
+
+
+    dialog.render(); //Open the dialog
+
+}
+
+function getArtData(art_sysid, img_src) {
+
+    var ga = new GlideAjax('x_lsmcb_fm.FMArtRelatedAjaxUtils');
+    ga.addParam('sysparm_name', 'getArtInfo');
+    ga.addParam('sysparm_art_sysid', art_sysid);
+
+    ga.setErrorCallback(function(e) {
+        console.error("Error occurred while attempting to read data from server " + e.statusText);
+    });
+
+    ga.getXML(artDataResponse);
+
+    function artDataResponse(response) {
+        var answer = response.responseXML.documentElement.getAttribute("answer");
+        if (!answer) return alert('Error fetching Art Data!');
+        var art_obj = JSON.parse(answer);
+        openArtDetails(art_obj, img_src);
+    }
+}
+
+function openArtDetails(art_obj, img_src) {
+    var dialog = new GlideDialogWindow("x_lsmcb_fm_fm_art_piece_detail");
+
+    var title = art_obj.title;
+    var type = art_obj.type;
+    var productionDate = art_obj.productionDate;
+    var technique = art_obj.technique;
+    var material = art_obj.material;
+    var shortDescription = art_obj.shortDescription;
+    var information = art_obj.information;
+    var location = art_obj.location;
+	var room = art_obj.room;
+	var dimensions = art_obj.dimensions;
+
+    dialog.setPreference("sysparm_title", title);
+    dialog.setPreference("sysparm_type", type);
+    dialog.setPreference("sysparm_art_photo", img_src);
+    dialog.setPreference("sysparm_production_date", productionDate);
+    dialog.setPreference("sysparm_technique", technique);
+	dialog.setPreference("sysparm_dimensions", dimensions);
+    dialog.setPreference("sysparm_material", material);
+    dialog.setPreference("sysparm_short_description", shortDescription);
+    dialog.setPreference("sysparm_information", information);
+	dialog.setPreference("sysparm_location", location);
+	dialog.setPreference("sysparm_room", room);
+
+    dialog.render(); //Open the dialog
+
+}
+
+
+// /**
+//  * Function to create a Popup that shows a bigger picture from the Art list thumbnail.
+//  * @param  {String} img_src [The source of the image retrieved from the 'src' of the element (pictur/ thumbnail)]
+//  */
+// function openArtPopup(img_src) {
+//     var dialog = new GlideDialogWindow("x_lsmcb_fm_fm_art_piece_detail");
+//     dialog.setPreference("sysparm_art_photo", img_src);
+//     dialog.render(); //Open the dialog
+// }
+
+/**
+ * Inserts the available Art type choices into the Select element.
+ * @param  {Array} queryArray [The array with the Art choices, after parsed from the Ajax call to the server]
+ */
+function populateChoices(queryArray) {
+    for (var i = 0; i < queryArray.length; i++) {
+        $j("<option value=" + queryArray[i] + ">" + queryArray[i] + "</option>").appendTo('#artTypes');
+    }
+}
+
+/**
+ * Clears any previous rows and populates the table with rows for each peace of art fetched from the Ajax call, and fills the cels with the related data.
+ * This is done by iteration on each object in the Array, and appending the html with the data from the object using jQuery.
+ * @param  {Array} queryArray [The Array with the art pieces fetched from the Ajax call to the server]
+ */
+function populateTable(queryArray) {
+
+    $j("#artlist").find("tr:gt(0)").remove();
+
+    for (var i = 0; i < queryArray.length; i++) {
+        //Get query object
+        var cmdbObj = queryArray[i];
+
+        //Cloning the header
+        var cdum = $j('#dummy').clone(true, true);
+
+        // Draw table row with the fetched data from Visitor.
+        var $dum = $j(cdum);
+        $dum.attr('id', cmdbObj.sys_id).removeClass("used").addClass("new").attr("style", '');
+        var $chil = $dum.children();
+        $chil.eq(0).html('<img src="' + cmdbObj.image + '" border="1" alt="" width="60px" style="margin:5px; cursor:pointer" onclick="getArtData(&quot;' + cmdbObj.sys_id + '&quot;, this.src)"/>');
+        $chil.eq(1).html('<input type="button" id="' + cmdbObj.title + '" onclick="getArtData(&quot;' + cmdbObj.sys_id + '&quot;,&quot;' +  cmdbObj.image + '&quot;)" value="' + cmdbObj.title + '" class="selected_action action_context btn btn-primary"/>');
+        $chil.eq(2).html(cmdbObj.code);
+        $chil.eq(3).html('<input type="button" id="' + cmdbObj.artist_sysid + '" onclick="getArtistData(this.id)" value="' + cmdbObj.artist_initials + '" class="selected_action action_context btn btn-primary"/>');
+        $chil.eq(4).html(cmdbObj.type);
+//         $chil.eq(5).html('<p style="font-size:12px; text-align: justify; line-height:12px; max-width:550px; padding: 5px">' + cmdbObj.short_description + '</p>');
+		$chil.eq(5).html('<p style=" text-align: justify; line-height:13px; margin:0px; max-width:600px">' + cmdbObj.short_description + '</p>');
+        $chil.eq(6).html(cmdbObj.sys_id);
+        $dum.appendTo('#artlist');
+    }
+
+}
+
+
+/**
+ * Get all the available Art types / choices from a GlideAjax call to the Server.
+ * Then after answer, call the  populateChoices(queryArray) that will inject the options onto the Select Html element.
+ * @return {Alert} [If no answer is retrieved, throw and alert]
+ */
+function getOptions() {
+
+    var ga = new GlideAjax('x_lsmcb_fm.FMArtRelatedAjaxUtils');
+    ga.addParam('sysparm_name', 'fetchArtTypes');
+
+    ga.setErrorCallback(function(e) {
+        console.error("Error occurred while attempting to read data from server " + e.statusText);
+    });
+
+    ga.getXML(choicesResponse);
+
+    function choicesResponse(response) {
+        var answer = response.responseXML.documentElement.getAttribute("answer");
+        if (!answer) return alert('Error fetching Choices List!');
+        var queryArray = JSON.parse(answer);
+        populateChoices(queryArray);
+    }
+}
+
+/**
+ * Fetch the inserted values in each search field available, and send this parameters through a GlideAjax call.
+ * Then if there are any objects after response, call populateTable(queryArray) that will insert one row with related data for each art piece retrived from the server call.
+ * If no objects are returned, then inser a row notifiing the user to change the search criteria.
+ * @return {Alert} [In case no answer is retrieved, throw an alert]
+ */
+function search() {
+	
+    //Fetch values from UI PAGE
+    var artist = gel('artists').getValue();
+    var location = gel('location').getValue();
+    var room = gel('room').getValue();
+    var arttype = gel('artTypes').getValue();
+	
+	console.debug(arttype);
+
+    // Make the Ajax call to the server / script Include.
+    var ga = new GlideAjax('x_lsmcb_fm.FMArtRelatedAjaxUtils');
+    ga.addParam('sysparm_name', 'searchArtPieces');
+    ga.addParam('sysparm_artist_sysid', artist);
+    ga.addParam('sysparm_location_sysid', location);
+    ga.addParam('sysparm_room_sysid', room);
+    ga.addParam('sysparm_arttype', arttype);
+
+    //Error and debugging only
+    ga.setErrorCallback(function(e) {
+        console.error("Error occurred while attempting to read data from server " + e.statusText);
+    });
+
+    ga.getXML(searchResult);
+
+    function searchResult(response) {
+			gel('locationLINK').setAttribute('style', 'display:none');
+	gel('artistsLINK').setAttribute('style', 'visibility:hidden');
+	gel('roomLINK').setAttribute('style', 'visibility:hidden');
+		
+        var answer = response.responseXML.documentElement.getAttribute("answer");
+        if (!answer) return alert('Error fetching Art List!');
+        var queryArray = JSON.parse(answer);
+        if (queryArray.length > 0) {
+
+            // Draw rows on table.
+            populateTable(queryArray);
+			
+        } else {
+
+            //Throw and notification for the lack of results.
+            $j("#artlist").find("tr:gt(0)").remove();
+            //Cloning the header
+            var cdum = $j('#dummy').clone(true, true);
+
+            // Draw table row 
+            var $dum = $j(cdum);
+            $dum.attr('id', 'not_found').removeClass("used").addClass("new").attr("style", '');
+            $dum.html('<td colspan="8" align="center"><span class="label">No results found! Please change your search criteria!</span></td>');
+            $dum.appendTo('#artlist');
+        }
+
+    }
+}
+
+//Run function and populate the options for the Select Element on the UI PAGE.
+// getOptions();]]></client_script>
+        <description>Art Portal and Search Engine</description>
+        <direct>false</direct>
+        <endpoint>x_lsmcb_fm_fm_art_portal.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+
+
+	<!--                                          Cascade Style Sheet
+   **********************************
+-->
+
+
+	<style>
+		.searchTable{
+		border-collapse: separate;
+		border-top-left-radius: 5px;
+		-moz-border-top-left-radius: 5px;
+		border-top-right-radius: 5px;
+		-moz-border-top-right-radius: 5px;
+		font-family: SourceSansPro, "Helvetica Neue", Arial;
+		font-size: 13px;
+		padding: 10px 10px 10px 10px;
+		color: #454545;
+		line-height: 50px;
+		background-color: #555759;
+		max-height: 400px;
+		height:100%;
+		border-bottom: 5px solid #34a332;
+		}
+
+		.arttable{
+		border-collapse: separate;
+		border: solid #ccc 1px;
+		border-bottom-left-radius: 5px;
+		-moz-border-bottom-left-radius: 5px;
+		border-bottom-right-radius: 5px;
+		-moz-border-bottom-right-radius: 5px;
+		font-family: SourceSansPro, "Helvetica Neue", Arial;
+		font-size: 13px;
+		padding: 10px 10px 10px 10px;
+		color: #454545;
+		line-height: 50px;
+		background-color: #e7e9eb;
+		max-height: 400px;
+		height:100%;
+		}
+
+	<!-- 	.searchTableTr{
+		height:50px;
+		border-top-right-radius: 12px;
+		border-top-left-radius: 12px;
+		background: -webkit-linear-gradient(#cb1c1a 20%, #e21f1d 80%); /* For Safari 5.1 to 6.0 */
+		background: -o-linear-gradient(#cb1c1a 20%, #e21f1d 80%); /* For Opera 11.1 to 12.0 */
+		background: -moz-linear-gradient(#cb1c1a 20%, #e21f1d 80%); /* For Firefox 3.6 to 15 */
+		background: linear-gradient(#cb1c1a 20%, #e21f1d 80%); 
+		} -->
+
+		.title{
+		color: #ffffff;
+		text-transform: uppercase;
+		text-align: center;
+		font-size: 35px;
+		font-weight: bold;
+		font-family: SourceSansPro, "Helvetica Neue", Arial;
+		text-shadow: 0px 1px 1px #4d4d4d;
+		}
+
+		.label{
+		font-size: 14px;
+		font-weight: normal;
+		font-family: SourceSansPro, "Helvetica Neue", Arial;
+		color: #e7e9eb;
+		margin-bottom: -30px;
+		width: 100%;
+		text-align: center;
+		}
+
+		.new{
+		background: -webkit-linear-gradient(#e7e9eb 20%, #e7e9eb 80%); /* For Safari 5.1 to 6.0 */
+		background: -o-linear-gradient(#e7e9eb 20%, #e7e9eb 80%); /* For Opera 11.1 to 12.0 */
+		background: -moz-linear-gradient(#e7e9eb 20%, #e7e9eb 80%); /* For Firefox 3.6 to 15 */
+		background: linear-gradient(#e7e9eb 20%, #e7e9eb 80%); 
+		}
+
+		.btn-primary {
+		background-color: #5bc0de;
+		border-color: #5bc0de;
+		}
+		
+		.btn-primary:hover,
+        .btn-primary:focus {
+            background: #46b8da;
+        }
+		
+	</style>
+
+
+
+	<table cellspacing="15" cellpadding="15" border="0" width="100%">
+		<tr>
+			<td align="left" width="20%">
+
+				<table cellspacing="15" cellpadding="15" border="0" class="searchTable" width="100%">
+
+					<tr >
+						<td class="searchTableTr" align="center" colspan="4"><span class="title">${gs.getMessage("fm_art_search")}</span>
+						</td>
+					</tr>
+
+					<tbody>
+
+						<tr>
+							<td align="center" valign="top" style="padding: 10px 5px 10px 5px">
+								<h3 class="label">${gs.getMessage("fm_choose_artist")}</h3>
+								<g:ui_reference id="artists" name="artists" query="" table="x_lsmcb_fm_artist" value="" displayValue="" onchange="search();"/>
+							</td>
+
+							<!-- 
+							Fetch all the locations where there are art pieces, 
+							and push them into and array, that later will able for the user to select.
+							 -->
+
+							<g:evaluate var="jvar_locations">
+								var gr = new GlideRecord('x_lsmcb_fm_art');
+								gr.addQuery('visible_on_portal', true);
+								gr.addActiveQuery();
+								gr.query();
+
+								var list = [];
+
+								while (gr.next()) {
+								var currentLocation = gr.getValue('location');
+								if(list.indexOf(currentLocation) >= 0){
+								//Do nothing
+								} else {
+								list.push(currentLocation);
+								}
+								}
+
+								var locations = list.join(',');
+								locations; 
+							</g:evaluate>
+
+							<td  align="center" valign="top"  style="padding: 10px 5px 10px 5px">
+
+								<h3 class="label">${gs.getMessage("fm_choose_location")}</h3>
+								<g:ui_reference id="location" name="location" query="sys_idIN${jvar_locations}" table="cmn_location" value="" displayValue="" onchange="search();" />
+							</td>
+
+
+
+							<td  align="center" valign="top"  style="padding: 10px 5px 10px 5px">
+								<h3 class="label">${gs.getMessage("fm_choose_room")}</h3>
+								<g:ui_reference id="room" name="room" query="'+function() {if(gel('location').value !== '') {return 'floor.location=' + gel('location').value;} else {return '';}}()+'" table="x_lsmcb_fm_room" value="" displayValue="" onchange="search();" />
+							</td>
+
+
+
+							<td  align="center" valign="top" style="padding: 10px 5px 10px 5px">
+								<h3 class="label">${gs.getMessage("fm_choose_type")}</h3>
+								<span class="input-group lightweight-reference inline-form" style="margin-top:-14px;">
+									<g:ui_choicelist name="artTypes" table="x_lsmcb_fm_art" field="type"/>
+								</span>
+							</td>
+
+
+
+							<td align="center">
+								<br/>			
+							</td>
+						</tr>
+
+					</tbody>
+				</table>
+
+
+
+
+
+
+			</td>
+		</tr>
+		<tr>
+			<td align="left" width="80%" valign="top">
+
+
+				<table cellspacing="0" cellpadding="0" border="0" id="artlist" width="100%" align="left" class="arttable">
+					<tr class="used" id="dummy">
+						<td style="width:8%; border-bottom:1px solid #d2d2d2" align="center">
+							<B style="text-transform: uppercase">${gs.getMessage('fm_pic')}</B>
+						</td> 
+						<td style="width:16%; border-bottom:1px solid #d2d2d2">
+							<B  style="text-transform: uppercase">${gs.getMessage('fm_title')}</B>
+						</td>
+						<td style="width:4%; border-bottom:1px solid #d2d2d2">
+							<B  style="text-transform: uppercase">${gs.getMessage('fm_code')}</B>
+						</td>
+						<td style="width:12%; border-bottom:1px solid #d2d2d2">
+							<B  style="text-transform: uppercase">${gs.getMessage('fm_artist')}</B>
+						</td>
+						<td align="center" style="width:4%; border-bottom:1px solid #d2d2d2">
+							<B  style="text-transform: uppercase">${gs.getMessage('fm_category')}</B>
+						</td>
+						
+						<td align="center" style="width:50%; border-bottom:1px solid #d2d2d2">
+							<B  style="text-transform: uppercase">${gs.getMessage('fm_short_description')}</B>
+						</td>
+						<td align="center" style="width:1%; display:none; visibility:hidden">
+							<B  style="text-transform: uppercase">${gs.getMessage('fm_sys_id')}</B>
+						</td>
+					</tr>
+				</table>
+
+
+			</td>
+		</tr>
+	</table>
+
+</j:jelly>]]></html>
+        <name>fm_art_portal</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-12-12 11:13:45</sys_created_on>
+        <sys_id>ee57bf8b0f2f220011bec3ace1050e98</sys_id>
+        <sys_mod_count>81</sys_mod_count>
+        <sys_name>fm_art_portal</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_page_ee57bf8b0f2f220011bec3ace1050e98</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-07-27 13:28:27</sys_updated_on>
+    </sys_ui_page>
+</record_update>

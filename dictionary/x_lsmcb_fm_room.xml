@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element attributes="ref_auto_completer=AJAXTableCompleter,ref_ac_columns=floor,ref_ac_order_by=floor" label="Space" max_length="40" name="x_lsmcb_fm_room" type="collection">
+        <element default="true" label="Active" max_length="40" name="active" type="boolean"/>
+        <element label="Additional Info" max_length="160" name="additional_info" type="string"/>
+        <element label="Capacity" max_length="40" name="capacity" type="integer"/>
+        <element choice="3" default="2" label="Category" max_length="40" name="category" type="choice">
+            <choice>
+                <element label="Archive or Storage" value="19"/>
+                <element label="Computer/Repro space" value="18"/>
+                <element label="Elevator" value="9"/>
+                <element label="Lounge" value="11"/>
+                <element label="Not used" value="15"/>
+                <element label="Office" value="13"/>
+                <element label="Pantry" value="10"/>
+                <element label="Parking space" value="17"/>
+                <element label="Recreation" value="14"/>
+                <element label="Restaurant" value="16"/>
+                <element label="Service space" value="20"/>
+                <element label="Special space" value="22"/>
+                <element label="Terrain" value="8"/>
+                <element label="Traffic horizontal" value="12"/>
+                <element label="Unknown" value="21"/>
+                <element label="Sanitation" sequence="1" value="1"/>
+                <element label="Meeting room" sequence="2" value="2"/>
+                <element label="Traffic vertical" sequence="3" value="3"/>
+                <element label="Grid" sequence="4" value="4"/>
+                <element label="Working place" sequence="5" value="5"/>
+                <element label="Technical space" sequence="6" value="6"/>
+                <element label="Shaft" sequence="7" value="7"/>
+            </choice>
+        </element>
+        <element label="Costcenter" max_length="32" name="costcenter" reference="cmn_cost_center" reference_qual="valid_from&lt;=javascript:gs.daysAgoEnd(0)^valid_to&gt;=javascript:gs.daysAgoStart(0)^ORvalid_toISEMPTY^EQ" reference_qual_condition="valid_from&lt;=javascript:gs.daysAgoEnd(0)^valid_to&gt;=javascript:gs.daysAgoStart(0)^ORvalid_toISEMPTY^EQ" type="reference"/>
+        <element label="Calendar integration email" max_length="100" name="email" type="string"/>
+        <element label="Floor" mandatory="true" max_length="32" name="floor" reference="x_lsmcb_fm_floor" type="reference"/>
+        <element hint="Gross leasable area" label="GLA (m2)" max_length="20" name="gla_m2" type="decimal"/>
+        <element label="Group" max_length="4000" name="group" reference="sys_user_group" type="glide_list"/>
+        <element display="true" label="IDName" max_length="100" name="idname" read_only="true" type="string"/>
+        <element label="Image" max_length="40" name="image" type="user_image"/>
+        <element active="false" label="Include Weekends" max_length="40" name="include_weekends" type="boolean"/>
+        <element attributes="edge_encryption_enabled=true" choice="3" choice_field="minutes_before" choice_table="x_lsmcb_fm_room" default="0" label="Extra minutes after reservation" max_length="40" name="minutes_after" type="choice">
+            <choice>
+                <element label="0" sequence="0" value="0"/>
+                <element label="15" sequence="1" value="15"/>
+                <element label="30" sequence="2" value="30"/>
+                <element label="45" sequence="3" value="45"/>
+                <element label="60" sequence="4" value="60"/>
+            </choice>
+        </element>
+        <element attributes="edge_encryption_enabled=true" choice="3" default="0" label="Extra minutes before reservation" max_length="40" name="minutes_before" type="string">
+            <choice>
+                <element label="0" sequence="0" value="0"/>
+                <element label="15" sequence="1" value="15"/>
+                <element label="30" sequence="2" value="30"/>
+                <element label="45" sequence="3" value="45"/>
+                <element label="60" sequence="4" value="60"/>
+            </choice>
+        </element>
+        <element label="Name" mandatory="true" max_length="40" name="name" type="string"/>
+        <element hint="Net internal area" label="NIA (m2)" max_length="20" name="nia_m2" type="decimal"/>
+        <element choice="3" default="0" label="Visibility" max_length="40" name="portal_settings" type="choice">
+            <choice>
+                <element label="Al Users" sequence="0" value="0"/>
+                <element label="Conditional" sequence="1" value="1"/>
+                <element label="Service Desk" sequence="2" value="2"/>
+            </choice>
+        </element>
+        <element label="Reservable from" max_length="40" name="reservable_from" type="glide_date"/>
+        <element label="Reservable until" max_length="40" name="reservable_until" type="glide_date"/>
+        <element default="18:00:00" label="Close Time" max_length="40" name="reservation_close_time" type="glide_time"/>
+        <element default="9:00:00" label="Open Time" max_length="40" name="reservation_open_time" type="glide_time"/>
+        <element label="Space ID" mandatory="true" max_length="40" name="room_id" type="string" unique="true"/>
+        <element choice="3" default="0" label="Settings" max_length="40" name="settings" type="choice">
+            <choice>
+                <element label="Reservable" sequence="0" value="0"/>
+                <element label="Planned closure" sequence="1" value="1"/>
+                <element label="Not Reservable" sequence="2" value="2"/>
+            </choice>
+        </element>
+        <element label="Space Location" max_length="32" name="space_location" read_only="true" reference="cmn_location" type="reference"/>
+        <index name="index">
+            <element name="room_id"/>
+        </index>
+        <index name="index2">
+            <element name="room_id"/>
+        </index>
+        <index name="index3">
+            <element name="floor"/>
+        </index>
+        <index name="index4">
+            <element name="costcenter"/>
+        </index>
+        <index name="index5">
+            <element name="space_location"/>
+        </index>
+    </element>
+</database>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sc_cat_item_producer">
+    <sc_cat_item_producer action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <availability>on_desktop</availability>
+        <billable>false</billable>
+        <can_cancel>false</can_cancel>
+        <category/>
+        <cost>0</cost>
+        <custom_cart/>
+        <delivery_plan/>
+        <delivery_plan_script/>
+        <delivery_time>1970-01-03 00:00:00</delivery_time>
+        <description/>
+        <entitlement_script/>
+        <group/>
+        <hide_sp>false</hide_sp>
+        <icon/>
+        <ignore_price>true</ignore_price>
+        <image/>
+        <list_price>0</list_price>
+        <location/>
+        <meta/>
+        <mobile_hide_price>false</mobile_hide_price>
+        <mobile_picture/>
+        <mobile_picture_type>use_desktop_picture</mobile_picture_type>
+        <model/>
+        <name>Update Visitor Registration</name>
+        <no_cart>false</no_cart>
+        <no_order>false</no_order>
+        <no_order_now>false</no_order_now>
+        <no_proceed_checkout>false</no_proceed_checkout>
+        <no_quantity>false</no_quantity>
+        <no_search>false</no_search>
+        <omit_price>false</omit_price>
+        <order>0</order>
+        <ordered_item_link/>
+        <picture/>
+        <preview>JavaScript: popupOpenStandard("com.glideapp.servicecatalog_cat_item_view.do?v=1&amp;sysparm_id=d7b2bb380fa2320011bec3ace1050ea7&amp;sysparm_preview=true", "summary");</preview>
+        <price>0</price>
+        <recurring_frequency/>
+        <recurring_price>0</recurring_price>
+        <redirect_url>generated_record</redirect_url>
+        <roles/>
+        <sc_catalogs>b19c0ca70fdd224011bec3ace1050eab</sc_catalogs>
+        <sc_ic_item_staging/>
+        <sc_ic_version/>
+        <script><![CDATA[var sh = producer.start_hours;
+var sm = producer.start_minutes;
+var eh = producer.end_hours;
+var em = producer.end_minutes;
+
+var gdts = new GlideDateTime();
+gdts.setDisplayValue(producer.date.getDisplayValue());
+gdts.addSeconds(60 * sm);
+gdts.addSeconds(60 * 60 * sh);
+
+var gdte = new GlideDateTime();
+gdte.setDisplayValue(producer.date.getDisplayValue());
+gdte.addSeconds(60 * em);
+gdte.addSeconds(60 * 60 * eh);
+
+gdtsp = new GlideDateTime();
+gdtep = new GlideDateTime();
+gdtsp.setGlideDateTime(gdts);
+gdtep.setGlideDateTime(gdte);
+gdtsp.addSeconds(-60 * 15);
+gdtep.addSeconds(60 * 15);
+
+function updateVisitRecord() {
+    
+    var id = producer.visit_id;
+    
+    var gr = new GlideRecord('x_lsmcb_fm_visit');
+    gr.addQuery('sys_id', id + '');
+    gr.query();
+    
+    if (gr.next()) {
+        if (producer.parking_needed == 'true') {
+            var grp = new GlideRecord('x_lsmcb_fm_parking_reservation');
+            grp.addQuery('visit', id + '');
+            grp.query();
+            if (grp.next()) {
+                updateParking(grp.getUniqueValue() + '');
+            } else {
+                var park = createParking(id + '');
+                gr.setValue('parking_reservation', park);
+            }
+        } else {
+            deleteParking(id);
+        }
+        gr.setValue('visitor_first_name', producer.first_name);
+        gr.setValue('visitor_last_name', producer.last_name);
+		gr.setValue('email', producer.email);
+        gr.setValue('company', producer.company);
+        gr.setValue('access_method', producer.visitor_pass);
+        gr.setValue('contact', producer.contact);
+        gr.setValue('host', producer.host);
+        gr.setValue('phone', producer.phone);
+        gr.setValue('start_time', gdts);
+        gr.setValue('end_time', gdte);
+        gr.setValue('location', producer.location);
+		gr.setValue('anonymous', producer.anonymous);		
+		gr.setValue('internet', producer.internet_needed);
+        gr.update();
+    }
+}
+
+function createParking(id){
+    
+    var grp = new GlideRecord('x_lsmcb_fm_parking_reservation');
+    grp.initialize();
+    
+    grp.setValue('start_time', gdtsp);
+    grp.setValue('end_time', gdtep);
+    grp.setValue('visitor', producer.first_name + ' ' + producer.last_name);
+    grp.setValue('parking_lot', producer.parking_lot);
+    grp.setValue('location', producer.location);
+    grp.setValue('quantity', 1);
+    grp.setValue('license_plate', producer.license_plate);
+    grp.setValue('visit', id);
+    var park = grp.insert();
+    
+    return park;
+}
+
+function updateParking(park) {
+    
+    var grp = new GlideRecord('x_lsmcb_fm_parking_reservation');
+    grp.get(park);
+    grp.setValue('location', producer.location);
+    grp.setValue('parking_lot', producer.parking_lot);
+    grp.setValue('license_plate', producer.license_plate);
+    grp.setValue('start_time', gdtsp);
+    grp.setValue('end_time', gdtep);
+    grp.setValue('visitor', producer.first_name + ' ' + producer.last_name);
+    grp.update();
+    
+}
+
+function deleteParking(visit) {
+    var grp = new GlideRecord('x_lsmcb_fm_parking_reservation');
+    grp.addQuery('visit', visit);
+    grp.query();
+    grp.deleteMultiple();
+}
+
+current.setAbortAction(true);
+updateVisitRecord();
+if(gs.getUser().hasRole('x_lsmcb_fm.fm_visit_coordinator')) {
+    producer.redirect = gs.getProperty('x_lsmcb_fm.coordinator_redirect_from_visit_reservation');
+} else {
+    producer.redirect = gs.getProperty('x_lsmcb_fm.ticket_redirect_from_visit_reservation');
+}]]></script>
+        <short_description>Update a visit registration</short_description>
+        <show_variable_help_on_load>false</show_variable_help_on_load>
+        <start_closed>false</start_closed>
+        <sys_class_name>sc_cat_item_producer</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-05-03 14:17:50</sys_created_on>
+        <sys_id>d7b2bb380fa2320011bec3ace1050ea7</sys_id>
+        <sys_mod_count>35</sys_mod_count>
+        <sys_name>Update Visitor Registration</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sc_cat_item_producer_d7b2bb380fa2320011bec3ace1050ea7</sys_update_name>
+        <sys_updated_by>patricia.gaudencio</sys_updated_by>
+        <sys_updated_on>2018-07-25 09:32:57</sys_updated_on>
+        <table_name>x_lsmcb_fm_visit</table_name>
+        <template/>
+        <type>item</type>
+        <use_sc_layout>true</use_sc_layout>
+        <vendor/>
+        <view/>
+        <visible_bundle>true</visible_bundle>
+        <visible_guide>true</visible_guide>
+        <visible_standalone>true</visible_standalone>
+        <workflow/>
+    </sc_cat_item_producer>
+    <sys_translated_text action="delete_multiple" query="documentkey=d7b2bb380fa2320011bec3ace1050ea7"/>
+    <fx_price action="delete_multiple" query="id=d7b2bb380fa2320011bec3ace1050ea7"/>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>0</amount>
+        <currency display_value="GBP">GBP</currency>
+        <field>price</field>
+        <id>d7b2bb380fa2320011bec3ace1050ea7</id>
+        <parent/>
+        <reference_amount>0</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-05-03 14:17:50</sys_created_on>
+        <sys_id>af33bb380fa2320011bec3ace1050eac</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-05-03 14:17:50</sys_updated_on>
+        <table>sc_cat_item_producer</table>
+        <type>calculated</type>
+    </fx_price>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>0</amount>
+        <currency display_value="GBP">GBP</currency>
+        <field>recurring_price</field>
+        <id>d7b2bb380fa2320011bec3ace1050ea7</id>
+        <parent/>
+        <reference_amount>0</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-05-03 14:17:51</sys_created_on>
+        <sys_id>a333bb380fa2320011bec3ace1050ead</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-05-03 14:17:51</sys_updated_on>
+        <table>sc_cat_item_producer</table>
+        <type>calculated</type>
+    </fx_price>
+</record_update>

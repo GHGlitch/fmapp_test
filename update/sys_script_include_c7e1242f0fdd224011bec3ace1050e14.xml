@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMVisitorAjaxUtils</api_name>
+        <client_callable>true</client_callable>
+        <description>Ajax utils for visits.</description>
+        <name>FMVisitorAjaxUtils</name>
+        <script><![CDATA[var FMVisitorAjaxUtils = Class.create();
+FMVisitorAjaxUtils.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+	
+	
+	//Fetches the info from a reservation
+	getMeetingValues: function() {
+		
+		var reservation = this.getParameter('sysparm_meeting_sysid');
+		var meetingRes = {};
+		
+		var meeting = new GlideRecord('x_lsmcb_fm_room_reservation');
+		
+		if(meeting.get('sys_id', reservation)) {
+			
+			var date = meeting.start_time.getDisplayValueInternal().toString().split(' ')[0];
+			var start_hours = meeting.start_time.getDisplayValueInternal().toString().split(' ')[1].split(':')[0];
+			var start_minutes = meeting.start_time.getDisplayValueInternal().toString().split(' ')[1].split(':')[1];
+			var end_hours = meeting.end_time.getDisplayValueInternal().toString().split(' ')[1].split(':')[0];
+			var end_minutes = meeting.end_time.getDisplayValueInternal().toString().split(' ')[1].split(':')[1];
+			
+			meetingRes.location = meeting.location.toString();
+			meetingRes.purpose = meeting.meeting_subject.toString();
+ 			meetingRes.date = date;
+ 			meetingRes.start_hours = start_hours;
+ 			meetingRes.start_minutes = start_minutes;
+ 			meetingRes.end_hours = end_hours;
+ 			meetingRes.end_minutes = end_minutes;
+		}
+		
+		var jason = JSON;
+		var encodedJason = jason.stringify(meetingRes);
+		
+		return encodedJason;
+	},
+	
+	getVisitInfo: function() {
+		
+		var visit = this.getParameter('sysparm_visit_id');
+		
+		var obj = {};
+		var parking = 'false';
+		var lic = '';
+		var park = '';
+		var parkR = '';
+		
+		var gr = new GlideRecord('x_lsmcb_fm_visit');
+		gr.get(visit);
+		
+		var pgr = new GlideRecord('x_lsmcb_fm_parking_reservation');
+		pgr.addQuery('visit', visit);
+		pgr.query();
+		if (pgr.next()) {
+			parkR = pgr.getUniqueValue();
+			park = pgr.getValue('parking_lot');
+			lic = pgr.getValue('license_plate');
+			parking = 'true';
+		}
+		
+		var startTimeGdt = new GlideDateTime();
+        startTimeGdt.setValue(gr.start_time);
+        var endTimeGdt = new GlideDateTime();
+        endTimeGdt.setValue(gr.end_time);
+		
+		var date = new GlideDate();
+		date.setValue(startTimeGdt.getDate());
+		
+		var startDateTime = startTimeGdt.getDisplayValueInternal();
+        var endDateTime = endTimeGdt.getDisplayValueInternal();
+        var startDate = startDateTime.split(' ')[0];
+        var numStartTime = startDateTime.split(' ')[1];
+        var endDate = endDateTime.split(' ')[0];
+        var numEndTime = endDateTime.split(' ')[1];
+		
+		obj.last_name = gr.getValue('visitor_last_name');
+		obj.first_name = gr.getValue('visitor_first_name');
+		obj.access_method = gr.getValue('access_method');
+		obj.email = gr.getValue('email');
+		obj.company = gr.getValue('company');
+		obj.location = gr.getValue('location');
+		obj.reservation = gr.getValue('room_reservation');
+		obj.parking_needed = parking;
+		obj.license_plate = lic;
+		obj.parking_lot = park;
+		obj.parking = parkR;
+		obj.requester = gr.getValue('requester');
+		obj.host = gr.getValue('host');
+		obj.phone = gr.getValue('phone');
+		obj.date = date.getDisplayValue();
+        obj.start_hour = numStartTime.split(':')[0];
+        obj.start_min = numStartTime.split(':')[1];
+        obj.end_hour = numEndTime.split(':')[0];
+        obj.end_min = numEndTime.split(':')[1];
+		obj.anonymous = gr.anonymous + '';		
+		obj.internet = gr.internet +'';
+	
+		
+		return JSON.stringify(obj);
+		
+	}
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-08-23 12:38:09</sys_created_on>
+        <sys_id>c7e1242f0fdd224011bec3ace1050e14</sys_id>
+        <sys_mod_count>36</sys_mod_count>
+        <sys_name>FMVisitorAjaxUtils</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_c7e1242f0fdd224011bec3ace1050e14</sys_update_name>
+        <sys_updated_by>patricia.gaudencio</sys_updated_by>
+        <sys_updated_on>2018-07-25 09:46:12</sys_updated_on>
+    </sys_script_include>
+</record_update>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_choice action="INSERT_OR_UPDATE" field="type" table="x_lsmcb_fm_art" version="3">
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Painting</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_art</name>
+            <sequence>0</sequence>
+            <sys_created_by>nelson.oliveira</sys_created_by>
+            <sys_created_on>2016-12-05 15:56:15</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>94e4b0c50feb220011bec3ace1050e97</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nelson.oliveira</sys_updated_by>
+            <sys_updated_on>2016-12-05 15:56:15</sys_updated_on>
+            <value>Painting</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Photo</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_art</name>
+            <sequence>1</sequence>
+            <sys_created_by>nelson.oliveira</sys_created_by>
+            <sys_created_on>2016-12-05 15:56:15</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>1ce4b0c50feb220011bec3ace1050e97</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nelson.oliveira</sys_updated_by>
+            <sys_updated_on>2016-12-05 15:56:15</sys_updated_on>
+            <value>Photo</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Sculpture</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_art</name>
+            <sequence>2</sequence>
+            <sys_created_by>nelson.oliveira</sys_created_by>
+            <sys_created_on>2016-12-05 15:56:15</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>dce4b0c50feb220011bec3ace1050e97</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nelson.oliveira</sys_updated_by>
+            <sys_updated_on>2016-12-05 15:56:15</sys_updated_on>
+            <value>Sculpture</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Drawing</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_art</name>
+            <sequence>3</sequence>
+            <sys_created_by>nelson.oliveira</sys_created_by>
+            <sys_created_on>2016-12-05 15:56:15</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>90e4b0c50feb220011bec3ace1050e98</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nelson.oliveira</sys_updated_by>
+            <sys_updated_on>2016-12-05 15:56:15</sys_updated_on>
+            <value>Drawing</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Printing</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_art</name>
+            <sequence>4</sequence>
+            <sys_created_by>david.neves</sys_created_by>
+            <sys_created_on>2017-02-14 12:01:17</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>14f721b70f78f60011bec3ace1050ee7</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-02-14 12:01:31</sys_updated_on>
+            <value>Printing</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Other</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_art</name>
+            <sequence>5</sequence>
+            <sys_created_by>nelson.oliveira</sys_created_by>
+            <sys_created_on>2016-12-05 15:56:15</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>54e4b0c50feb220011bec3ace1050e98</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-02-14 12:01:37</sys_updated_on>
+            <value>Other</value>
+        </sys_choice>
+        <sys_choice_set action="INSERT_OR_UPDATE">
+            <element>type</element>
+            <name>x_lsmcb_fm_art</name>
+            <sys_class_name>sys_choice_set</sys_class_name>
+            <sys_created_by>nelson.oliveira</sys_created_by>
+            <sys_created_on>2016-12-05 15:56:15</sys_created_on>
+            <sys_id>d411d953db7023005e9f5385ca961967</sys_id>
+            <sys_mod_count>17</sys_mod_count>
+            <sys_name>type</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_choice_x_lsmcb_fm_art_type</sys_update_name>
+            <sys_updated_by>david.neves</sys_updated_by>
+            <sys_updated_on>2017-06-08 16:11:30</sys_updated_on>
+        </sys_choice_set>
+    </sys_choice>
+</record_update>

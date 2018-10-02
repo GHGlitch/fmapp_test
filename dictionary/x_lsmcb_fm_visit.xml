@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Visit" max_length="40" name="x_lsmcb_fm_visit" type="collection">
+        <element choice="1" label="Access method" max_length="40" name="access_method" type="choice">
+            <choice>
+                <element label="None" sequence="0" value="none"/>
+                <element label="None" language="nl" sequence="0" value="none"/>
+                <element label="Access card" sequence="1" value="access_card"/>
+                <element label="Toegangspas" language="nl" sequence="1" value="access_card"/>
+            </choice>
+        </element>
+        <element label="Anonymous" max_length="40" name="anonymous" type="boolean"/>
+        <element label="Checked-In on" max_length="40" name="checked_in_on" read_only="true" type="glide_date_time"/>
+        <element label="Checked-Out on" max_length="40" name="checked_out_on" read_only="true" type="glide_date_time"/>
+        <element label="Company" max_length="100" name="company" type="string"/>
+        <element label="Contact" max_length="32" name="contact" reference="sys_user" type="reference"/>
+        <element calculation="(function calculatedFieldValue(current) {&#10;&#10;&#9;// Add your code here&#10;&#9;var gdt = new GlideDateTime(current.start_time);&#10;&#9;return gdt.getLocalDate();  // return the calculated value&#10;&#10;})(current);" label="Day" max_length="12" name="day" read_only="true" type="glide_date"/>
+        <element label="Email" max_length="100" name="email" type="string"/>
+        <element calculation="(function calculatedFieldValue(current) {&#10;&#10;&#9;// Add your code here&#10;&#9;var gdt = new GlideDateTime(current.end_time);&#10;&#9;var gdtReturn = gdt.getLocalTime();&#10;&#9;return gdtReturn;  // return the calculated value&#10;&#10;})(current);" label="End Hours" max_length="10" name="end_hours" read_only="true" type="glide_time"/>
+        <element label="End time" max_length="40" name="end_time" type="glide_date_time"/>
+        <element label="Host" mandatory="true" max_length="40" name="host" reference="sys_user" type="reference"/>
+        <element label="Needs Internet" max_length="40" name="internet" type="boolean"/>
+        <element label="Location" mandatory="true" max_length="32" name="location" reference="cmn_location" type="reference"/>
+        <element label="Parking Reservation" max_length="32" name="parking_reservation" read_only="true" reference="x_lsmcb_fm_parking_reservation" type="reference"/>
+        <element label="Phone" mandatory="true" max_length="40" name="phone" type="string"/>
+        <element label="Remark" max_length="300" name="remark" read_only="true" type="string"/>
+        <element label="Requester" max_length="32" name="requester" reference="sys_user" type="reference"/>
+        <element label="Room Reservation" max_length="32" name="room_reservation" read_only="true" reference="x_lsmcb_fm_room_reservation" reference_qual="text_requesterSAMEAStext_requester^state=2^start_time&gt;=javascript:gs.daysAgoStart(0)^EQ" reference_qual_condition="text_requesterSAMEAStext_requester^state=2^start_time&gt;=javascript:gs.daysAgoStart(0)^EQ" type="reference"/>
+        <element calculation="(function calculatedFieldValue(current) {&#10;&#10;&#9;// Add your code here&#10;&#9;var gdt = new GlideDateTime(current.start_time);&#10;&#9;var gdtReturn = gdt.getTime();&#10;&#9;return gdtReturn;  // return the calculated value&#10;&#10;})(current);" label="Start Hours" max_length="10" name="start_hours" read_only="true" type="glide_time"/>
+        <element label="Start time" max_length="40" name="start_time" type="glide_date_time"/>
+        <element choice="3" default="Registered" label="State" max_length="40" name="state" read_only="true" type="choice">
+            <choice>
+                <element label="Registered" sequence="0" value="Registered"/>
+                <element label="Checked-In" sequence="1" value="Checked-In"/>
+                <element label="Checked-Out" sequence="2" value="Checked-Out"/>
+                <element label="Canceled" sequence="3" value="Canceled"/>
+            </choice>
+        </element>
+        <element default="javascript:current.getTableName();" label="Class" max_length="80" name="sys_class_name" type="sys_class_name"/>
+        <element calculation="(function calculatedFieldValue(current) {&#10;&#10;&#9;// Add your code here&#10;&#9;return current.location.getDisplayValue();  // return the calculated value&#10;&#10;})(current);" label="Location" max_length="100" name="text_location" type="string" virtual="true"/>
+        <element display="true" label="Visitor" max_length="100" name="visitor" read_only="true" type="string"/>
+        <element label="First name" max_length="40" name="visitor_first_name" type="string"/>
+        <element label="Last name" mandatory="true" max_length="60" name="visitor_last_name" type="string"/>
+        <index name="index">
+            <element name="requester"/>
+        </index>
+        <index name="index2">
+            <element name="room_reservation"/>
+        </index>
+        <index name="index3">
+            <element name="contact"/>
+        </index>
+        <index name="index4">
+            <element name="parking_reservation"/>
+        </index>
+        <index name="index5">
+            <element name="host"/>
+        </index>
+        <index name="index6">
+            <element name="location"/>
+        </index>
+    </element>
+</database>

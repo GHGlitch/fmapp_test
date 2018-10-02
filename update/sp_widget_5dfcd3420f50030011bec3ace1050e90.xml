@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script/>
+        <controller_as>c</controller_as>
+        <css>.limit {
+  margin: 15px 10px 5px 5px;
+}
+
+.fixed {
+	width: 100px;
+  word-wrap: break-word;
+}
+
+a.top_icon {
+  display: block;
+  text-align: center;
+}
+
+a.top_icon.fa {
+  display: inline;
+  text-align: center;
+}
+
+a.top_icon h3 {
+  font-weight: 300;
+  padding: 0;
+ 	margin: 0px 0 -30px 0;
+}
+
+a.top_icon_mobile {
+	display: inline;
+  padding: 10px 15px 10px 15px;
+  margin: 10px 0px 10px 0px;
+}
+
+.icon_not_selected {
+	
+  padding: 0px 30px 0px 30px;
+  font-size: 30px;
+  -webkit-transition-property: font-size padding;
+  transition-property: font-size padding;
+  -webkit-transition-duration: 0.7s;
+  transition-duration: 0.7s;
+  
+}
+
+.icon_selected {
+	
+  padding: 0px 40px 0px 40px;
+  font-size: 15px;
+  -webkit-transition-property: font-size padding;
+  transition-property: font-size padding;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  
+}
+
+.icon_mobile {
+	
+  display: inherit;
+  font-size: 20px;
+  margin-right: 10px;
+  
+}
+
+.header_not_selected {
+  
+  font-size: 0px;
+  -webkit-transition-property: font-size;
+  transition-property: font-size;
+  -webkit-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+  
+}
+
+.header_selected {
+  
+  font-size: 15px;
+  -webkit-transition-property: font-size;
+  transition-property: font-size;
+  -webkit-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+  
+}
+
+.header_mobile {
+	
+  display: inherit;
+  font-size: 15px;
+  
+}
+
+.icon-link-background-primary {
+  background-color: $brand-primary;
+}
+
+.icon-link-background-info {
+  background-color: $brand-info;
+}
+
+.icon-link-background-success {
+  background-color: $brand-success;
+}
+
+.icon-link-background-warning {
+  background-color: $brand-warning;
+}
+
+.icon-link-background-danger {
+  background-color: $brand-danger;
+}
+
+.icon-link-background-default {
+  background-color: $btn-default-bg;
+}
+
+.icon-link-text-primary {
+ color: $brand-primary; 
+}
+
+.icon-link-text-info {
+ color: $brand-info; 
+}
+
+.icon-link-text-success {
+ color: $brand-success; 
+}
+
+.icon-link-text-warning {
+ color: $brand-warning; 
+}
+
+.icon-link-text-danger {
+ color: $brand-danger; 
+}
+
+.icon-link-text-default {
+  color: $btn-default-bg;
+}</css>
+        <data_table>sp_instance_link</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list>title,glyph,short_description,type,class_name,sc_category,url,kb_article,kb_category,kb_topic,color,sc_cat_item,sp_page</field_list>
+        <has_preview>false</has_preview>
+        <id>fm-icon-link</id>
+        <internal>false</internal>
+        <link/>
+        <name>FM Icon Link</name>
+        <option_schema>[{"name":"link_template","label":"Template","type":"choice","choices":[{"label":"Top Icon","value":"Top Icon"},{"label":"Circle Icon","value":"Circle Icon"},{"label":"Color Box","value":"Color Box"}]},{"name":"target","label":"Target","type":"choice","choices":[{"label":"_blank","value":"_blank"},{"label":"_self","value":"_self"}]}]</option_schema>
+        <public>false</public>
+        <roles>x_lsmcb_fm.fm_base</roles>
+        <script><![CDATA[(function() {})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-08-02 09:45:36</sys_created_on>
+        <sys_id>5dfcd3420f50030011bec3ace1050e90</sys_id>
+        <sys_mod_count>69</sys_mod_count>
+        <sys_name>FM Icon Link</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sp_widget_5dfcd3420f50030011bec3ace1050e90</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-11-22 16:57:07</sys_updated_on>
+        <template><![CDATA[<div class="limit">
+  
+  <!-- // Top Icon -->
+  <a ng-if="::(options.link_template == 'Top Icon' || !options.link_template)" ng-href="{{::options.href}}" class="top_icon hidden-xs" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
+    <div class="m-b fa fa-{{::options.glyph}} fa-4x {{::options.class_name}} icon-link-text-{{::options.color}} icon_not_selected" ng-class="hover ? 'icon_selected' : 'icon_not_selected'">
+    </div>
+    <div class="fixed">
+	  	<h3 class="icon-link-text-{{::options.color}} header_not_selected" ng-class="hover ? 'header_selected' : 'header_not_selected'"> {{::options.title}} </h3>
+    </div>
+  </a>
+  
+  <!-- // Top Icon Mobile -->
+  <a ng-if="::(options.link_template == 'Top Icon' || !options.link_template)" ng-href="{{::options.href}}" class="top_icon_mobile visible-xs-inline">
+    <div class="fa fa-{{::options.glyph}} fa-4x {{::options.class_name}} icon-link-text-{{::options.color}} icon_mobile"></div>
+    <h3 class="icon-link-text-{{::options.color}} header_mobile"> {{::options.title}} </h3>
+  </a>
+
+</div>]]></template>
+    </sp_widget>
+</record_update>

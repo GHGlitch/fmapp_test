@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices/>
+        <description>Order Interceptor for Coordinators</description>
+        <ignore_cache>false</ignore_cache>
+        <is_private>false</is_private>
+        <name>x_lsmcb_fm.order_interceptor_coordinator</name>
+        <read_roles>x_lsmcb_fm.fm_facilities_admin</read_roles>
+        <suffix>order_interceptor_coordinator</suffix>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-06-19 10:21:45</sys_created_on>
+        <sys_id>2fef340c0f67360011bec3ace1050e0e</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>x_lsmcb_fm.order_interceptor_coordinator</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_properties_2fef340c0f67360011bec3ace1050e0e</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-13 16:55:55</sys_updated_on>
+        <type>string</type>
+        <value>7c69296d0f27620011bec3ace1050e8e</value>
+        <write_roles>x_lsmcb_fm.fm_facilities_admin</write_roles>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=2fef340c0f67360011bec3ace1050e0e"/>
+</record_update>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_index">
+    <sys_index action="INSERT_OR_UPDATE">
+        <col_name_string>room_id</col_name_string>
+        <index_col_name element="room_id" name="x_lsmcb_fm_room">b898717f0f7bfa0011bec3ace1050ece</index_col_name>
+        <logical_table_name>x_lsmcb_fm_room</logical_table_name>
+        <sys_class_name>sys_index</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-13 09:43:18</sys_created_on>
+        <sys_id>924d587b0ff7fa0011bec3ace1050e6b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_lsmcb_fm_room</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_index_x_lsmcb_fm_room_room_id</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-13 09:43:18</sys_updated_on>
+        <table/>
+        <unique_index>false</unique_index>
+    </sys_index>
+</record_update>

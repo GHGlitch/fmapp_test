@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_message">
+    <sys_ui_message action="INSERT_OR_UPDATE">
+        <application>Facilities Management</application>
+        <key>fm_update_facility_order_hide_fields</key>
+        <language>en</language>
+        <message>You cannot change some of the information because there is a room reservation linked (change the reservation first)</message>
+        <sys_class_name>sys_ui_message</sys_class_name>
+        <sys_created_by>rafael.esteves</sys_created_by>
+        <sys_created_on>2017-06-12 14:45:47</sys_created_on>
+        <sys_id>90d8b1fd0f97b20011bec3ace1050e17</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>fm_update_facility_order_hide_fields</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_message_90d8b1fd0f97b20011bec3ace1050e17</sys_update_name>
+        <sys_updated_by>rafael.esteves</sys_updated_by>
+        <sys_updated_on>2017-06-12 14:45:47</sys_updated_on>
+    </sys_ui_message>
+</record_update>

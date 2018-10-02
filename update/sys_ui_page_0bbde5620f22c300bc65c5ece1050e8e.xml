@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script/>
+        <description>Fruition Partners Support page.</description>
+        <direct>false</direct>
+        <endpoint>x_lsmcb_fm_fm_contact_page.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	
+	<head>
+		<style>
+			header {
+				margin: 2%;
+			}
+			.content {
+				padding: 65px 8.24742% 100px;
+				border: 1px solid #57ac51;
+			    width: calc(100% - 40px);
+				max-width: 970px;
+				background: #fff;
+				position: relative;
+			}
+			section {
+				display: block;
+			}
+			
+			body {
+				color: #000;
+				font-family: "ProximaNova-Regular",sans-serif !important;
+				font-size: 14px;
+				line-height: 130%;
+				-webkit-font-smoothing: antialiased;
+			}
+			.content h3 {
+				margin-top: 2em;
+				color: #959595;
+			}
+			*,:after,:before {
+				box-sizing: border-box;
+			}
+			
+			#main-header #logo {
+				position: relative;
+				max-width: 184px;
+				z-index: 90
+			}
+		</style>
+	</head>
+	<header id="main-header">
+    		<img onerror="this.onerror=null; this.src='https://www.fruitionpartners.nl/assets/themes/logicalis/images/logo/DXC-Fruition-small.png'" src="https://www.fruitionpartners.nl/assets/themes/logicalis/images/logo/DXC-Fruition-small.png" alt="Your" id="logo"> </img>
+	</header>
+		
+		<div class="main-wrapper" style="margin-left: 20%;">
+			<section class="content">
+				<article class="post-370 page type-page status-publish hentry">
+					<h1>Contact us</h1>
+					<div class="post-content">
+						<p>For questions please do not hesitate to contact us at<span style="display:inline-block; width: 4px;"></span><a href="mailto:support@fruitionpartners.nl">support@fruitionpartners.nl</a>, or call us at +31(0)70 7990030.</p>
+						<p> </p>
+						<h3>Visiting address:</h3>
+						<div>
+							<p>Patrijsweg 90</p>
+							<p>2289 EX Rijswijk</p>
+							<p>The Netherlands</p>
+						</div>
+					</div>
+				</article>
+			</section>
+		</div>
+</j:jelly>]]></html>
+        <name>fm_contact_page</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-11-23 11:23:01</sys_created_on>
+        <sys_id>0bbde5620f22c300bc65c5ece1050e8e</sys_id>
+        <sys_mod_count>21</sys_mod_count>
+        <sys_name>fm_contact_page</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_page_0bbde5620f22c300bc65c5ece1050e8e</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-01-04 10:22:20</sys_updated_on>
+    </sys_ui_page>
+</record_update>

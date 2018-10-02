@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Parking Reservation" max_length="40" name="x_lsmcb_fm_parking_reservation" type="collection">
+        <element label="Checked-In on" max_length="40" name="checked_in_on" read_only="true" type="glide_date_time"/>
+        <element label="Checked-Out on" max_length="40" name="checked_out_on" read_only="true" type="glide_date_time"/>
+        <element label="Employee" max_length="32" name="employee" reference="sys_user" reference_qual="active=true^EQ" reference_qual_condition="active=true^EQ" type="reference"/>
+        <element label="End Time" mandatory="true" max_length="40" name="end_time" type="glide_date_time"/>
+        <element hint="Leave empty if unknown" label="License Plate" max_length="10" name="license_plate" type="string"/>
+        <element label="Location" mandatory="true" max_length="32" name="location" reference="cmn_location" reference_qual="javascript:new x_lsmcb_fm.FMParkingUtils().getValidLocations();" type="reference" use_reference_qualifier="advanced"/>
+        <element display="true" label="Parking Lot" mandatory="true" max_length="32" name="parking_lot" reference="x_lsmcb_fm_parking_lot" reference_qual="javascript:new x_lsmcb_fm.FMParkingUtils().getAvailableParkingLotForm(current.location, 'all', current.start_time, current.end_time);" type="reference" use_reference_qualifier="advanced"/>
+        <element default="1" label="Quantity" max_length="40" name="quantity" type="integer"/>
+        <element label="Remark" max_length="2000" name="remark" type="string"/>
+        <element label="Start Time" mandatory="true" max_length="40" name="start_time" type="glide_date_time"/>
+        <element choice="3" default="Registered" label="State" max_length="40" name="state" type="choice">
+            <choice>
+                <element label="Registered" sequence="0" value="Registered"/>
+                <element label="Checked-In" sequence="1" value="Checked-In"/>
+                <element label="Checked-Out" sequence="2" value="Checked-Out"/>
+                <element label="Canceled" sequence="3" value="Canceled"/>
+                <element label="Overdue" sequence="4" value="Overdue"/>
+            </choice>
+        </element>
+        <element calculation="(function calculatedFieldValue(current) {&#10;&#10;&#9;// Add your code here&#10;&#9;return current.location.getDisplayValue();  // return the calculated value&#10;&#10;})(current);" label="Location" max_length="100" name="text_location" type="string" virtual="true"/>
+        <element calculation="(function calculatedFieldValue(current) {&#10;&#10;&#9;// Add your code here&#10;&#9;return current.parking_lot.getDisplayValue();  // return the calculated value&#10;&#10;})(current);" label="Parking Lot" max_length="100" name="text_parking_lot" read_only="true" type="string" virtual="true"/>
+        <element calculation="(function calculatedFieldValue(current) {&#10;&#10;&#9;// Add your code here&#10;&#9;return current.visit.getDisplayValue();  // return the calculated value&#10;&#10;})(current);" label="Visit" max_length="40" name="text_visit" type="string" virtual="true"/>
+        <element label="Visit" max_length="32" name="visit" read_only="true" reference="x_lsmcb_fm_visit" type="reference"/>
+        <element label="Visitor" max_length="40" name="visitor" type="string"/>
+        <index name="index">
+            <element name="location"/>
+        </index>
+        <index name="index2">
+            <element name="visit"/>
+        </index>
+        <index name="index3">
+            <element name="employee"/>
+        </index>
+        <index name="index4">
+            <element name="parking_lot"/>
+        </index>
+    </element>
+</database>

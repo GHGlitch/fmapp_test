@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_process_flow">
+    <sys_process_flow action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <condition table="x_lsmcb_fm_facility_suborder">state=2^NQstate=1^facility_order.state=5^EQ<item endquery="false" field="state" goto="false" newquery="false" operator="=" or="false" value="2"/>
+            <item endquery="false" field="state" goto="false" newquery="true" operator="=" or="false" value="1"/>
+            <item endquery="false" field="facility_order.state" goto="false" newquery="false" operator="=" or="false" value="5"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </condition>
+        <description/>
+        <label>execution</label>
+        <name>Execution</name>
+        <order>200</order>
+        <sys_class_name>sys_process_flow</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-11-28 11:47:07</sys_created_on>
+        <sys_id>7eb8f7ee0fd36a0011bec3ace1050ead</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>Execution</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_process_flow_7eb8f7ee0fd36a0011bec3ace1050ead</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-03-07 15:02:45</sys_updated_on>
+        <table>x_lsmcb_fm_facility_suborder</table>
+    </sys_process_flow>
+</record_update>

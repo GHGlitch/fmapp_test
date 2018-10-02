@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Fm M2m Record Produ Landing Pag" max_length="40" name="x_lsmcb_fm_m2m_record_produ_landing_pag" type="collection">
+        <element label="Landing Page UX Action" max_length="32" name="landing_page_ux_action" reference="x_lsmcb_fm_landing_page_ux_action" type="reference"/>
+        <element label="Record Producer" max_length="32" name="record_producer" reference="sc_cat_item_producer" type="reference"/>
+        <index name="index">
+            <element name="record_producer"/>
+        </index>
+        <index name="index2">
+            <element name="landing_page_ux_action"/>
+        </index>
+    </element>
+</database>

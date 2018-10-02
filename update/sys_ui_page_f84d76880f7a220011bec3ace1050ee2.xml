@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[var qrcode = new QRCode(gel("qrcode"), {
+	width : 200,
+	height : 200,
+	colorDark : "#000",
+	colorLight : "#fff"
+});
+
+function newCode(){
+	var elText = gel("text").value;
+	qrcode.makeCode(document.location.origin+elText);
+
+	var textId = document.location.origin+elText;
+	gel('idField').textContent = textId;
+
+}
+
+function PrintElem(elem){
+	Popup(gel(elem));
+}
+
+function Popup(data){
+	var docType = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">";
+	var disp_setting = "toolbar=no,location=no,directories=no,menubar=no,";
+	disp_setting += "scrollbars=yes,width=600, height=400, left=50, top=25,_blank";
+
+	if (navigator.appName != "Microsoft Internet Explorer") disp_setting = "";
+
+	var mywindow = window.open('', '', disp_setting);
+	mywindow.document.open();
+	mywindow.document.write(docType);
+	mywindow.document.write('<html><head><title></title>');
+	mywindow.document.write('<link rel="stylesheet" href="9db823d80f7e220011bec3ace1050e40.cssdbx?" type="text/css" />');
+	mywindow.document.write('</head><body >');
+	mywindow.document.write(data.innerHTML);
+	mywindow.document.write('</body></html>');
+
+	mywindow.document.close(); // necessary for IE >= 10
+	mywindow.focus(); // necessary for IE >= 10
+
+	mywindow.print();
+	mywindow.close();
+
+	return true;
+}
+
+//Triger on GlideWindowPopup
+newCode();
+
+parent.document.getElementById("x_lsmcb_fm_fm_QRcode_generator").style.left = "40%";
+parent.document.getElementById("x_lsmcb_fm_fm_QRcode_generator").style.top = "15%";]]></client_script>
+        <description>QR Code generator for GlideWindow popup</description>
+        <direct>false</direct>
+        <endpoint>x_lsmcb_fm_fm_QRcode_generator.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+
+
+
+	<!--                                    LOAD CONTROLERS
+
+   ****************************************
+
+-->
+
+
+	<g:requires name="x_lsmcb_fm.fm_qrcode_library.jsdbx" />
+
+
+
+
+
+
+	<!--                                          Cascade Style Sheet
+   **********************************
+-->
+
+	<link href="9db823d80f7e220011bec3ace1050e40.cssdbx?" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+	<!--                                   THE HTML
+	*************************
+
+-->
+
+	<input id="text" type="text" style="width:80%;display:none" value="/x_lsmcb_fm_fm_mobile_landing_page.do?sysparm_fmsysid=${JS,HTML:RP.getParameterValue('sysparm_fmSysid')}&amp;sysparm_fmtable=${JS,HTML:RP.getParameterValue('sysparm_fmTable')}"/>
+	
+	<br/>
+
+	<div id="qrcodeFrame" >
+		<table bgcolor="#e7e9eb" width="165" border="0" cellspacing="0" cellpadding="0" class="meetingDetails_table " align="center" style="-webkit-print-color-adjust: exact;">
+			<tbody>
+				<tr  border="0" cellspacing="0" cellpadding="0" >
+					<td valign="middle"  border="0" cellspacing="0" cellpadding="0"  align="center">
+						<h2>${JS,HTML:RP.getParameterValue('sysparm_fmName')}</h2>
+					</td>
+				</tr>
+				<tr  border="0" cellspacing="0" cellpadding="0" >
+					<td valign="top" align="center"  border="0" cellspacing="0" cellpadding="0"  style="padding:0" class="innerRow"><div id="qrcode"></div></td>
+				</tr>
+			</tbody>
+		</table>
+		<div valign="top" align="center"><span style="font-weight:bold; font-size:10px;color:#fff; display:none">ID:</span><span id="idField" style="font-weight:normal; font-size:10px;color:#fff; display:none"></span></div>
+	</div>
+
+	<br/>
+	<br/>
+	<br/>
+	
+	<button id="addBtn" ONCLICK="PrintElem('qrcodeFrame')" style="width:99%">${gs.getMessage('fm_print')}</button>
+
+		</j:jelly>]]></html>
+        <name>fm_QRcode_generator</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-10-26 16:31:51</sys_created_on>
+        <sys_id>f84d76880f7a220011bec3ace1050ee2</sys_id>
+        <sys_mod_count>143</sys_mod_count>
+        <sys_name>fm_QRcode_generator</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_page_f84d76880f7a220011bec3ace1050ee2</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-06-05 14:17:19</sys_updated_on>
+    </sys_ui_page>
+</record_update>

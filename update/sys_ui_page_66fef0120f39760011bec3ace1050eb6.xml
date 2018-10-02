@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[ $j('#inputid').attr('data-date-format', g_user_date_format);]]></client_script>
+        <description>RP planboard.</description>
+        <direct>false</direct>
+        <endpoint>x_lsmcb_fm_fm_gantt_special_rooms.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+
+    <head>
+        <title>${gs.getMessage("fm_planboard")}</title>
+		
+	<style>
+		.spacer{
+		margin-right: 10px;
+		bottom: 0px;
+		margin-bottom: 0px;
+		}
+		
+		.smallSpacer{
+		margin-right: 5px;
+		bottom: 0px;
+		margin-bottom: 0px;
+		}
+		
+		.textlabels{
+		margin-bottom: 10px;
+		padding-left: 6px;
+		}
+		</style>
+
+        <meta name="viewport" content="width=device-width" />
+
+        <!--
+   *****************************************************
+   ****************** Start of Styles ******************
+   *****************************************************
+  -->
+
+        <!--Gantt Main -->
+        <link href="1b8440cb0f9e2e0011bec3ace1050e2f.cssdbx?" rel="stylesheet" type="text/css" />
+
+        <!--Angular Gantt Min 1.2.13 -->
+        <link href="480a2ef90f26224011bec3ace1050ec2.cssdbx?" rel="stylesheet" type="text/css" />
+
+        <!--Angular Gantt Plugins 1.2.13 -->
+        <link href="554a66f90f26224011bec3ace1050ec2.cssdbx?" rel="stylesheet" type="text/css" />
+
+
+        <!--
+   *****************************************************
+   ************* Start of Librarie Includes ************
+   *****************************************************
+  -->
+
+        <g:requires name="x_lsmcb_fm.fm_angular.1.4.9.min.jsdbx" />
+
+
+
+        <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.min.js"></script>
+        <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.3.9/angular-strap.min.js"></script>
+        <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.3.9/angular-strap.tpl.min.js"></script>
+
+
+        <g:requires name="x_lsmcb_fm.fm_moment_locales.2.15.1.min.jsdbx" />
+        <g:requires name="x_lsmcb_fm.fm_angular_moment.min.jsdbx" />
+        <g:requires name="x_lsmcb_fm.fm_moment_range.2.0.3.min.jsdbx" />
+
+        <script type='text/javascript' src="https://rawgit.com/JimLiu/angular-ui-tree/master/dist/angular-ui-tree.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://rawgit.com/angular-ui-tree/angular-ui-tree/master/dist/angular-ui-tree.min.css" />
+
+        <script type='text/javascript' src="https://rawgit.com/ganarajpr/angular-dragdrop/master/draganddrop.js"></script>
+
+        <script type='text/javascript' src="https://rawgit.com/marcj/css-element-queries/master/src/ElementQueries.js"></script>
+        <script type='text/javascript' src="https://rawgit.com/marcj/css-element-queries/master/src/ResizeSensor.js"></script>
+        <g:requires name="x_lsmcb_fm.font_awesome_enforcer.jsdbx" />
+        <g:requires name="x_lsmcb_fm.fm_angular_gantt.1.2.14.jsdbx" />
+		<g:requires name="x_lsmcb_fm.fm_angular_gantt.1.2.14_plugi.jsdbx" />
+
+
+    </head>
+
+    <body>
+        <div ng-app="ganttFM" ng-controller="MainCtrl">
+            
+            <div class="navbar navbar-default" role="navigation" bs-navbar="bs-navbar">
+                <div class="navbar-header">
+                    <a class="navbar-brand">${gs.getMessage("fm_planboard")}</a>
+                </div>
+            </div>
+
+            <div class="container-content" ng-show="false">
+                <div class="container-fluid">
+                    <div class="row top-buffer">
+                        <div class="col-md-12">
+                            <i class="fa fa-cog fa-spin"></i> ${gs.getMessage('fm_loading')}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-content" ng-cloak="true">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel-group" bs-collapse="bs-collapse">
+                                <div class="panel panel-default">
+                                    
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">${gs.getMessage("fm_options")}</h4>
+                                    </div>
+
+                                    <div class="panel-collapse" bs-collapse-target="bs-collapse-target">
+                                        <div class="panel-body">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="form-inline">
+                                                        
+                                                        <div class="form-group input-append ">
+                                                           <div class="textlabels"> <label class="control-label">${gs.getMessage("fm_location")}</label></div>
+                                                            <button type="button" style="width: 16em; text-align: left" class="spacer btn btn-default" ng-model="options.location" bs-options="m.value as m.label for m in options.locations" ng-change="reload()" bs-select="bs-select"></button>
+                                                        </div>
+
+                                                        <div class="form-group input-append">
+                                                            <div class="textlabels"><label class="control-label">${gs.getMessage("fm_floor")}</label></div>
+                                                            <button type="button" style="width: 8em; text-align: left" class="spacer btn btn-default" ng-model="options.filterRowFloor" placeholder="${gs.getMessage('fm_all')}" bs-options="m.value as m.label for m in options.floors" bs-select="bs-select"></button>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                             <div class="textlabels"><label class="control-label">${gs.getMessage("fm_sort_rooms")}</label></div>
+                                                            <button type="button" style="width: 8em; text-align: left" class="spacer btn btn-default" ng-model="options.sortMode" placeholder="Sort by" bs-options="m.value as m.label for m in [{label: '${gs.getMessage('fm_name')}', value: 'model.name'}, {label: '${gs.getMessage('fm_capacity')}', value: '-model.capacity'}]"
+                                                                bs-select="bs-select"></button>
+                                                        </div>
+
+                                                        <div class="form-group input-append text-center">
+                                                             <div class="textlabels"><label class="control-label"><!-- <i class="fa fa-filter"></i>${gs.getMessage("fm_filter")} --></label></div>
+                                                            <input type="text" class="smallSpacer form-control" style="width: 8em; text-align: left" placeholder="${gs.getMessage('fm_room')}" ng-model="options.filterRow" />
+                                                            <input type="text" class="smallSpacer form-control" style="width: 8em; text-align: left" placeholder="${gs.getMessage('fm_requester')}" ng-model="options.filterTask" />
+                                                            <input type="text" class="smallSpacer form-control" style="width: 8em; text-align: left" placeholder="${gs.getMessage('fm_subject')}" ng-model="options.filterTaskSubject" />
+                                                        </div>
+
+                                                        <div class="form-group text-center">
+                                                            <div class="textlabels"> <label class="control-label"><!-- <i class="fa fa-calendar"></i> <i class="fa fa-arrows-h"></i> <i class="fa fa-calendar"></i>${gs.getMessage("fm_date_range")} --></label></div>
+                                                            <div class="form-group">
+                                                                <input type="text" id="inputid" class="spacer form-control" style="width: 12em" ng-model="options.fromDate"  start-week="1" placeholder="${gs.getMessage('fm_from')}" ng-change="updateDates('false')" bs-datepicker="bs-datepicker" data-date-format="yy/mm/dd" autoclose="true"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row top-buffer">
+                        <div class="col-md-12">
+                            <div class="panel-group" bs-collapse="bs-collapse">
+                                <div class="panel panel-default">
+
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">${gs.getMessage("fm_room_overview")}</h4>
+                                    </div>
+
+                                    <div class="panel-collapse" bs-collapse-target="bs-collapse-target">
+                                        <div class="panel-body">
+                                            <div gantt="gantt" data="data" daily="options.daily" filter-task="{'requester': options.filterTask, 'subject': options.filterTaskSubject}" filter-row="{'name': options.filterRow, 'floor': options.filterRowFloor}" sort-mode="options.sortMode" view-scale="options.scale"
+                                                column-width="getColumnWidth(options.width, options.scale, options.zoom)" auto-expand="options.autoExpand" task-out-of-range="options.taskOutOfRange" from-date="options.fromDate" to-date="options.toDate" task-content="options.taskContent"
+                                                allow-side-resizing="options.allowSideResizing" current-date="options.currentDate" current-date-value="options.currentDateValue" max-height="options.maxHeight &amp;&amp; 300 || 0" time-frames="options.timeFrames"
+                                                date-frames="options.dateFrames" time-frames-working-mode="options.timeFramesWorkingMode" time-frames-non-working-mode="options.timeFramesNonWorkingMode" api="options.api">
+                                                <gantt-table columns="options.columns" headers="options.columnsHeaders" classes="options.columnsClasses">
+                                                </gantt-table>
+												<gantt-bounds enabled="options.bounds"></gantt-bounds>
+                                                <gantt-tooltips content="options.tooltipContent"></gantt-tooltips>
+                                                <gantt-sortable></gantt-sortable>
+                                                <gantt-movable enabled="false"></gantt-movable>
+                                                <gantt-draw-task enabled="false" task-factory="options.drawTaskFactory"></gantt-draw-task>
+                                                <gantt-overlap></gantt-overlap>
+                                                <gantt-resize-sensor></gantt-resize-sensor>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="container-content" ng-cloak="true">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <small>angular-gantt (@@version) - Gantt chart component for AngularJS | MIT License | Copyright © 2015 Marco Schweighauser and Rémi Alvergnat</small>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            
+        </div>
+        <g2:requires name="x_lsmcb_fm.fm_gantt_special_rooms_contro.jsdbx" />
+    </body>
+</j:jelly>]]></html>
+        <name>fm_gantt_special_rooms</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-03-31 10:14:03</sys_created_on>
+        <sys_id>66fef0120f39760011bec3ace1050eb6</sys_id>
+        <sys_mod_count>13</sys_mod_count>
+        <sys_name>fm_gantt_special_rooms</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_page_66fef0120f39760011bec3ace1050eb6</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-07 14:41:33</sys_updated_on>
+    </sys_ui_page>
+</record_update>

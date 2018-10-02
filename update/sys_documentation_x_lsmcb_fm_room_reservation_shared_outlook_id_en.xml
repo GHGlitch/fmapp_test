@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="shared_outlook_id" label="Shared Outlook ID" language="en" table="x_lsmcb_fm_room_reservation">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>shared_outlook_id</element>
+            <help/>
+            <hint/>
+            <label>Shared Outlook ID</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_room_reservation</name>
+            <plural>Shared Outlook IDs</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>diogo.costa</sys_created_by>
+            <sys_created_on>2018-07-23 15:06:41</sys_created_on>
+            <sys_id>9373b4ec0f2b5f00bc65c5ece1050e78</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Shared Outlook ID</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_documentation_x_lsmcb_fm_room_reservation_shared_outlook_id_en</sys_update_name>
+            <sys_updated_by>diogo.costa</sys_updated_by>
+            <sys_updated_on>2018-07-23 15:06:41</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

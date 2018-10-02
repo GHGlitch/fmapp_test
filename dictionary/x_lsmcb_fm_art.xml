@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element audit="true" label="Art" max_length="40" name="x_lsmcb_fm_art" type="collection">
+        <element label="Artist" mandatory="true" max_length="32" name="artist" reference="x_lsmcb_fm_artist" type="reference"/>
+        <element choice="1" label="Art class" max_length="40" name="art_class" type="choice">
+            <choice>
+                <element label="A" value="a"/>
+                <element label="B" value="b"/>
+                <element label="C" value="c"/>
+            </choice>
+        </element>
+        <element label="Available for Loan" max_length="40" name="available_for_loan" type="boolean"/>
+        <element label="Code" max_length="32" name="code" type="string"/>
+        <element label="Condition" max_length="2000" name="condition" type="string"/>
+        <element label="Dimensions  (cm x cm)" max_length="40" name="dimensions" type="string"/>
+        <element label="Edition" max_length="40" name="edition" type="string"/>
+        <element label="Information" max_length="1024" name="information" type="html"/>
+        <element label="Location" mandatory="true" max_length="32" name="location" reference="cmn_location" reference_qual="parentISEMPTY^EQ" reference_qual_condition="parentISEMPTY^EQ" type="reference"/>
+        <element label="Photo" max_length="40" name="photo" type="user_image"/>
+        <element label="Production Date" max_length="32" name="production" type="string"/>
+        <element label="Year of purchase" max_length="4" name="purchase_date" type="string"/>
+        <element label="Purchase Price" max_length="32" name="purchase_price" type="currency"/>
+        <element label="Space" max_length="32" name="room" reference="x_lsmcb_fm_room" reference_qual="javascript:new x_lsmcb_fm.FMArtRelatedAjaxUtils().roomRefQualifier(current.location);" type="reference" use_reference_qualifier="advanced"/>
+        <element label="Short Description" max_length="512" name="short_description" type="string"/>
+        <element label="Signature" max_length="40" name="signature" type="string"/>
+        <element choice="1" label="Status" max_length="40" name="status" type="choice">
+            <choice>
+                <element label="Archived" value="5"/>
+                <element label="In use" value="1"/>
+                <element label="Loaned" value="2"/>
+                <element label="Missing" value="3"/>
+                <element label="Sold" value="4"/>
+            </choice>
+        </element>
+        <element label="Surface Material" max_length="40" name="surface_material" type="string"/>
+        <element label="Technique" max_length="10024" name="technique" type="string"/>
+        <element display="true" label="Title" max_length="160" name="title" type="string"/>
+        <element choice="1" label="Type" max_length="32" name="type" type="choice">
+            <choice>
+                <element label="Painting" sequence="0" value="Painting"/>
+                <element label="Photo" sequence="1" value="Photo"/>
+                <element label="Sculpture" sequence="2" value="Sculpture"/>
+                <element label="Drawing" sequence="3" value="Drawing"/>
+                <element label="Printing" sequence="4" value="Printing"/>
+                <element label="Other" sequence="5" value="Other"/>
+            </choice>
+        </element>
+        <element label="Visible on portal" max_length="40" name="visible_on_portal" type="boolean"/>
+        <element label="Work notes" max_length="4000" name="work_notes" type="journal_input"/>
+        <index name="index">
+            <element name="code"/>
+        </index>
+        <index name="index2">
+            <element name="artist"/>
+        </index>
+        <index name="index3">
+            <element name="location"/>
+        </index>
+        <index name="index4">
+            <element name="room"/>
+        </index>
+    </element>
+</database>

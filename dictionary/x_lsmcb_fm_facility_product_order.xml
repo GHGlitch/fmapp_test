@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Facility Product Order" max_length="40" name="x_lsmcb_fm_facility_product_order" type="collection">
+        <element label="Facility Order" max_length="32" name="facility_order" reference="x_lsmcb_fm_facility_order" reference_cascade_rule="delete" type="reference"/>
+        <element label="Facility Product" max_length="32" name="facility_product" reference="x_lsmcb_fm_facility_product" type="reference"/>
+        <element label="Facility Suborder" max_length="32" name="facility_suborder" reference="x_lsmcb_fm_facility_suborder" reference_floats="true" type="reference"/>
+        <element default="1" label="Quantity" max_length="40" name="quantity" type="integer"/>
+        <index name="index">
+            <element name="facility_product"/>
+        </index>
+        <index name="index2">
+            <element name="facility_suborder"/>
+        </index>
+        <index name="index3">
+            <element name="facility_order"/>
+        </index>
+    </element>
+</database>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_properties_category_m2m">
+    <sys_properties_category_m2m action="INSERT_OR_UPDATE">
+        <category display_value="Outlook Integration Properties">911f01980fa14f0011bec3ace1050ef4</category>
+        <order>200</order>
+        <property display_value="x_lsmcb_fm.calendar_integration_protocol" name="x_lsmcb_fm.calendar_integration_protocol">5f4c56aedb73c3003d279c27db9619e9</property>
+        <sys_class_name>sys_properties_category_m2m</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-07-20 09:23:05</sys_created_on>
+        <sys_id>851880a7dbd31b003d279c27db961940</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>x_lsmcb_fm.integration_protocol.Outlook Integration Properties</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_properties_category_m2m_851880a7dbd31b003d279c27db961940</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-07-20 09:23:38</sys_updated_on>
+    </sys_properties_category_m2m>
+</record_update>

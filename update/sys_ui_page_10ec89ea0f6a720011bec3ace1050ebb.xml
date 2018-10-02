@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[function profilePic (){
+	var userID = gel('fmuser').value;
+	
+	var ga = new GlideAjax('x_lsmcb_fm.FMMobileLandingPageAjaxUtils');
+	ga.addParam('sysparm_name', 'getProfilePic');
+	ga.addParam('sysparm_sysid', userID);
+	ga.getXML(handleResponse);
+	
+	function handleResponse(response){
+		var answer = response.responseXML.documentElement.getAttribute("answer");
+		if(!answer) answer = 'fm_default_pic.jpg';
+			drawPic(answer);
+	}
+}
+profilePic ();
+
+function drawPic (query_object){
+	var pic = gel('pic');
+	pic.innerHTML = pic.innerHTML + '	<img id="profilePic" src="'+query_object+'" class="circle"/>';
+}
+
+function populateRPs (){
+	var objectID = gel('fmsysid').value;
+	var table = gel('fmtable').value;
+	
+	var action = gel('fmaction').value;
+	var ga = new GlideAjax('x_lsmcb_fm.FMMobileLandingPageAjaxUtils');
+	ga.addParam('sysparm_name', 'getActions');
+	ga.addParam('sysparm_action', action);
+	ga.getXML(handleResponse);
+	
+	function handleResponse(response){
+		var answer = response.responseXML.documentElement.getAttribute("answer");
+		if(answer) {
+			var queryObj = JSON.parse(answer);
+// 			console.log(queryObj);
+			for (var i=queryObj.length-1; i>=0; i--){
+			var rp = gel('itemActions');
+			rp.innerHTML = rp.innerHTML + '<a href="/com.glideapp.servicecatalog_cat_item_view.do?v=1&sysparm_id=' + queryObj[i].sys_id + '&sysparm_object_id=' + objectID + '&sysparm_table=' + table + '" id="addBtn"><img src="' + queryObj[i].image + '"/>' + queryObj[i].name + '</a><br/>';
+			}
+		}
+	}
+}
+populateRPs();]]></client_script>
+        <description>Landing Page for the facilties management  mobile access using the QRCode reader.</description>
+        <direct>false</direct>
+        <endpoint>x_lsmcb_fm_fm_mobile_landing_page.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+
+    <style>
+        
+        body {
+            background-repeat: space;
+            background: -webkit-radial-gradient(bottom, #e7e9eb, #e7e9eb);
+            background: radial-gradient(to top, #e7e9eb, #e7e9eb);
+            font-family: 'Roboto', sans-serif;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .top_banner {
+            background-color: #555759;
+            width: 100%;
+            height: 45px;
+            border-bottom: 2px #34a332 solid;
+            
+        }
+
+        .circle {
+            display: block;
+            width: 50px;
+            height: 50px;
+            margin: 1em auto;
+			background-color: #fff;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            -webkit-border-radius: 99em;
+            -moz-border-radius: 99em;
+            border-radius: 99em;
+        }
+
+        .square {
+            display: block;
+            width: 98%;
+            margin: 1em auto;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            -webkit-border-radius: 1em;
+            -moz-border-radius: 1em;
+            border-radius: 1em;
+            border: 5px solid #eee;
+            box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+        }
+
+        .product_description {
+            font-family: SourceSansPro, "Helvetica Neue", Arial;
+            text-align: justify;
+            width: 98%;
+            font-size: 12px;
+            line-height: 14px;
+            color: ##717171;
+            padding: 17px;
+            margin-bottom: 15px;
+            margin-top: 15px;
+        }
+
+        .price_description {
+            font-family: SourceSansPro, "Helvetica Neue", Arial;
+            text-align: center;
+            width: 98%;
+            font-size: 24px;
+            font-style: italic;
+            line-height: 44px;
+            color: #8e8e8e;
+            display: inline-block;
+            border-bottom: 2px #fff solid;
+            padding-bottom: 17px;
+            margin-top: 25px;
+        }
+
+        .user_details_list {
+            border-collapse: separate;
+            border-radius: 3px;
+            -moz-border-radius: 3px;
+            font-family: SourceSansPro, "Helvetica Neue", Arial;
+            font-size: 8px;
+            color: #fff;
+            background-color: #717171;
+        }
+
+        .item_title {
+            font-family: SourceSansPro, "Helvetica Neue", Arial;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            color: #717171;
+            display: inline-block;
+            padding-left: 15px;
+            margin-top: 12px;
+            width: 98%;
+        }
+
+        .room_details_list {
+            border-collapse: separate;
+            border: solid #fff 1px;
+            border-radius: 3px;
+            -moz-border-radius: 3px;
+            font-family: SourceSansPro, "Helvetica Neue", Arial;
+            font-size: 11px;
+            padding: 10px 10px 10px 10px;
+            color: #fff;
+            background-color: #8e8e8e;
+        }
+
+        .room_reserv_list {
+            border-collapse: separate;
+            border: solid #fff 1px;
+            border-radius: 3px;
+            -moz-border-radius: 3px;
+            font-family: SourceSansPro, "Helvetica Neue", Arial;
+            font-size: 11px;
+            padding: 5px 5px 5px 5px;
+            color: #fff;
+            background-color: #8e8e8e;
+        }
+		
+        .new {
+            background-color: #8e8e8e;
+            font-family: SourceSansPro, "Helvetica Neue", Arial;
+            font-size: 9px;
+            letter-spacing: -0.033em;
+            font-weight: normal;
+            color: #fff;
+            height: 15px;
+        }
+
+        h3 {
+            font-family: SourceSansPro, "Helvetica Neue", Arial;
+            font-size: 13px;
+            letter-spacing: -0.033em;
+            font-weight: bold;
+            color: #717171;
+            height: 15px;
+            display: grid;
+            padding-left: 15px;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+            margin-top: 15px;
+        }
+
+        a#addBtn {
+            display:inline-block;
+            width: 98%;
+            height: 50px;
+            background: #5bc0de;
+            /*the colour of the button*/
+            padding: 8px 14px 10px;
+            /*apply some padding inside the button*/
+            border: 1px solid #46b8da;
+            box-sizing: border-box
+            /*required or the default border for the browser will appear*/
+            cursor: pointer;
+            /*forces the cursor to change to a hand when the button is hovered*/
+            /*style the text*/
+            font-size: 12px;
+            text-transform: uppercase;
+            font-family: Century Gothic, Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            letter-spacing: .1em;
+            /*give the text a shadow - doesn't appear in Opera 12.02 or earlier*/
+            color: #fff;
+            /*give the corners a small curve*/
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            margin-top: 15px;
+            margin-left: 1%;
+        }
+        
+        a#addBtn img {
+            height: 30px;
+            margin: auto;
+            margin-right: 15px;
+        }
+        /***SET THE BUTTON'S HOVER AND FOCUS STATES***/
+
+        a#addBtn:hover,
+        a#addBtn:focus {
+            background: #46b8da;
+            /*the colour of the button*/
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        a#addBtn:hover img,
+        a#addBtn:focus img {
+        }
+        
+    </style>
+
+    <g:requires name="x_lsmcb_fm.fm_jquery.1.11.3.min.jsdbx" />
+
+
+    <g:evaluate var="jvar_getUser">
+        var gUser = gs.getUserDisplayName(); gUser;
+    </g:evaluate>
+
+    <g:evaluate var="jvar_getUserPic">
+        var userID = gs.getUserID(); userID;
+    </g:evaluate>
+
+    <g:evaluate var="jvar_action" object="true" jelly="true">
+
+        var action; var table = '${JS,HTML:RP.getParameterValue("sysparm_fmtable")}'; var object = '${JS,HTML:RP.getParameterValue("sysparm_fmsysid")}'; var actionGr = new GlideRecord('x_lsmcb_fm_landing_page_ux_action'); actionGr.addQuery('table', table); actionGr.addQuery('active', true); actionGr.query(); while(actionGr.next())
+        { var objectGr = new GlideRecord(table); objectGr.addQuery('sys_id', object); objectGr.addEncodedQuery(actionGr.condition); objectGr.query(); if(objectGr.next()) { action = actionGr.sys_id + ''; } } action;
+    </g:evaluate>
+
+    <g:evaluate var="jvar_macro" object="true" jelly="true">
+
+        var macro; var action = '${jvar_action}'; var actionGr = new GlideRecord('x_lsmcb_fm_landing_page_ux_action'); actionGr.get(action); macro = actionGr.ui_macro_name + ''; macro;
+    </g:evaluate>
+
+
+    <input id="fmsysid" value="${JS,HTML:RP.getParameterValue(&quot;sysparm_fmsysid&quot;)}" style="display:none;visibility:hidden; position:absolute; left:-100;top:-100" />
+    <input id="fmtable" value="${JS,HTML:RP.getParameterValue(&quot;sysparm_fmtable&quot;)}" style="display:none;visibility:hidden; position:absolute; left:-100;top:-100" />
+    <input id="fmuser" value="${jvar_getUserPic}" style="display:none;visibility:hidden; position:absolute; left:-100;top:-100" />
+    <input id="fmaction" value="${jvar_action}" style="display:none;visibility:hidden; position:absolute; left:-100;top:-100" />
+	
+    <div class="user_details_list">
+        <div class="top_banner"><img src="habitum_logo.png" style="height:35px;margin-top:6px; margin-left:6px" /></div>
+
+        <table cellspacing="0" cellpadding="0" border="0" id="userDetails" align="center" width="98%" class="user_details_list">
+            <tr>
+                <td valign="top" style="padding:3px;margin:3px">
+                    <div style="font-family:Verdana; font-size:12px; color: #ffffff; margin-top:15px;margin-left:15px">${gs.getMessage("fm_welcome_back")}</div>
+                    <div style="font-family:Verdana; font-size:16px; color:	#ffffff; margin-left:15px"><strong> ${jvar_getUser} </strong></div><br/>
+                </td>
+                <td valign="top" style="padding:3px;margin:3px">
+                    <div id="pic"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+
+    <div id="itemTitle" class="item_title"></div>
+    <div id="itemBody"></div>
+    <g:macro_invoke macro="${jvar_macro}"/>
+    <div id="itemActions"></div>
+    
+
+    <br />
+	
+</j:jelly>]]></html>
+        <name>fm_mobile_landing_page</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-05-08 12:40:22</sys_created_on>
+        <sys_id>10ec89ea0f6a720011bec3ace1050ebb</sys_id>
+        <sys_mod_count>204</sys_mod_count>
+        <sys_name>fm_mobile_landing_page</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_page_10ec89ea0f6a720011bec3ace1050ebb</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-07-27 13:32:46</sys_updated_on>
+    </sys_ui_page>
+</record_update>

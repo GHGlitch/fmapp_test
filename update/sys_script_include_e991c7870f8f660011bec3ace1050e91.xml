@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.DocxTemplateUtils</api_name>
+        <client_callable>false</client_callable>
+        <description>Utils for reports.</description>
+        <name>DocxTemplateUtils</name>
+        <script><![CDATA[var DocxTemplateUtils = Class.create();
+DocxTemplateUtils.prototype = {
+	initialize: function() {
+	},
+	
+	/*_________________________________________________________________
+ 	* Description: Checks for templates in the x_lsmcb_fm_docx_template matching
+	the tablename parameter it is passed;
+ 	* Parameters: tablename - internal name of the table to check for template;
+ 	* Returns: True of false;
+	________________________________________________________________*/
+	hasTemplate: function(tablename) {
+		var gr = new GlideRecord('x_lsmcb_fm_docx_template');
+		gr.addQuery('table', tablename);
+		gr.addQuery('active', true);
+		gr.addNotNullQuery('attachment_sys_id');
+		gr.query();
+		return gr.hasNext();
+	},
+	parseToArrayObject: function(string, lineTag) {
+		var strArr = string.split(/(?:\r\n|\r|\n)/g);
+		var lines = [];
+		for(var i in strArr) {
+			var obj = {};
+			obj[lineTag] = strArr[i];
+			lines.push(obj);
+		}
+		return lines;
+	},
+	/*_________________________________________________________________
+ 	* Description: Function called by the AJAX script includes to populate
+	a JSON object with tag-value pairs.
+ 	* Parameters: record - sys_id of the record to get.
+	attachmentid - sys_id of the attachment from the template
+	table.
+ 	* Returns: Populated JSON object.
+	________________________________________________________________*/
+	getReportingValues: function(record, attachmentid) {
+		//gets the sys_id of the Template based on the the UI Page selection
+		var gr = new GlideRecord('x_lsmcb_fm_docx_template');
+		gr.get('attachment_sys_id', attachmentid);
+		var JSONreturn = this.addTagsToJSON(gr.sys_id + "", record);
+		return JSON.stringify(JSONreturn) + "";
+	},
+	/*_________________________________________________________________
+ 	* Description: Retrieves the Tags from the Template Fields table,
+	then starts matching the tags to values and saves those
+	to an object.
+ 	* Parameters: parentid - sys_id of the template from the template
+	table.
+	record - sys_id of the record to get.
+ 	* Returns: Populated JSON object built during this script.
+	________________________________________________________________*/
+	addTagsToJSON: function(parentid, record) {
+		var JSONreturn = {};
+		var gr, grValue, value;
+		//Retrieves the tags from the Template Fields table that match the template
+		gr = new GlideRecord('x_lsmcb_fm_docx_template_field');
+		gr.addQuery('docx_template_field', parentid);
+		gr.query();
+		while(gr.next()){
+			value = '';
+			//Checks if the tag has not related tags
+			if(gr.parent_field == "") {
+				//Uses a glide record to get the record based on the template field values
+				grValue = new GlideRecord(gr.docx_template_field.table + "");
+				grValue.get(record);
+				//retrieves the field that matches the tag on the template fields table
+				value = grValue.getDisplayValue(gr.field) + '';
+				if(gr.allow_linebreaks) {
+					var lineTag = gr.default_paragraph_tag != '' ? gr.default_paragraph_tag : 'paragraph';
+					value = this.parseToArrayObject(value, lineTag);
+				}
+				//if the value is empty on the record, populates with 'N/A' (Not Available / Not Applicable)
+				if (value == "") {
+					value = "N/A";
+				}
+				//Creates a new property on the JSONreturn object with the tag for a property name, and value as a property value.
+				JSONreturn[gr.tag] = value;
+				// 				JSONreturn[gr.tag].maxH = value;
+				// 				JSONreturn[gr.tag].maxW = value;
+			} else {
+				//Calls the function to add the tags related to the tag with a populated parent_field and passes the appropriate parameters. More info on the function defenition.
+				value = this.addRelatedTags(gr.table + "", gr.parent_field + "", gr.sys_id + "", "", record, "", gr.condition + "", gr.sort + "", gr.sort_field + "");
+				JSONreturn[gr.tag] = value;
+			}
+		}
+		// 		{
+			// 			data: JSONreturn
+			// 			imageSizes: obj
+			// 		}
+			return JSONreturn;
+		},
+		/*_________________________________________________________________
+ 		* Description: Creates the related tags, usually a list of one or more
+		entries, and pushes it into an array. Recursive.
+ 		* Parameters:
+		table - the table from where the record values need to be retrieved.
+		field - the field on the table (^) that matches the record we have.
+		parentid - sys_id of the template fields entry of the parent tag.
+		parentField - if there's more than one layer of related tags,
+		this is required to get only the records related to
+		the parentRecord.
+		record - sys_id of the record to get.
+		parentRecord - if there's more than one layer of related tags,
+		this is required to query with parentField.
+		condition - Condition field used to filther the results based on the
+		template fields table condition field.
+ 		* Returns: Array with the related tags and its values,
+		which can be more related tags and its values, and so on.
+		________________________________________________________________*/
+		addRelatedTags: function(table, field, parentid, parentField, record, parentRecord, condition, sort, sortField) {
+			var tags = [];
+			var gr, grValue, value, relatedTags;
+			//GlideRecord to retrieve the values, modified to include parent values if they are passed.
+			grValue = new GlideRecord(table);
+			grValue.addQuery(field, record);
+			if(parentField != "" && parentRecord != ""){
+				grValue.addQuery(parentField, parentRecord);
+			}
+			if(condition != ""){
+				grValue.addEncodedQuery(condition);
+			}
+			if(sort != "No" && sortField != ""){
+				if(sort == "Ascending") {
+					grValue.orderBy(sortField);
+				}
+				grValue.orderByDesc(sortField);
+			}
+			grValue.query();
+			//if the values are empty populates with 'N/A' (Not Available / Not Applicable)
+			if(!grValue.hasNext()){
+				//needs to be instantiated here for scope reasons
+				relatedTags = {};
+				gr = new GlideRecord('x_lsmcb_fm_docx_template_field');
+				gr.addQuery('docx_template_field.table', table);
+				gr.addQuery('docx_template_field', parentid);
+				gr.query();
+				while(gr.next()){
+					relatedTags[gr.tag] = "N/A";
+				}
+				tags.push(relatedTags);
+			}
+			//iterates over the values and checks for tags for those values on the template fields table
+			while(grValue.next()){
+				value = '';
+				//needs to be instantiated here for scope reasons
+				relatedTags = {};
+				gr = new GlideRecord('x_lsmcb_fm_docx_template_field');
+				gr.addQuery('docx_template_field.table', table);
+				gr.addQuery('docx_template_field', parentid);
+				gr.query();
+				while(gr.next()){
+					//checks if the tag has no related tags or conditions
+					if(gr.parent_field == "" && gr.condition == "") {
+						value = grValue.getDisplayValue(gr.field) + '';
+						if(gr.allow_linebreaks) {
+							var lineTag = gr.default_paragraph_tag != '' ? gr.default_paragraph_tag : 'paragraph';
+							value = this.parseToArrayObject(value, lineTag);
+						}
+						relatedTags[gr.tag] = value;
+						//if theres another layer of related tags then recursive call for the new layer
+					} else {
+						relatedTags[gr.tag] = this.addRelatedTags(gr.table + "", gr.parent_field + "", gr.sys_id + "", "", grValue.sys_id + "", "", gr.condition + "", gr.sort + "", gr.sort_field + "");
+					}
+				}
+				tags.push(relatedTags);
+			}
+			//returns the complete array of related tags and their possible related tags
+			return tags;
+		},
+		//  function that returns the fieldType based on the field and the table
+		// the field may be a dot-walked field.
+		getFieldType: function(tbl, fld){
+			var aField = fld.split('.');
+			var grTbl = new GlideRecord(tbl);
+			var ed = grTbl.getElement(aField[0]).getED();
+			if(aField.length == 1){
+				return ed.getInternalType() + '';
+			} else {
+				subTable = ed.getReference() + '';
+				aField.shift();
+				subField = aField.join('.');
+				return this.getFieldType(subTable, subField);
+			}
+		},
+		type: 'DocxTemplateUtils'
+	};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-11-17 11:33:51</sys_created_on>
+        <sys_id>e991c7870f8f660011bec3ace1050e91</sys_id>
+        <sys_mod_count>39</sys_mod_count>
+        <sys_name>DocxTemplateUtils</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_e991c7870f8f660011bec3ace1050e91</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-04 09:59:52</sys_updated_on>
+    </sys_script_include>
+</record_update>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_ui_policy">
+    <sys_ui_policy action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <conditions table="x_lsmcb_fm_facility_suborder">state=5^ORstate=6^ORstate=7^ORstate=4^EQ<item endquery="false" field="state" goto="false" newquery="false" operator="=" or="false" value="5"/>
+            <item endquery="false" field="state" goto="false" newquery="false" operator="=" or="true" value="6"/>
+            <item endquery="false" field="state" goto="false" newquery="false" operator="=" or="true" value="7"/>
+            <item endquery="false" field="state" goto="false" newquery="false" operator="=" or="true" value="4"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </conditions>
+        <description/>
+        <global>true</global>
+        <inherit>false</inherit>
+        <model_id/>
+        <model_table/>
+        <on_load>true</on_load>
+        <order>100</order>
+        <reverse_if_false>true</reverse_if_false>
+        <run_scripts>false</run_scripts>
+        <script_false><![CDATA[function onCondition() {
+
+}]]></script_false>
+        <script_true><![CDATA[function onCondition() {
+
+}]]></script_true>
+        <set_values/>
+        <short_description>Make suborder read only on and after approval</short_description>
+        <sys_class_name>sys_ui_policy</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-01-03 10:18:38</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>418cb0160f08f60011bec3ace1050ee8</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Make suborder read only on and after approval</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_policy_418cb0160f08f60011bec3ace1050ee8</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-01-03 10:18:38</sys_updated_on>
+        <table>x_lsmcb_fm_facility_suborder</table>
+        <ui_type>0</ui_type>
+        <view/>
+    </sys_ui_policy>
+</record_update>

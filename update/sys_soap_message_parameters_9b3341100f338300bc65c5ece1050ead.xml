@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_soap_message_parameters">
+    <sys_soap_message_parameters action="INSERT_OR_UPDATE">
+        <name>itemID</name>
+        <soap_function display_value="GetItem">aacb17ab0f2f0300bc65c5ece1050ed9</soap_function>
+        <sys_class_name>sys_soap_message_parameters</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2018-01-17 11:41:33</sys_created_on>
+        <sys_id>9b3341100f338300bc65c5ece1050ead</sys_id>
+        <sys_mod_count>13</sys_mod_count>
+        <sys_name>itemID</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_soap_message_parameters_9b3341100f338300bc65c5ece1050ead</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-03-15 17:00:41</sys_updated_on>
+        <type>string</type>
+        <value>AAMkADMzM2RlOWM0LTRjZTEtNDZlNy1hYzZmLTc2ZjEzYTIzYjRiZgBGAAAAAACipoiNWIpzQZHGVOPoViyNBwBNUn4DPE/fQLCVbt2j9CG9AAAAAAENAABNUn4DPE/fQLCVbt2j9CG9AAAIRaS5AAA=</value>
+    </sys_soap_message_parameters>
+</record_update>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description>Angular app initializer for the room reservation page.</description>
+        <global>false</global>
+        <name>x_lsmcb_fm.fm_room_res_init_service</name>
+        <script><![CDATA[// Angular app initialization and dependency injection.
+var angRR = angular.module('FloorViewApp', []);
+
+// Service that handles the communication between controllers.
+// Receives requests and broadcasts them back to the rootScope.
+angRR.factory('sharedService', function($rootScope) {
+
+    var sharedService = {};
+	
+    sharedService.prepForFloorDataBroadcast = function(geoJSON, image, roomsData, selectedStartTime, selectedEndTime) {
+        this.geoJSON = geoJSON;
+        this.floorImageData = image;
+        this.roomsData = roomsData;
+        this.selectedStartTime = selectedStartTime;
+        this.selectedEndTime = selectedEndTime;
+        this.broadcastFloorData();
+    };
+	
+	sharedService.prepForNewResTimeBroadcast = function(newFromHour, newToHour, newFromMinute, newToMinute) {
+		this.newFromHour = newFromHour;
+		this.newToHour = newToHour;
+		this.newFromMinute = newFromMinute;
+		this.newToMinute = newToMinute;
+		this.broadcastNewResTime();
+	};
+
+    sharedService.prepForDateBroadcast = function(selectedStartTime, selectedEndTime, selectedDate) {
+        this.selectedStartTime = selectedStartTime;
+        this.selectedEndTime = selectedEndTime;
+        this.selectedDate = selectedDate;
+        this.broadcastDate();
+    };
+
+    sharedService.prepForSelectedRoomDataBroadcast = function(selectedRoomData) {
+        this.roomData = selectedRoomData;
+        this.broadcastSelectedRoomData();
+    };
+
+    sharedService.prepForMapRefreshRequest = function() {
+        this.broadcastRequestForMapRefresh();
+    };
+	
+	sharedService.prepForRoomClear = function() {
+		this.broadcastRequestForRoomClear();
+	};
+	
+	sharedService.prepForResDetailsBroadcast = function(reservation) {
+		this.reservation = reservation;
+		this.broadcastSelectedReservation();
+	};
+	
+	sharedService.prepForSliderRefreshRequest = function() {
+		this.broadcastRequestForSliderRefresh();
+	};
+	
+	sharedService.prepForQuickRes = function() {
+		this.broadcastQuickRes();
+	};
+	
+	sharedService.prepUpdateFilter = function(requester, subject) {
+		this.requester = requester;
+		this.subject = subject;
+		this.broadcastUpdateFilter();
+	};
+	
+	
+	sharedService.broadcastUpdateFilter = function() {
+		$rootScope.$broadcast('handleFilters');
+	};
+	
+	sharedService.broadcastQuickRes = function() {
+		$rootScope.$broadcast('handleQuickRes');
+	};
+	
+	
+	sharedService.broadcastNewResTime = function() {
+		$rootScope.$broadcast('handleNewResTime');
+	};
+	
+	sharedService.broadcastRequestForSliderRefresh = function() {
+		$rootScope.$broadcast('refreshSlider');
+	};
+
+    sharedService.broadcastDate = function() {
+        $rootScope.$broadcast('handleResDate');
+    };
+
+    sharedService.broadcastFloorData = function() {
+        $rootScope.$broadcast('handleFloorData');
+    };
+
+    sharedService.broadcastSelectedRoomData = function() {
+        $rootScope.$broadcast('handleRoomData');
+    };
+
+    sharedService.broadcastRequestForMapRefresh = function() {
+        $rootScope.$broadcast('refreshMap');
+	};
+	
+	sharedService.broadcastRequestForRoomClear = function() {
+		$rootScope.$broadcast('roomClear');
+	};
+	
+	sharedService.broadcastSelectedReservation = function() {
+		$rootScope.$broadcast('handleReservation');
+	};
+
+    return sharedService;
+});]]></script>
+        <script_name>fm_room_res_init_service</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>tomas.ferreira</sys_created_by>
+        <sys_created_on>2016-09-06 15:45:15</sys_created_on>
+        <sys_id>14c2dd840f71a20011bec3ace1050e01</sys_id>
+        <sys_mod_count>172</sys_mod_count>
+        <sys_name>x_lsmcb_fm.fm_room_res_init_service</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_script_14c2dd840f71a20011bec3ace1050e01</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-05-29 14:26:46</sys_updated_on>
+        <use_scoped_format>false</use_scoped_format>
+    </sys_ui_script>
+</record_update>

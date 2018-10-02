@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="content_css">
+    <content_css action="INSERT_OR_UPDATE">
+        <name>qrcode_generator</name>
+        <style>.meetingDetails_table {&#13;
+    width: 250px;&#13;
+    height: 350px;&#13;
+    background: #555759;&#13;
+    -webkit-border-radius: 6px;&#13;
+    -moz-border-radius: 6px;&#13;
+    border-radius: 6px;&#13;
+    margin-bottom: 12px;&#13;
+}&#13;
+&#13;
+h2 {&#13;
+    font-weight: bold;&#13;
+    color: #e7e9eb;&#13;
+}&#13;
+&#13;
+.innerRow {&#13;
+    background-color: #e7e9eb;&#13;
+    border-top: 3px solid #34a332;&#13;
+    border-bottom-left-radius: 5px;&#13;
+    border-bottom-right-radius: 5px&#13;
+}&#13;
+&#13;
+#qrcode {&#13;
+    margin-top: 25px;&#13;
+}&#13;
+&#13;
+div#qrcode img {&#13;
+    padding: 5px;&#13;
+    margin: 5px;&#13;
+}&#13;
+&#13;
+@media print {&#13;
+    div#qrcode img {&#13;
+        background-color: #000;&#13;
+    }&#13;
+    .meetingDetails_table {&#13;
+        width: 250px;&#13;
+        height: 350px;&#13;
+        background: #555759;&#13;
+        -webkit-border-radius: 6px;&#13;
+        -moz-border-radius: 6px;&#13;
+        border-radius: 6px;&#13;
+        margin-bottom: 12px;&#13;
+    }&#13;
+    h2 {&#13;
+        font-weight: bold;&#13;
+        color: #e7e9eb;&#13;
+        font-family: sans-serif;&#13;
+    }&#13;
+    .innerRow {&#13;
+        background-color: #e7e9eb;&#13;
+        border-top: 3px solid #34a332;&#13;
+        border-bottom-left-radius: 5px;&#13;
+        border-bottom-right-radius: 5px&#13;
+    }&#13;
+    #qrcode {&#13;
+        margin-top: 25px;&#13;
+    }&#13;
+}</style>
+        <sys_class_name>content_css</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-10-27 14:28:56</sys_created_on>
+        <sys_id>9db823d80f7e220011bec3ace1050e40</sys_id>
+        <sys_mod_count>57</sys_mod_count>
+        <sys_name>qrcode_generator</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>content_css_9db823d80f7e220011bec3ace1050e40</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-07-27 13:29:57</sys_updated_on>
+        <type>local</type>
+        <url/>
+    </content_css>
+</record_update>

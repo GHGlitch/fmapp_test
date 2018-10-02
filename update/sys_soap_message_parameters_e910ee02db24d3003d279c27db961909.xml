@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_soap_message_parameters">
+    <sys_soap_message_parameters action="INSERT_OR_UPDATE">
+        <name>syncState</name>
+        <soap_function display_value="SyncItems">ba010271db2893003d279c27db96199a</soap_function>
+        <sys_class_name>sys_soap_message_parameters</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-03-01 11:43:40</sys_created_on>
+        <sys_id>e910ee02db24d3003d279c27db961909</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>syncState</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_soap_message_parameters_e910ee02db24d3003d279c27db961909</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-03-16 12:03:23</sys_updated_on>
+        <type>string</type>
+        <value>&lt;m:SyncState&gt;H4sIAAAAAAAEAGNgYGcAAotqE0tHE2NTA0ddZ3NHC10TR2djXSdnJ2ddNyMnC2cnczdLU1OD2vBgveDKvOTgksSSVOfEvMSiSgYr0nW65eekpBZ5pjBYkq43LLWoODM/j8GaaK3+QMuKS4JSk1Mzy1JTQjJzU0nwrU9icYlnXnFJYl5yqncqKb71zS9K9SxJzS32zwtOLSpLLSLByXDfhgNxUW5iUTYklrgYGISA0tDwAxkOUskgCJQyAGI9kJp5t+O/Fr3Y6reKtb7GbO3RCkaGB8eivr/57ea7zqf146TrxZogVYy8DAxMDHwMzCAONwO7Q0mvZvdVDwYhBkYGXiAGWncOKOPrGODp6+gHUsTgZuoWBlaOBpYAsRwSPwOIJbCoQwfozmJjYODYZNCCUxy7bBDYLEag7Ba/KQRk/7IwNAAACbD+BvACAAA=&lt;/m:SyncState&gt;</value>
+    </sys_soap_message_parameters>
+</record_update>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="valid_from" label="Valid From" language="en" table="x_lsmcb_fm_order_line">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>valid_from</element>
+            <help/>
+            <hint/>
+            <label>Valid From</label>
+            <language>en</language>
+            <name>x_lsmcb_fm_order_line</name>
+            <plural>Valid Froms</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-02-10 10:55:48</sys_created_on>
+            <sys_id>e8a238ea0fb4b60011bec3ace1050eaa</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Valid From</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_documentation_x_lsmcb_fm_order_line_valid_from_en</sys_update_name>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-02-10 10:55:48</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

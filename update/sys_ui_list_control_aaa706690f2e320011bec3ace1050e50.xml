@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_ui_list_control">
+    <sys_ui_list_control action="INSERT_OR_UPDATE">
+        <columns_condition/>
+        <edit_condition/>
+        <edit_default_filter table="sc_cat_item_producer">sys_scope=e080882f0f9d224011bec3ace1050ee5^EQ<item display_table="sys_scope" display_value="Facility Management Accelerator" endquery="false" field="sys_scope" goto="false" newquery="false" operator="=" or="false" value="e080882f0f9d224011bec3ace1050ee5"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </edit_default_filter>
+        <edit_roles/>
+        <empty_condition/>
+        <filter_condition/>
+        <filter_roles/>
+        <hierarchical_lists>false</hierarchical_lists>
+        <label/>
+        <link_condition/>
+        <link_roles/>
+        <list_edit_insert_row>false</list_edit_insert_row>
+        <list_edit_ref_qual_tag/>
+        <list_edit_type/>
+        <name>x_lsmcb_fm_landing_page_ux_action</name>
+        <new_condition/>
+        <new_roles/>
+        <omit_columns_if_empty>false</omit_columns_if_empty>
+        <omit_drilldown_link>false</omit_drilldown_link>
+        <omit_edit_button>false</omit_edit_button>
+        <omit_filters>true</omit_filters>
+        <omit_if_empty>false</omit_if_empty>
+        <omit_links>false</omit_links>
+        <omit_new_button>true</omit_new_button>
+        <related_list>x_lsmcb_fm_m2m_record_produ_landing_pag.landing_page_ux_action</related_list>
+        <sys_class_name>sys_ui_list_control</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-05-05 14:23:37</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>aaa706690f2e320011bec3ace1050e50</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>x_lsmcb_fm_landing_page_ux_action</sys_name>
+        <sys_overrides display_value="">global</sys_overrides>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_list_control_aaa706690f2e320011bec3ace1050e50</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-05-05 14:26:45</sys_updated_on>
+    </sys_ui_list_control>
+</record_update>

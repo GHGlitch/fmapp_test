@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="content_css">
+    <content_css action="INSERT_OR_UPDATE">
+        <name>visitor_record_producer.css</name>
+        <style>/*-------------- VISITOR SELECTED LIST ------------------*/&#13;
+        #visitorlist {&#13;
+            border-collapse: separate;&#13;
+            border: solid #ccc 1px;&#13;
+            border-radius: 6px;&#13;
+            -moz-border-radius: 6px;&#13;
+            font-family: SourceSansPro, "Helvetica Neue", Arial;&#13;
+            font-size: 13px;&#13;
+            padding: 10px 10px 10px 10px;&#13;
+            color: #454545;&#13;
+            line-height: 50px;&#13;
+            background-color: #dcdcdc;&#13;
+            max-height: 400px;&#13;
+        }&#13;
+&#13;
+   tbody     .scrollable {&#13;
+           height: 250px;       /* Just for the demo          */&#13;
+           overflow: scroll;    /* Trigger vertical scroll    */&#13;
+            }&#13;
+&#13;
+  .scrollable {&#13;
+           height: 250px;       /* Just for the demo          */&#13;
+           overflow: scroll;    /* Trigger vertical scroll    */&#13;
+            }&#13;
+&#13;
+        .new {&#13;
+            background-color: #fff;&#13;
+            font-family: SourceSansPro, "Helvetica Neue", Arial;&#13;
+            font-size: 12px;&#13;
+			font-weight: 100;&#13;
+            line-height: 40px;&#13;
+            color: #677780;&#13;
+            height: 20px;&#13;
+            -moz-border-radius: 6px;&#13;
+            -webkit-border-radius: 6px;&#13;
+            border-radius: 6px;&#13;
+        }&#13;
+&#13;
+        .title {&#13;
+            font-family: SourceSansPro, "Helvetica Neue", Arial;&#13;
+            font-size: 20px;&#13;
+            color: #2e2e2e;&#13;
+            width: 100%;&#13;
+        }&#13;
+        &#13;
+        .checkBoxes {&#13;
+            width: 13px;&#13;
+            height: 13px;&#13;
+            background: #f7f7f7;&#13;
+            color: #ff0000;&#13;
+            padding: 5px;&#13;
+            margin: 5px;&#13;
+            display: block;&#13;
+        }&#13;
+        &#13;
+        button#addBtn {&#13;
+            width: 95%;&#13;
+            height: 35px;&#13;
+            background: #f7f7f7;&#13;
+            /*the colour of the button*/&#13;
+            padding: 8px 14px 10px;&#13;
+            /*apply some padding inside the button*/&#13;
+            border: 1px solid #ccc;&#13;
+            /*required or the default border for the browser will appear*/&#13;
+            cursor: pointer;&#13;
+            /*forces the cursor to change to a hand when the button is hovered*/&#13;
+            /*style the text*/&#13;
+            font-size: 12px;&#13;
+            text-transform: uppercase;&#13;
+            font-family: Century Gothic, Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;&#13;
+            letter-spacing: .1em;&#13;
+            text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.3);&#13;
+            /*give the text a shadow - doesn't appear in Opera 12.02 or earlier*/&#13;
+            color: #666;&#13;
+            /*give the corners a small curve*/&#13;
+            -moz-border-radius: 6px;&#13;
+            -webkit-border-radius: 6px;&#13;
+            border-radius: 6px;&#13;
+            margin-bottom: 15px;&#13;
+        }&#13;
+        /***SET THE BUTTON'S HOVER AND FOCUS STATES***/&#13;
+        &#13;
+        button#addBtn:hover,&#13;
+        button#addBtn:focus {&#13;
+            background: #14acdd;&#13;
+            border: 1px solid #71cef1;&#13;
+            /*the colour of the button*/&#13;
+            color: #EFEFEF;&#13;
+            /*reduce the size of the shadow to give a pushed effect*/&#13;
+            -webkit-box-shadow: inset 0px 3px 0px #077db6, 0px 2px 0px 0px #005580, 0px 2px 5px #228bb3;&#13;
+            -moz-box-shadow: inset 0px 3px 0px #077db6, 0px 2px 0px 0px #005580, 0px 2px 5px #228bb3;&#13;
+            box-shadow: inset 0px 3px 0px #077db6, 0px 2px 0px 0px #005580, 0px 2px 5px #228bb3;&#13;
+        }&#13;
+        &#13;
+        button#removeBtn {&#13;
+            width: 95%;&#13;
+            height: 35px;&#13;
+            background: #d5d5d5;&#13;
+            /*the colour of the button*/&#13;
+            padding: 8px 14px 10px;&#13;
+            /*apply some padding inside the button*/&#13;
+            border: 1px solid #ccc;&#13;
+            /*required or the default border for the browser will appear*/&#13;
+            cursor: pointer;&#13;
+            /*forces the cursor to change to a hand when the button is hovered*/&#13;
+            /*style the text*/&#13;
+            font-size: 12px;&#13;
+            text-transform: uppercase;&#13;
+            font-family: Century Gothic, Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;&#13;
+            letter-spacing: .1em;&#13;
+            text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.3);&#13;
+            /*give the text a shadow - doesn't appear in Opera 12.02 or earlier*/&#13;
+            color: #666;&#13;
+            /*give the corners a small curve*/&#13;
+            -moz-border-radius: 6px;&#13;
+            -webkit-border-radius: 6px;&#13;
+            border-radius: 6px;&#13;
+            margin-bottom: 15px;&#13;
+        }&#13;
+        /***SET THE BUTTON'S HOVER AND FOCUS STATES***/&#13;
+        &#13;
+        button#removeBtn:hover,&#13;
+        button#removeBtn:focus {&#13;
+            background: #db5353;&#13;
+            border: 1px solid #eb3c3c;&#13;
+            /*the colour of the button*/&#13;
+            color: #EFEFEF;&#13;
+            /*reduce the size of the shadow to give a pushed effect*/&#13;
+            -webkit-box-shadow: inset 0px 3px 0px #da8080, 0px 2px 0px 0px #cb0b0b, 0px 2px 5px #a43a3a;&#13;
+            -moz-box-shadow: inset 0px 3px 0px #da8080, 0px 2px 0px 0px #cb0b0b, 0px 2px 5px #a43a3a;&#13;
+            box-shadow: inset 0px 3px 0px #da8080, 0px 2px 0px 0px #cb0b0b, 0px 2px 5px #a43a3a;&#13;
+        }</style>
+        <sys_class_name>content_css</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-10-07 08:13:46</sys_created_on>
+        <sys_id>cf25d7750f5eea0011bec3ace1050e0f</sys_id>
+        <sys_mod_count>16</sys_mod_count>
+        <sys_name>visitor_record_producer.css</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>content_css_cf25d7750f5eea0011bec3ace1050e0f</sys_update_name>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-02-20 17:16:54</sys_updated_on>
+        <type>local</type>
+        <url/>
+    </content_css>
+</record_update>

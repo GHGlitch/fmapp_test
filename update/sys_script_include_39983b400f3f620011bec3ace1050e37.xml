@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMFacilityItemAjaxUtils</api_name>
+        <client_callable>true</client_callable>
+        <description>Ajax Utils for the item reservations.</description>
+        <name>FMFacilityItemAjaxUtils</name>
+        <script><![CDATA[var FMFacilityItemAjaxUtils = Class.create();
+FMFacilityItemAjaxUtils.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+	
+	fiu: new FMFacilityItemUtils(),
+	
+	getItemAvailability: function() {
+		
+		var item = this.getParameter('sysparm_item');
+		var date = this.getParameter('sysparm_date');
+		var availabilities = this.fiu.getItemAvailability(item, date);
+
+		return availabilities;
+
+	},
+	
+	reservationTime: function() {
+		
+		var sdate = this.getParameter("sysparm_sdate");
+		var edate = this.getParameter("sysparm_edate");
+		var sh = this.getParameter("sysparm_sh");
+		var eh = this.getParameter("sysparm_eh");
+		var sm = this.getParameter("sysparm_sm");
+		var em = this.getParameter("sysparm_em");
+		
+		var sgdt = new GlideDateTime(sdate + ' ' + sh + ':' + sm + ':00');
+		var egdt = new GlideDateTime(edate + ' ' + eh + ':' + em + ':00');
+		
+		return this.fiu.reservationTime(sgdt, egdt);
+		
+	},
+	
+	isReservable: function() {
+		var item = this.getParameter('sysparm_item');
+		var sdate = this.getParameter("sysparm_sdate");
+		var edate = this.getParameter("sysparm_edate");
+		var reserv = this.getParameter("sysparm_reservation");
+		
+		return this.fiu.isReservable(item, sdate, edate, reserv);
+	},
+	
+	isReservableRP: function() {
+		var item = this.getParameter("sysparm_item");
+		var sdate = this.getParameter("sysparm_sdate");
+		var edate = this.getParameter("sysparm_edate");
+		var sh = this.getParameter("sysparm_sh");
+		var eh = this.getParameter("sysparm_eh");
+		var sm = this.getParameter("sysparm_sm");
+		var em = this.getParameter("sysparm_em");
+		var reserv = this.getParameter("sysparm_reservation");
+		
+		var gdts = new GlideDateTime(sdate + ' ' + sh + ':' + sm + ':00');
+		var gdte = new GlideDateTime(edate + ' ' + eh + ':' + em + ':00');
+		
+		return this.fiu.isReservable(item, gdts, gdte, reserv);
+	},
+
+    type: 'FMFacilityItemAjaxUtils'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-12-15 13:54:59</sys_created_on>
+        <sys_id>39983b400f3f620011bec3ace1050e37</sys_id>
+        <sys_mod_count>24</sys_mod_count>
+        <sys_name>FMFacilityItemAjaxUtils</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_39983b400f3f620011bec3ace1050e37</sys_update_name>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-04-05 10:35:53</sys_updated_on>
+    </sys_script_include>
+</record_update>

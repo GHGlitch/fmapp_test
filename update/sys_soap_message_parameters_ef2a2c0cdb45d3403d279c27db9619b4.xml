@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_soap_message_parameters">
+    <sys_soap_message_parameters action="INSERT_OR_UPDATE">
+        <name>itemID</name>
+        <soap_function display_value="GetFullItem">05e69352dba017003d279c27db96197c</soap_function>
+        <sys_class_name>sys_soap_message_parameters</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-03-19 18:32:04</sys_created_on>
+        <sys_id>ef2a2c0cdb45d3403d279c27db9619b4</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>itemID</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_soap_message_parameters_ef2a2c0cdb45d3403d279c27db9619b4</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-03-19 18:32:04</sys_updated_on>
+        <type>string</type>
+        <value/>
+    </sys_soap_message_parameters>
+</record_update>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_ui_policy">
+    <sys_ui_policy action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <conditions table="x_lsmcb_fm_parking_reservation">locationISEMPTY^ORstart_timeISEMPTY^ORend_timeISEMPTY^EQ<item endquery="false" field="location" goto="false" newquery="false" operator="ISEMPTY" or="false" value=""/>
+            <item endquery="false" field="start_time" goto="false" newquery="false" operator="ISEMPTY" or="true" value=""/>
+            <item endquery="false" field="end_time" goto="false" newquery="false" operator="ISEMPTY" or="true" value=""/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </conditions>
+        <description/>
+        <global>true</global>
+        <inherit>false</inherit>
+        <model_id/>
+        <model_table/>
+        <on_load>true</on_load>
+        <order>100</order>
+        <reverse_if_false>true</reverse_if_false>
+        <run_scripts>true</run_scripts>
+        <script_false><![CDATA[function onCondition() {
+	
+			g_form.setReadOnly('parking_lot', false);
+			g_form.setMandatory('parking_lot', true);
+
+
+}]]></script_false>
+        <script_true><![CDATA[function onCondition() {
+	
+	
+		g_form.setMandatory('parking_lot', false);
+		g_form.setReadOnly('parking_lot', true);
+
+
+	
+}]]></script_true>
+        <set_values/>
+        <short_description>Parking Lot field read only</short_description>
+        <sys_class_name>sys_ui_policy</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-12-21 12:10:14</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>a53a96ca0fbbe20011bec3ace1050e8c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Parking Lot field read only</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_policy_a53a96ca0fbbe20011bec3ace1050e8c</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2016-12-21 12:10:14</sys_updated_on>
+        <table>x_lsmcb_fm_parking_reservation</table>
+        <ui_type>0</ui_type>
+        <view/>
+    </sys_ui_policy>
+</record_update>

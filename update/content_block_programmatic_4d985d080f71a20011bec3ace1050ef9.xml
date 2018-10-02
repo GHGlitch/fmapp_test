@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="content_block_programmatic">
+    <content_block_programmatic action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category>general</category>
+        <condition/>
+        <conditional>false</conditional>
+        <frame/>
+        <logged_on>false</logged_on>
+        <name>Floorview Block</name>
+        <programmatic_content><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	
+	<link rel="stylesheet" href="https://npmcdn.com/leaflet@0.7.7/dist/leaflet.css" />
+	<script src="https://npmcdn.com/leaflet@0.7.7/dist/leaflet.js"></script>
+
+	<!-- <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js'> </script> -->
+	
+	<!-- <g:require name="x_68711_fm.angular_leaflet_controller.jsdbx" /> -->
+
+<!-- 
+
+	In case of CDN site not available, refer to the css and js files internaly through this:	
+	
+	<link type="text/css" rel="stylesheet" href="e3f677484f2d2200f053c3818110c773.cssdbx" />
+	<g:requires name="x_68711_fm.leaflet.min.0.7.7.jsdbx" />
+  
+-->	
+	
+	<style>
+
+.leaflet-container{
+	background-color:#fff;
+}
+		
+	</style>
+	
+	
+		<div id="map" ng-controller="FloorViewController" ng-cloak=""></div>
+				
+	<g:requires name="x_lsmcb_fm.fm_floorview_controller.jsdbx" />
+
+
+	
+</j:jelly>
+]]></programmatic_content>
+        <sys_class_name>content_block_programmatic</sys_class_name>
+        <sys_created_by>tomas.ferreira</sys_created_by>
+        <sys_created_on>2016-09-06 16:10:56</sys_created_on>
+        <sys_id>4d985d080f71a20011bec3ace1050ef9</sys_id>
+        <sys_mod_count>18</sys_mod_count>
+        <sys_name>Floorview Block</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>content_block_programmatic_4d985d080f71a20011bec3ace1050ef9</sys_update_name>
+        <sys_updated_by>nelson.oliveira</sys_updated_by>
+        <sys_updated_on>2016-09-20 09:19:06</sys_updated_on>
+        <two_phase>false</two_phase>
+    </content_block_programmatic>
+</record_update>

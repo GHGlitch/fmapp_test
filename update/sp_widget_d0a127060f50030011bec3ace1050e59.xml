@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function() {
+  /* widget controller */
+  var c = this;
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.jumbotron {&#13;
+    background-color:rgba(0, 0, 0, 0);&#13;
+	/*background-color: $brand-danger;*/&#13;
+}&#13;
+&#13;
+.text {&#13;
+	color: $btn-default-bg;&#13;
+}&#13;
+&#13;
+.logo {&#13;
+  font-family: "Futura";&#13;
+	font-size: 9em;&#13;
+  color: #fff;&#13;
+}&#13;
+&#13;
+span {&#13;
+	font-size: 0.5em;&#13;
+  vertical-align: top;&#13;
+}&#13;
+&#13;
+.title {&#13;
+	font-family: "Helvetica Rounded";&#13;
+  font-size: 3em;&#13;
+  color: #fff;&#13;
+  margin-top: -15px;&#13;
+  padding-left: 40px;&#13;
+}&#13;
+&#13;
+.subtitle {&#13;
+	text-align: center;&#13;
+}&#13;
+&#13;
+.middle {&#13;
+  vertical-align: top;&#13;
+}&#13;
+</css>
+        <data_table>sp_instance_carousel</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>fm-homepage</id>
+        <internal>false</internal>
+        <link/>
+        <name>FM Homepage</name>
+        <option_schema>[{"label": "Image Name", "name": "img", "type": "string"}]</option_schema>
+        <public>false</public>
+        <roles>x_lsmcb_fm.fm_base</roles>
+        <script><![CDATA[(function() {
+  /* populate the 'data' object */
+  /* e.g., data.table = $sp.getValue('table'); */
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-08-02 10:03:56</sys_created_on>
+        <sys_id>d0a127060f50030011bec3ace1050e59</sys_id>
+        <sys_mod_count>103</sys_mod_count>
+        <sys_name>FM Homepage</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sp_widget_d0a127060f50030011bec3ace1050e59</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-06-11 08:39:24</sys_updated_on>
+        <template><![CDATA[<div>
+    <!-- IOC -->
+    <div class="row">
+        <div class="col-md-12">
+            <img src="{{ ::options.img }}" style="width:100%; margin-bottom:2em;" />
+        </div>
+    </div>
+  <!--<div class="jumbotron">
+    <div class="row">
+      <div class="col-xs-1"/>
+      <div class="col-xs-9">
+      	<img src="{{ ::options.img }}" style="width: 100%;"/>
+      </div>
+      <div class="col-xs-2"/>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="subtitle text">${fm_homepage_widget_message}</h3>
+      </div>
+    </div>
+  </div>-->
+</div>]]></template>
+    </sp_widget>
+</record_update>

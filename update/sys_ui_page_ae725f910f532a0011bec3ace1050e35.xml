@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[var selectedVisitors = []; //Array with JSON of the selected visitors.
+var currentVisitor; //Current visitor JSON.
+
+function createVisit(){
+	var toBeReturned = false;
+	g_form.hideAllFieldMsgs('error');
+	g_form.hideAllFieldMsgs('info');
+	if (g_form.getValue('host') == '') {
+		g_form.showErrorBox('host', getMessage('fm_mandatory'));
+		toBeReturned = true;
+	}
+	if (g_form.getValue('phone') == '') {
+		g_form.showErrorBox('phone', getMessage('fm_mandatory'));
+		toBeReturned = true;
+	}
+	if (g_form.getValue('date') == '') {
+		g_form.showErrorBox('date', getMessage('fm_mandatory'));
+		toBeReturned = true;
+	}
+	if (g_form.getValue('location') == '') {
+		g_form.showErrorBox('location', getMessage('fm_mandatory'));
+		toBeReturned = true;
+	}
+	if (g_form.getValue('visitor_last_name') == '') {
+		g_form.showErrorBox('visitor_last_name', getMessage('fm_mandatory'));
+		toBeReturned = true;
+	}
+	
+	if (g_form.getValue('parking_needed') == 'true' && g_form.getValue('parking_lot') == '') {
+		g_form.showErrorBox('parking_lot', getMessage('fm_mandatory'));
+		toBeReturned = true;
+	}
+	if (toBeReturned) {
+		return;
+	}
+	
+	var visitor = g_form.getValue('visitor_first_name') + ' ' + g_form.getValue('visitor_last_name');
+	var visitor_first_name = g_form.getValue('visitor_first_name');
+	var visitor_last_name = g_form.getValue('visitor_last_name');
+	var email = g_form.getValue('email');
+	var company = g_form.getValue('visitor_company');
+	var isParking = g_form.getValue('parking_needed') == 'true' && g_form.getValue('parking_lot') != '';
+	var isPass = g_form.getValue('visitor_pass');
+	var isPassText = g_form.getOption('visitor_pass', isPass).text;
+	
+	currentVisitor = {
+		name: visitor,
+		company: company,
+		parking: isParking,
+		pass: isPassText
+	};
+	
+	createRecord(currentVisitor);
+	
+	
+	g_form.clearValue('visitor_first_name');
+	g_form.clearValue('visitor_last_name');
+	g_form.clearValue('visitor_email');
+	g_form.clearValue('visitor_company');
+	g_form.clearValue('license_plate');
+	g_form.clearValue('parking_lot');
+	g_form.clearValue('anonymous');
+	g_form.clearValue('internet_needed');
+	
+	var ga = new GlideAjax('x_lsmcb_fm.FMVisitorRecordProducerUtils');
+	ga.addParam('sysparm_name', 'checkUniqueParkingLot');
+	ga.addParam('sysparm_location', g_form.getValue('location'));
+	ga.addParam('sysparm_date', g_form.getValue('date'));
+	ga.addParam('sysparm_sth', g_form.getValue('start_hours'));
+	ga.addParam('sysparm_stm', g_form.getValue('start_minutes'));
+	ga.addParam('sysparm_endh', g_form.getValue('end_hours'));
+	ga.addParam('sysparm_endm', g_form.getValue('end_minutes'));
+	ga.getXML(function(response) {
+		var answer = response.responseXML.documentElement.getAttribute('answer');
+		g_form.setValue('parking_lot', answer);
+	});
+	
+}
+
+function createRecord(visitor_obj){
+	
+	var host = g_form.getValue('host');
+	var phone = g_form.getValue('phone');
+	var requester = g_form.getValue('requester');
+	var visitor = g_form.getValue('visitor_first_name') + ' ' + g_form.getValue('visitor_last_name');
+	var visitor_first_name = g_form.getValue('visitor_first_name');
+	var visitor_last_name = g_form.getValue('visitor_last_name');
+	var isParking = g_form.getValue('parking_needed') == 'true' && g_form.getValue('parking_lot') != '';
+	var accessMethod = g_form.getValue('visitor_pass');
+	var date = g_form.getValue('date');
+	var location = g_form.getValue('location');
+	var sh = g_form.getValue('start_hours');
+	var sm = g_form.getValue('start_minutes');
+	var eh = g_form.getValue('end_hours');
+	var em = g_form.getValue('end_minutes');
+	
+	var email = g_form.getValue('visitor_email');
+	var company = g_form.getValue('visitor_company');
+	var license_plate = g_form.getValue('license_plate');
+	var reservation = g_form.getValue('reservation_id');
+	var parking_lot = g_form.getValue('parking_lot');
+	var contact = g_form.getValue('contact');
+	var remark = g_form.getValue('remark');
+	var anonymous = g_form.getValue('anonymous');
+	var internet_needed = g_form.getValue('internet_needed');
+	
+	var ga = new GlideAjax('x_lsmcb_fm.FMVisitorRecordProducerUtils');
+	ga.addParam('sysparm_name', 'createVisitRecord');
+	ga.addParam('sysparm_visitor', visitor);
+	ga.addParam('sysparm_visitor_first_name', visitor_first_name);
+	ga.addParam('sysparm_visitor_last_name', visitor_last_name);
+	ga.addParam('sysparm_host_sysid', host);
+	ga.addParam('sysparm_phone', phone);
+	ga.addParam('sysparm_requester_sysid', requester);
+	ga.addParam('sysparm_accessMethod', accessMethod);
+	ga.addParam('sysparm_location_sysid', location);
+	ga.addParam('sysparm_email', email);
+	ga.addParam('sysparm_company', company);
+	ga.addParam('sysparm_isparking', isParking);
+	ga.addParam('sysparm_license_plate', license_plate);
+	ga.addParam('sysparm_plot_sysid', parking_lot);
+	ga.addParam('sysparm_reservation', reservation);
+	ga.addParam('sysparm_contact', contact);
+	ga.addParam('sysparm_date', date);
+	ga.addParam('sysparm_sh', sh);
+	ga.addParam('sysparm_sm', sm);
+	ga.addParam('sysparm_eh', eh);
+	ga.addParam('sysparm_em', em);
+	ga.addParam('sysparm_anonymous', anonymous);	
+	ga.addParam('sysparm_internet_needed', internet_needed);
+	ga.addParam('sysparm_remark',remark);
+	
+	ga.setErrorCallback(function(e){
+		console.error("Error occurred while attempting to read data from server "+e.statusText);
+	});
+	
+	ga.getXML(handleResponse);
+	
+	function handleResponse(response){
+		var answer = response.responseXML.documentElement.getAttribute("answer");
+		if(!answer) return alert('Error creating Visit record!');
+
+		g_form.showFieldMsg('visitor_last_name', getMessage('fm_visit_registration') + ' ' + visitor + '.', 'info');
+		
+		currentVisitor.visit_sysid = answer;
+		addRowToTable(currentVisitor);
+	}
+}
+
+
+/**
+ * Create a new Row in the table with the related Visitor data.
+ */
+function addRowToTable(visitor_object) {
+	
+	//Get query object
+	var cmdbObj = visitor_object;
+	
+	//count
+	var count = $j('#cou').val();
+	
+	//Cloning the header
+	var cdum = $j('#dummy').clone(true, true);
+	
+	selectedVisitors.push(cmdbObj);
+	
+	// Draw table row with the fetched data from Visitor.
+	var $dum = $j(cdum);
+	$dum.attr('id', cmdbObj.sysid).removeClass("used").addClass("new").attr("style", '');
+	var $chil = $dum.children();
+	$chil.eq(0).find('input').attr('style', 'display:block').addClass('checkBoxes');
+	$chil.eq(1).html(cmdbObj.name);
+	$chil.eq(2).html(cmdbObj.company);
+	$chil.eq(3).html(cmdbObj.parking == true ? '<input type ="checkbox" disabled="true" checked="checked"></input>' : '');
+	$chil.eq(4).html(cmdbObj.pass);
+	$chil.eq(5).html(cmdbObj.visit_sysid);
+	
+	$dum.appendTo('#visitorlist').fadeIn(600);
+	
+	g_form.setValue('selected_visitors_objects', JSON.stringify(selectedVisitors));
+}
+
+
+/*
+If the related check Box is checked, deletes the entire related row from the table.
+ */
+function removeRowFromTable() {
+	
+	function getRemoveRecord(response){
+		var answer = response.responseXML.documentElement.getAttribute("answer");
+		if(!answer) return alert('Error deleting Visit Record!');
+		}
+	
+	$j('.checkBoxes').each(function() {
+		if (this.checked) {
+			var thisVisitSysid = $j(this).closest('tr').find("td").eq(5).html();
+			
+			var ga = new GlideAjax('x_lsmcb_fm.FMVisitorRecordProducerUtils');
+			ga.addParam('sysparm_name', 'removeVisitRecord');
+			ga.addParam('sysparm_visit_sysid', thisVisitSysid);
+			
+			ga.setErrorCallback(function(e){
+				console.error("Error occurred while attempting to read data from server "+e.statusText);
+			});
+			
+			ga.getXML(getRemoveRecord);
+			
+			selectedVisitors.forEach(function(arrayItem) {
+				if (arrayItem.visit_sysid == thisVisitSysid) {
+					var a = selectedVisitors.indexOf(arrayItem);
+					selectedVisitors.splice(a, 1);
+				}
+			});
+			$j(this).closest('tr').fadeOut(600, function() {
+				$j(this).remove();
+			});
+		}
+	});
+	
+	g_form.setValue('selected_visitors_objects', JSON.stringify(selectedVisitors));
+}
+
+]]></client_script>
+        <description>Lists selected visitors on the visit record producer</description>
+        <direct>false</direct>
+        <endpoint>x_lsmcb_fm_fm_dl_visitor_listing.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+
+	
+	    <!--                                    LOAD CONTROLERS
+
+									****************************************
+
+-->
+	
+	<g:requires name="x_lsmcb_fm.fm_messages_controler.jsdbx" />
+
+
+	
+	
+	 <!--                                          Cascade Style Sheet
+										  **********************************
+-->
+
+	<link href="cf25d7750f5eea0011bec3ace1050e0f.cssdbx?" rel="stylesheet" type="text/css" />
+	
+
+
+    <!--                                   THE HTML
+								   *************************
+
+-->
+	
+	
+
+    <span class="title">${gs.getMessage('fm_visitors_list')}</span>
+    <br/>
+
+    <table cellspacing="0" cellpadding="0" border="0" id="visitorlist" width="100%" align="center">
+        <tr class="used" id="dummy" style="line-height:30px">
+            <td style="width:40px" align="center">
+                <B> <input type ="checkbox" style="display:none"></input> </B>
+            </td>
+            <td>
+                <B>${gs.getMessage('fm_name')}</B>
+            </td>
+            <td>
+                <B>${gs.getMessage('fm_company')}</B>
+            </td>
+			
+			<td align="center">
+                <B>${gs.getMessage('fm_parking')}</B>
+            </td>
+			
+			<g:evaluate var="jvar_accessMethod">
+				var accessMethod = false;
+				if (gs.getProperty('x_lsmcb_fm.access_method_mechanism') == 'user_defined') {
+					accessMethod = true;
+				}
+				accessMethod;
+			</g:evaluate>
+			<j:choose>
+				<j:when test="${accessMethod}">
+					<td align="center">
+						<B>${gs.getMessage('fm_access_method')}</B>
+					</td>
+				</j:when>
+				<j:otherwise>
+					<td align="center" style="display:none;visibility:hidden">
+						<B>${gs.getMessage('fm_access_method')}</B>
+					</td>
+				</j:otherwise>
+			</j:choose>
+			
+			<td align="center" style="display:none;visibility:hidden">
+                <B>${gs.getMessage('fm_sys_id')}</B>
+            </td>
+        </tr>
+
+    </table>
+    <br/>
+
+    <table id="controlButtons" width="100%" align="center" cellspacing="10" cellpadding="10">
+        <tr>
+            <td width="50%" align="left">
+                <button id="addBtn" ONCLICK="createVisit();" onload="createVisit();">↸ ${gs.getMessage('fm_add')}</button>
+            </td>
+            <td width="50%" align="right">
+                <button id="removeBtn" ONCLICK="removeRowFromTable();">${gs.getMessage('fm_remove')}</button>
+            </td>
+        </tr>
+    </table>
+
+
+
+    <!--
+
+								 END OF HTML
+							*********************
+-->
+
+
+
+
+
+</j:jelly>]]></html>
+        <name>fm_dl_visitor_listing</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-11-24 11:49:05</sys_created_on>
+        <sys_id>ae725f910f532a0011bec3ace1050e35</sys_id>
+        <sys_mod_count>111</sys_mod_count>
+        <sys_name>fm_dl_visitor_listing</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_page_ae725f910f532a0011bec3ace1050e35</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-08-01 09:09:26</sys_updated_on>
+    </sys_ui_page>
+</record_update>

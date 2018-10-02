@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element attributes="ref_auto_completer=AJAXTableCompleter,ref_ac_columns=location,ref_ac_order_by=location" label="Parking Lot" max_length="40" name="x_lsmcb_fm_parking_lot" type="collection">
+        <element label="Location" max_length="32" name="location" reference="cmn_location" type="reference"/>
+        <element display="true" label="Name" max_length="100" name="name" type="string"/>
+        <element label="Code" max_length="100" name="number" type="string"/>
+        <element default="0" label="Occupied Visitor Spaces" max_length="10" name="occupied_visitor_spaces" read_only="true" type="integer"/>
+        <element label="Total Visitor Spaces" max_length="10" name="total_visitor_spaces" type="integer"/>
+        <element choice="1" label="Type" mandatory="true" max_length="20" name="type" type="string">
+            <choice>
+                <element label="Visitors" sequence="100" value="visitors"/>
+                <element label="Employees" sequence="200" value="employees"/>
+            </choice>
+        </element>
+        <element label="New URL" max_length="1024" name="u_url_1" type="url"/>
+        <index name="index">
+            <element name="name"/>
+            <element name="number"/>
+        </index>
+        <index name="index2">
+            <element name="location"/>
+        </index>
+    </element>
+</database>

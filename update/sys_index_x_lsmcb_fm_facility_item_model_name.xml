@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_index">
+    <sys_index action="INSERT_OR_UPDATE">
+        <col_name_string>model,name</col_name_string>
+        <index_col_name>aba8357f0f7bfa0011bec3ace1050e6e,6ba8357f0f7bfa0011bec3ace1050e6f</index_col_name>
+        <logical_table_name>x_lsmcb_fm_facility_item</logical_table_name>
+        <sys_class_name>sys_index</sys_class_name>
+        <sys_created_by>system</sys_created_by>
+        <sys_created_on>2018-07-18 14:43:39</sys_created_on>
+        <sys_id>514e3e36db9f97003d279c27db9619b2</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_lsmcb_fm_facility_item</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_index_x_lsmcb_fm_facility_item_model_name</sys_update_name>
+        <sys_updated_by>system</sys_updated_by>
+        <sys_updated_on>2018-07-18 14:43:39</sys_updated_on>
+        <table display_value="Facility Item" name="x_lsmcb_fm_facility_item">62a65f040ffb620011bec3ace1050e40</table>
+        <unique_index>false</unique_index>
+    </sys_index>
+</record_update>

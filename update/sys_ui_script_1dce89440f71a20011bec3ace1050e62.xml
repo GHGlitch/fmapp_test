@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description>Controller for the floorview content block.</description>
+        <global>false</global>
+        <name>x_lsmcb_fm.fm_floorview_controller</name>
+        <script><![CDATA[// Controller for the map block.
+angRR.controller('FloorViewController', function($scope, sharedService, $timeout) {
+	
+
+	var geoJSON;
+
+	$scope.isFloorview = true;
+	
+	$scope.info = L.control();
+	
+	var bounds;
+	var isZoomed = false;
+	var selectedRoom = '';
+	var selectedRoomID = '';
+	
+	var selectedRoomData;
+	
+	
+	// Listens for the floor data.
+	// Stores the data and starts / refreshes the map.
+	// If the floor hasn't changed, the room selection is kept.
+	$scope.$on('handleFloorData', function() {
+		
+		if ($scope.map) {
+			$scope.map.remove();
+		}
+		
+		if ($scope.map && $scope.floorImageData.name !== sharedService.floorImageData.name) {
+			selectedRoom = '';
+			selectedRoomID = '';			
+		}
+
+		$scope.geoJSON = sharedService.geoJSON;
+		$scope.floorImageData = sharedService.floorImageData;
+		$scope.roomsData = sharedService.roomsData;
+		
+		$scope.selectedStartTime = sharedService.selectedStartTime;
+		$scope.selectedEndTime = sharedService.selectedEndTime;
+
+		$scope.startMap($scope.geoJSON);
+	});
+
+	
+	// Starts the map. Sets the default settings.
+	// Sets the floor image as background and sets the floor geoJSON data as rooms.
+	// If there is a room selected, it is drawn in a different colour
+	// Adds the info layer on the map
+	$scope.startMap = function(data) {
+		
+		$scope.map = L.map('map', {
+			crs: L.CRS.Simple,
+			attributionControl: false,
+			minZoom: 0,
+			maxZoom: 2
+		});
+		
+		bounds = [[0,0], [$scope.floorImageData.height, $scope.floorImageData.width]];
+		
+		var image = L.imageOverlay($scope.floorImageData.name, bounds).addTo($scope.map);
+		
+		$scope.map.fitBounds(bounds);
+		
+		geoJSON = L.geoJson(data, {
+			style: style,
+			onEachFeature: onEachFeature
+		}).addTo($scope.map);
+		
+		var layers = geoJSON.getLayers();
+		for(var i = 0; i < layers.length; i++ ) {
+			if(layers[i].feature.id === selectedRoomID) {
+				selectedRoom = layers[i];
+				sharedService.prepForSelectedRoomDataBroadcast($scope.roomsData[selectedRoomID]);
+			}
+		}
+		
+		$scope.info.addTo($scope.map);
+		
+		$scope.map.setMaxBounds(bounds);
+		$scope.map.doubleClickZoom.disable();
+		
+		
+		
+	};
+	
+	$scope.selectRoomFromOutlook = function(roomID) {
+		if ($scope.map) {
+			$scope.map.remove();
+			selectedRoomID = roomID;
+			$scope.startMap($scope.geoJSON);
+		} else {
+			selectedRoomID = roomID;
+		}
+		
+	};
+	
+	// Adds the info layer to the geoJSON features
+	$scope.info.onAdd = function(map) {
+		this._div = L.DomUtil.create('div', 'info');
+		this.update();
+		return this._div;
+	};
+	
+	
+	$scope.$on('handleFilters', function() {
+		
+		if ($scope.map) {
+			$scope.map.remove();
+		}
+		selectedRoom = '';
+			selectedRoomID = '';
+		$scope.requesterFilter = sharedService.requester;
+		$scope.subjectFilter = sharedService.subject;
+		
+		$scope.startMap($scope.geoJSON);
+	});
+
+	
+	// Sets the info layer properties.
+	$scope.info.update = function(props, isClick) {
+		
+		if (isClick) {
+			var html = '<h4>' + getMessage("fm_room_reservations") + '</h4>' + '<b>' + props.roomInfo.name + '</b> <br />';
+			
+			for (var i = 0; i < props.reservations.length; i++) {
+				var resStr = '<b>from </b>' + props.reservations[i].startTime + '<b> to </b>' + props.reservations[i].endTime + '<br />';
+				html = html + resStr;
+				
+			}
+			this._div.innerHTML = html;
+		} else {
+			var propsHtml = '<h4>' + getMessage("fm_map_select_room") + '</h4>';
+			if (props && !isClick) {
+				propsHtml = propsHtml + '<b>' + props.roomInfo.name + '</b><br />' + getMessage("fm_capacity") + ':' + props.roomInfo.capacity + ' p <div style="padding-top:15px">';
+				
+				for (var prop in props.roomInfo.properties) {
+					
+					propsHtml = propsHtml + '<span> <img src="' + props.roomInfo.properties[prop].imageid + '" class="room_prop_icon" alt="'+ props.roomInfo.properties[prop].name +'" title="'+ props.roomInfo.properties[prop].name +'"></span>';
+					
+				}
+				
+			} else {
+				propsHtml = propsHtml + getMessage("fm_hover_over_room");
+			}
+			
+			this._div.innerHTML = propsHtml;
+		}
+		
+	};
+	
+	// Sets the style of the feature to it's standard
+	function resetHighlight(e) {
+		if(selectedRoom != e.target){
+			geoJSON.resetStyle(e.target);
+			$scope.info.update();
+		}
+		
+	}
+	
+	// Adds the event listeners function to each feature
+	function onEachFeature(feature, layer) {
+		layer.on({
+			
+			mouseover: highlightFeature,
+			mouseout: resetHighlight,
+			dblclick: zoomInOut,
+			click: fetchRoomData
+		});
+	}
+	
+	// Sets the style for each feature based on it's availability at a given time
+	function style(feature) {
+				
+		if (feature.id === selectedRoomID) {
+
+			
+			if (!isReservable(feature.id)) {
+				return {
+					weight: 2,
+					color: '#AAAAAA',
+					dashArray: '',
+					fillOpacity: 0.9,
+					fillColor: '#BBBBBB'
+				};
+			} else {
+				if(isAvailable(feature.id)){
+					return {
+						weight: 2,
+						color: '#5ECFE5',
+						dashArray: '',
+						fillOpacity: 0.9,
+						fillColor: '#5ECFE5'
+					};
+				} else {
+					return {
+						weight: 2,
+						color: '#FF7878',
+						dashArray: '',
+						fillOpacity: 0.9,
+						fillColor: '#F01010'
+					};
+				}
+			}
+			
+		}
+		return {
+			fillColor: getColor(feature.id),
+			weight: 1,
+			//opacity: 0.7,
+			color: '#4A4A4A',
+			dashArray: '3',
+			fillOpacity: 0.5
+		};
+	}
+	
+	
+	function fetchRoomData(e) {
+		var newSelection = e.target;
+		var oldSelectionID = selectedRoomID;
+		selectedRoomID = e.target.feature.id;
+		
+		if(selectedRoom !== '') {
+			geoJSON.resetStyle(selectedRoom);
+		}
+		
+		selectedRoom = e.target;
+		selectedRoomHighlight(e.target);
+		
+		//$scope.map.fitBounds(e.target.getBounds());
+		$scope.roomID = e.target.feature.id;
+		showRes(e.target.feature);
+		sharedService.prepForSelectedRoomDataBroadcast($scope.roomsData[e.target.feature.id]);
+	}
+	
+	function zoomInOut(e){
+		if (isZoomed){
+			$scope.map.fitBounds(bounds,{maxZoom: 0});
+			isZoomed = false;
+		} else {
+			$scope.map.fitBounds(e.target.getBounds());
+			isZoomed = true;
+		}
+	}
+	
+	function getColor(roomName) {
+		if (isSelected(roomName)) {
+			return '#f3b158';
+		}
+		if (!isReservable(roomName)) {
+			return '#ABABAB';
+		}
+		return isAvailable(roomName) ? '#AFF585' : '#F80023';
+		//return a ? '#AFF585' : '#F80023';
+	}
+	
+	function showRes(feature) {
+		var roomID = feature.id;
+		if ($scope.roomsData[roomID]) {
+			$scope.info.update($scope.roomsData[roomID], true);
+		}
+	}
+	
+	function highlightFeature(e) {
+		
+		if(selectedRoom != e.target){
+			
+			var layer = e.target;
+			
+			layer.setStyle({
+				weight: 3,
+				color: '#4A4A4A',
+				dashArray: '',
+				fillOpacity: 0.7
+			});
+			
+			if (!L.Browser.ie && !L.Browser.opera) {
+				layer.bringToFront();
+			}
+			
+			var roomID = layer.feature.id;
+			
+			$scope.info.update($scope.roomsData[roomID]);
+		}
+	}
+	
+	
+	function selectedRoomHighlight(layer) {
+		
+		if (!isReservable(layer.feature.id)) {
+			layer.setStyle({
+				weight: 2,
+				color: '#AAAAAA',
+				dashArray: '',
+				fillOpacity: 0.9,
+				fillColor: '#BBBBBB'
+			});
+			
+		} else {
+			if(isAvailable(layer.feature.id)){
+				layer.setStyle({
+					weight: 2,
+					color: '#65E0F9',
+					dashArray: '',
+					fillOpacity: 0.9,
+					fillColor: '#5ECFE5'
+				});
+			} else {
+				layer.setStyle({
+					weight: 2,
+					color: '#FF7878',
+					dashArray: '',
+					fillOpacity: 0.9,
+					fillColor: '#F01010'
+				});
+			}
+		}
+		
+		if (!L.Browser.ie && !L.Browser.opera) {
+			layer.bringToFront();
+		}
+	}
+	
+	function isAvailable(roomID) {
+		
+		var room = $scope.roomsData[roomID];
+		var reservations = room.reservations;
+		
+		// Ensure that this verification only occurs for the Outlook Floorview and no other UI page
+		if (document.URL.indexOf('x_lsmcb_fm_fm_outlook_floorview.do') != -1) {
+		
+			// Fetch and process the room's opening time
+			var roomOpenTime = room.openTimeDisplay;
+
+			var roomOpenHours = roomOpenTime.split(':')[0];
+			var roomOpenMinutes = roomOpenTime.split(':')[1];
+
+			roomOpenTime = new Date($scope.selectedStartTime);
+			roomOpenTime.setHours(roomOpenHours);
+			roomOpenTime.setMinutes(roomOpenMinutes);
+			roomOpenTime.setSeconds(0);
+			roomOpenTime.setMilliseconds(0);
+
+			// Fetch and process the room's closing time
+			var roomCloseTime = room.closeTimeDisplay;
+
+			var roomCloseHours = roomCloseTime.split(':')[0];
+			var roomCloseMinutes = roomCloseTime.split(':')[1];
+
+			roomCloseTime = new Date($scope.selectedEndTime);
+			roomCloseTime.setHours(roomCloseHours);
+			roomCloseTime.setMinutes(roomCloseMinutes);
+			roomCloseTime.setSeconds(0);
+			roomCloseTime.setMilliseconds(0);
+
+			// Check if the selected hours are within the period during which the room is open
+			// If they are, check if the room is available for the selected period by comparing with existing reservations
+			if ($scope.selectedStartTime.getTime() < roomOpenTime.getTime() || $scope.selectedEndTime.getTime() > roomCloseTime.getTime()) {
+				room.available = 'false';
+				return false;
+			}
+		}
+		
+		for (var i = 0; i < reservations.length; i++) {
+
+			var startTime = reservations[i].startTime.replace(' ', 'T');
+			var endTime = reservations[i].endTime.replace(' ', 'T');
+
+			var resStart = new Date(startTime);
+			resStart.setMinutes(resStart.getMinutes() - parseInt(room.extraMBefore));
+			resStart.setSeconds(0);
+			resStart.setMilliseconds(0);
+
+			var resEnd = new Date(endTime);
+			resEnd.setMinutes(resEnd.getMinutes() + parseInt(room.extraMAfter));
+			resEnd.setSeconds(0);
+			resEnd.setMilliseconds(0);
+
+			$scope.selectedStartTime.setSeconds(0);
+			$scope.selectedEndTime.setSeconds(0);
+			$scope.selectedStartTime.setMilliseconds(0);
+			$scope.selectedEndTime.setMilliseconds(0);
+
+			if ($scope.selectedStartTime.getTime() < resEnd.getTime() && $scope.selectedEndTime.getTime() > resStart.getTime()) {
+				room.available = 'false';
+				return false;
+			}
+		}
+		
+		room.available = 'true';
+		return true;
+	}
+	
+	function isSelected(roomID) {
+		//To debug if floorplan doesn't load properly
+// 		console.debug('AAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+// 		console.debug(roomID);
+// 		console.debug($scope.roomsData);
+// 		console.debug($scope.roomsData[roomID]);
+		
+		var room = $scope.roomsData[roomID];
+		var reservations = room.reservations;
+		
+		for (var i = 0; i < reservations.length; i++) {
+			if ($scope.subjectFilter != undefined && $scope.requesterFilter != undefined && $scope.subjectFilter != '' && $scope.requesterFilter != '') {
+				if (reservations[i].meeting_subject.toLowerCase().includes($scope.subjectFilter.toLowerCase()) && reservations[i].requester.toLowerCase().includes($scope.requesterFilter.toLowerCase())) {
+					return true;
+				}
+			} else if ($scope.subjectFilter != undefined && $scope.subjectFilter != '' && reservations[i].meeting_subject.toLowerCase().includes($scope.subjectFilter.toLowerCase())) {
+				return true;
+			} else if ($scope.requesterFilter != undefined && $scope.requesterFilter != '' && reservations[i].requester.toLowerCase().includes($scope.requesterFilter.toLowerCase())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	// Verifies if room is reservable for the requested time interval
+	function isReservable(roomID) {
+		var room = $scope.roomsData[roomID];
+		if (room.active == 'false') {
+			return false;
+		}
+		return (room.reservable == 'true');
+	}
+	
+});
+]]></script>
+        <script_name>fm_floorview_controller</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>tomas.ferreira</sys_created_by>
+        <sys_created_on>2016-09-06 15:26:47</sys_created_on>
+        <sys_id>1dce89440f71a20011bec3ace1050e62</sys_id>
+        <sys_mod_count>475</sys_mod_count>
+        <sys_name>x_lsmcb_fm.fm_floorview_controller</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_script_1dce89440f71a20011bec3ace1050e62</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-07-10 10:50:28</sys_updated_on>
+        <use_scoped_format>false</use_scoped_format>
+    </sys_ui_script>
+</record_update>

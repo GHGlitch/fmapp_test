@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Fm M2m Locations Facility Items" max_length="40" name="x_lsmcb_fm_m2m_locations_facility_items" type="collection">
+        <element label="Facility Item" max_length="32" name="facility_item" reference="x_lsmcb_fm_facility_item" type="reference"/>
+        <element label="Location" max_length="32" name="location" reference="cmn_location" type="reference"/>
+        <index name="index">
+            <element name="facility_item"/>
+        </index>
+        <index name="index2">
+            <element name="location"/>
+        </index>
+    </element>
+</database>

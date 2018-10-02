@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_scope_table_access">
+    <sys_scope_table_access action="INSERT_OR_UPDATE">
+        <create_access>false</create_access>
+        <delete_access>false</delete_access>
+        <example_stack_trace>Default-thread-758
+	com.glide.sys.fencing.dependency.ScopeAccessProvider$ScopeAccessCache.getCurrentStackTrace(ScopeAccessProvider.java:234)
+	com.glide.sys.fencing.dependency.ScopeAccessProvider$ScopeAccessCache.record(ScopeAccessProvider.java:202)
+	com.glide.sys.fencing.dependency.ScopeAccessProvider$ScopeAccessCache.access$100(ScopeAccessProvider.java:81)
+	com.glide.sys.fencing.dependency.ScopeAccessProvider.recordAccess(ScopeAccessProvider.java:64)
+	com.glide.sys.fencing.dependency.ScopeAccessRecorder.record(ScopeAccessRecorder.java:13)
+	com.glide.script.fencing.access.ScopedTableAccess.hasRightsTo(ScopedTableAccess.java:93)
+	com.glide.script.fencing.access.ScopedTableAccess.hasRightsToTable(ScopedTableAccess.java:40)
+	com.glide.script.fencing.ScopedGlideRecord.getScopeAccessStatusForTable(ScopedGlideRecord.java:229)
+	com.glide.script.fencing.ScopedGlideRecord.checkOperationPermitted(ScopedGlideRecord.java:211)
+	com.glide.script.fencing.ScopedGlideRecord.jsFunction_query(ScopedGlideRecord.java:170)
+	sun.reflect.GeneratedMethodAccessor763.invoke(Unknown Source)
+	sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	java.lang.reflect.Method.invoke(Method.java:498)
+	org.mozilla.javascript.MemberBox.invoke(MemberBox.java:138)
+	org.mozilla.javascript.FunctionObject.doInvoke(FunctionObject.java:637)
+	org.mozilla.javascript.FunctionObject.call(FunctionObject.java:581)
+	org.mozilla.javascript.ScriptRuntime.doCall(ScriptRuntime.java:2574)
+	org.mozilla.javascript.optimizer.OptRuntime.callProp0(OptRuntime.java:85)
+	org.mozilla.javascript.gen.sys_script_include_b79200720f0a2a0011bec3ace1050ede_11028._c_anonymous_23(sys_script_include.b79200720f0a2a0011bec3ace1050ede:516)
+	org.mozilla.javascript.gen.sys_script_include_b79200720f0a2a0011bec3ace1050ede_11028.call(sys_script_include.b79200720f0a2a0011bec3ace1050ede)
+	org.mozilla.javascript.ScriptRuntime.doCall2(ScriptRuntime.java:2645)
+	org.mozilla.javascript.ScriptRuntime.doCall(ScriptRuntime.java:2582)
+	org.mozilla.javascript.optimizer.OptRuntime.call1(OptRuntime.java:32)
+	org.mozilla.javascript.gen.sys_script_include_b79200720f0a2a0011bec3ace1050ede_11028._c_anonymous_20(sys_script_include.b79200720f0a2a0011bec3ace1050ede:426)
+	org.mozilla.javascript.gen.sys_script_include_b79200720f0a2a0011bec3ace1050ede_11028.call(sys_script_include.b79200720f0a2a0011bec3ace1050ede)
+	org.mozilla.javascript.ScriptRuntime.doCall2(ScriptRuntime.java:2645)
+	org.mozilla.javascript.ScriptRuntime.doCall(ScriptRuntime.java:2582)
+	org.mozilla.javascript.optimizer.OptRuntime.callN(OptRuntime.java:52)
+	org.mozilla.javascript.gen.sc_cat_item_producer_971fa5690f073a0011bec3ace1050e95_10945._c_script_0(sc_cat_item_producer.971fa5690f073a0011bec3ace1050e95:18)
+	org.mozilla.javascript.gen.sc_cat_item_producer_971fa5690f073a0011bec3ace1050e95_10945.call(sc_cat_item_producer.971fa5690f073a0011bec3ace1050e95)
+	org.mozilla.javascript.gen.sc_cat_item_producer_971fa5690f073a0011bec3ace1050e95_10945.exec(sc_cat_item_producer.971fa5690f073a0011bec3ace1050e95)
+	com.glide.script.ScriptEvaluator.execute(ScriptEvaluator.java:236)
+	com.glide.script.ScriptEvaluator.evaluateString(ScriptEvaluator.java:107)
+	com.glide.script.ScriptEvaluator.evaluateString(ScriptEvaluator.java:73)
+	com.glide.script.fencing.GlideScopedEvaluator.evaluateScript(GlideScopedEvaluator.java:324)
+	com.glide.script.fencing.GlideScopedEvaluator.evaluateScript(GlideScopedEvaluator.java:211)
+	com.glideapp.servicecatalog.valve.ProducerValve.evaluateScript(ProducerValve.java:327)
+	com.glideapp.servicecatalog.valve.ProducerValve.processMap(ProducerValve.java:301)
+	com.glideapp.servicecatalog.valve.ProducerValve.produceItem(ProducerValve.java:251)
+	com.glideapp.servicecatalog.valve.ProducerValve.before(ProducerValve.java:89)
+	com.glideapp.servicecatalog.valve.ValveProcessor.beforeProcessor(ValveProcessor.java:47)
+	sun.reflect.GeneratedMethodAccessor1633.invoke(Unknown Source)
+	sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	java.lang.reflect.Method.invoke(Method.java:498)
+	org.mozilla.javascript.MemberBox.invoke(MemberBox.java:138)
+	org.mozilla.javascript.NativeJavaMethod.call(NativeJavaMethod.java:292)
+	org.mozilla.javascript.ScriptRuntime.doCall(ScriptRuntime.java:2577)
+	org.mozilla.javascript.optimizer.OptRuntime.callN(OptRuntime.java:52)
+	org.mozilla.javascript.gen._refname__1736._c_executeProcessor_1(&lt;refname&gt;:8)
+	org.mozilla.javascript.gen._refname__1736.call(&lt;refname&gt;)
+	org.mozilla.javascript.ScriptRuntime.doCall2(ScriptRuntime.java:2645)
+	org.mozilla.javascript.ScriptRuntime.doCall(ScriptRuntime.java:2582)
+	org.mozilla.javascript.optimizer.OptRuntime.callName0(OptRuntime.java:74)
+	org.mozilla.javascript.gen._refname__1736._c_script_0(&lt;refname&gt;:1)
+	org.mozilla.javascript.gen._refname__1736.call(&lt;refname&gt;)
+	org.mozilla.javascript.ContextFactory.doTopCall(ContextFactory.java:560)
+	org.mozilla.javascript.ScriptRuntime.doTopCall(ScriptRuntime.java:3439)
+	org.mozilla.javascript.gen._refname__1736.call(&lt;refname&gt;)
+	org.mozilla.javascript.gen._refname__1736.exec(&lt;refname&gt;)
+	com.glide.script.ScriptEvaluator.execute(ScriptEvaluator.java:236)
+	com.glide.script.ScriptEvaluator.evaluateString(ScriptEvaluator.java:107)
+	com.glide.script.ScriptEvaluator.evaluateString(ScriptEvaluator.java:73)
+	com.glide.script.ScriptEvaluator.evaluateString(ScriptEvaluator.java:64)
+	com.glide.script.Evaluator.evaluateString(Evaluator.java:91)
+	com.glide.processors.ScriptedProcessor.process(ScriptedProcessor.java:70)
+	com.glide.processors.AProcessor.runProcessor(AProcessor.java:412)
+	com.glide.processors.AProcessor.processTransaction(AProcessor.java:187)
+	com.glide.processors.ProcessorRegistry.process(ProcessorRegistry.java:165)
+	com.glide.ui.GlideServletTransaction.process(GlideServletTransaction.java:49)
+	com.glide.sys.ServletTransaction.run(ServletTransaction.java:34)
+	java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	java.lang.Thread.run(Thread.java:745)
+</example_stack_trace>
+        <read_access>true</read_access>
+        <source_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</source_scope>
+        <sys_class_name>sys_scope_table_access</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-05-30 10:39:25</sys_created_on>
+        <sys_id>03244e210f473a0011bec3ace1050e76</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>item_option_new</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_scope_table_access_03244e210f473a0011bec3ace1050e76</sys_update_name>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-05-30 10:39:25</sys_updated_on>
+        <table_name>item_option_new</table_name>
+        <target_scope display_value="Global">global</target_scope>
+        <write_access>false</write_access>
+    </sys_scope_table_access>
+</record_update>

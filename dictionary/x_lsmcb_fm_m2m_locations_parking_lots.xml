@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Fm M2m Locations Parking Lots" max_length="40" name="x_lsmcb_fm_m2m_locations_parking_lots" type="collection">
+        <element label="Location" max_length="32" name="location" reference="cmn_location" type="reference"/>
+        <element label="Parking Lot" max_length="32" name="parking_lot" reference="x_lsmcb_fm_parking_lot" type="reference"/>
+        <index name="index">
+            <element name="location"/>
+        </index>
+        <index name="index2">
+            <element name="parking_lot"/>
+        </index>
+    </element>
+</database>

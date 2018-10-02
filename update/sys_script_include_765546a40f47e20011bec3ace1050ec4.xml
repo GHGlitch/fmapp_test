@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMMobileLandingPageAjaxUtils</api_name>
+        <client_callable>true</client_callable>
+        <description>Ajax Utilities for the Mobile Landing Page.</description>
+        <name>FMMobileLandingPageAjaxUtils</name>
+        <script><![CDATA[var FMMobileLandingPageAjaxUtils = Class.create();
+FMMobileLandingPageAjaxUtils.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+    
+	getRawDetails: function() {
+		
+        //Fetch the parameters sent by the client script.
+        var sysID = this.getParameter('sysparm_sysid');
+        var table = this.getParameter('sysparm_table');
+        
+        //Object to be sent to the client script.
+        var queryObj = {};
+        
+        var gr = new GlideRecord(table);
+        
+        //Get the selected record
+        if (gr.get(sysID)) {
+            
+            // Sets all properties of the GlideRecord into the object
+            for (var prop in gr) {
+				var str = prop + '';
+				if (str.search('u_') != -1)
+					str = str.replace('u_', '');
+                queryObj[str] = gr.getValue(prop + '');
+            }
+			
+			// In case of spaces
+			if (!queryObj.location) 
+				queryObj.location = gr.floor.location + '';
+			
+			// In case of spaces
+			if (table == 'x_lsmcb_fm_room')
+				queryObj.space = gr.getUniqueValue();
+			
+            //Send the created object as a response to the client script.
+            var answer = JSON.stringify(queryObj);
+            return answer;
+        
+        } else {
+            return null; //If no record found
+        }
+	},
+	
+    getDetails: function() {
+        
+        //Fetch the parameters sent by the client script.
+        var sysID = this.getParameter('sysparm_sysid');
+        var table = this.getParameter('sysparm_table');
+        
+        //Object to be sent to the client script.
+        var queryObj = {};
+        
+        var gr = new GlideRecord(table);
+        
+        //Get the selected record
+        if (gr.get(sysID)) {
+            
+            // Sets all properties of the GlideRecord into the object
+            for (var prop in gr) {
+                queryObj[prop + ''] = gr.getDisplayValue(prop + '');
+            }
+            
+            //Send the created object as a response to the client script.
+            var answer = JSON.stringify(queryObj);
+            return answer;
+        
+        } else {
+            return null; //If no record found
+        }
+    },
+    
+    /**
+     * Searches for all the room properties of a given room
+     * 
+     * @returns sys_id Array of room properties icons
+     */
+    getRoomProperties: function() {
+        
+        var sysID = this.getParameter('sysparm_sysid');
+        
+        var result = '<div style="display:table-row; line-height:8px; margin-bottom:3px">';
+        
+        var gr = new GlideRecord('x_lsmcb_fm_m2m_room_properties_rooms');
+        gr.addQuery('room', sysID);
+        gr.query();
+        
+        while (gr.next()) {
+            result += '<img class="props" src="' + gr.room_property.icon.getDisplayValue() + '" style="margin-right: 5px" width="10px" border="5px"/>';
+			
+        }
+                
+        result += '</div>';
+        return result;
+        
+    },
+    
+    getRoomReservations: function(){
+        
+        //Fetch the parameters sent by the client script.
+        var sysID = this.getParameter('sysparm_sysid');
+        
+        //Array to be sent to the client script.
+        var objsArray = [];
+        
+        var gr = new GlideRecord('x_lsmcb_fm_room_reservation');
+        gr.addQuery('room',sysID);
+        gr.addQuery('state', '!=', '0');
+        gr.addQuery('state', '!=', '1');
+        gr.addEncodedQuery('start_timeONToday@javascript:gs.daysAgoStart(0)@javascript:gs.daysAgoEnd(0)');
+        gr.orderByDesc('meeting_start_time');
+        gr.query();
+        
+        //Get the selected record
+        
+        while(gr.next()){
+            
+			var confidential = gr.confidential + '' == 'true';
+			
+            var queryObj = {};
+            
+            //Create the desired object by setting the properties as needed.
+            queryObj.sys_id = gr.getValue('sys_id');
+            queryObj.requester = gr.getDisplayValue('requester');
+            queryObj.number_of_attendees = gr.getValue('number_of_attendees');
+            queryObj.meeting_subject = confidential ? 'CONFIDENTIAL' : gr.getValue('meeting_subject');
+            queryObj.start_time = gr.getDisplayValue('meeting_start_time');
+            queryObj.end_time = gr.getDisplayValue('meeting_end_time');
+            
+            
+            objsArray.push(queryObj);
+        }
+        
+        //Send the created object as a response to the client script.
+        var answer = JSON.stringify(objsArray);
+        return answer;
+        
+    },
+    
+    getProfilePic: function(){
+        
+        //Fetch the parameters sent by the client script.
+        var sysID = this.getParameter('sysparm_sysid');
+        
+        var gr = new GlideRecord('sys_user');
+        
+        //Get the selected record
+        if(gr.get(sysID)){
+            var answer = gr.getDisplayValue('photo');
+            return answer;
+        } else {
+            return null; //If no record found
+        }
+    },
+    
+    getActions: function() {
+        var action = this.getParameter('sysparm_action');
+        var objsArray = [];
+        
+        var actionGr = new GlideRecord('x_lsmcb_fm_m2m_record_produ_landing_pag');
+        actionGr.addQuery('landing_page_ux_action', action);
+        actionGr.query();
+        
+        while(actionGr.next()) {
+            
+            var queryObj = {};
+            queryObj.name = actionGr.getDisplayValue('record_producer');
+            queryObj.sys_id = actionGr.getValue('record_producer');
+            queryObj.image = actionGr.record_producer.mobile_picture.getDisplayValue();
+            
+            objsArray.push(queryObj);
+        }
+        return JSON.stringify(objsArray);
+    },
+    
+    type: 'FMMobileLandingPageAjaxUtils'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-11-09 13:46:26</sys_created_on>
+        <sys_id>765546a40f47e20011bec3ace1050ec4</sys_id>
+        <sys_mod_count>102</sys_mod_count>
+        <sys_name>FMMobileLandingPageAjaxUtils</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_765546a40f47e20011bec3ace1050ec4</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-07-09 10:43:10</sys_updated_on>
+    </sys_script_include>
+</record_update>

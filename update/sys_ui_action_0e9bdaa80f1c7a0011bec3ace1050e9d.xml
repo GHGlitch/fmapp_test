@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_ui_action">
+    <sys_ui_action action="INSERT_OR_UPDATE">
+        <action_name>fm_update_reservation</action_name>
+        <active>true</active>
+        <client>true</client>
+        <comments/>
+        <condition>new FMRoomReservationUtils().canCancel()</condition>
+        <form_action>true</form_action>
+        <form_button>true</form_button>
+        <form_context_menu>false</form_context_menu>
+        <form_link>false</form_link>
+        <form_style/>
+        <hint/>
+        <list_action>false</list_action>
+        <list_banner_button>false</list_banner_button>
+        <list_button>false</list_button>
+        <list_choice>false</list_choice>
+        <list_context_menu>false</list_context_menu>
+        <list_link>false</list_link>
+        <list_save_with_form_button>false</list_save_with_form_button>
+        <list_style/>
+        <name>Update Reservation</name>
+        <onclick>updateRes()</onclick>
+        <order>800</order>
+        <script><![CDATA[function updateRes() {
+	var gac = new GlideAjax('FMRoomReservationAjaxUtils');
+	gac.addParam('sysparm_name', 'updateReserveRoomCheck');
+	gac.addParam('sysparm_reservationId', g_form.getUniqueValue());
+	gac.getXMLAnswer(userConfirm);
+	
+	function userConfirm(answer) {
+		console.debug(answer);
+		if (answer == '0') {
+			proceed();
+		} else if (answer == '1'){
+			alert(getMessage('fm_no_item_reservation'));
+			return false;
+		} else if (answer == '2'){
+			alert(getMessage('fm_reservation_too_soon_2'));
+			return false;
+		} else if (answer == '3') {
+			if(confirm(getMessage('fm_update_room_with_orders'))){
+				proceed();
+			} else {
+				return false;
+			}
+		}
+	}
+}
+
+function proceed() {
+	gsftSubmit(null, g_form.getFormElement(), 'fm_update_reservation'); // this refers to the "Action name"
+}
+
+//Code that runs without 'onclick'
+if(typeof window == 'undefined')
+	runnextPhaseCode(); // call Server code
+
+
+//Server-side
+function runnextPhaseCode(){
+	action.setRedirectURL('/com.glideapp.servicecatalog_cat_item_view.do?v=1&sysparm_id=2f98b4dc0f35a20011bec3ace1050e82&sysparm_reservation_id=' + current.sys_id);
+}
+
+
+
+
+// function updateRes(){
+// 	var ga = new GlideAjax('FMRoomReservationAjaxUtils');
+// 	ga.addParam('sysparm_name', 'updateReserveRoomCheck');
+// 	ga.addParam('sysparm_reservationId', g_form.getUniqueValue());
+	
+// 	var instance = top.window.location.href;
+// 	var instanceName = instance.split(".")[0];
+// 	var url = instanceName + '.service-now.com/nav_to.do?uri=%2Fcom.glideapp.servicecatalog_cat_item_view.do%3Fv%3D1%26sysparm_id=2f98b4dc0f35a20011bec3ace1050e82%26sysparm_reservation_id%3D' + g_form.getUniqueValue();
+	
+// 	ga.getXML(function(response) {
+// 		var answer = response.responseXML.documentElement.getAttribute('answer');
+// 		//console.info("ANSWER " + answer)
+// 		if(answer == 1){
+// 			g_form.addErrorMessage(getMessage('fm_no_item_reservation'));
+// 			return false;}
+// 		if(answer == 2){
+// 			if(confirm(getMessage('fm_update_room_with_orders'))){
+// 				top.window.location = url;
+// 			} else {
+// 				return false;
+// 			}
+// 		}
+// 		if(answer == 3){
+// 			top.window.location = url;}
+// 		if(answer == 4){
+// 			g_form.addErrorMessage(getMessage('fm_reservation_too_soon_2'));
+// 			return false;}
+// 	});
+// }]]></script>
+        <show_insert>false</show_insert>
+        <show_multiple_update>false</show_multiple_update>
+        <show_query>false</show_query>
+        <show_update>true</show_update>
+        <sys_class_name>sys_ui_action</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-01-10 17:27:39</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>0e9bdaa80f1c7a0011bec3ace1050e9d</sys_id>
+        <sys_mod_count>91</sys_mod_count>
+        <sys_name>Update Reservation</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_action_0e9bdaa80f1c7a0011bec3ace1050e9d</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-06-20 15:30:32</sys_updated_on>
+        <table>x_lsmcb_fm_room_reservation</table>
+        <ui11_compatible>true</ui11_compatible>
+        <ui16_compatible>false</ui16_compatible>
+    </sys_ui_action>
+</record_update>

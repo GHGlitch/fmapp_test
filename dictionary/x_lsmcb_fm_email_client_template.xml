@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Email Client Template" max_length="40" name="x_lsmcb_fm_email_client_template" type="collection">
+        <element attributes="edge_encryption_enabled=true" label="Template Name" max_length="40" name="fm_template_name" type="string"/>
+        <element label="Template SysID" max_length="32" name="fm_template_sysid" reference="sys_email_client_template" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" label="Template Table" max_length="40" name="fm_template_table" type="string"/>
+        <index name="index">
+            <element name="fm_template_sysid"/>
+        </index>
+    </element>
+</database>

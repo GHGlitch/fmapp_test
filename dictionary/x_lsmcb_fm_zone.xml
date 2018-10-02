@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Zone" max_length="40" name="x_lsmcb_fm_zone" type="collection">
+        <element label="Code" max_length="40" name="code" type="string"/>
+        <element label="Costcenter" max_length="32" name="costcenter" reference="cmn_cost_center" reference_qual="valid_from&lt;=javascript:gs.daysAgoEnd(0)^valid_to&gt;=javascript:gs.daysAgoStart(0)^ORvalid_toISEMPTY^EQ" reference_qual_condition="valid_from&lt;=javascript:gs.daysAgoEnd(0)^valid_to&gt;=javascript:gs.daysAgoStart(0)^ORvalid_toISEMPTY^EQ" type="reference"/>
+        <element label="Image" max_length="40" name="image" type="user_image"/>
+        <element display="true" label="Name" mandatory="true" max_length="40" name="name" type="string"/>
+        <element label="Size (m2)" max_length="40" name="size_m2" type="integer"/>
+        <element label="Workspaces" max_length="40" name="workspaces" type="integer"/>
+        <index name="index">
+            <element name="costcenter"/>
+        </index>
+    </element>
+</database>

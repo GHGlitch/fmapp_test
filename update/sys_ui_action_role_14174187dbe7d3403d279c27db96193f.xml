@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_action_role">
+    <sys_ui_action_role action="INSERT_OR_UPDATE">
+        <sys_class_name>sys_ui_action_role</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2018-07-31 10:57:17</sys_created_on>
+        <sys_id>14174187dbe7d3403d279c27db96193f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>♻.x_lsmcb_fm.fm_room_reservation_reporter</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_ui_action display_value="⟳">850701c7dbe7d3403d279c27db961908</sys_ui_action>
+        <sys_update_name>sys_ui_action_role_14174187dbe7d3403d279c27db96193f</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-07-31 10:57:17</sys_updated_on>
+        <sys_user_role display_value="x_lsmcb_fm.fm_room_reservation_reporter" name="x_lsmcb_fm.fm_room_reservation_reporter">a163ff410fa6ee0011bec3ace1050ebb</sys_user_role>
+    </sys_ui_action_role>
+</record_update>

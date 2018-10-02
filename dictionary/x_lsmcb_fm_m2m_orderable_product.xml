@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Fm M2m Orderable Product" max_length="40" name="x_lsmcb_fm_m2m_orderable_product" type="collection">
+        <element label="Facility Product" max_length="32" name="facility_product" reference="x_lsmcb_fm_facility_product" type="reference"/>
+        <element default="0" label="Order" max_length="40" name="order" type="integer"/>
+        <element label="Record Producer" max_length="32" name="record_producer" reference="sc_cat_item_producer" type="reference"/>
+        <index name="index">
+            <element name="record_producer"/>
+        </index>
+        <index name="index2">
+            <element name="facility_product"/>
+        </index>
+    </element>
+</database>

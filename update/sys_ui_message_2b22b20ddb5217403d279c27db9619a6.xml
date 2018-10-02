@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_message">
+    <sys_ui_message action="INSERT_OR_UPDATE">
+        <application>Facility Management</application>
+        <key>fm_catering_title</key>
+        <language>en</language>
+        <message>Catering</message>
+        <sys_class_name>sys_ui_message</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-05-24 10:18:50</sys_created_on>
+        <sys_id>2b22b20ddb5217403d279c27db9619a6</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>fm_catering_title</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_message_2b22b20ddb5217403d279c27db9619a6</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-08-16 14:37:54</sys_updated_on>
+    </sys_ui_message>
+</record_update>

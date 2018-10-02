@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMOutboundIntegrations</api_name>
+        <client_callable>false</client_callable>
+        <description>Utils for SOAP and REST outbound integrations</description>
+        <name>FMOutboundIntegrations</name>
+        <script><![CDATA[var FMOutboundIntegrations = Class.create();
+
+FMOutboundIntegrations.prototype = {
+    
+    initialize: function() {
+        // Fetches the app's client id and secret from the OAuth's app registry.
+        // Due to SN restriction, needs to be done via a Global script.
+        this.client = new global.FMAGlobalUtils().getAppCredentials(gs.getProperty('x_lsmcb_fm.oauth_app_sys_id'));
+    },
+    
+    SOAP_MESSAGES: 'x_lsmcb_fm.OutlookSOAP', // SOAP
+    REST_MESSAGES: 'x_lsmcb_fm.OutlookREST', // REST
+    INTEGRATION_PROTOCOL: gs.getProperty('x_lsmcb_fm.calendar_integration_protocol'), // SOAP || REST
+    TOKEN: gs.getProperty('x_lsmcb_fm.outlook_token'),
+    
+    /**
+     * Called from the Scripted REST Resource "Authorization" (from the Scripted REST API "Outlook REST Endpoint")
+     * and the Scheduled Job "FM - Renew Graph Access Token"
+     * Used to update the value of the system property "x_lsmcb_fm.outlook_token" with the integration's access token
+     */
+    getAzureToken: function() {
+        
+        if (this.INTEGRATION_PROTOCOL != 'rest') {
+            return;
+        }
+        
+        var msg = new sn_ws.RESTMessageV2(this.REST_MESSAGES, 'GetToken');
+        msg.setStringParameterNoEscape('tenant', gs.getProperty('x_lsmcb_fm.azure_tenant'));
+        msg.setStringParameterNoEscape('clientID', this.client.id);
+        msg.setStringParameterNoEscape('clientSecret', this.client.secret);
+
+        var response = msg.execute();
+        var rspBody = response.getBody();
+        rspBody = JSON.parse(rspBody);
+        
+        var grSysProperty = new GlideRecord('sys_properties');
+        
+        if (grSysProperty.get('name', 'x_lsmcb_fm.outlook_token')) {
+            
+            grSysProperty.value = rspBody.access_token;
+            grSysProperty.update();
+        }
+    },
+
+    /**
+     * Called from the Script Action "Create Calendar Item Action"
+     * Used to create a message to create a meeting on the external integration 
+     * 
+     * @param {GlideRecord} current 
+     * @param {JSON} event 
+     */
+    createCalendarItem: function(current, event) {
+
+        var method = 'CreateItem';
+        var outlookID;
+
+        try {
+
+            var s;
+
+            if (this.INTEGRATION_PROTOCOL == 'rest') {
+
+                this._initREST(method);
+                this._setTokenParameter();
+				this._setRequesterParameter();
+                this._setMeetingParameters();
+                this._setTimeParameters();
+                outlookID = this._exeRESTReturn();
+
+            } else {
+
+                this._initSOAP(method);
+				this._setRequesterParameter();
+                this._setMeetingParameters();
+                this._setTimeParameters();
+                outlookID = this._exeSOAPReturn('Id');
+            }
+			
+            current.outlook_id = outlookID;
+			gs.info('FMOutboundIntegrations updating the outlook id:\n' + outlookID);
+            current.update();
+
+        } catch (ex) {
+            gs.error(ex.getMessage());
+        }
+    },
+
+    /**
+     * Called from the Script Action "Update Calendar Item Action"
+     * Used to create a message to update a meeting on the external integration 
+     * 
+     * @param {GlideRecord} current 
+     * @param {JSON} event 
+     */
+    updateCalendarItem: function(current, event) {
+
+        var method = 'UpdateItem';
+
+        try {
+
+            var s;
+
+            if (this.INTEGRATION_PROTOCOL == 'rest') {
+
+                this._initREST(method);
+                this._setTokenParameter();
+                //this._setAttendeesParameter(current, this.INTEGRATION_PROTOCOL);
+
+            } else {
+
+                this._initSOAP(method);
+            }
+
+            this._setItemIDParameter();
+			this._setRequesterParameter();
+            this._setMeetingParameters();
+            this._setTimeParameters();
+            this._exeMessage();
+
+        } catch (ex) {
+            gs.error(ex.getMessage());
+        }
+    },
+
+    /**
+     * Called from the Script Action "Update Calendar Attendees Action"
+     * Used to create a message to update a meeting on the external integration
+     *
+     * @param {GlideRecord} current
+     * @param {JSON} event
+     */
+    updateCalendarAttendees: function(current, event) {
+
+		var method = 'UpdateVisitors';
+		
+		try {
+			
+			var s;
+			
+			if (this.INTEGRATION_PROTOCOL == 'rest') {
+
+                this._initREST(method);
+                this._setTokenParameter();
+                this._setMeetingParameters();
+                this._setTimeParameters();
+			 
+			} else {
+			 
+				this._initSOAP(method);	
+			}
+			
+			this._setItemIDParameter();
+			this._setRequesterParameter();
+			this._setAttendeesParameter(current, this.INTEGRATION_PROTOCOL);
+			this._exeMessage();
+			
+		} catch (ex) {
+			gs.error(ex.getMessage());
+		}
+    },
+
+    /**
+     * Called from the Script Action "Cancel Calendar Item Action"
+     * Used to create a message to cancel a meeting on the external integration 
+     * 
+     * @param {GlideRecord} current 
+     * @param {JSON} event 
+     */
+    cancelCalendarItem: function(current, event) {
+
+        var method = 'CancelItem';
+
+        try {
+
+            var s;
+
+            if (this.INTEGRATION_PROTOCOL == 'rest') {
+
+                this._initREST(method);
+                this._setTokenParameter();
+
+            } else {
+
+                var changeKey = this._getChangeKey();
+
+                if (changeKey) {
+
+                    this._initSOAP(method);
+                    this._setChangeKeyParameter(changeKey);
+                    
+                } else {
+					
+					return;
+				}
+            }
+			
+			this._setItemIDParameter();
+			this._setRequesterParameter();
+            this._exeMessage();
+
+        } catch (ex) {
+            gs.error(ex.getMessage());
+        }
+    },
+
+    /**
+     * Initiates the RESTMessageV2 object and calls the appropriate method
+     * 
+     * @param {string} method 
+     */
+    _initREST: function(method) {
+
+        s = new sn_ws.RESTMessageV2(this.REST_MESSAGES, method);
+    },
+
+    /**
+     * Initiates the SOAPMessageV2 object and calls the appropriate method
+     * 
+     * @param {string} method 
+     */
+    _initSOAP: function(method) {
+
+        s = new sn_ws.SOAPMessageV2(this.SOAP_MESSAGES, method);
+    },
+    
+     /**
+     * Sets the 'token' parameter
+     * Necessary for the REST integration
+     */
+    _setTokenParameter: function() {
+        
+        if (this.TOKEN != '') {
+            s.setStringParameterNoEscape('token', this.TOKEN);
+        }
+    },
+
+    /**
+     * Sets the 'changeKey' parameter
+     * Necessary on the "CancelItem" message for the Outlook Integration
+     * 
+     * @param {string} changeKey 
+     */
+    _setChangeKeyParameter: function(changeKey) {
+
+        s.setStringParameterNoEscape('changeKey', changeKey);
+    },
+
+    /**
+     * Sets the 'itemID' parameter
+     * Necessary on the update and cancel operations for both the Google Calendar Integration and the Outlook Integration
+     */
+    _setItemIDParameter: function() {
+
+        s.setStringParameterNoEscape('itemID', current.getValue('outlook_id'));
+    },
+
+    /**
+     * Sets the 'subject', 'space' and 'remarks' parameters
+     * Necessary on the create and update operations for both the Google Calendar Integration and the Outlook Integration
+     */
+    _setMeetingParameters: function() {
+
+        s.setStringParameterNoEscape('subject', current.getValue('meeting_subject'));
+        s.setStringParameterNoEscape('spaceEmail', current.room.email + '');
+        s.setStringParameterNoEscape('spaceName', current.room.getDisplayValue());
+        
+        var remarks = current.getValue('meeting_comments');
+        
+        if (remarks == null) {
+            remarks = '';
+        }
+        
+        s.setStringParameterNoEscape('remarks', remarks);
+    },
+	
+	/**
+     * Sets the 'requester' parameter
+     * Necessary on the create and update operations for both the Google Calendar Integration and the Outlook Integration
+     */
+	_setRequesterParameter: function() {
+		s.setStringParameter('requester', current.requester.email.toString());
+	},
+
+    /**
+     * Sets the 'startTime' and 'endTime' parameters
+     * Necessary on the create and update operations for both the Google Calendar Integration and the Outlook Integration
+     */
+    _setTimeParameters: function() {
+        
+        var startTime;
+        var endTime;
+        
+        startTime = this._dateJSONConverter(current.getValue('meeting_start_time'));
+        endTime = this._dateJSONConverter(current.getValue('meeting_end_time'));
+
+        s.setStringParameterNoEscape('startTime', startTime);
+        s.setStringParameterNoEscape('endTime', endTime);
+        
+        // If using REST, get and set the requester's timezone
+        if (this.INTEGRATION_PROTOCOL == 'rest') {
+            
+            var requesterID = current.getValue('requester');
+            
+            var gr = new GlideRecord('sys_user');
+            
+            if (gr.get(requesterID)) {
+                
+                // Because this is run by an event, and events are run by the System, we use its timezone (UTC)
+                s.setStringParameter('timezone', 'UTC');
+            }
+        }
+    },
+
+    /**
+     * Sets the 'attendees' parameters
+     * Necessary on the "UpdateVisitors" message for both the Google Calendar Integration and the Outlook Integration
+     *
+     * @param {GlideRecord} roomReservation
+     * @param {string} integration
+     */
+    _setAttendeesParameter: function(roomReservation, integration) {
+        
+        var attendees = this._getAttendees(roomReservation, roomReservation.getUniqueValue(), integration);
+
+        s.setStringParameterNoEscape('attendees', JSON.stringify(attendees));
+    },
+
+    /**
+     * Executes the RESTMessageV2 or SOAPMessageV2 object
+     * Returns the response object
+     * 
+     * @returns {object} responseBody
+     */
+    _exeMessage: function() {
+
+        var response = s.execute();
+        var responseBody = response.getBody();
+        var status = response.getStatusCode();
+
+		// Uncomment for debuging all response messages
+        //gs.info('### responseBody:\n' + responseBody);
+
+        return responseBody;
+    },
+
+    /**
+     * Calls _exeMessage and parses the responseBody to get the meeting id
+     * 
+     * @returns {string} id
+     */
+    _exeRESTReturn: function() {
+
+        var jsonObject = JSON.parse(this._exeMessage());
+        var id = jsonObject.id;
+		
+        return id;
+    },
+
+    /**
+     * Calls _exeMessage and parses the responseBody to get the meeting id or changeKey accordingly to the parm passed
+     * 
+     * @param {string} parm 
+     * @returns {string} id
+     */
+    _exeSOAPReturn: function(parm) {
+
+        var xmlDoc = new XMLDocument2();
+        xmlDoc.parseXML(this._exeMessage());
+        var itemIdNode = xmlDoc.getNode("//t:ItemId");
+        var id = itemIdNode.getAttribute(parm);
+		
+        return id;
+    },
+
+    /**
+     * Executes "GetItem" message to get the changeKey
+     * Necessary on the "CancelItem" message for the Outlook Integration
+     * 
+     * @returns {string} changeKey
+     */
+    _getChangeKey: function() {
+
+        var method = 'GetItem';
+        var changeKey = false;
+
+        try {
+
+            var s;
+
+            this._initSOAP(method);
+			this._setRequesterParameter();
+            this._setItemIDParameter();
+            changeKey = this._exeSOAPReturn('ChangeKey');
+
+        } catch (ex) {
+            gs.error(ex.getMessage());
+            changeKey = false;
+        }
+
+        return changeKey;
+    },
+
+    /**
+     * Used for the "UpdateVisitors" method
+     * Queries the room reservation to get the related visits
+     * Then calls the appropriate function to create the attendees object for the Outlook or Google Calendar integration
+     *
+     * @param {GlideRecord} roomReservation
+     * @param {string} reservationID
+     * @param {string} integration 
+     * @returns {JSON} attendees
+     */
+    _getAttendees: function(roomReservation, reservationID, integration) {
+
+        var attendees;
+
+        var vgr = new GlideRecord('x_lsmcb_fm_visit');
+        vgr.addQuery('room_reservation', reservationID);
+        vgr.addQuery('state', '!=', 'Canceled');
+        vgr.query();
+        
+        var grInternalVisits = new GlideRecord('x_lsmcb_fm_internal_visits');
+        grInternalVisits.addQuery('room_reservation', reservationID);
+        grInternalVisits.query();
+
+        if (integration == 'rest') {
+            attendees = this._getAttendeesJSON(roomReservation, vgr, grInternalVisits);
+
+        } else {
+
+            attendees = this._getAttendeesXML(vgr);
+        }
+		
+        return attendees;
+    },
+
+    /**
+     * Creates the attendees JSON for the "UpdateVisitors" method for the REST integration
+     *
+     * @param {GlideRecord} current
+     * @param {GlideRecord} visitors
+     * @param {GlideRecord} internalVisitors
+     * @returns {array} attendees
+     */
+    _getAttendeesJSON: function(roomReservation, visitors, internalVisitors) {
+        
+        // First, get the room and fetch the visits, adding them as attendees.
+        var attendees = [{
+            "emailAddress": {
+                "address": roomReservation.room.email + '',
+                "name": roomReservation.room.getDisplayValue()
+            },
+            "type": "resource"
+        }];
+
+        while (visitors.next()) {
+			var attendee = {
+                type: 'required'
+            };
+            
+			attendee.emailAddress = {
+                name: visitors.getValue('visitor_first_name') + ' ' + visitors.getValue('visitor_last_name'),
+                address: visitors.getValue('email')
+            };
+            
+			attendees.push(attendee);
+        }
+        
+        while (internalVisitors.next()) {
+			var intVisit = {
+                type: 'required'
+            };
+            
+			intVisit.emailAddress = {
+                name: internalVisitors.getValue('visitor_first_name') + ' ' + internalVisitors.getValue('visitor_last_name'),
+                address: internalVisitors.getValue('email')
+            };
+            
+			attendees.push(intVisit);
+        }
+		
+        return attendees;
+    },
+
+    /**
+     * Creates the attendees XML for the "UpdateVisitors" method for Outlook integration
+     * 
+     * @param {GlideRecord} visitors
+     * @returns {string} visitJSON
+     */
+    _getAttendeesXML: function(visitors) {
+
+        var sAttendee = "<t:Attendee><t:Mailbox><t:EmailAddress>";
+        var eAttendee = "</t:EmailAddress></t:Mailbox></t:Attendee>";
+        var visitXML;
+
+        while (visitors.next()) {
+
+            visitXML += sAttendee;
+            visitXML += visitors.getDisplayValue('email');
+            visitXML += eAttendee;
+        }
+
+        return visitXML;
+    },
+
+    /**
+     * Receives a base date ("2018-01-30 16:00:00")
+     * Returns a JSON date ("2018-01-30T16:00:00" or "2018-01-30T16:00:00.000Z" for REST or SOAP, respectively)
+     * 
+     * @param {string} date
+     * @returns {string} jsonDate
+     */
+    _dateJSONConverter: function(date) {
+        
+        var jsonDate;
+        
+        if (this.INTEGRATION_PROTOCOL == 'rest') {
+            
+            jsonDate = date.replace(' ', 'T');
+            
+        } else {
+            var gdt2 = new GlideDateTime(date);
+            gdt2 = gdt2.getNumericValue();
+
+            jsonDate = new Date(gdt2);
+            jsonDate = jsonDate.toJSON();
+        }
+        
+        return jsonDate;
+    },
+    
+    /**
+     * Used to retrieve the email of the integration user
+     */
+    _getIntegrationUserEmail: function () {
+        
+        var gr = new GlideRecord('sys_user');
+        gr.get(this.INTEGRATION_USER_ID);
+        
+        return gr.email;
+    },
+
+    type: 'FMOutboundIntegrations'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2018-01-30 10:26:12</sys_created_on>
+        <sys_id>d47e2bdcdb0897003d279c27db961935</sys_id>
+        <sys_mod_count>193</sys_mod_count>
+        <sys_name>FMOutboundIntegrations</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_d47e2bdcdb0897003d279c27db961935</sys_update_name>
+        <sys_updated_by>daniel.baeta</sys_updated_by>
+        <sys_updated_on>2018-08-16 11:25:06</sys_updated_on>
+    </sys_script_include>
+</record_update>

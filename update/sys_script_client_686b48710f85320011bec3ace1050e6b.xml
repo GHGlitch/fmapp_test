@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <applies_extended>false</applies_extended>
+        <condition/>
+        <description/>
+        <field>sys_created_on</field>
+        <global>true</global>
+        <messages/>
+        <name>Clear Reservation Context</name>
+        <order/>
+        <script><![CDATA[function onSubmit() {
+	
+	var reservationData = g_user.getClientData('fm_reservation');
+	// If available get the data from this reservation
+	if (reservationData && reservationData != 'undefined'){
+		var reservation = JSON.parse(reservationData);
+		if(reservation.recurring_reservation == 'true') {
+			var recurrent = confirm('The main room reservation is recurring. Do you want to this order to also be recurring?');
+			g_form.setValue('recurring', recurrent);
+		}
+	}
+	
+	// Clear the reservation after submit of order
+	var ga = new GlideAjax('FMFOrderAjaxUtils');
+	ga.addParam('sysparm_name','clearReservationContext');
+	ga.getXML(function(){});
+}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-02-20 10:24:35</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>686b48710f85320011bec3ace1050e6b</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>Clear Reservation Context</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_client_686b48710f85320011bec3ace1050e6b</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-04-20 12:54:00</sys_updated_on>
+        <table>x_lsmcb_fm_facility_order</table>
+        <type>onSubmit</type>
+        <ui_type>0</ui_type>
+        <view/>
+    </sys_script_client>
+</record_update>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Fm M2m Room Properties Rooms" max_length="40" name="x_lsmcb_fm_m2m_room_properties_rooms" type="collection">
+        <element label="Space" max_length="32" name="room" reference="x_lsmcb_fm_room" type="reference"/>
+        <element label="Space Facility" max_length="32" name="room_property" reference="x_lsmcb_fm_room_property" type="reference"/>
+        <index name="index">
+            <element name="room_property"/>
+        </index>
+        <index name="index2">
+            <element name="room"/>
+        </index>
+    </element>
+</database>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_rest_message_fn_parameters">
+    <sys_rest_message_fn_parameters action="INSERT_OR_UPDATE">
+        <name>itemID</name>
+        <rest_message_function display_value="GetItem">f125bfd4db0357003d279c27db9619ff</rest_message_function>
+        <sys_class_name>sys_rest_message_fn_parameters</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-07-11 17:36:18</sys_created_on>
+        <sys_id>c2a2e36c0f9b9300bc65c5ece1050ea0</sys_id>
+        <sys_mod_count>10</sys_mod_count>
+        <sys_name>itemID</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_rest_message_fn_parameters_c2a2e36c0f9b9300bc65c5ece1050ea0</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-07-30 15:12:13</sys_updated_on>
+        <type>string</type>
+        <value>AAMkAGNkNjRjZWZlLTUxMTUtNDEyMC1hZTRhLWY3MDExYTZlMzk1OQBGAAAAAAD_KkpB_l6jRK9ZpN685fesBwD1Ws8v5NOFTJUSLp02DyEJAAAAAAENAAD1Ws8v5NOFTJUSLp02DyEJAABjEyXCAAA=</value>
+    </sys_rest_message_fn_parameters>
+</record_update>

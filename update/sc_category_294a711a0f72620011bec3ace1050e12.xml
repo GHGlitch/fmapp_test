@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sc_category">
+    <sc_category action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description>Report a disruption.</description>
+        <entitlement_script/>
+        <header_icon/>
+        <homepage_image/>
+        <homepage_renderer display_value="">Default</homepage_renderer>
+        <icon/>
+        <image/>
+        <location/>
+        <mobile_hide_description>false</mobile_hide_description>
+        <mobile_picture/>
+        <mobile_subcategory_render_type>list</mobile_subcategory_render_type>
+        <module/>
+        <order>0</order>
+        <parent display_value="Facility Orders">ccad10aa0f062a0011bec3ace1050ee3</parent>
+        <roles/>
+        <sc_catalog display_value="Facilities Management">b19c0ca70fdd224011bec3ace1050eab</sc_catalog>
+        <show_in_cms>false</show_in_cms>
+        <sys_class_name>sc_category</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-11-02 11:24:54</sys_created_on>
+        <sys_id>294a711a0f72620011bec3ace1050e12</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>Disruption</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sc_category_294a711a0f72620011bec3ace1050e12</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-11-03 14:06:47</sys_updated_on>
+        <title>Disruption</title>
+    </sc_category>
+    <sys_translated_text action="delete_multiple" query="documentkey=294a711a0f72620011bec3ace1050e12"/>
+</record_update>

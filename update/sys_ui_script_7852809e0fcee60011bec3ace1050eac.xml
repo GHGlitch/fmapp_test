@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description>Controller to Retrieve Visitors List, add and remove Visitor to selected list.</description>
+        <global>false</global>
+        <name>x_lsmcb_fm.fm_visitor_list_controller</name>
+        <script><![CDATA[var selectedVisitors=[];
+
+function getRecords()	{
+	var visitors=[];
+	var ga = new GlideAjax('FMRoomReservationUtils');
+        ga.addParam('sysparm_name', 'getVisitorList');
+        ga.getXML(parseData);
+
+        function parseData(response) {
+
+           var answer = response.responseXML.documentElement.getAttribute("answer");
+			visitors = answer.split(",");
+        }
+	
+	return visitors;
+}
+
+function addToList(sys_id){
+	selectedVisitors.push(sys_id);
+}
+
+function removeFromList(sys_id){
+	var index = selectedVisitors.indexOf(sys_id);
+	if (index != -1) {
+		selectedVisitors.splice(index, 1);
+	}
+}
+
+function getList(){
+	return selectedVisitors;
+}]]></script>
+        <script_name>fm_visitor_list_controller</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-09-25 19:53:36</sys_created_on>
+        <sys_id>7852809e0fcee60011bec3ace1050eac</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_lsmcb_fm.fm_visitor_list_controller</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_script_7852809e0fcee60011bec3ace1050eac</sys_update_name>
+        <sys_updated_by>nelson.oliveira</sys_updated_by>
+        <sys_updated_on>2016-09-25 19:53:36</sys_updated_on>
+        <use_scoped_format>false</use_scoped_format>
+    </sys_ui_script>
+</record_update>

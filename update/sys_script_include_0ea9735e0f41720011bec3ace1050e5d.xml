@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMRoomUtils</api_name>
+        <client_callable>false</client_callable>
+        <description>Utils for rooms</description>
+        <name>FMRoomUtils</name>
+        <script><![CDATA[var FMRoomUtils = Class.create();
+FMRoomUtils.prototype = {
+    initialize: function() {
+    },
+	
+	saveSpaceLocation: function(space, operation) {
+		
+		var locGR = new GlideRecord('cmn_location');
+		
+		if (space.space_location == '') {
+			
+			locGR.initialize();
+			var floorGr = new GlideRecord("cmn_location");
+			floorGr.addQuery("name",space.floor.id.toString());
+			floorGr.query();
+			if(floorGr.next()){
+			locGR.setValue('parent', floorGr.sys_id);	
+			}else{
+			locGR.setValue('parent', space.floor.location);		
+			}
+			
+			locGR.setValue('name', space.idname.toString());
+			space.space_location = locGR.insert();
+			space.update();
+			
+		} else if (operation == 'delete') {
+			
+			locGR.addQuery('sys_id', space.getValue('space_location'));
+			locGR.query();
+			if (locGR.next()) {
+				locGR.deleteRecord();
+			}
+			
+		} else {
+			
+			locGR.addQuery('sys_id', space.getValue('space_location'));
+			locGR.query();
+			if (locGR.next()) {
+				locGR.setValue('name', space.idname.toString());
+				locGR.update();	
+			}
+		}
+		
+	},
+
+    type: 'FMRoomUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-02-22 17:16:39</sys_created_on>
+        <sys_id>0ea9735e0f41720011bec3ace1050e5d</sys_id>
+        <sys_mod_count>15</sys_mod_count>
+        <sys_name>FMRoomUtils</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_0ea9735e0f41720011bec3ace1050e5d</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-18 10:16:43</sys_updated_on>
+    </sys_script_include>
+</record_update>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_related sys_domain="global" table="sc_cat_item_producer" version="2" view="facility_product">
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="Record Producer - facility_product" name="sc_cat_item_producer" related_list="NULL" sys_domain="global" view="918cc5cb0f5b6a0011bec3ace1050e71">a73d27b40fa2320011bec3ace1050e4d</list_id>
+            <order_by/>
+            <position>0</position>
+            <related_list>item_option_new.cat_item</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-05-03 13:51:38</sys_created_on>
+            <sys_id>eb3d27b40fa2320011bec3ace1050e4d</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-05-03 13:51:38</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="Record Producer - facility_product" name="sc_cat_item_producer" related_list="NULL" sys_domain="global" view="918cc5cb0f5b6a0011bec3ace1050e71">a73d27b40fa2320011bec3ace1050e4d</list_id>
+            <order_by/>
+            <position>1</position>
+            <related_list>io_set_item.sc_cat_item</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-05-03 13:51:38</sys_created_on>
+            <sys_id>e33d27b40fa2320011bec3ace1050e73</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-05-03 13:51:38</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="Record Producer - facility_product" name="sc_cat_item_producer" related_list="NULL" sys_domain="global" view="918cc5cb0f5b6a0011bec3ace1050e71">a73d27b40fa2320011bec3ace1050e4d</list_id>
+            <order_by/>
+            <position>2</position>
+            <related_list>sc_cat_item_app_group.sc_cat_item</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-05-03 13:51:38</sys_created_on>
+            <sys_id>a73d27b40fa2320011bec3ace1050e73</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-05-03 13:51:38</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="Record Producer - facility_product" name="sc_cat_item_producer" related_list="NULL" sys_domain="global" view="918cc5cb0f5b6a0011bec3ace1050e71">a73d27b40fa2320011bec3ace1050e4d</list_id>
+            <order_by/>
+            <position>3</position>
+            <related_list>sc_cat_item_app_user.sc_cat_item</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-05-03 13:51:38</sys_created_on>
+            <sys_id>6b3d27b40fa2320011bec3ace1050e73</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-05-03 13:51:38</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="Record Producer - facility_product" name="sc_cat_item_producer" related_list="NULL" sys_domain="global" view="918cc5cb0f5b6a0011bec3ace1050e71">a73d27b40fa2320011bec3ace1050e4d</list_id>
+            <order_by/>
+            <position>4</position>
+            <related_list>sc_cat_item_category.sc_cat_item</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-05-03 13:51:38</sys_created_on>
+            <sys_id>2f3d27b40fa2320011bec3ace1050e73</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-05-03 13:51:38</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="Record Producer - facility_product" name="sc_cat_item_producer" related_list="NULL" sys_domain="global" view="918cc5cb0f5b6a0011bec3ace1050e71">a73d27b40fa2320011bec3ace1050e4d</list_id>
+            <order_by/>
+            <position>5</position>
+            <related_list>sc_cat_item_catalog.sc_cat_item</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-05-03 13:51:38</sys_created_on>
+            <sys_id>ef3d27b40fa2320011bec3ace1050e73</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-05-03 13:51:38</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="Record Producer - facility_product" name="sc_cat_item_producer" related_list="NULL" sys_domain="global" view="918cc5cb0f5b6a0011bec3ace1050e71">a73d27b40fa2320011bec3ace1050e4d</list_id>
+            <order_by/>
+            <position>6</position>
+            <related_list>catalog_script_client.cat_item</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-05-03 13:51:38</sys_created_on>
+            <sys_id>a33d27b40fa2320011bec3ace1050e74</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-05-03 13:51:38</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="Record Producer - facility_product" name="sc_cat_item_producer" related_list="NULL" sys_domain="global" view="918cc5cb0f5b6a0011bec3ace1050e71">a73d27b40fa2320011bec3ace1050e4d</list_id>
+            <order_by/>
+            <position>7</position>
+            <related_list>catalog_ui_policy.catalog_item</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-05-03 13:51:38</sys_created_on>
+            <sys_id>673d27b40fa2320011bec3ace1050e74</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-05-03 13:51:38</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="Record Producer - facility_product" name="sc_cat_item_producer" related_list="NULL" sys_domain="global" view="918cc5cb0f5b6a0011bec3ace1050e71">a73d27b40fa2320011bec3ace1050e4d</list_id>
+            <order_by/>
+            <position>8</position>
+            <related_list>sc_cat_item_user_criteria_mtom.sc_cat_item</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-05-03 13:51:38</sys_created_on>
+            <sys_id>2b3d27b40fa2320011bec3ace1050e74</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-05-03 13:51:38</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="Record Producer - facility_product" name="sc_cat_item_producer" related_list="NULL" sys_domain="global" view="918cc5cb0f5b6a0011bec3ace1050e71">a73d27b40fa2320011bec3ace1050e4d</list_id>
+            <order_by/>
+            <position>9</position>
+            <related_list>sc_cat_item_user_criteria_no_mtom.sc_cat_item</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-05-03 13:51:38</sys_created_on>
+            <sys_id>eb3d27b40fa2320011bec3ace1050e74</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-05-03 13:51:38</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="Record Producer - facility_product" name="sc_cat_item_producer" related_list="NULL" sys_domain="global" view="918cc5cb0f5b6a0011bec3ace1050e71">a73d27b40fa2320011bec3ace1050e4d</list_id>
+            <order_by/>
+            <position>10</position>
+            <related_list>REL:67bdac52374010008687ddb1967334ee</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-05-03 13:51:38</sys_created_on>
+            <sys_id>af3d27b40fa2320011bec3ace1050e74</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-05-03 13:51:38</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="Record Producer - facility_product" name="sc_cat_item_producer" related_list="NULL" sys_domain="global" view="918cc5cb0f5b6a0011bec3ace1050e71">a73d27b40fa2320011bec3ace1050e4d</list_id>
+            <order_by/>
+            <position>11</position>
+            <related_list>x_lsmcb_fm_m2m_orderable_product.record_producer</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-05-03 13:51:38</sys_created_on>
+            <sys_id>633d27b40fa2320011bec3ace1050e75</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-05-03 13:51:38</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list action="INSERT_OR_UPDATE">
+            <calculated_name>Record Producer - facility_product</calculated_name>
+            <filter/>
+            <name>sc_cat_item_producer</name>
+            <order_by/>
+            <position/>
+            <related_list/>
+            <sys_class_name>sys_ui_related_list</sys_class_name>
+            <sys_created_by>nuno.pereira</sys_created_by>
+            <sys_created_on>2017-05-03 13:51:38</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>a73d27b40fa2320011bec3ace1050e4d</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Record Producer - facility_product</sys_name>
+            <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+            <sys_update_name>sys_ui_related_sc_cat_item_producer_facility_product</sys_update_name>
+            <sys_updated_by>nuno.pereira</sys_updated_by>
+            <sys_updated_on>2017-05-03 13:51:38</sys_updated_on>
+            <sys_user/>
+            <view display_value="facility_product" name="facility_product">918cc5cb0f5b6a0011bec3ace1050e71</view>
+            <view_name/>
+        </sys_ui_related_list>
+    </sys_ui_related>
+</record_update>

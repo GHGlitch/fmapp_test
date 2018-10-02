@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_ui_action">
+    <sys_ui_action action="INSERT_OR_UPDATE">
+        <action_name>FMUserCancelRoomReservation</action_name>
+        <active>true</active>
+        <client>true</client>
+        <comments>Cancel button for FM User to be able to cancel Room Rervations.&#13;
+</comments>
+        <condition>new FMRoomReservationUtils().canCancel()</condition>
+        <form_action>true</form_action>
+        <form_button>true</form_button>
+        <form_context_menu>false</form_context_menu>
+        <form_link>false</form_link>
+        <form_style/>
+        <hint/>
+        <list_action>false</list_action>
+        <list_banner_button>false</list_banner_button>
+        <list_button>false</list_button>
+        <list_choice>false</list_choice>
+        <list_context_menu>false</list_context_menu>
+        <list_link>false</list_link>
+        <list_save_with_form_button>false</list_save_with_form_button>
+        <list_style/>
+        <name>Cancel Reservation</name>
+        <onclick>cancelTheOrder()</onclick>
+        <order>700</order>
+        <script><![CDATA[/*
+ * - If there are no orders associated with the reservation, confirms if the user really wants to cancel the reservation
+ * - If there are orders associated, confirms if user wants to cancel them
+ * - If there are orders associated and they can't be cancelled anymore, alerts the user he can't cancel the reservation
+ */
+function cancelTheOrder() {
+    
+    var gac = new GlideAjax('FMRoomReservationAjaxUtils');
+    gac.addParam('sysparm_name', 'checkOrders');
+    gac.addParam('sysparm_reservationId', g_form.getUniqueValue());
+    gac.getXMLAnswer(userConfirm);
+    
+    function userConfirm(answer) {
+        
+        if (answer == '1') {
+            if(confirm(getMessage('fm_associated_orders_canceled'))){
+                proceed();
+            } else {
+                return false;
+            }
+        } else if (answer == '0'){
+            if(confirm(getMessage('fm_cancel_room_reservation'))){
+                proceed();
+            } else {
+                return false;
+            }
+        } else if (answer == '2'){
+            alert(getMessage('fm_reservation_too_soon_3'));
+            return false;
+        }
+    }
+}
+
+/*
+ * If it's a recurring reservation, asks the user if he also wants to cancel all future reservations
+ * If so, cancellation proceeds 
+ */
+function proceed() {
+    
+    if(g_form.getValue('recurring') == 'true' && confirm(getMessage('fm_cancel_future_reservations'))){
+        
+        var gac = new GlideAjax('FMRoomReservationAjaxUtils');
+        gac.addParam('sysparm_name', 'cancelFutureLinkedReservations');
+        gac.addParam('sysparm_reservationId', g_form.getUniqueValue());
+        gac.getXML(function(response) {});
+        
+    }
+    gsftSubmit(null, g_form.getFormElement(), 'FMUserCancelRoomReservation'); // this refers to the "Action name"
+    
+}
+
+//Code that runs without 'onclick'
+if(typeof window == 'undefined')
+    runnextPhaseCode(); // call Server code
+
+
+/*
+ * Cancels the current reservation and any order/suborder associated with it
+ * Redirects user back to room reservation list
+ */
+function runnextPhaseCode(){
+    current.setValue('state', '0'); //Sets the Selected Room Reservation State to 'Canceled'
+    
+    var ordersGR = new GlideRecord('x_lsmcb_fm_facility_order');
+    ordersGR.addQuery('room_reservation', current.getValue('sys_id'));
+    ordersGR.addQuery('state', '!=', '4');
+    ordersGR.query();
+    while (ordersGR.next()) {
+        var fsgr = new GlideRecord('x_lsmcb_fm_facility_suborder');
+        fsgr.addQuery('facility_order', ordersGR.sys_id);
+        fsgr.query();
+        
+        while (fsgr.next()){
+            fsgr.state = '4';
+            fsgr.update();
+        }
+        ordersGR.state = '4';
+        ordersGR.wf_action = 'cancel';
+        ordersGR.update();
+    }
+    current.update();
+    
+    var msg = gs.getMessage('fm_room_reservation_canceled',[current.requester.first_name, current.requester.last_name, current.getDisplayValue('start_time').substring(0,10), current.getDisplayValue('start_time').substring(10), current.getDisplayValue('end_time').substring(0,10), current.getDisplayValue('end_time').substring(10), current.room.name]);
+    gs.addInfoMessage(msg);
+    action.setRedirectURL("x_lsmcb_fm_room_reservation_list.do?sysparm_query=requesterDYNAMIC"+gs.getUserID());
+}]]></script>
+        <show_insert>false</show_insert>
+        <show_multiple_update>false</show_multiple_update>
+        <show_query>false</show_query>
+        <show_update>true</show_update>
+        <sys_class_name>sys_ui_action</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-09-08 14:39:12</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>40349f280f3da20011bec3ace1050e86</sys_id>
+        <sys_mod_count>103</sys_mod_count>
+        <sys_name>Cancel Reservation</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_action_40349f280f3da20011bec3ace1050e86</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-23 11:27:11</sys_updated_on>
+        <table>x_lsmcb_fm_room_reservation</table>
+        <ui11_compatible>true</ui11_compatible>
+        <ui16_compatible>false</ui16_compatible>
+    </sys_ui_action>
+</record_update>

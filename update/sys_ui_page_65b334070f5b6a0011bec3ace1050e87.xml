@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>catalog</category>
+        <client_script><![CDATA[		// Manages a list of orderable products.
+		// @dataFieldName The name of the underlying form field that stores the data.
+		// @uiTable The jQuery selector that points to the HTML table to render data into.
+		if($j('#servicePrice').text() != '' ){
+			var servicePrice = parseFloat(($j('#servicePrice').text()).replace(",", ".").substr(1));
+			$j('#totalsum').val(servicePrice.toFixed(2));
+			$j('#totalsum').text('€'+servicePrice.toFixed(2));
+		}else{
+			$j('#totalsum').text('€0');
+		}
+
+
+		function FMOrderableProductLister(dataFieldName, uiTable){
+
+			// Sets the quantity for the given product in the table.
+			function setQuantity(productId, quantity){
+				quantity = parseInt(quantity.toString(), 10);
+				if (!quantity) {
+					removeProduct(productId);
+				}
+				else {
+					var $table = jQuery(uiTable);
+					var $row = jQuery('tr[data-sysid="' + productId + '"]', $table);
+					var $quantity = jQuery('td.quantity input', $row);
+					$quantity.val(quantity);
+					setTotalPrice($row, quantity);
+					$row.addClass('active');
+				}
+			}
+
+			function setTotalPrice($row, quantity){
+				var price = parseFloat(jQuery('td.price', $row).text().replace(",", ".").substr(1));
+
+				var $total = jQuery('td.total', $row);
+
+				$total.text('€' + (price*quantity).toFixed(2).replace(".", ","));
+				totalSum($row);
+			}
+
+			function totalSum($row){
+				//var sum = parseFloat(($j('#totalsum').attr('value')));
+				var sum = 0;
+
+				// iterate through each td based on class and add the values
+
+				$j("#fm-orderable-product-list .total").each(function() {
+					var value = jQuery(this).text();
+					var intValue = parseFloat(value.replace(",", ".").slice(1, value.length));
+					// add only if the value is number
+					sum += intValue;
+					console.info("SUM " + sum);
+
+				});
+				$j('#totalsum').val(sum.toFixed(2));
+				$j('#totalsum').text('€'+sum.toFixed(2));
+
+			}
+			function minusSum($row){
+				var sum = parseFloat($j('#totalsum').attr('value'));
+				// iterate through each td based on class and add the values
+				jQuery('td.total',$row).each(function() {
+					var value = jQuery(this).text();
+					var intValue = parseFloat(value.replace(",", ".").slice(1, value.length));
+					// add only if the value is number
+					sum -= intValue;
+				});
+				$j('#totalsum').val(sum.toFixed(2));
+				$j('#totalsum').text('€'+sum.toFixed(2));
+
+			}
+
+			// Removes the product from the table.
+			function removeProduct(productId){
+				var $table = jQuery(uiTable);
+				var $row = jQuery('tr[data-sysid="' + productId + '"]', $table);
+				var $quantity = jQuery('td.qua.ntity input', $row);
+				minusSum($row);
+				$quantity.val(0);
+				setTotalPrice($row, 0);
+
+				$row.removeClass('active');
+			}
+
+			// Saves the json data to the underlying form field.
+			function saveData(jsonData){
+				g_form.setValue(dataFieldName, JSON.stringify(jsonData));
+			}
+
+			function getDataFromTable(){
+				var result = [];
+				var $table = jQuery(uiTable);
+				var $rows = jQuery('tr.active', $table);
+				$rows.each(function(index, row){
+					var $row = jQuery(row);
+					var product = {};
+					// Product must contain at least quantity and facility_product
+					product.quantity = parseInt(jQuery('td.quantity input', $row).val(), 10);
+					if (product.quantity){
+						product.facility_product = $row.attr('data-sysid');
+						result.push(product);
+					}
+				});
+				return result;
+			}
+
+			function init(){
+				jQuery('#fm-orderable-product-list .remove a').bind('click', function(){
+					var productId = jQuery(this).attr('data-sysid');
+					removeProduct(productId);
+					saveData(getDataFromTable());
+				});
+
+				jQuery('#fm-orderable-product-list .quantity input').bind('focusout', function(){
+					var productId = jQuery(this).attr('data-sysid');
+					var quantity = jQuery(this).val();
+					setQuantity(productId, quantity);
+					saveData(getDataFromTable());
+				});
+
+				jQuery('#fm-orderable-product-add button').bind('click', function(){
+					var $product = jQuery('#fm-orderable-product-add input#facility_product');
+					var $quantity = jQuery('#fm-orderable-product-add input.quantity');
+					setQuantity($product.val(), $quantity.val());
+					saveData(getDataFromTable());
+					$product.val('');
+					jQuery('#fm-orderable-product-add input#sys_display\\.facility_product').val('');
+					$quantity.val('');
+				});
+				getServerData();
+
+			}
+
+
+			function getServerData() {
+				var id = g_form.getValue('order_id');
+				var products;
+				if (id) {
+					var ga = new GlideAjax('x_lsmcb_fm.FMFOrderAjaxUtils');
+					ga.addParam('sysparm_name', 'getProducts');
+					ga.addParam('sysparm_id', id);
+
+					ga.getXML(function(response) {
+						var answer = response.responseXML.documentElement.getAttribute('answer');
+						products = JSON.parse(answer);
+						products.forEach(function(product) {
+							setQuantity(product.id, product.quantity);
+						});
+						saveData(getDataFromTable());
+					});
+
+				}
+			}
+
+			init();
+		}
+
+		function getImage(title, img_src) {
+			var dialog = new GlideDialogWindow("x_lsmcb_fm_fm_product_image");
+			dialog.setTitle(title);
+			dialog.setPreference("sysparm_product_photo", img_src);
+			dialog.render(); //Open the dialog
+		}
+
+		jQuery(document).ready(function(){
+			new FMOrderableProductLister('selected_product_objects', '#fm-orderable-product-list');
+		});]]></client_script>
+        <description>Displays a list of products that can be ordered for the context record producer.</description>
+        <direct>false</direct>
+        <endpoint>x_lsmcb_fm_fm_orderable_product_listing.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	<g:evaluate var="jvar_sysid" jelly="true">
+		var sysid = '${JS,HTML:RP.getParameterValue('sysparm_id')}';
+		sysid;
+	</g:evaluate>
+	<g:evaluate var="jvar_grProducts" jelly="true" object="true">		
+		var grProducts = new GlideRecord("x_lsmcb_fm_m2m_orderable_product");
+		grProducts.addQuery('facility_product.type', '1');
+		grProducts.addQuery('facility_product.active', 'true');
+		grProducts.addQuery("record_producer", jelly.jvar_sysid);
+		grProducts.orderBy("order");
+		grProducts.query();
+		grProducts;
+	</g:evaluate>
+	<g:evaluate var="jvar_grServices" jelly="true" object="true">
+		var grServices = new GlideRecord("x_lsmcb_fm_m2m_orderable_product");
+		grServices.addQuery('facility_product.type', '2');
+		grServices.addQuery('facility_product.active', 'true');
+		grServices.addQuery("record_producer", jelly.jvar_sysid);
+		grServices.orderBy("order");
+		grServices.query();
+		grServices;
+	</g:evaluate>
+	<g:evaluate var="jvar_productList" jelly="true">
+		var products = [];
+		while (jelly.jvar_grProducts.next()){
+			products.push(jelly.jvar_grProducts.facility_product.sys_id.toString());
+		}
+		jelly.jvar_grProducts.restoreLocation();
+		var productList = products.join(",");
+		productList;
+	</g:evaluate>
+	<g:evaluate var="jvar_maxProducts">
+		var maxProducts = parseInt(gs.getProperty('x_lsmcb_fm.max_product_simple', "0"), 10);
+		maxProducts;
+	</g:evaluate>
+	<g:evaluate var="jvar_countProducts" jelly="true">
+		var countProducts = jelly.jvar_grProducts.getRowCount();
+		countProducts;
+	</g:evaluate>
+	
+	<style>
+		#fm-orderable-product-list { margin-top:20px; }
+		#fm-orderable-product-list thead tr { background-color:#009FDA; color:white; }
+		#fm-orderable-product-list td, #fm-orderable-product-list th { padding:2px 5px; }
+		#fm-orderable-product-list .quantity input { width:40px; }
+		#fm-orderable-product-list .remove a { color:red; font-weight:bold; padding:0 4px; }
+		#fm-orderable-product-list .remove a:hover { text-decoration:none; }
+		#fm-orderable-product-list .remove a:after { content:"\f148"; font-family:"retina_icons"; }
+		#fm-orderable-product-add { overflow:auto; }
+		#fm-orderable-product-add .field { float:left; clear:none; margin-right:20px; }
+		#fm-orderable-product-add input#sys_display\.facility_product { float:left; width: 200px; }
+		#fm-orderable-product-add input.quantity { width: 80px; }
+		#fm-orderable-product-add button { color:#009FDA; font-weight:bold; }
+		#fm-orderable-product-add button.add { margin-top:18.67px; }
+		<j:choose>
+			<j:when test="${maxProducts &amp;&amp; maxProducts &lt; countProducts}">
+				#fm-orderable-product-list tbody tr { display:none; }
+				#fm-orderable-product-list tbody tr.active { display:table-row; }
+			</j:when>
+			<j:otherwise>
+				#fm-orderable-product-add { display:none; }
+				#fm-orderable-product-list .remove { display:none; }
+			</j:otherwise>
+		</j:choose>
+	</style>
+	
+	<div id="fm-orderable-product-add">
+		<div class="field">
+			<label for="sys_display.facility_product">${gs.getMessage("fm_product")}</label>
+			<input name="facility_product" onchange="; setLightWeightLink('facility_product'); $('display_hidden.facility_product').value = $('sys_display.facility_product').value;" id="facility_product" type="hidden" value="" />
+			<input name="ni.facility_productTABLE" onchange="" id="facility_productTABLE" type="hidden" value="x_lsmcb_fm_facility_product" />
+			<input name="display_hidden.facility_product" onchange="" id="display_hidden.facility_product" type="hidden" value="" />
+			<input type="hidden" value="" id="sys_original.facility_product" />
+			<span class="input-group lightweight-reference inline-form"></span>
+			<input ac_order_by="name" onfocus="if (!this.ac) new AJAXTableCompleter(this, 'facility_product', '', 'QUERY:sys_idIN${productList}', 'x_lsmcb_fm_facility_product');" autocomplete="off" onkeyup="return acReferenceKeyUp(this, event)" type="text" title="" onkeypress="return acReferenceKeyPress(this, event)" onpaste="return acReferenceKeyPress(this, event)" ac_columns="" name="sys_display.facility_product" onkeydown="return acReferenceKeyDown(this, event);" id="sys_display.facility_product" class="form-control visible_facility_product" data-original-title="" />
+			<button class="icon icon-search" onclick="mousePositionSave(event); reflistOpen('facility_product', 'not', gel('facility_productTABLE').value, '', 'false', '', 'sys_idIN${productList}', '')"></button>
+		</div>
+		<div class="field">
+			<label for="quantity">${gs.getMessage("fm_quantity")}</label>
+			<input type="text" class="quantity form-control" name="quantity" />
+		</div>
+		<div class="field">
+			<button class="add ico-btn glyphicon-plus"></button>
+		</div>
+		&#160;
+	</div>
+	
+	<div>
+		<table id="fm-orderable-product-list">
+			<thead>
+				<tr>
+					<th class="remove"></th>
+					<th class="name"></th>
+					<th class="name">${gs.getMessage('fm_name')}</th>
+					<th class="price">${gs.getMessage('fm_price')}</th>
+					<th class="unit">${gs.getMessage('fm_unit')}</th>
+					<th class="quantity">${gs.getMessage('fm_quantity')}</th>
+					<th class="total1">${gs.getMessage('fm_total')}</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				<j:while test="${grProducts.next()}">
+					<g:evaluate var="jvar_productPrice" jelly="true">
+						var productPrice = ${grProducts.facility_product.price};
+						productPrice = productPrice.toFixed(2).replace(".", ",");
+						productPrice;
+					</g:evaluate>
+					<g:evaluate var="jvar_productImage" jelly="true">
+						//declare a variable to hold the image name  
+						var pImage = '';  
+						//get the record for the attachment table  
+						var a = new GlideRecord('sys_attachment');  
+						a.addQuery('table_name','ZZ_YYx_lsmcb_fm_facility_product');  
+						a.addQuery('file_name','photo');   
+						if (a.get('table_sys_id', '${grProducts.facility_product.sys_id}')) { //this is the sys_id of the actual record in our table which has the Image Field  
+							pImage = a.sys_id + '.iix'; //this is the extension we append for the image itself  
+						}  
+						
+						
+						pImage; 
+					</g:evaluate>
+					
+					<tr data-sysid="${grProducts.facility_product.sys_id}">
+						<td class="remove"><a data-sysid="${grProducts.facility_product.sys_id}">&#160;</a></td>
+						<td class="name">
+							<img src="${jvar_productImage}" border="1" alt="" width="30px" style="margin:5px; cursor:pointer" onclick="getImage('${grProducts.facility_product.name}', &quot;${jvar_productImage}&quot;)"/>
+						</td>
+						<td class="name">${grProducts.facility_product.name}</td>
+						<td class="price" align="right" >€${productPrice}</td>
+						<td class="unit">${grProducts.facility_product.unit}</td>
+						<td class="quantity"><input class="form-control" data-sysid="${grProducts.facility_product.sys_id}" type="text" value="0"></input></td>
+						<td class="total" align="right">€0</td>
+					</tr>
+					
+				</j:while>
+				<j:while test="${grServices.next()}">
+					<g:evaluate var="jvar_servicePrice" jelly="true">
+						var servicePrice = ${grServices.facility_product.price};
+						servicePrice = servicePrice.toFixed(2).replace(".", ",");
+						servicePrice;
+					</g:evaluate>
+					
+					<tr data-sysid="${grServices.facility_product.sys_id}" class="active">
+						<td class="remove" style="visibility: hidden;"><a data-sysid="${grServices.facility_product.sys_id}">&#160;</a></td>
+						<td class="name">
+							<img src="" border="1" alt="" width="30px" style="margin:5px; cursor:pointer"/>
+						</td>
+						<td class="name">${grServices.facility_product.name}</td>
+						<td class="price" align="right">€${servicePrice}</td>
+						<td class="unit">${grServices.facility_product.unit}</td>
+						<td class="quantity"><input class="form-control" readonly="readonly" data-sysid="${grServices.facility_product.sys_id}" type="text" value="1"></input></td>
+						<td id="servicePrice" class="total" align="right">€${servicePrice}</td>
+					</tr>
+					
+					
+					
+				</j:while>
+				<tr class="active">
+						<td class="remove" ></td>
+						<td class="name"></td>
+						<td class="name"></td>
+						<td class="price" align="right"></td>
+						<td class="unit"></td>
+						<td class="quantity" align="center">${gs.getMessage('fm_total')}</td>
+						<td class="totalsum" id="totalsum" value="0" align="right"><p></p></td>
+					</tr>
+			</tbody>
+			
+		</table>
+		
+	</div>
+	
+</j:jelly>]]></html>
+        <name>fm_orderable_product_listing</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>bjorn.van.dommelen</sys_created_by>
+        <sys_created_on>2016-11-29 10:43:57</sys_created_on>
+        <sys_id>65b334070f5b6a0011bec3ace1050e87</sys_id>
+        <sys_mod_count>273</sys_mod_count>
+        <sys_name>fm_orderable_product_listing</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_page_65b334070f5b6a0011bec3ace1050e87</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-12-22 10:43:41</sys_updated_on>
+    </sys_ui_page>
+</record_update>

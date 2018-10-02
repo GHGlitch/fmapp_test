@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element extends="x_lsmcb_fm_docx_template" label="Docx Template Field" max_length="40" name="x_lsmcb_fm_docx_template_field" type="collection">
+        <element label="Allow Linebreaks" max_length="40" name="allow_linebreaks" type="boolean"/>
+        <element attributes="edge_encryption_enabled=true" default="paragraph" label="Default paragraph tag" max_length="40" name="default_paragraph_tag" type="string"/>
+        <element label="Docx Template (Field)" max_length="32" name="docx_template_field" reference="x_lsmcb_fm_docx_template" type="reference"/>
+        <element attributes="allow_references=true" dependent="docx_template_field.table" dependent_on_field="docx_template_field.table" label="Field" max_length="80" name="field" type="field_name" use_dependent_field="true"/>
+        <element label="Field Type" max_length="40" name="field_type" read_only="true" type="string"/>
+        <element dependent="table" dependent_on_field="table" label="Parent Field" max_length="80" name="parent_field" type="field_name" use_dependent_field="true"/>
+        <element choice="3" default="No" label="Sort" max_length="40" name="sort" type="string">
+            <choice>
+                <element label="No" sequence="0" value="No"/>
+                <element label="Ascending" sequence="1" value="Ascending"/>
+                <element label="Descendig" sequence="2" value="Descendig"/>
+            </choice>
+        </element>
+        <element dependent="table" dependent_on_field="table" label="Sort Field" max_length="80" name="sort_field" type="field_name" use_dependent_field="true"/>
+        <index name="index">
+            <element name="docx_template_field"/>
+        </index>
+    </element>
+</database>

@@ -1,0 +1,1114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMFOrderUtils</api_name>
+        <client_callable>false</client_callable>
+        <description>Utils for the Facility orders and suborders</description>
+        <name>FMFOrderUtils</name>
+        <script><![CDATA[var FMFOrderUtils = Class.create();
+FMFOrderUtils.prototype = {
+    initialize: function() {},
+
+    dtu: new FMDateTimeUtils(),
+
+    /**
+     * Creates Order Line Costs from a Product Order
+     *
+     * @param {sys_id} productOrderSysId
+     */
+    createOrderlineCostsFromSysId: function(productOrderSysId) {
+
+        var prgr = new GlideRecord('x_lsmcb_fm_facility_product_order');
+        prgr.addQuery('sys_id', productOrderSysId);
+        prgr.query();
+        if (prgr.next()) {
+            this.createOrderlineCosts(prgr);
+        }
+    },
+
+    /**
+     * Updates the Order Line Costs Quantity from the product Order Quantity
+     *
+     * @param {GlideRecord} productOrder
+     */
+    updateOrderlineCosts: function(productOrder) {
+        var grOrderLineCosts = new GlideRecord('x_lsmcb_fm_order_line_cost');
+        grOrderLineCosts.addQuery('facility_product', productOrder.facility_product.sys_id + '');
+        grOrderLineCosts.addQuery('facility_order', productOrder.facility_suborder.facility_order.sys_id + '');
+        grOrderLineCosts.query();
+        while (grOrderLineCosts.next()) {
+            grOrderLineCosts.quantity = productOrder.quantity;
+            grOrderLineCosts.update();
+        }
+    },
+
+    /**
+     * creates the order line costs for the suborders
+     *
+     * @param {GlideRecord} productOrder
+     */
+    createOrderlineCosts: function(productOrder) {
+
+        var grOrderLine = new GlideRecord('x_lsmcb_fm_order_line');
+        grOrderLine.addQuery('product', productOrder.facility_product + '');
+        grOrderLine.query();
+        while (grOrderLine.next()) {
+            var baseCurrency = grOrderLine.cost_ex_vat.getCurrencyCode();
+            var grOrderLineCosts = new GlideRecord('x_lsmcb_fm_order_line_cost');
+            grOrderLineCosts.initialize();
+
+            //populate all fields
+            grOrderLineCosts.facility_suborder = productOrder.facility_suborder.sys_id + '';
+            grOrderLineCosts.facility_order = productOrder.facility_suborder.facility_order.sys_id + '';
+            grOrderLineCosts.facility_product = productOrder.facility_product.sys_id + '';
+
+            grOrderLineCosts.quantity = productOrder.quantity;
+
+            grOrderLineCosts.cost_ex_vat = baseCurrency + ';' + grOrderLine.cost_ex_vat.getCurrencyValue();
+            grOrderLineCosts.vat = grOrderLine.vat;
+            grOrderLineCosts.cost_vat = baseCurrency + ';' + grOrderLine.costvat.getCurrencyValue();
+            grOrderLineCosts.cost_with_vat = baseCurrency + ';' + grOrderLine.cost_with_vat.getCurrencyValue();
+            grOrderLineCosts.uplift = productOrder.facility_product.uplift;
+
+            grOrderLineCosts.order_line = grOrderLine.sys_id + '';
+            grOrderLineCosts.description = grOrderLine.description;
+            grOrderLineCosts.insert();
+        }
+    },
+
+    /**
+     * Updates the FSO total cost querying the base costs
+     *
+     * @param {GlideRecord} suborder
+     */
+    updateFacilitySuborderTotalCost: function(suborder) {
+
+        var totalCostexVAT = 0;
+        var totalCostwithVAT = 0;
+        var totalPrice = 0;
+        var baseCurrency;
+
+        var baseCost = new GlideRecord('x_lsmcb_fm_base_costs');
+        baseCost.addQuery('facility_suborder', suborder.sys_id + '');
+        baseCost.query();
+
+        while (baseCost.next()) {
+            baseCurrency = baseCost.total_cost_ex_vat.getCurrencyCode();
+            totalCostexVAT += parseFloat(baseCost.total_cost_ex_vat.getCurrencyValue());
+            totalCostwithVAT += parseFloat(baseCost.total_cost_with_vat.getCurrencyValue());
+            totalPrice += parseFloat(baseCost.total_price.getCurrencyValue());
+        }
+
+
+        var grSuborder = new GlideRecord('x_lsmcb_fm_facility_suborder');
+        grSuborder.addQuery('sys_id', suborder.sys_id + '');
+        grSuborder.query();
+
+
+        if (grSuborder.next()) {
+            grSuborder.total_cost_exc_vat = baseCurrency + ';' + totalCostexVAT.toFixed(2);
+            grSuborder.total_cost_inc_vat = baseCurrency + ';' + totalCostwithVAT.toFixed(2);
+            grSuborder.total_price = baseCurrency + ';' + totalPrice.toFixed(2);
+            grSuborder.update();
+        }
+    },
+
+    /**
+     * Calls updateFacilityOrderTotalCostOrder()
+     *
+     * @param {GlideRecord} suborder
+     */
+    updateFacilityOrderTotalCost: function(suborder) {
+
+        this.updateFacilityOrderTotalCostOrder(suborder.facility_order);
+    },
+
+
+    /**
+     * Updates the FO total cost by querying the suborders
+     *
+     * @param {GlideRecord} order
+     */
+    updateFacilityOrderTotalCostOrder: function(order) {
+
+        var totalCostexVAT = 0;
+        var totalCostwithVAT = 0;
+        var totalPrice = 0;
+        var baseCurrency;
+
+        var grFacilitySuborder = new GlideRecord('x_lsmcb_fm_facility_suborder');
+        grFacilitySuborder.addQuery('facility_order', order.sys_id + '');
+        grFacilitySuborder.query();
+
+        while (grFacilitySuborder.next()) {
+            baseCurrency = grFacilitySuborder.total_cost_exc_vat.getCurrencyCode();
+            totalCostexVAT += parseFloat(grFacilitySuborder.total_cost_exc_vat.getCurrencyValue());
+            totalCostwithVAT += parseFloat(grFacilitySuborder.total_cost_inc_vat.getCurrencyValue());
+            totalPrice += parseFloat(grFacilitySuborder.total_price.getCurrencyValue());
+        }
+
+
+        var grFacilityOrder = new GlideRecord('x_lsmcb_fm_facility_order');
+        grFacilityOrder.addQuery('sys_id', order.sys_id + '');
+        grFacilityOrder.query();
+
+        if (grFacilityOrder.next()) {
+            grFacilityOrder.total_cost_exc_vat = baseCurrency + ';' + totalCostexVAT.toFixed(2);
+            grFacilityOrder.total_cost_inc_vat = baseCurrency + ';' + totalCostwithVAT.toFixed(2);
+            grFacilityOrder.total_price = baseCurrency + ';' + totalPrice.toFixed(2);
+            grFacilityOrder.update();
+        }
+    },
+
+    /**
+     * Updates the price of a product, given its order lines
+     *
+     * @param {GlideRecord} current - Order Line
+     */
+    updateProductPrice: function(current) {
+
+        var totalPrice = 0;
+        var baseCurrency = current.cost_with_vat.getCurrencyCode();
+
+        var orderLine = new GlideRecord("x_lsmcb_fm_order_line");
+        orderLine.addQuery("product", current.product);
+        orderLine.query();
+
+        while (orderLine.next()) {
+            totalPrice += parseFloat(orderLine.cost_with_vat.getCurrencyValue());
+        }
+
+        var product = new GlideRecord("x_lsmcb_fm_facility_product");
+        product.addQuery('sys_id', current.product);
+        product.query();
+        if (product.next()) {
+            product.cost = baseCurrency + ';' + totalPrice.toFixed(2);
+            product.update();
+        }
+    },
+
+    /**
+     * Updates the cost of Order Line Costs from active suborders, when an order line price is updated
+     *
+     * @param {GlideRecord} orderLine
+     */
+    updateOrderLineCostPrice: function(orderLine) {
+
+        var baseCurrency = orderLine.cost_ex_vat.getCurrencyCode();
+
+        var grOrderLineCosts = new GlideRecord('x_lsmcb_fm_order_line_cost');
+        grOrderLineCosts.addQuery('order_line', orderLine.sys_id.toString());
+        grOrderLineCosts.addQuery('facility_suborder.expected_start', '>=', orderLine.valid_from);
+        grOrderLineCosts.addQuery('facility_suborder.state', '!=', '4');
+        grOrderLineCosts.addQuery('facility_suborder.state', '!=', '5');
+        grOrderLineCosts.addQuery('facility_suborder.state', '!=', '6');
+        grOrderLineCosts.addQuery('facility_suborder.state', '!=', '7');
+        grOrderLineCosts.addQuery('facility_suborder.state', '!=', '10');
+        grOrderLineCosts.query();
+
+        while (grOrderLineCosts.next()) {
+            grOrderLineCosts.cost_ex_vat = baseCurrency + ';' + orderLine.cost_ex_vat.getCurrencyValue();
+            grOrderLineCosts.vat = orderLine.vat;
+            grOrderLineCosts.cost_vat = baseCurrency + ';' + orderLine.costvat.getCurrencyValue();
+            grOrderLineCosts.cost_with_vat = baseCurrency + ';' + orderLine.cost_with_vat.getCurrencyValue();
+            grOrderLineCosts.uplift = orderLine.product.uplift;
+            grOrderLineCosts.update();
+        }
+    },
+
+    /**
+     * Updates order lines with new prices
+     *
+     * @param {GlideRecord} obj - Price Update
+     */
+    updatePrice: function(obj) {
+
+         // Get base currency, cost ex vat (as Float) and vat values based on the price update record
+        var baseCurrency = obj.cost_ex_vat.getCurrencyCode();
+        var cost_ex_vat = parseFloat(obj.cost_ex_vat.getCurrencyValue());
+        var vat = parseFloat(obj.vat);
+
+        // Calculate the cost of vat and cost with vat
+        var cost_vat = (vat / 100) * cost_ex_vat;
+        var cost_with_vat = (1 + (vat / 100)) * cost_ex_vat;
+
+        // Set all values with base currency and converting the numbers into a string, keeping only two decimals
+        var gr = new GlideRecord('x_lsmcb_fm_order_line');
+        gr.addQuery('sys_id', obj.order_line.sys_id + '');
+        gr.query();
+        if (gr.next()) {
+            gr.cost_ex_vat = baseCurrency + ';' + cost_ex_vat;
+            gr.vat = obj.vat;
+            gr.costvat = baseCurrency + ';' + cost_vat.toFixed(2);
+            gr.cost_with_vat = baseCurrency + ';' + cost_with_vat.toFixed(2);
+            gr.valid_from = obj.valid_from;
+            gr.update();
+        }
+
+    },
+
+    /**
+     *
+     *
+     * @param {sys_id} location
+     * @returns encoded Query with all rooms given a location
+     */
+    getAvailableRooms: function(location) {
+
+        var result = [];
+        //query floor table
+        var floor = new GlideRecord('x_lsmcb_fm_floor');
+        floor.addQuery('location', location);
+        floor.query();
+
+        //gets sys id of all rooms
+        while (floor.next()) {
+
+            var room = new GlideRecord('x_lsmcb_fm_room');
+            room.addQuery('floor', floor.sys_id);
+            room.addQuery('active', true);
+            room.query();
+
+            while (room.next()) {
+                result.push(room.sys_id.toString());
+            }
+        }
+
+        return 'sys_idIN' + result.join(',');
+    },
+
+    /**
+     * Used to check if can cancel order
+     *
+     * @param {sys_id} order
+     * @param {sys_id} requester
+     * @returns boolean for 'Cancel Order' UI Action
+     */
+    cancelOrderCondition: function(order, requester) {
+
+        var ogr = new GlideRecord('x_lsmcb_fm_facility_order');
+        ogr.get(order);
+
+        if (ogr.state == '7' || ogr.state == '6' || ogr.state == '4') return false;
+        var cancelDTime = new GlideDateTime();
+        cancelDTime.setValue(ogr.getElement('cancel_datetime'));
+        return new GlideDateTime() < cancelDTime && gs.getUserID() == requester || gs.getUser().hasRole('x_lsmcb_fm.fm_facilities_order_coordinator');
+    },
+
+    /**
+     * Used to check if can cancel suborder
+     *
+     * @param {sys_id} suborder
+     * @param {sys_id} requester
+     * @returns boolean for 'Cancel suborder' UI Action
+     */
+    cancelSuborderCondition: function(suborder, requester) {
+        var soGr = new GlideRecord('x_lsmcb_fm_facility_suborder');
+        soGr.get(suborder);
+        return (soGr.getValue('state') == '1' || soGr.getValue('state') == '2' || soGr.getValue('state') == '10') &&
+            (gs.getUserID() == requester || gs.getUser().hasRole('x_lsmcb_fm.fm_facilities_suborder_coordinator'));
+
+    },
+
+    /**
+     *
+     *
+     * @param {sys_id} user
+     * @returns user's costcenter
+     */
+    getUserCostcenter: function(user) {
+        var gr = new GlideRecord("sys_user");
+        gr.get(user);
+
+        return gr.department.cost_center.toString();
+    },
+
+    /**
+     *
+     *
+     * @param {sys_id} fo - Facility Order
+     * @returns object with record data from a facility order
+     */
+    getFOInfo: function(fo) {
+
+        var foInfo = {};
+        var gr = new GlideRecord('x_lsmcb_fm_facility_order');
+        gr.addQuery('sys_id', fo);
+        gr.query();
+        if (gr.next()) {
+
+            if (gr.expected_start.getDisplayValue() && gr.expected_end.getDisplayValue()) {
+
+                var startDateTime = new GlideDateTime();
+                startDateTime.setDisplayValue(gr.expected_start.getDisplayValue());
+                var endDateTime = new GlideDateTime();
+                endDateTime.setDisplayValue(gr.expected_end.getDisplayValue());
+
+                var sTime = startDateTime.getDisplayValue().split(' ')[1];
+                var eTime = endDateTime.getDisplayValue().split(' ')[1];
+
+                var sDate = startDateTime.getDisplayValue().split(' ')[0];
+                var eDate = endDateTime.getDisplayValue().split(' ')[0];
+
+                foInfo.date = sDate;
+                foInfo.end_date = eDate;
+                foInfo.start_hour = sTime.split(':')[0];
+                foInfo.start_min = sTime.split(':')[1];
+                foInfo.end_hour = eTime.split(':')[0];
+                foInfo.end_min = eTime.split(':')[1];
+
+                foInfo.expected_start = gr.expected_start.getDisplayValue();
+                foInfo.expected_end = gr.expected_end.getDisplayValue();
+
+            }
+
+            if (gr.getValue('room_reservation')) {
+
+                foInfo.has_reservation = 'true';
+                var rrstartDateTime = new GlideDateTime();
+                rrstartDateTime.setDisplayValue(gr.room_reservation.meeting_start_time.getDisplayValue());
+                var rrendDateTime = new GlideDateTime();
+                rrendDateTime.setDisplayValue(gr.room_reservation.meeting_end_time.getDisplayValue());
+
+                var rsTime = rrstartDateTime.getDisplayValue().split(' ')[1];
+                var reTime = rrendDateTime.getDisplayValue().split(' ')[1];
+
+                foInfo.rrstart_hour = rsTime.split(':')[0];
+                foInfo.rrend_hour = reTime.split(':')[0];
+                foInfo.rrstart_min = rsTime.split(':')[1];
+                foInfo.rrend_min = reTime.split(':')[1];
+
+            } else {
+                foInfo.has_reservation = 'false';
+            }
+
+            if (gr.getValue('type')) foInfo.type = gr.getValue('type');
+            if (gr.getValue('location')) foInfo.location = gr.getValue('location');
+            if (gr.getValue('room')) foInfo.room = gr.getValue('room');
+
+            if (gr.getValue('category')) foInfo.category = gr.getValue('category');
+            if (gr.getValue('description')) foInfo.description = gr.getValue('description');
+
+            if (gr.getValue('short_description')) foInfo.short_description = gr.getValue('short_description');
+            if (gr.getValue('costcenter')) foInfo.costcenter = gr.getValue('costcenter');
+
+            if (gr.getValue('requester')) foInfo.requester = gr.getValue('requester');
+            if (gr.getValue('cmdb_ci')) foInfo.configuration_item = gr.getValue('cmdb_ci');
+
+            if (gr.getValue('recurring')) foInfo.recurring_reservation = gr.getValue('recurring');
+
+            if (gr.getValue('rp_variables')) foInfo.rp_variables = gr.getValue('rp_variables');
+
+        }
+
+        return JSON.stringify(foInfo);
+    },
+
+    getFOInfoForm: function(fo) {
+
+        var obj = {};
+
+        var gr = new GlideRecord('x_lsmcb_fm_facility_order');
+        if (gr.get(fo + "")) {
+
+            obj.requester = gr.getValue('requester') ? gr.getValue('requester') : '';
+            obj.costcenter = gr.getValue('costcenter') ? gr.getValue('costcenter') : '';
+            obj.assignment_group = gr.getValue('assignment_group') ? gr.getValue('assignment_group') : '';
+
+            obj.type = gr.getValue('type');
+            obj.category = gr.getValue('category');
+
+            obj.room = gr.getValue('room') ? gr.getValue('room') : '';
+            obj.location = gr.getValue('location') ? gr.getValue('location') : '';
+
+            obj.expected_start = gr.expected_start ? gr.expected_start.getDisplayValue() : '';
+            obj.expected_end = gr.expected_end ? gr.expected_end.getDisplayValue() : '';
+
+            obj.description = gr.getValue('description') ? gr.getValue('description') : '';
+            obj.short_description = gr.getValue('short_description') ? gr.getValue('short_description') : '';
+
+            obj.configuration_item = gr.getValue('cmdb_ci') ? gr.getValue('cmdb_ci') : '';
+
+        }
+
+        return JSON.stringify(obj);
+
+    },
+
+    /**
+     *
+     *
+     * @param {sys_id} id - Facility Order
+     * @returns list of product orders from a facility Order
+     */
+    getProducts: function(id) {
+        var products = [];
+        var product;
+        var grProducts = new GlideRecord('x_lsmcb_fm_facility_product_order');
+        grProducts.addQuery('facility_order', id);
+        grProducts.query();
+        while (grProducts.next()) {
+            product = {
+                id: grProducts.getValue('facility_product'),
+                quantity: grProducts.getValue('quantity')
+            };
+            products.push(product);
+        }
+        return JSON.stringify(products);
+    },
+
+    /**
+     * Create all the product orders related to the facility order.
+     *
+     * @param {sys_id} id - Facility Order
+     * @param {any} data - Object with products and quantities
+     */
+    createProductOrder: function(id, data) {
+        var products = JSON.parse(data);
+        this.createFPO(id, products);
+    },
+
+    updateProductOrder: function(id, data) {
+
+        var itemReservationsSysIds = ['x'];
+        //query item reservations for the current FO, to exclude them from the SubOrder Query
+        var grItemReservation = new GlideRecord('x_lsmcb_fm_item_reservation');
+        grItemReservation.addQuery('facility_order', id);
+        grItemReservation.query();
+        while (grItemReservation.next()) {
+            itemReservationsSysIds.push(grItemReservation.getValue('facility_suborder'));
+        }
+        var itemReservations = itemReservationsSysIds.join(',');
+
+        var products = JSON.parse(data);
+
+        var grProductOrder = new GlideRecord('x_lsmcb_fm_facility_product_order');
+        grProductOrder.addQuery('facility_suborder', 'NOT IN', itemReservations);
+        grProductOrder.addQuery('facility_order', id);
+        grProductOrder.query();
+
+        // Update existing products
+        loop1:
+            while (grProductOrder.next()) {
+                loop2: for (var i = 0; i < products.length; i++) {
+                    if (products[i].facility_product == grProductOrder.facility_product) {
+                        grProductOrder.quantity = products[i].quantity;
+                        grProductOrder.update();
+                        products[i] = false;
+                        continue loop1;
+                    }
+                }
+                grProductOrder.deleteRecord();
+            }
+        this.createFPO(id, products);
+
+    },
+
+    createFPO: function(id, products) {
+        var grProductOrder = new GlideRecord('x_lsmcb_fm_facility_product_order');
+        if (products) {
+            for (var i = 0; i < products.length; i++) {
+                if (products[i] == false) continue;
+                grProductOrder.newRecord();
+                // Link the Product Order to the created facility order
+                grProductOrder.setValue('facility_order', id);
+                var product = products[i];
+                // Add all properties on the product as fields on the new gliderecord for the product order
+                // For now this will only be 'facility_product' and 'quantity'
+                for (var propName in product) {
+                    var propValue = product[propName];
+                    grProductOrder[propName] = propValue;
+                }
+                grProductOrder.insert();
+            }
+        }
+    },
+
+    /**
+     * Function used in Mobile RP to create order
+     * 
+     * @param {GlideRecord} producer 
+     * @param {number} category 
+     * @param {string} type 
+     */
+    createOrderMobile: function(producer, category, type) {
+
+        current.requester = producer.requester;
+        current.opened_by = gs.getUserID();
+        if (producer.costcenter) {
+            current.costcenter = producer.costcenter;
+        } else if (current.costcenter == '') {
+            current.costcenter = this.getUserCostcenter(current.requester);
+        }
+        current.category = category;
+        current.type = type;
+        if (producer.location) current.location = producer.location.sys_id;
+        if (producer.room) current.room = producer.room;
+
+        if (producer.start_hours && producer.end_hours) {
+
+            if (producer.end_date) {
+                this.dtu.setSDTEDT(producer.date, producer.end_date, producer.start_hours, producer.start_minutes, producer.end_hours, producer.end_minutes);
+            } else {
+                this.dtu.startAndEndDT(producer.date, producer.start_hours, producer.start_minutes, producer.end_hours, producer.end_minutes);
+            }
+
+            if (producer.cancel_day_condition && producer.cancel_hour_condition)
+                this.dtu.cancelFromDate(producer.date, producer.cancel_day_condition, producer.cancel_hour_condition);
+
+        } else if (producer.date) {
+
+            var gdt = new GlideDateTime(producer.date);
+            this.dtu.deliveryDT(gdt);
+
+            if (producer.cancel_day_condition && producer.cancel_hour_condition)
+                this.dtu.cancelFromDT(gdt, producer.cancel_day_condition, producer.cancel_hour_condition);
+
+        }
+
+        if (producer.reservation_id) {
+            current.room_reservation = producer.reservation_id;
+        }
+
+        if (producer.producer_id) {
+
+            var grProd = new GlideRecord('sc_cat_item_producer');
+            grProd.get(producer.producer_id);
+
+            current.short_description = grProd.name;
+            current.rp_variables = JSON.stringify(this._createRPVariables(producer));
+
+        }
+
+    },
+
+    /**
+     * Function used in RP to create order
+     *
+     * @param {GlideRecord} producer
+     * @param {number} category
+     * @param {string} type
+     */
+    createOrder: function(producer, category, type) {
+
+        current.requester = producer.requester;
+        current.opened_by = gs.getUserID();
+        if (producer.costcenter) {
+            current.costcenter = producer.costcenter;
+        } else if (current.costcenter == '') {
+            current.costcenter = this.getUserCostcenter(current.requester);
+        }
+        current.category = category;
+        current.type = type;
+        if (producer.location) current.location = producer.location;
+        if (producer.room) current.room = producer.room;
+
+        if (producer.start_hours && producer.end_hours) {
+
+            if (producer.end_date) {
+                this.dtu.setSDTEDT(producer.date, producer.end_date, producer.start_hours, producer.start_minutes, producer.end_hours, producer.end_minutes);
+            } else {
+                this.dtu.startAndEndDT(producer.date, producer.start_hours, producer.start_minutes, producer.end_hours, producer.end_minutes);
+            }
+
+            if (producer.cancel_day_condition && producer.cancel_hour_condition)
+                this.dtu.cancelFromDate(producer.date, producer.cancel_day_condition, producer.cancel_hour_condition);
+
+        } else if (producer.date) {
+
+            var gdt = new GlideDateTime(producer.date);
+            this.dtu.deliveryDT(gdt);
+
+            if (producer.cancel_day_condition && producer.cancel_hour_condition)
+                this.dtu.cancelFromDT(gdt, producer.cancel_day_condition, producer.cancel_hour_condition);
+
+        }
+
+        if (producer.reservation_id) {
+            current.room_reservation = producer.reservation_id;
+        }
+
+        if (producer.producer_id) {
+
+            var grProd = new GlideRecord('sc_cat_item_producer');
+            grProd.get(producer.producer_id);
+
+            current.short_description = grProd.name;
+            current.record_producer = producer.producer_id;
+            current.rp_variables = JSON.stringify(this._createRPVariables(producer));
+
+        }
+
+    },
+
+    createGeneralOrder: function(producer, category, type) {
+
+        current.requester = gs.getUserID();
+        current.category = category;
+        current.type = type;
+
+        if (producer.location) current.location = producer.location;
+        if (producer.room) current.room = producer.room;
+
+        if (producer.start_hours && producer.end_hours) {
+
+            if (producer.end_date) {
+                this.dtu.setSDTEDT(producer.date, producer.end_date, producer.start_hours, producer.start_minutes, producer.end_hours, producer.end_minutes);
+            } else {
+                this.dtu.startAndEndDT(producer.date, producer.start_hours, producer.start_minutes, producer.end_hours, producer.end_minutes);
+            }
+
+            if (producer.cancel_day_condition && producer.cancel_hour_condition)
+                this.dtu.cancelFromDate(producer.date, producer.cancel_day_condition, producer.cancel_hour_condition);
+
+        } else if (producer.date) {
+
+            var gdt = new GlideDateTime(producer.date);
+            this.dtu.deliveryDT(gdt);
+
+
+        } else {
+
+            var now = new GlideDateTime();
+            this.dtu.deliveryDT(now);
+
+        }
+
+    },
+
+    /**
+     * Function used in RP to update order
+     *
+     * @param {sys_id} id
+     * @param {GlideRecord} producer
+     * @param {string} description
+     */
+    updateOrder: function(id, producer, description) {
+
+        var gr = new GlideRecord('x_lsmcb_fm_facility_order');
+        gr.get(id);
+
+        if (producer.recurring_update == 'true') {
+
+            var child = new GlideRecord('x_lsmcb_fm_facility_order');
+            if (gr.parent_order.toString() == '') {
+                child.addQuery('parent_order', gr.getUniqueValue());
+            } else {
+                child.addQuery('parent_order', gr.getValue('parent_order'));
+                child.addQuery('expected_start', '>', gr.expected_start);
+            }
+            child.addQuery('state', '!=', '4');
+            child.addQuery('state', '!=', '6');
+            child.addQuery('state', '!=', '7');
+            child.query();
+
+            while (child.next()) {
+
+                this._updateOrderInfo(child, producer, description);
+
+            }
+
+        }
+
+        this._updateOrderInfo(gr, producer, description, producer.date);
+
+    },
+
+    /**
+     * Private function used by updateOrder that actually updates the order
+     *
+     * @param {GlideRecord} gr
+     * @param {GlideRecord} producer
+     * @param {string} description
+     * @param {GlideDate} date - optional parameter used to update the main reservation with the date inserted on the form
+     */
+    _updateOrderInfo: function(gr, producer, description, date) {
+
+        if (producer.selected_product_objects)
+            this.updateProductOrder(gr.getUniqueValue(), producer.selected_product_objects);
+
+
+        // Updating Values
+        gr.setValue('requester', producer.requester);
+        gr.setValue('opened_by', gs.getUserID());
+        gr.setValue('costcenter', producer.costcenter);
+        if (producer.location) {
+            gr.setValue('location', producer.location);
+        }
+        gr.setValue('room', producer.room);
+        gr.setValue('state', '1');
+        gr.setValue('wf_action', 'go_back');
+        gr.setValue('description', 'Updated on ' + new GlideDate().getDisplayValue() + ':\n' + description + '\n\n -------------------------------\n\n' + gr.description);
+        gr.setValue('rp_variables', JSON.stringify(this._createRPVariables(producer)));
+
+        var facilitySubOrder = new GlideRecord('x_lsmcb_fm_facility_suborder');
+        facilitySubOrder.addQuery('facility_order', gr.getUniqueValue());
+        facilitySubOrder.query();
+
+        while (facilitySubOrder.next()) {
+
+            facilitySubOrder.setValue('description', 'Updated on ' + new GlideDate().getDisplayValue() + ':\n' + description + '\n\n -------------------------------\n\n' + facilitySubOrder.getValue('description'));
+            facilitySubOrder.update();
+        }
+
+        if (!date) {
+            date = new GlideDate();
+            date.setValue(gr.getValue('expected_start'));
+        }
+
+        // Updating Date/Time depending on source
+        if (producer.start_hours && producer.end_hours) {
+
+            if (producer.end_date) {
+                this.dtu.setSDTEDT(date, producer.end_date, producer.start_hours, producer.start_minutes, producer.end_hours, producer.end_minutes, gr);
+            } else {
+                this.dtu.startAndEndDT(date, producer.start_hours, producer.start_minutes, producer.end_hours, producer.end_minutes, gr);
+            }
+
+            if (producer.cancel_day_condition && producer.cancel_hour_condition)
+                this.dtu.cancelFromDate(date, producer.cancel_day_condition, producer.cancel_hour_condition, gr);
+
+        } else if (producer.date) {
+
+            this.dtu.deliveryDT(this.dtu.changeDate(date, producer.date), gr);
+            if (producer.cancel_day_condition && producer.cancel_hour_condition)
+                this.dtu.cancelFromDT(this.dtu.changeDate(date, producer.date), producer.cancel_day_condition, producer.cancel_hour_condition, gr);
+
+        }
+
+        gr.update();
+
+    },
+
+    /**
+     * Private function that saves RP specific variables in facility order record
+     *
+     * @param {GlideRecord} producer
+     * @returns object with variable names and values of RP
+     */
+    _createRPVariables: function(producer) {
+
+        var json = {};
+
+        var vgr = new GlideRecord("item_option_new");
+        vgr.addQuery('cat_item', producer.producer_id);
+        vgr.orderBy('name');
+        vgr.query();
+
+        while (vgr.next()) {
+
+            var name = vgr.getValue('name') + '';
+            json[name] = producer.getValue(name);
+
+        }
+        if (producer.description_info) {
+            json['description_info'] = producer.getValue('description_info');
+        }
+        return json;
+
+    },
+
+    /**
+     * Function called from the form when updating an order record
+     *
+     * @param {sys_id} id
+     * @param {GlideDate} date
+     * @param {any} sh - Start Hour
+     * @param {any} eh - End Hour
+     * @param {any} sm - Star minutes
+     * @param {any} em - End minutes
+     * @param {sys_id} location
+     * @param {sys_id} space
+     */
+    updateOrderForm: function(id, date, sh, eh, sm, em, location, space) {
+
+        var grOrder = new GlideRecord('x_lsmcb_fm_facility_order');
+        grOrder.get(id);
+
+        var gdts = new GlideDateTime();
+        gdts.setDisplayValue(date);
+        gdts.addSeconds(60 * sm);
+        gdts.addSeconds(60 * 60 * sh);
+
+        var gdte = new GlideDateTime();
+        gdte.setDisplayValue(date);
+        gdte.addSeconds(60 * em);
+        gdte.addSeconds(60 * 60 * eh);
+
+        grOrder.location = location;
+        grOrder.room = space;
+        grOrder.expected_start = gdts;
+        grOrder.expected_end = gdte;
+        grOrder.update();
+
+    },
+
+    /**
+     * Function called to create Recurring orders for recurring reservations
+     *
+     * @param {sys_id} mainOrder
+     * @param {sys_id} mainReservation
+     */
+    createRecurringOrders: function(mainOrder, mainReservation) {
+
+        var mainReservationGr = new GlideRecord('x_lsmcb_fm_facility_order');
+        mainReservationGr.get(mainOrder);
+        mainReservationGr.recurring = 'true';
+        mainReservationGr.update();
+
+        var recurringReservationsGr = new GlideRecord('x_lsmcb_fm_room_reservation');
+        recurringReservationsGr.addQuery('parent', mainReservation);
+        recurringReservationsGr.query();
+
+        while (recurringReservationsGr.next()) {
+
+            var recurringOrder = new GlideRecord('x_lsmcb_fm_facility_order');
+            recurringOrder.newRecord();
+            recurringOrder.expected_start = recurringReservationsGr.meeting_start_time.getDisplayValue();
+            recurringOrder.expected_end = recurringReservationsGr.meeting_end_time.getDisplayValue();
+            recurringOrder.requester = mainReservationGr.getValue('requester');
+            recurringOrder.opened_by = mainReservationGr.getValue('opened_by');
+            recurringOrder.costcenter = mainReservationGr.getValue('costcenter');
+            recurringOrder.category = mainReservationGr.getValue('category');
+            recurringOrder.type = mainReservationGr.getValue('type');
+            recurringOrder.location = recurringReservationsGr.getValue('location');
+            recurringOrder.room = recurringReservationsGr.getValue('room');
+            recurringOrder.short_description = mainReservationGr.getValue('short_description');
+            recurringOrder.record_producer = mainReservationGr.getValue('record_producer');
+            recurringOrder.assignment_group = mainReservationGr.getValue('assignment_group');
+            recurringOrder.room_reservation = recurringReservationsGr.getUniqueValue();
+            recurringOrder.cmdb_ci = mainReservationGr.getValue('cmdb_ci');
+            recurringOrder.fm_event = mainReservationGr.getValue('fm_event');
+            recurringOrder.external_contact = mainReservationGr.getValue('external_contact');
+            recurringOrder.recurring = 'true';
+            recurringOrder.parent_order = mainReservationGr.getUniqueValue();
+            recurringOrder.description = mainReservationGr.getValue('description');
+            recurringOrder.rp_variables = mainReservationGr.getValue('rp_variables');
+            this.createProductOrders(mainReservationGr.getUniqueValue(), recurringOrder.getUniqueValue());
+            recurringOrder.insert();
+        }
+    },
+
+    /**
+     * Creates product orders for recurring orders
+     *
+     * @param {sys_id} mainOrder
+     * @param {sys_id} childOrder
+     */
+    createProductOrders: function(mainOrder, childOrder) {
+
+        var grMainProductOrder = new GlideRecord('x_lsmcb_fm_facility_product_order');
+        grMainProductOrder.addQuery('facility_order', mainOrder);
+        grMainProductOrder.query();
+        while (grMainProductOrder.next()) {
+            var grProductOrder = new GlideRecord('x_lsmcb_fm_facility_product_order');
+            grProductOrder.newRecord();
+            grProductOrder.quantity = grMainProductOrder.getValue('quantity');
+            grProductOrder.facility_product = grMainProductOrder.getValue('facility_product');
+            grProductOrder.facility_order = childOrder;
+            grProductOrder.insert();
+        }
+    },
+
+    /**
+     * Creates item reservations for recurring orders
+     *
+     * @param {sys_id} mainOrder
+     * @param {sys_id} childOrder
+     * @returns boolean indicating if the item reservation was created
+     */
+    createItemReservations: function(mainOrder, childOrder) {
+        var created = false;
+        var grMainItemReservation = new GlideRecord('x_lsmcb_fm_item_reservation');
+        grMainItemReservation.addQuery('facility_order', mainOrder);
+        grMainItemReservation.query();
+        while (grMainItemReservation.next()) {
+            var grChildItemReservation = new GlideRecord('x_lsmcb_fm_item_reservation');
+            grChildItemReservation.newRecord();
+            grChildItemReservation.facility_item = grMainItemReservation.getValue('facility_item');
+            grChildItemReservation.quantity = grMainItemReservation.getValue('quantity');
+            grChildItemReservation.requester = grMainItemReservation.getValue('requester');
+            grChildItemReservation.short_description = grMainItemReservation.getValue('short_description');
+            grChildItemReservation.remark = grMainItemReservation.getValue('remark');
+            grChildItemReservation.location = grMainItemReservation.getValue('location');
+            grChildItemReservation.room = grMainItemReservation.getValue('room');
+            grChildItemReservation.start_time = childOrder.expected_start;
+            grChildItemReservation.end_time = childOrder.expected_end;
+            grChildItemReservation.facility_order = childOrder.sys_id.toString();
+            grChildItemReservation.insert();
+            created = true;
+        }
+        return created;
+    },
+
+    /**
+     * Returns available Rate groups related to the logged in user
+     *
+     * @returns encoded query with sys:id's of rate groups
+     */
+    getAvailableRateGroups: function() {
+        var result = [];
+
+		
+		if (gs.getUser().hasRole('x_lsmcb_fm.fm_facilities_order_coordinator'))
+			return '';
+		
+        var grUserGroups = new GlideRecord('sys_user_grmember');
+        grUserGroups.addQuery('user', gs.getUserID());
+        grUserGroups.query();
+
+        while (grUserGroups.next()) {
+            var grRateGroups = new GlideRecord('x_lsmcb_fm_m2m_groups_rate_groups');
+            grRateGroups.addQuery('group', grUserGroups.getValue('group'));
+            grRateGroups.query();
+
+            while (grRateGroups.next()) {
+                result.push(grRateGroups.getValue('rate_group'));
+            }
+        }
+
+        return 'sys_idIN' + result.join(',');
+    },
+
+    /**
+     * Creates new reservations in the specified frequency and period, or calendar Dates, until the end date
+     *
+     * @param {GlideDateTime} nextReservationTime
+     * @param {number} period
+     * @param {number} frequency
+     * @param {number} secondsToAdd
+     * @param {GlideDateTime} finalReservationTime
+     * @param {object} calendarDates
+     * @param {sys_id} mainOrder
+     */
+    makeOrderRecurring: function(nextReservationTime, period, frequency, secondsToAdd, finalReservationTime, calendarDates, mainOrder) {
+
+        var mainOrderGr = new GlideRecord('x_lsmcb_fm_facility_order');
+        mainOrderGr.get(mainOrder);
+
+        var maxReservationTime = new GlideDateTime();
+        maxReservationTime.setDisplayValue(nextReservationTime.getDisplayValue());
+        maxReservationTime.addMonthsLocalTime(gs.getProperty('x_lsmcb_fm.max_recurring_reservation'));
+
+        if (maxReservationTime < finalReservationTime) {
+            finalReservationTime = maxReservationTime.getDisplayValue();
+        }
+
+        var grFOrder = new GlideRecord('x_lsmcb_fm_facility_order');
+        var reservationEndTime = new GlideDateTime();
+
+        if (period == 4) {
+
+            var calendarDatesObject = JSON.parse(calendarDates);
+
+            for (var i = 0; i < calendarDatesObject.length; i++) {
+                var reservationStartTime = new GlideDateTime();
+                reservationStartTime.setDisplayValue(calendarDatesObject[i].toString() + ' ' + nextReservationTime.getTime().getDisplayValue());
+                reservationEndTime.setDisplayValue(reservationStartTime.getDisplayValue());
+                reservationEndTime.addSeconds(secondsToAdd);
+
+                //create a new record
+                grFOrder.newRecord();
+                grFOrder.parent_order = mainOrderGr.sys_id + '';
+                grFOrder.recurring = 'true';
+                grFOrder.requester = mainOrderGr.requester + '';
+                grFOrder.location = mainOrderGr.location + '';
+                grFOrder.room = mainOrderGr.room + '';
+                grFOrder.opened_by = mainOrderGr.opened_by + '';
+                grFOrder.costcenter = mainOrderGr.costcenter + '';
+                grFOrder.category = mainOrderGr.category + '';
+                grFOrder.type = mainOrderGr.type + '';
+                grFOrder.cmdb_ci = mainOrderGr.cmdb_ci + '';
+                grFOrder.fm_event = mainOrderGr.fm_event + '';
+                grFOrder.external_contact = mainOrderGr.external_contact + '';
+                grFOrder.short_description = mainOrderGr.short_description + '';
+                grFOrder.record_producer = mainOrderGr.record_producer + '';
+                grFOrder.assignment_group = mainOrderGr.assignment_group + '';
+                grFOrder.description = mainOrderGr.description + '';
+                grFOrder.expected_start.setDisplayValue(reservationStartTime.getDisplayValue());
+                grFOrder.expected_end.setDisplayValue(reservationEndTime.getDisplayValue());
+                grFOrder.rp_variables = mainOrderGr.rp_variables + '';
+                if (!this.createItemReservations(mainOrderGr.sys_id.toString(), grFOrder)) {
+                    this.createProductOrders(mainOrderGr.sys_id.toString(), grFOrder.sys_id.toString());
+                }
+                grFOrder.insert();
+            }
+        } else {
+
+            this._addTimeFromFrequency(nextReservationTime, period, frequency);
+
+            while (nextReservationTime <= finalReservationTime) {
+                reservationEndTime.setDisplayValue(nextReservationTime.getDisplayValue());
+                reservationEndTime.addSeconds(secondsToAdd);
+
+                //create a new record
+                grFOrder.newRecord();
+                grFOrder.parent_order = mainOrderGr.sys_id + '';
+                grFOrder.recurring = 'true';
+                grFOrder.requester = mainOrderGr.requester + '';
+                grFOrder.location = mainOrderGr.location + '';
+                grFOrder.room = mainOrderGr.room + '';
+                grFOrder.opened_by = mainOrderGr.opened_by + '';
+                grFOrder.costcenter = mainOrderGr.costcenter + '';
+                grFOrder.category = mainOrderGr.category + '';
+                grFOrder.type = mainOrderGr.type + '';
+                grFOrder.cmdb_ci = mainOrderGr.cmdb_ci + '';
+                grFOrder.fm_event = mainOrderGr.fm_event + '';
+                grFOrder.external_contact = mainOrderGr.external_contact + '';
+                grFOrder.short_description = mainOrderGr.short_description + '';
+                grFOrder.record_producer = mainOrderGr.record_producer + '';
+                grFOrder.assignment_group = mainOrderGr.assignment_group + '';
+                grFOrder.description = mainOrderGr.description + '';
+                grFOrder.expected_start.setDisplayValue(nextReservationTime.getDisplayValue());
+                grFOrder.expected_end.setDisplayValue(reservationEndTime.getDisplayValue());
+                grFOrder.rp_variables = mainOrderGr.rp_variables + '';
+                if (!this.createItemReservations(mainOrderGr.sys_id.toString(), grFOrder)) {
+                    this.createProductOrders(mainOrderGr.sys_id.toString(), grFOrder.sys_id.toString());
+                }
+                grFOrder.insert();
+
+                this._addTimeFromFrequency(nextReservationTime, period, frequency);
+            }
+        }
+        mainOrderGr.recurring = 'true';
+        mainOrderGr.update();
+    },
+
+    /**
+     * Private function to add time to a glideDateTime
+     *
+     * @param {GlideDateTime} dateTime
+     * @param {number} period
+     * @param {number} frequency
+     */
+    _addTimeFromFrequency: function(dateTime, period, frequency) {
+
+        if (period == 1) {
+            dateTime.addDaysLocalTime(frequency);
+
+        } else if (period == 2) {
+            dateTime.addWeeksLocalTime(frequency);
+
+        } else if (period == 3) {
+            dateTime.addMonthsLocalTime(frequency);
+        }
+    },
+
+    type: 'FMFOrderUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2016-09-27 09:18:11</sys_created_on>
+        <sys_id>b79200720f0a2a0011bec3ace1050ede</sys_id>
+        <sys_mod_count>477</sys_mod_count>
+        <sys_name>FMFOrderUtils</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_b79200720f0a2a0011bec3ace1050ede</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2018-07-19 14:13:30</sys_updated_on>
+    </sys_script_include>
+</record_update>

@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMDateTimeUtils</api_name>
+        <client_callable>false</client_callable>
+        <description>Utils for dates and times data.</description>
+        <name>FMDateTimeUtils</name>
+        <script><![CDATA[var FMDateTimeUtils = Class.create();
+FMDateTimeUtils.prototype = {
+    initialize: function() {},
+    
+    /**
+     * Given a date and time, returns the matching GlideDateTime object
+     * 
+     * @param String date 
+     * @param Number time 
+     * @returns GlideDateTime object
+     */
+    formatTime : function (date, time) {
+        var gdt = new GlideDateTime();
+        gdt.setDisplayValue(date);
+        gdt.addSeconds(time);
+        return gdt;
+    },
+    
+//     isDateBeforeNow : function (date){
+//         var now = new GlideDateTime();
+//         var gdt = new GlideDateTime();
+//         gdt.setDisplayValue(date);
+//         //0 = same | 1 = before | -1 = after
+//         var isBefore = now.compareTo(gdt);
+//         if (isBefore == 1) return true;
+//             return false;
+//     },
+    
+//     isDateBefore: function (date1, date2) {
+//         var gdt1 = new GlideDateTime();
+//         gdt1.setDisplayValue(date1);
+//         var gdt2 = new GlideDateTime();
+//         gdt2.setDisplayValue(date2);
+//         var isBefore = gdt2.compareTo(gdt1);
+//         if (isBefore == 1) return true;
+//             return false;
+//     },
+    
+    /**
+     * Given a datetime and number of minutes, adds the number of minutes to the actual time and returns the matching GlideDateTime
+     * 
+     * @param String time 
+     * @param Number extra 
+     * @returns GlideDateTime object
+     */
+    addExtraTimeonReservations: function(time, extra) {
+        var gdt = new GlideDateTime();
+        gdt.setValue(time);
+        gdt.addSeconds(parseInt(extra)*60);
+        return gdt;
+    },
+    
+    /**
+     * Calculates minimum date allowed on the Record Producer
+     * 
+     * @param Number day 
+     * @param String hour (in "hh:mm:ss" format)
+     * @returns String with the Date
+     */
+    getInsertDate: function(day, hour) {
+        
+        if (day == '' || hour == '' || gs.getUser().hasRole('x_lsmcb_fm.fm_facilities_order_coordinator')) {
+            
+            return new GlideDate().getDisplayValue();
+            
+        } else {
+            
+            var now = new GlideDateTime(); // GMT
+            var limit = new GlideDateTime(now.getDate() + ' ' + hour); // UTC
+            
+            if (now > limit) {
+                now.addDaysLocalTime(1);
+            }
+            now.addDaysLocalTime(parseInt(day, 10));
+            
+            var date = new GlideDate();
+            date.setDisplayValue(now.getDate().getDisplayValue());
+            return date.getDisplayValue();
+            
+        }
+    },
+    
+    /**
+     * Calculates minimum date/time allowed on the Record Producer
+     * 
+     * @param Number day
+     * @param String hour (in "hh:mm:ss" format)
+     * @param String init (in "hh:mm:ss" format)
+     * @returns String with the DateTime
+     */
+    getInsertDateTime: function(day, hour, init) {
+        
+        var now = new GlideDateTime();
+        
+        if (day == '' || hour == '' || init == '' || gs.getUser().hasRole('x_lsmcb_fm.fm_facilities_order_coordinator')) {
+            
+            var dt = new GlideDateTime();
+            dt.setValue(now.getDate());
+            
+            var time = now.getValue().split(" ")[1];
+            hour = time.split(":")[0];
+            
+            dt.addSeconds((parseInt(hour) + 1) * 3600);
+            
+            return dt.getDisplayValue();
+            
+        } else {
+            
+            var limit = new GlideDateTime(now.getDate() + ' ' + hour); // UTC
+            
+            if (now > limit) {
+                now.addDaysLocalTime(1);
+            }
+            now.addDaysLocalTime(parseInt(day, 10));
+            
+            var min = new GlideDateTime();
+            min.setDisplayValue(now.getLocalDate() + ' ' + init); // User TZ
+            
+            return min.getDisplayValue();
+        }
+        
+    },
+    
+    /**
+     * Compares two datetimes and returns the latest one:
+     * Either the given datetime or the minimum allowed
+     * 
+     * @param String gdt 
+     * @param Number day 
+     * @param String hour (in "hh:mm:ss" format)
+     * @param String init (in "hh:mm:ss" format)
+     * @returns String with the minimum datetime 
+     */
+    getMinDateTime: function(gdt, day, hour, init) {
+        
+        var min = new GlideDateTime(); // GMT
+        min.setDisplayValue(this.getInsertDateTime(day, hour, init));
+        
+        var dt = new GlideDateTime();
+        dt.setDisplayValue(gdt); // UTC
+        
+        return (dt > min) ? dt.getDisplayValue() : min.getDisplayValue();
+        
+    },
+    
+    /**
+     * Changes the date of a GlideDateTIme object, given the date and the GDT object
+     * 
+     * @param String date 
+     * @param String gdt 
+     * @returns GlideDateTime object
+     */
+    changeDate: function(date, gdt) {
+        
+        var dt = new GlideDateTime(gdt);
+        var time = dt.toString().split(' ')[1];
+        gdt = new GlideDateTime(date + " " + time);
+        
+        return gdt;
+        
+    },
+    
+    /**
+     * Sets start and end time of a facility order in a Record Producer
+     * 
+     * @param Date date 
+     * @param Number sh 
+     * @param Number sm 
+     * @param Number eh 
+     * @param Number em 
+     * @param GlideRecord order (Optional)
+     */
+    startAndEndDT: function(date, sh, sm, eh, em, order) {
+        
+        var gdts = new GlideDateTime();
+        gdts.setDisplayValue(date + '');
+        gdts.addSeconds(((60 * parseInt(sh, 10)) + parseInt(sm, 10)) * 60);
+        
+        var gdte = new GlideDateTime();
+        gdte.setDisplayValue(date + '');
+        gdte.addSeconds(((60 * parseInt(eh, 10)) + parseInt(em, 10)) * 60);
+        
+        if (!order) {
+            current.expected_start = gdts;
+            current.expected_end = gdte;
+        } else {
+            order.setValue('expected_start', gdts);
+            order.setValue('expected_end', gdte);
+            order.update();
+        }
+        
+    },
+    
+    /**
+     * Sets start datetime and end datetime of a facility order in a Record Producer
+     * 
+     * @param Date date 
+     * @param Date endDate 
+     * @param Number sh 
+     * @param Number sm 
+     * @param Number eh 
+     * @param Number em 
+     * @param GlideRecord order (Optional)
+     */
+    setSDTEDT: function(date, endDate, sh, sm, eh, em, order) {
+        
+        var gdts = new GlideDateTime();
+        gdts.setDisplayValue(date + '');
+        gdts.addSeconds(((60 * parseInt(sh, 10)) + parseInt(sm, 10)) * 60);
+        
+        var gdte = new GlideDateTime();
+        gdte.setDisplayValue(endDate + '');
+        gdte.addSeconds(((60 * parseInt(eh, 10)) + parseInt(em, 10)) * 60);
+        
+        if (!order) {
+            current.expected_start = gdts;
+            current.expected_end = gdte;
+        } else {
+            order.setValue('expected_start', gdts);
+            order.setValue('expected_end', gdte);
+            order.update();
+        }
+        
+    },
+    
+    /**
+     * Sets start time of a facility order in a Record Producer
+     * 
+     * @param GlideDateTime gdt 
+     * @param GlideRecord order 
+     */
+    deliveryDT: function(gdt, order) {
+        
+        if (!order) {
+            current.expected_start = gdt;
+            current.expected_end = gdt;
+        } else {
+            order.setValue('expected_start', gdt);
+            order.setValue('expected_end', gdt);
+            order.update();
+        }
+        
+    },
+    
+    /**
+     * Sets cancel datetime condition for the actual record from a date
+     * 
+     * @param Date date 
+     * @param Number day 
+     * @param String hour (in "hh:mm:ss" format) 
+     * @param GlideRecord order (Optional)
+     */
+    cancelFromDate: function(date, day, hour, order) {
+        
+        var cancelDT = "";
+        
+        if (day && hour) {
+            
+            cancelDT = new GlideDateTime(date + ' ' + hour);
+            cancelDT.addSeconds(- 24 * 3600 * parseInt(day, 10));
+            
+        }
+        
+        if (!order) {
+            current.cancel_datetime = cancelDT ? cancelDT : current.expected_start;
+        } else {
+            
+            if (cancelDT) {
+                order.setValue('cancel_datetime', cancelDT);
+            } else {
+                order.setValue('cancel_datetime', order.getValue('expected_start'));
+            }
+            order.update();
+        }
+        
+    },
+    
+    /**
+     * Sets cancel datetime condition for the actual record from a datetime
+     * 
+     * @param Date date 
+     * @param Number day 
+     * @param String hour (in "hh:mm:ss" format) 
+     * @param GlideRecord order (Optional)
+     */
+    cancelFromDT: function(gdt, day, hour, order) {
+        
+        var cancelDT = "";
+        
+        if (day && hour) {
+            
+            cancelDT = new GlideDateTime(gdt.getDate() + ' ' + hour);
+            cancelDT.addSeconds(- 24 * 3600 * parseInt(day, 10));
+            
+        }
+        
+        if (!order) {
+            current.cancel_datetime = cancelDT ? cancelDT : current.expected_start;
+        } else {
+            if (cancelDT) {
+                order.setValue('cancel_datetime', cancelDT);
+            } else {
+                order.setValue('cancel_datetime', order.getValue('expected_start'));
+            }
+            order.update();
+        }
+        
+    },
+    
+	getMaxRDate: function(startDate) {
+		var gdt = new GlideDateTime();
+		gdt.setDisplayValue(startDate);
+		gdt.addMonthsLocalTime(gs.getProperty('x_lsmcb_fm.max_recurring_reservation'));
+		return gdt.getDate().getDisplayValue();
+	},
+    
+//     setDateTime: function(date, time) {
+//         var gdt = new GlideDateTime();
+//         gdt.setDisplayValue(date);
+//         gdt.addSeconds(time);
+//         return gdt.getDisplayValue();
+//     },
+    
+    type: 'FMDateTimeUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>laura.schuch</sys_created_by>
+        <sys_created_on>2016-09-07 10:42:12</sys_created_on>
+        <sys_id>a646d15c0f75a20011bec3ace1050ee7</sys_id>
+        <sys_mod_count>97</sys_mod_count>
+        <sys_name>FMDateTimeUtils</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_a646d15c0f75a20011bec3ace1050ee7</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-11-08 17:06:10</sys_updated_on>
+    </sys_script_include>
+</record_update>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element extends="sys_import_set_row" label="imp_arts" max_length="40" name="x_lsmcb_fm_imp_arts" type="collection">
+        <element label="Artist Code" max_length="40" name="artist_code" type="string"/>
+        <element label="Available for Loan" max_length="40" name="available_for_loan" type="string"/>
+        <element label="Code" max_length="40" name="code" type="string"/>
+        <element label="Dimensions" max_length="40" name="dimensions" type="string"/>
+        <element label="Edition" max_length="40" name="edition" type="string"/>
+        <element label="Information" max_length="2000" name="information" type="string"/>
+        <element label="Location" max_length="40" name="location" type="string"/>
+        <element label="Production" max_length="40" name="production" type="string"/>
+        <element label="Purchase Date" max_length="40" name="purchase_date" type="string"/>
+        <element label="Purchase Price" max_length="40" name="purchase_price" type="string"/>
+        <element label="Signature" max_length="40" name="signature" type="string"/>
+        <element label="Space" max_length="40" name="space" type="string"/>
+        <element label="Status" max_length="40" name="status" type="string"/>
+        <element label="Surface Material" max_length="50" name="surface_material" type="string"/>
+        <element label="Technique" max_length="40" name="technique" type="string"/>
+        <element label="Title" max_length="100" name="title" type="string"/>
+    </element>
+</database>

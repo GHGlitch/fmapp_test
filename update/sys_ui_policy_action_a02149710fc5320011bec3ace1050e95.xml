@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_policy_action">
+    <sys_ui_policy_action action="INSERT_OR_UPDATE">
+        <disabled>true</disabled>
+        <field>vat</field>
+        <mandatory>false</mandatory>
+        <sys_class_name>sys_ui_policy_action</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-02-20 14:19:37</sys_created_on>
+        <sys_id>a02149710fc5320011bec3ace1050e95</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>vat</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_ui_policy_action_a02149710fc5320011bec3ace1050e95</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-02-20 14:19:37</sys_updated_on>
+        <table>x_lsmcb_fm_miscellaneous_cost</table>
+        <ui_policy display_value="Make order line cost read only on and after approval">7ee085710fc5320011bec3ace1050e7b</ui_policy>
+        <visible>ignore</visible>
+    </sys_ui_policy_action>
+</record_update>
