@@ -55,14 +55,14 @@
         <sys_created_by>david.neves</sys_created_by>
         <sys_created_on>2017-01-03 11:46:49</sys_created_on>
         <sys_id>c4a8f17f0f7bfa0011bec3ace1050e24</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>0</sys_mod_count>
         <sys_name>Total cost inc VAT</sys_name>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy/>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>sys_dictionary_x_lsmcb_fm_facility_order_total_cost_inc_vat</sys_update_name>
-        <sys_updated_by>david.neves</sys_updated_by>
-        <sys_updated_on>2017-09-27 13:40:59</sys_updated_on>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-10-02 10:50:24</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>

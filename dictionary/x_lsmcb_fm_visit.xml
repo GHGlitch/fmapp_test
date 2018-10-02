@@ -19,6 +19,7 @@
         <element calculation="(function calculatedFieldValue(current) {&#10;&#10;&#9;// Add your code here&#10;&#9;var gdt = new GlideDateTime(current.end_time);&#10;&#9;var gdtReturn = gdt.getLocalTime();&#10;&#9;return gdtReturn;  // return the calculated value&#10;&#10;})(current);" label="End Hours" max_length="10" name="end_hours" read_only="true" type="glide_time"/>
         <element label="End time" max_length="40" name="end_time" type="glide_date_time"/>
         <element label="Host" mandatory="true" max_length="40" name="host" reference="sys_user" type="reference"/>
+        <element label="Internal" max_length="40" name="internal" type="boolean"/>
         <element label="Needs Internet" max_length="40" name="internet" type="boolean"/>
         <element label="Location" mandatory="true" max_length="32" name="location" reference="cmn_location" type="reference"/>
         <element label="Parking Reservation" max_length="32" name="parking_reservation" read_only="true" reference="x_lsmcb_fm_parking_reservation" type="reference"/>

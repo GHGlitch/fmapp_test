@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>8c5cdf700fff3a0011bec3ace1050e7f</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_landing_page_ux_action">
+    <x_lsmcb_fm_landing_page_ux_action action="INSERT_OR_UPDATE">
+        <action>Printer</action>
+        <active>true</active>
+        <condition/>
+        <description/>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-07-04 15:57:04</sys_created_on>
+        <sys_id>8c5cdf700fff3a0011bec3ace1050e7f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-07-04 15:57:04</sys_updated_on>
+        <table>cmdb_ci_printer</table>
+        <ui_macro display_value="fm_qr_printer">2e31ca0237fe7240f916d69543990eac</ui_macro>
+        <ui_macro_name>x_lsmcb_fm_fm_qr_printer</ui_macro_name>
+    </x_lsmcb_fm_landing_page_ux_action>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 16:35:16</sys_created_on>
+        <sys_id>4945a7740fff3a0011bec3ace1050eb7</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Printer</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_4945a7740fff3a0011bec3ace1050eb7</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:35:16</sys_updated_on>
+        <tablename>x_lsmcb_fm_landing_page_ux_action</tablename>
+    </sys_metadata_link>
+</record_update>

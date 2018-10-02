@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>24a9b2b40fbf3a0011bec3ace1050e38</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="cmn_location">
+    <cmn_location action="INSERT_OR_UPDATE">
+        <city/>
+        <company/>
+        <contact/>
+        <country/>
+        <fax_phone/>
+        <full_name>Amsterdam/A01.01 - A01.01</full_name>
+        <lat_long_error/>
+        <latitude/>
+        <longitude/>
+        <name>A01.01 - A01.01</name>
+        <parent display_value="Amsterdam">bf0236340fbf3a0011bec3ace1050e7d</parent>
+        <phone/>
+        <phone_territory/>
+        <state/>
+        <stock_room>false</stock_room>
+        <street/>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 13:24:38</sys_created_on>
+        <sys_id>24a9b2b40fbf3a0011bec3ace1050e38</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 13:26:32</sys_updated_on>
+        <time_zone/>
+        <x_lsmcb_fm_description/>
+        <zip/>
+    </cmn_location>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 13:40:21</sys_created_on>
+        <sys_id>363dbeb40fbf3a0011bec3ace1050eb3</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>A01.01 - A01.01</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_363dbeb40fbf3a0011bec3ace1050eb3</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 13:40:21</sys_updated_on>
+        <tablename>cmn_location</tablename>
+    </sys_metadata_link>
+</record_update>

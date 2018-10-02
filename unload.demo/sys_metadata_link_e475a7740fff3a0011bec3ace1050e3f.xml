@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>328c771a0f22624011bec3ace1050eb0</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_user_group">
+    <sys_user_group action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <cost_center/>
+        <default_assignee/>
+        <description>Testing group for the Facilities Management Portal Order requests.</description>
+        <email/>
+        <exclude_manager>false</exclude_manager>
+        <include_members>false</include_members>
+        <manager/>
+        <name>Facility Orders Staff</name>
+        <parent/>
+        <roles/>
+        <source/>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-10-21 10:38:52</sys_created_on>
+        <sys_id>328c771a0f22624011bec3ace1050eb0</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>nelson.oliveira</sys_updated_by>
+        <sys_updated_on>2016-10-21 10:38:52</sys_updated_on>
+        <type/>
+    </sys_user_group>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 16:36:02</sys_created_on>
+        <sys_id>e475a7740fff3a0011bec3ace1050e3f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Facility Orders Staff</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_e475a7740fff3a0011bec3ace1050e3f</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:36:02</sys_updated_on>
+        <tablename>sys_user_group</tablename>
+    </sys_metadata_link>
+</record_update>

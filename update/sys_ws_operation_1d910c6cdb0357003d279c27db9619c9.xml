@@ -11,7 +11,7 @@
         <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
     
     var fmii = new FMInboundIntegrations();
-    gs.info('==============Outlook calendar notification is now running');
+    
     // Verify if the Outlook REST integration is activated - if not, do nothing.
     if (!fmii.restIntegrationActivated()) {
         gs.error('>>> FMA: Cannot process the request - REST integration not active.');
@@ -39,12 +39,10 @@
                 gs.error('>>> FMA: No ID available - event likely non-existing');
 
             } else {
-				gs.info('Going to process the REST info from the email');
                 fmii.processUpdateREST(data.changeType, data.resourceData.id);
             }
             
         } catch (ex) {
-            //gs.error('FMA: Endpoint Error\n\n' + ex.message);
             gs.error('FMA: Endpoint Error');
             
         } finally {
@@ -75,14 +73,14 @@
         <sys_created_by>diogo.costa</sys_created_by>
         <sys_created_on>2018-06-28 15:01:20</sys_created_on>
         <sys_id>1d910c6cdb0357003d279c27db9619c9</sys_id>
-        <sys_mod_count>161</sys_mod_count>
+        <sys_mod_count>162</sys_mod_count>
         <sys_name>Outlook Calendar Notification</sys_name>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy/>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>sys_ws_operation_1d910c6cdb0357003d279c27db9619c9</sys_update_name>
-        <sys_updated_by>daniel.baeta</sys_updated_by>
-        <sys_updated_on>2018-08-17 14:50:15</sys_updated_on>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-08-27 13:50:49</sys_updated_on>
         <web_service_definition display_value="Outlook REST Endpoint">6b41886cdb0357003d279c27db96195d</web_service_definition>
         <web_service_version/>
     </sys_ws_operation>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>a9a9754b0f60830011bec3ace1050ed2</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_order_line">
+    <x_lsmcb_fm_order_line action="INSERT_OR_UPDATE">
+        <cost_ex_vat>30</cost_ex_vat>
+        <cost_with_vat>38.1</cost_with_vat>
+        <costvat>8.1</costvat>
+        <description>Trolley products</description>
+        <product display_value="Snacks and Drinks Trolley">459935870f60830011bec3ace1050ef9</product>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-08-17 15:18:47</sys_created_on>
+        <sys_id>a9a9754b0f60830011bec3ace1050ed2</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-08-17 15:19:52</sys_updated_on>
+        <valid_from>2017-04-01</valid_from>
+        <vat>27</vat>
+    </x_lsmcb_fm_order_line>
+    <fx_price action="delete_multiple" query="id=a9a9754b0f60830011bec3ace1050ed2"/>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>8.1</amount>
+        <currency display_value="EUR">EUR</currency>
+        <field>costvat</field>
+        <id>a9a9754b0f60830011bec3ace1050ed2</id>
+        <parent/>
+        <reference_amount>9.4851</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-08-17 15:18:47</sys_created_on>
+        <sys_id>bdb9b5870f60830011bec3ace1050e1e</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-08-17 15:19:52</sys_updated_on>
+        <table>x_lsmcb_fm_order_line</table>
+        <type>calculated</type>
+    </fx_price>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>30</amount>
+        <currency display_value="EUR">EUR</currency>
+        <field>cost_ex_vat</field>
+        <id>a9a9754b0f60830011bec3ace1050ed2</id>
+        <parent/>
+        <reference_amount>35.13</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-08-17 15:18:47</sys_created_on>
+        <sys_id>f5b9b5870f60830011bec3ace1050e1f</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-08-17 15:19:52</sys_updated_on>
+        <table>x_lsmcb_fm_order_line</table>
+        <type>calculated</type>
+    </fx_price>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>38.1</amount>
+        <currency display_value="EUR">EUR</currency>
+        <field>cost_with_vat</field>
+        <id>a9a9754b0f60830011bec3ace1050ed2</id>
+        <parent/>
+        <reference_amount>44.6151</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-08-17 15:18:47</sys_created_on>
+        <sys_id>31b9b5870f60830011bec3ace1050e20</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-08-17 15:19:52</sys_updated_on>
+        <table>x_lsmcb_fm_order_line</table>
+        <type>calculated</type>
+    </fx_price>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-08-17 15:20:46</sys_created_on>
+        <sys_id>fa2ab54b0f60830011bec3ace1050ea6</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Trolley products</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_fa2ab54b0f60830011bec3ace1050ea6</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-17 15:20:46</sys_updated_on>
+        <tablename>x_lsmcb_fm_order_line</tablename>
+    </sys_metadata_link>
+</record_update>

@@ -86,7 +86,6 @@ FMOutboundIntegrations.prototype = {
             }
 			
             current.outlook_id = outlookID;
-			gs.info('FMOutboundIntegrations updating the outlook id:\n' + outlookID);
             current.update();
 
         } catch (ex) {
@@ -427,13 +426,9 @@ FMOutboundIntegrations.prototype = {
         vgr.addQuery('room_reservation', reservationID);
         vgr.addQuery('state', '!=', 'Canceled');
         vgr.query();
-        
-        var grInternalVisits = new GlideRecord('x_lsmcb_fm_internal_visits');
-        grInternalVisits.addQuery('room_reservation', reservationID);
-        grInternalVisits.query();
 
         if (integration == 'rest') {
-            attendees = this._getAttendeesJSON(roomReservation, vgr, grInternalVisits);
+            attendees = this._getAttendeesJSON(roomReservation, vgr);
 
         } else {
 
@@ -451,7 +446,7 @@ FMOutboundIntegrations.prototype = {
      * @param {GlideRecord} internalVisitors
      * @returns {array} attendees
      */
-    _getAttendeesJSON: function(roomReservation, visitors, internalVisitors) {
+    _getAttendeesJSON: function(roomReservation, visitors) {
         
         // First, get the room and fetch the visits, adding them as attendees.
         var attendees = [{
@@ -475,7 +470,7 @@ FMOutboundIntegrations.prototype = {
 			attendees.push(attendee);
         }
         
-        while (internalVisitors.next()) {
+        /*while (internalVisitors.next()) {
 			var intVisit = {
                 type: 'required'
             };
@@ -486,7 +481,7 @@ FMOutboundIntegrations.prototype = {
             };
             
 			attendees.push(intVisit);
-        }
+        }*/
 		
         return attendees;
     },
@@ -556,13 +551,13 @@ FMOutboundIntegrations.prototype = {
         <sys_created_by>david.neves</sys_created_by>
         <sys_created_on>2018-01-30 10:26:12</sys_created_on>
         <sys_id>d47e2bdcdb0897003d279c27db961935</sys_id>
-        <sys_mod_count>193</sys_mod_count>
+        <sys_mod_count>195</sys_mod_count>
         <sys_name>FMOutboundIntegrations</sys_name>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy>protected</sys_policy>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>sys_script_include_d47e2bdcdb0897003d279c27db961935</sys_update_name>
         <sys_updated_by>daniel.baeta</sys_updated_by>
-        <sys_updated_on>2018-08-16 11:25:06</sys_updated_on>
+        <sys_updated_on>2018-09-06 13:57:24</sys_updated_on>
     </sys_script_include>
 </record_update>

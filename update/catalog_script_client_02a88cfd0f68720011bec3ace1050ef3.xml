@@ -34,7 +34,12 @@ function onChange(control, oldValue, newValue, isLoading) {
 	
 	if (startDateNum < currentDateNum) {
 		alert(getMessage('fm_past_date'));
-		g_form.setValue('date', '');
+		g_form.clearValue('date');
+	}
+	
+	if (startDateNum == currentDateNum){
+		g_form.clearValue('start_time');
+		g_form.clearValue('end_time');
 	}
 	
 	if(g_form.getBooleanValue('parking_needed')) {
@@ -65,15 +70,15 @@ function onChange(control, oldValue, newValue, isLoading) {
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>02a88cfd0f68720011bec3ace1050ef3</sys_id>
-        <sys_mod_count>5</sys_mod_count>
+        <sys_mod_count>8</sys_mod_count>
         <sys_name>Check Date</sys_name>
         <sys_overrides/>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy/>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>catalog_script_client_02a88cfd0f68720011bec3ace1050ef3</sys_update_name>
-        <sys_updated_by>david.neves</sys_updated_by>
-        <sys_updated_on>2018-01-10 10:20:56</sys_updated_on>
+        <sys_updated_by>daniel.baeta</sys_updated_by>
+        <sys_updated_on>2018-08-30 18:25:46</sys_updated_on>
         <table/>
         <type>onChange</type>
         <ui_type>0</ui_type>

@@ -28,6 +28,12 @@
 		g_form.setValue('quantity', 1);
 		return;
 	}
+	
+	console.log('Cleaning the item qty Old: ' + oldValue + ' new: ' + newValue);
+	if (g_form.getValue('order_id') != '' && oldValue == ''){
+		return;
+	}
+	
 	var ga = new GlideAjax('x_lsmcb_fm.FMFacilityItemAjaxUtils');
 	ga.addParam('sysparm_name', 'isReservableRP');
 	ga.addParam('sysparm_item', g_form.getValue('item').toString());
@@ -61,15 +67,15 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>71cfb6d70f79b60011bec3ace1050eda</sys_id>
-        <sys_mod_count>6</sys_mod_count>
+        <sys_mod_count>10</sys_mod_count>
         <sys_name>Reset quantity</sys_name>
         <sys_overrides/>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy/>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>catalog_script_client_71cfb6d70f79b60011bec3ace1050eda</sys_update_name>
-        <sys_updated_by>rafael.esteves</sys_updated_by>
-        <sys_updated_on>2017-06-12 13:04:48</sys_updated_on>
+        <sys_updated_by>daniel.baeta</sys_updated_by>
+        <sys_updated_on>2018-08-31 16:59:17</sys_updated_on>
         <table/>
         <type>onChange</type>
         <ui_type>0</ui_type>

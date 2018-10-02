@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>c18af6b40fbf3a0011bec3ace1050e7f</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="cmn_location">
+    <cmn_location action="INSERT_OR_UPDATE">
+        <city/>
+        <company/>
+        <contact/>
+        <country/>
+        <fax_phone/>
+        <full_name>Den Haag/NDH01-01 - Picasso</full_name>
+        <lat_long_error/>
+        <latitude/>
+        <longitude/>
+        <name>NDH01-01 - Picasso</name>
+        <parent display_value="Den Haag">7722f2340fbf3a0011bec3ace1050ef9</parent>
+        <phone/>
+        <phone_territory/>
+        <state/>
+        <stock_room>false</stock_room>
+        <street/>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 13:28:29</sys_created_on>
+        <sys_id>c18af6b40fbf3a0011bec3ace1050e7f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 13:28:29</sys_updated_on>
+        <time_zone/>
+        <x_lsmcb_fm_description/>
+        <zip/>
+    </cmn_location>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 13:40:26</sys_created_on>
+        <sys_id>184d7af40fbf3a0011bec3ace1050ead</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>NDH01-01 - Picasso</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_184d7af40fbf3a0011bec3ace1050ead</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 13:40:26</sys_updated_on>
+        <tablename>cmn_location</tablename>
+    </sys_metadata_link>
+</record_update>

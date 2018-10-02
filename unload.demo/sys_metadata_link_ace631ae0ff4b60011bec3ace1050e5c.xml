@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>f0b315c40f71a20011bec3ace1050e34</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_floor">
+    <x_lsmcb_fm_floor action="INSERT_OR_UPDATE">
+        <building_code>PFU-01</building_code>
+        <geojson>{&#13;
+    "type": "FeatureCollection",&#13;
+    "features": [{&#13;
+        "type": "Feature",&#13;
+        "id": "R01",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [288, 475],&#13;
+                    [288, 533],&#13;
+                    [343, 533],&#13;
+                    [343, 475]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R02",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [388, 483],&#13;
+                    [388, 528],&#13;
+                    [432, 528],&#13;
+                    [432, 483]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R03",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [432, 483],&#13;
+                    [432, 528],&#13;
+                    [519, 528],&#13;
+                    [519, 483]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R04",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [511, 427],&#13;
+                    [511, 467],&#13;
+                    [557, 467],&#13;
+                    [557, 427]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R05",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [527, 340],&#13;
+                    [527, 369],&#13;
+                    [563, 369],&#13;
+                    [563, 340]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R06",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [527, 311],&#13;
+                    [527, 340],&#13;
+                    [563, 340],&#13;
+                    [563, 311]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R07",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [527, 311],&#13;
+                    [527, 282],&#13;
+                    [563, 282],&#13;
+                    [563, 311]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R08",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [525, 218],&#13;
+                    [525, 186],&#13;
+                    [563, 186],&#13;
+                    [563, 218]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R09",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [488, 218],&#13;
+                    [488, 186],&#13;
+                    [525, 186],&#13;
+                    [525, 218]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R10",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [453, 218],&#13;
+                    [453, 186],&#13;
+                    [488, 186],&#13;
+                    [488, 218]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R11",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [380, 218],&#13;
+                    [380, 186],&#13;
+                    [415, 186],&#13;
+                    [415, 218]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R12",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [346, 218],&#13;
+                    [346, 186],&#13;
+                    [380, 186],&#13;
+                    [380, 218]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R13",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [156, 278],&#13;
+                    [156, 248],&#13;
+                    [192, 248],&#13;
+                    [192, 278]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R14",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [156, 308],&#13;
+                    [156, 278],&#13;
+                    [192, 278],&#13;
+                    [192, 308]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R15",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [156, 338],&#13;
+                    [156, 308],&#13;
+                    [192, 308],&#13;
+                    [192, 338]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R16",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [156, 372],&#13;
+                    [156, 338],&#13;
+                    [192, 338],&#13;
+                    [192, 372]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R17",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [102, 255],&#13;
+                    [102, 216],&#13;
+                    [138, 216],&#13;
+                    [138, 255]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R18",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [378, 171],&#13;
+                    [378, 129],&#13;
+                    [415, 129],&#13;
+                    [415, 171]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }]&#13;
+}</geojson>
+        <gfa_m2>1670</gfa_m2>
+        <id>Piso 1 - Centro de Negócios e Serviços</id>
+        <image_height>602</image_height>
+        <image_name>fm_template_floor1.jpgx</image_name>
+        <image_width>682</image_width>
+        <location display_value="Centro de Negócios e Serviços">65e132340fbf3a0011bec3ace1050e0e</location>
+        <name>Piso 1</name>
+        <sys_created_by>laura.schuch</sys_created_by>
+        <sys_created_on>2016-09-06 15:47:51</sys_created_on>
+        <sys_id>f0b315c40f71a20011bec3ace1050e34</sys_id>
+        <sys_mod_count>27</sys_mod_count>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-10 13:17:41</sys_updated_on>
+    </x_lsmcb_fm_floor>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-02-10 15:54:00</sys_created_on>
+        <sys_id>ace631ae0ff4b60011bec3ace1050e5c</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Piso 1 - Centro de Negócios e Serviços</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_ace631ae0ff4b60011bec3ace1050e5c</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-10 13:28:44</sys_updated_on>
+        <tablename>x_lsmcb_fm_floor</tablename>
+    </sys_metadata_link>
+</record_update>

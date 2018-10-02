@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>459935870f60830011bec3ace1050ef9</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_facility_product">
+    <x_lsmcb_fm_facility_product action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category>catering</category>
+        <code>DL034</code>
+        <company display_value="Logicalis SMC">511b4d6b0f11624011bec3ace1050e65</company>
+        <cost>38.1</cost>
+        <image/>
+        <name>Snacks and Drinks Trolley</name>
+        <price>41.91</price>
+        <short_description/>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-08-17 15:18:11</sys_created_on>
+        <sys_id>459935870f60830011bec3ace1050ef9</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-08-17 15:19:52</sys_updated_on>
+        <type>1</type>
+        <unit>Per order</unit>
+        <uplift>10</uplift>
+    </x_lsmcb_fm_facility_product>
+    <fx_price action="delete_multiple" query="id=459935870f60830011bec3ace1050ef9"/>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>38.1</amount>
+        <currency display_value="EUR">EUR</currency>
+        <field>cost</field>
+        <id>459935870f60830011bec3ace1050ef9</id>
+        <parent/>
+        <reference_amount>44.6151</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-08-17 15:18:11</sys_created_on>
+        <sys_id>0d9935870f60830011bec3ace1050ef9</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-08-17 15:19:52</sys_updated_on>
+        <table>x_lsmcb_fm_facility_product</table>
+        <type>calculated</type>
+    </fx_price>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>41.91</amount>
+        <currency display_value="EUR">EUR</currency>
+        <field>price</field>
+        <id>459935870f60830011bec3ace1050ef9</id>
+        <parent/>
+        <reference_amount>49.0766</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-08-17 15:18:11</sys_created_on>
+        <sys_id>459935870f60830011bec3ace1050efa</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-08-17 15:19:52</sys_updated_on>
+        <table>x_lsmcb_fm_facility_product</table>
+        <type>calculated</type>
+    </fx_price>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-08-17 15:21:19</sys_created_on>
+        <sys_id>3e4a754b0f60830011bec3ace1050e32</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Snacks and Drinks Trolley</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_3e4a754b0f60830011bec3ace1050e32</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-17 15:21:19</sys_updated_on>
+        <tablename>x_lsmcb_fm_facility_product</tablename>
+    </sys_metadata_link>
+</record_update>

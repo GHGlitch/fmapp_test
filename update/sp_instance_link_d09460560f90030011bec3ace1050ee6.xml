@@ -3,7 +3,7 @@
     <sp_instance_link action="INSERT_OR_UPDATE">
         <active>true</active>
         <class_name/>
-        <color>warning</color>
+        <color>info</color>
         <css/>
         <glyph>wrench</glyph>
         <id/>
@@ -23,14 +23,14 @@
         <sys_created_by>nuno.pereira</sys_created_by>
         <sys_created_on>2017-08-02 14:55:38</sys_created_on>
         <sys_id>d09460560f90030011bec3ace1050ee6</sys_id>
-        <sys_mod_count>4</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name>Disruption</sys_name>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy/>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>sp_instance_link_d09460560f90030011bec3ace1050ee6</sys_update_name>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-08-19 11:54:59</sys_updated_on>
+        <sys_updated_by>nelson.oliveira</sys_updated_by>
+        <sys_updated_on>2018-09-12 13:15:30</sys_updated_on>
         <title>Disruption</title>
         <type>page</type>
         <url/>

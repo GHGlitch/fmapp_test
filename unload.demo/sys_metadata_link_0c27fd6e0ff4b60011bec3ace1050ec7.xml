@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>ba36eae40ff9a20011bec3ace1050eb3</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_room_property">
+    <x_lsmcb_fm_room_property action="INSERT_OR_UPDATE">
+        <description>Whiteboard with markers and eraser</description>
+        <icon/>
+        <name>Whiteboard</name>
+        <sys_created_by>laura.schuch</sys_created_by>
+        <sys_created_on>2016-09-08 11:04:50</sys_created_on>
+        <sys_id>ba36eae40ff9a20011bec3ace1050eb3</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>laura.schuch</sys_updated_by>
+        <sys_updated_on>2016-09-08 11:04:50</sys_updated_on>
+    </x_lsmcb_fm_room_property>
+    <sys_attachment action="INSERT_OR_UPDATE">
+        <average_image_color/>
+        <compressed>true</compressed>
+        <content_type>image/svg+xml</content_type>
+        <file_name>icon</file_name>
+        <image_height/>
+        <image_width/>
+        <size_bytes>1233</size_bytes>
+        <size_compressed>637</size_compressed>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-09-14 10:02:15</sys_created_on>
+        <sys_id>1371d5ee0f39260011bec3ace1050e81</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>nelson.oliveira</sys_updated_by>
+        <sys_updated_on>2016-09-14 10:02:15</sys_updated_on>
+        <table_name>ZZ_YYx_lsmcb_fm_room_property</table_name>
+        <table_sys_id>ba36eae40ff9a20011bec3ace1050eb3</table_sys_id>
+    </sys_attachment>
+    <sys_attachment_doc action="INSERT_OR_UPDATE">
+        <data>H4sIAAAAAAAAAA==</data>
+        <length>16</length>
+        <position>0</position>
+        <sys_attachment display_value="icon" sys_id="1371d5ee0f39260011bec3ace1050e81">1371d5ee0f39260011bec3ace1050e81</sys_attachment>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-09-14 10:02:15</sys_created_on>
+        <sys_id>5371d5ee0f39260011bec3ace1050e81</sys_id>
+    </sys_attachment_doc>
+    <sys_attachment_doc action="INSERT_OR_UPDATE">
+        <data>zVPbatwwEH1OIP+g6q1g3S+2ttmGZhOSQC+Bplv6VBzbeE1c29jeS/L1HcleaCAf0BfNRWdmzsxI5xeHPzXaFf1Qtc0SC8oxKpqszaumXOJqaEmSGEcEvvh4dnr+jhB0UzRFn45tv0Cf8vaxQHd1vR3G4ELCUk55hL6vb9D1oWv7Ed3X25LcNYgG53qqtEAA5OhyW9U54u8RIiTkv/q2evh1f42GXYnuf1x+vlshTBj7qVaMXT1chRSCCsauv2KEN+PYLRjb7/d0r2jbl+ymT7tNlQ0MgMwDIYhBMiFoPubY1/Cp/+lXYFTlS7xKu/Q36DCNZli+kVlyzn2mGbI41FXz9BZQOOdYuAXoEvPugNHzJM9OT9C+ysfNEmtjqJHOX26KqtyMr1y7qthftj4acTT7jxKjYXyuiyUumvSxLshjmj2Vfbtt8kVT7NEbER9CYaC9GLo0g8iuL4ai3xVhHiUcJ+ddOm4QzOGLVpYq7iINo5H6VjgqZbxKqJWzK+KRdjSWBhTLqTIi45HgHhBQIUJMIp6tjVQQkayV1FQ7qHcCMTF1ALdUWx0J8Is4CBnPFtQG+qImOqZSRf7UGTFQw0VwKjnrgI6NpyWBTWIz7w0AFa7srPtbJyPuq9cGksUx8cImNbThhPTdOGkySRMhoum0QCDSVArrWxTOTkamqHUq8j2oWBNBNTczgARAaDHUJYHqxIFMfDgJXFRNDKfwvSahb5VLKOSe5sLnKRAYkDFHI4hkHTtqYjlN1YRaYQGeURh4QmAVXB6NaQmr8ByUPa5Pa0udio9rfb34F8z842Dl8Yn896r/nCD/Ag6cOTDRBAAA</data>
+        <length>836</length>
+        <position>1</position>
+        <sys_attachment display_value="icon" sys_id="1371d5ee0f39260011bec3ace1050e81">1371d5ee0f39260011bec3ace1050e81</sys_attachment>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-09-14 10:02:15</sys_created_on>
+        <sys_id>d371d5ee0f39260011bec3ace1050e81</sys_id>
+    </sys_attachment_doc>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-02-10 15:55:04</sys_created_on>
+        <sys_id>0c27fd6e0ff4b60011bec3ace1050ec7</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Whiteboard</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_0c27fd6e0ff4b60011bec3ace1050ec7</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-02-10 15:55:04</sys_updated_on>
+        <tablename>x_lsmcb_fm_room_property</tablename>
+    </sys_metadata_link>
+</record_update>

@@ -1051,12 +1051,16 @@ FMRoomReservationUtils.prototype = {
                     glideEndTime.setValue(eDate);
                     glideEndTime.addSeconds(endSeconds);
 
-                    glideStartTime.addSeconds(60 * (roomGr.minutes_before));
-                    glideEndTime.addSeconds(60 * (-roomGr.minutes_after));
-
                     var roomr = new GlideRecord('x_lsmcb_fm_room_reservation');
 
                     if (roomr.get(arrayReservation.id)) {
+						gs.info('Time before start ' + glideStartTime + ' after: ' + glideEndTime);
+						glideStartTime.addSeconds(60 * (roomr.room.minutes_before));
+						glideEndTime.addSeconds(60 * (-roomr.room.minutes_after));
+						gs.info('Time after removing previous start ' + glideStartTime + ' after: ' + glideEndTime);
+						/*glideStartTime.addSeconds(60 * (-roomGr.minutes_before));
+						glideEndTime.addSeconds(60 * (roomGr.minutes_after));
+						gs.info('Time after new times start ' + glideStartTime + ' after: ' + glideEndTime);*/
                         roomr.meeting_start_time = glideStartTime;
                         roomr.meeting_end_time = glideEndTime;
                         roomr.room = arrayRoom.id;
@@ -1604,13 +1608,13 @@ FMRoomReservationUtils.prototype = {
         <sys_created_by>laura.schuch</sys_created_by>
         <sys_created_on>2016-09-06 15:26:26</sys_created_on>
         <sys_id>db3d81440f71a20011bec3ace1050e3b</sys_id>
-        <sys_mod_count>890</sys_mod_count>
+        <sys_mod_count>898</sys_mod_count>
         <sys_name>FMRoomReservationUtils</sys_name>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy>protected</sys_policy>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>sys_script_include_db3d81440f71a20011bec3ace1050e3b</sys_update_name>
-        <sys_updated_by>diogo.costa</sys_updated_by>
-        <sys_updated_on>2018-08-08 09:20:04</sys_updated_on>
+        <sys_updated_by>daniel.baeta</sys_updated_by>
+        <sys_updated_on>2018-09-03 10:03:57</sys_updated_on>
     </sys_script_include>
 </record_update>

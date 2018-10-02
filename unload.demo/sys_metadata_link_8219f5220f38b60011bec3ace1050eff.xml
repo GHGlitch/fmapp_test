@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>c8f566830f543e0011bec3ace1050efb</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_facility_product">
+    <x_lsmcb_fm_facility_product action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category>catering</category>
+        <code>D00002</code>
+        <company display_value="Logicalis SMC">511b4d6b0f11624011bec3ace1050e65</company>
+        <cost>3.02</cost>
+        <image/>
+        <name>Delivery</name>
+        <price>3.02</price>
+        <short_description>Standard delivery cost.</short_description>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-01-18 12:05:09</sys_created_on>
+        <sys_id>c8f566830f543e0011bec3ace1050efb</sys_id>
+        <sys_mod_count>18</sys_mod_count>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-11 10:13:48</sys_updated_on>
+        <type>2</type>
+        <unit>per order</unit>
+        <uplift>0</uplift>
+    </x_lsmcb_fm_facility_product>
+    <fx_price action="delete_multiple" query="id=c8f566830f543e0011bec3ace1050efb"/>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>3.02</amount>
+        <currency display_value="EUR">EUR</currency>
+        <field>cost</field>
+        <id>c8f566830f543e0011bec3ace1050efb</id>
+        <parent/>
+        <reference_amount>3.43</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-01-18 12:05:09</sys_created_on>
+        <sys_id>4cf566830f543e0011bec3ace1050efb</sys_id>
+        <sys_mod_count>13</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:17:36</sys_updated_on>
+        <table>x_lsmcb_fm_facility_product</table>
+        <type>calculated</type>
+    </fx_price>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>3.02</amount>
+        <currency display_value="EUR">EUR</currency>
+        <field>price</field>
+        <id>c8f566830f543e0011bec3ace1050efb</id>
+        <parent/>
+        <reference_amount>3.54</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-01-18 12:05:09</sys_created_on>
+        <sys_id>ccf566830f543e0011bec3ace1050efb</sys_id>
+        <sys_mod_count>16</sys_mod_count>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-11 10:13:04</sys_updated_on>
+        <table>x_lsmcb_fm_facility_product</table>
+        <type>calculated</type>
+    </fx_price>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-02-10 16:03:39</sys_created_on>
+        <sys_id>8219f5220f38b60011bec3ace1050eff</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Delivery</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_8219f5220f38b60011bec3ace1050eff</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-11 10:14:13</sys_updated_on>
+        <tablename>x_lsmcb_fm_facility_product</tablename>
+    </sys_metadata_link>
+</record_update>

@@ -34,7 +34,7 @@
     // If it is the integration or the system users, then the creation/update comes from Outlook.
     // If the update comes from the Outlook addin (current.update_source == 'outlook_addin'), do nothing.
     // Fill the field "Update source" accordingly.
-	var integrationUserSysID = gs.getProperty('x_lsmcb_fm.outlook_integration_user_sys_id');
+	var integrationUserSysID = gs.getProperty('x_lsmcb_fm.integration_user_sys_id');
     
     if (gs.getUserID() == integrationUserSysID || gs.getUserName() == 'system') {
         current.update_source = 'outlook';
@@ -53,7 +53,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>561bfda1db7397003d279c27db9619ee</sys_id>
-        <sys_mod_count>12</sys_mod_count>
+        <sys_mod_count>13</sys_mod_count>
         <sys_name>Check Reservation Update Source</sys_name>
         <sys_overrides/>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
@@ -61,7 +61,7 @@
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>sys_script_561bfda1db7397003d279c27db9619ee</sys_update_name>
         <sys_updated_by>diogo.costa</sys_updated_by>
-        <sys_updated_on>2018-08-16 12:44:04</sys_updated_on>
+        <sys_updated_on>2018-08-27 13:41:24</sys_updated_on>
         <template/>
         <when>before</when>
     </sys_script>

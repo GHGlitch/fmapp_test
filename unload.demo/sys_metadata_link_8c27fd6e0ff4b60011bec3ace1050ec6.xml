@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>33e5aae40ff9a20011bec3ace1050e0f</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_room_property">
+    <x_lsmcb_fm_room_property action="INSERT_OR_UPDATE">
+        <description>Vídeo projector, compatible with VGA and HDMI</description>
+        <icon/>
+        <name>Projector</name>
+        <sys_created_by>laura.schuch</sys_created_by>
+        <sys_created_on>2016-09-08 11:03:46</sys_created_on>
+        <sys_id>33e5aae40ff9a20011bec3ace1050e0f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>laura.schuch</sys_updated_by>
+        <sys_updated_on>2016-09-08 11:03:46</sys_updated_on>
+    </x_lsmcb_fm_room_property>
+    <sys_attachment action="INSERT_OR_UPDATE">
+        <average_image_color/>
+        <compressed>true</compressed>
+        <content_type>image/svg+xml</content_type>
+        <file_name>icon</file_name>
+        <image_height/>
+        <image_width/>
+        <size_bytes>1414</size_bytes>
+        <size_compressed>595</size_compressed>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-09-14 10:00:17</sys_created_on>
+        <sys_id>9a0111a20f79260011bec3ace1050e70</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>nelson.oliveira</sys_updated_by>
+        <sys_updated_on>2016-09-14 10:00:17</sys_updated_on>
+        <table_name>ZZ_YYx_lsmcb_fm_room_property</table_name>
+        <table_sys_id>33e5aae40ff9a20011bec3ace1050e0f</table_sys_id>
+    </sys_attachment>
+    <sys_attachment_doc action="INSERT_OR_UPDATE">
+        <data>H4sIAAAAAAAAAA==</data>
+        <length>16</length>
+        <position>0</position>
+        <sys_attachment display_value="icon" sys_id="9a0111a20f79260011bec3ace1050e70">9a0111a20f79260011bec3ace1050e70</sys_attachment>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-09-14 10:00:17</sys_created_on>
+        <sys_id>da0111a20f79260011bec3ace1050e70</sys_id>
+    </sys_attachment_doc>
+    <sys_attachment_doc action="INSERT_OR_UPDATE">
+        <data>1ZTfa5xAEMefL5D/Ybt9Kuyus+tvezY0R8nlIVA4yGvxvO0psSrqeZf89RlXTxJoSiBPRdkZZ8bvZ0dHl1enPwXpddPmVRlTKYASXabVLi/3Mc3bigeBG3JJr75dXiw/cU5udKmbpKuaiHzfVVtNbovi0HYmRGQgpJCMbO5vyI9TXTUd+Vkc9vy2JMIE70dSRDwBQK4PebEj8IUQzgf9tt+/3IukJN/FdJXUyS/0cadlG9Os6+rIso7Hozjaomr2lgIAC++dSqJTkZcPfyuUYRhaJoulMYX6RMnjaC8vFqTP9fG6GhIEiPLwpKTtHgsdU10m20LzbZI+7JvqUO6iUh/JXPfVoKO2TlIsrhvd6qbXdOhpj8tiWSdddtb6nRdF9BlskODgjdjhnc9kKNxepsBAuK7kIBwnZJJLJtdOyk2QAZ8SaGXP5dp/otZ75JX9D/2MqzcByj4TTBvvATnCXdspl8JzfRREsrAdB63dB4gf4p6JYWQ4MgXpVMxsborR2j0PBuBipTzmigCDyjFVqM9GzBO5k7hvJtHPuL+yhVKOuUJdNMr3jNPCkBhaHJofbOanYNLmcTCTnzzXUDco7GPeiM2QGaheAdUIVGeg+ghQzUD1AgivgDAC4QyEjwBhBsIIxLHwcBrClCvhhza+Q1cA/gOwP8+dfLNusE6BzzycGJyjcHRak2Ommo2+WUeqkkZzJLCZNU3ZYpnmTVroNyYsxU9Thmjxm5VSuJQ0MVUikPY0pNYwpdP6X7jDXwvtMw+JsUyGBQAA</data>
+        <length>780</length>
+        <position>1</position>
+        <sys_attachment display_value="icon" sys_id="9a0111a20f79260011bec3ace1050e70">9a0111a20f79260011bec3ace1050e70</sys_attachment>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-09-14 10:00:17</sys_created_on>
+        <sys_id>5e0111a20f79260011bec3ace1050e70</sys_id>
+    </sys_attachment_doc>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-02-10 15:55:03</sys_created_on>
+        <sys_id>8c27fd6e0ff4b60011bec3ace1050ec6</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Projector</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_8c27fd6e0ff4b60011bec3ace1050ec6</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-02-10 15:55:03</sys_updated_on>
+        <tablename>x_lsmcb_fm_room_property</tablename>
+    </sys_metadata_link>
+</record_update>

@@ -2,7 +2,8 @@
 <record_update table="sys_ui_page">
     <sys_ui_page action="INSERT_OR_UPDATE">
         <category>general</category>
-        <client_script><![CDATA[var selectedVisitors = []; //Array with JSON of the selected visitors.
+        <client_script><![CDATA[console.log('HERE!!!!');
+var selectedVisitors = []; //Array with JSON of the selected visitors.
 var currentVisitor; //Current visitor JSON.
 
 function createVisit(){
@@ -230,34 +231,10 @@ function removeRowFromTable() {
         <endpoint>x_lsmcb_fm_fm_dl_visitor_listing.do</endpoint>
         <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
 <j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
-
-	
-	    <!--                                    LOAD CONTROLERS
-
-									****************************************
-
--->
-	
+    
 	<g:requires name="x_lsmcb_fm.fm_messages_controler.jsdbx" />
-
-
+    <link href="cf25d7750f5eea0011bec3ace1050e0f.cssdbx?" rel="stylesheet" type="text/css" />
 	
-	
-	 <!--                                          Cascade Style Sheet
-										  **********************************
--->
-
-	<link href="cf25d7750f5eea0011bec3ace1050e0f.cssdbx?" rel="stylesheet" type="text/css" />
-	
-
-
-    <!--                                   THE HTML
-								   *************************
-
--->
-	
-	
-
     <span class="title">${gs.getMessage('fm_visitors_list')}</span>
     <br/>
 
@@ -308,26 +285,13 @@ function removeRowFromTable() {
     <table id="controlButtons" width="100%" align="center" cellspacing="10" cellpadding="10">
         <tr>
             <td width="50%" align="left">
-                <button id="addBtn" ONCLICK="createVisit();" onload="createVisit();">↸ ${gs.getMessage('fm_add')}</button>
+                <button id="addBtn" ONCLICK="createVisit();" onload="createVisit();"><span style="font-size:larger">&#43;</span> ${gs.getMessage('fm_add')}</button>
             </td>
             <td width="50%" align="right">
-                <button id="removeBtn" ONCLICK="removeRowFromTable();">${gs.getMessage('fm_remove')}</button>
+                <button id="removeBtn" ONCLICK="removeRowFromTable();"><span style="font-size:larger">&#8722;</span> ${gs.getMessage('fm_remove')}</button>
             </td>
         </tr>
     </table>
-
-
-
-    <!--
-
-								 END OF HTML
-							*********************
--->
-
-
-
-
-
 </j:jelly>]]></html>
         <name>fm_dl_visitor_listing</name>
         <processing_script/>
@@ -335,13 +299,13 @@ function removeRowFromTable() {
         <sys_created_by>nelson.oliveira</sys_created_by>
         <sys_created_on>2016-11-24 11:49:05</sys_created_on>
         <sys_id>ae725f910f532a0011bec3ace1050e35</sys_id>
-        <sys_mod_count>111</sys_mod_count>
+        <sys_mod_count>122</sys_mod_count>
         <sys_name>fm_dl_visitor_listing</sys_name>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>sys_ui_page_ae725f910f532a0011bec3ace1050e35</sys_update_name>
-        <sys_updated_by>david.neves</sys_updated_by>
-        <sys_updated_on>2018-08-01 09:09:26</sys_updated_on>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-08-20 09:01:51</sys_updated_on>
     </sys_ui_page>
 </record_update>

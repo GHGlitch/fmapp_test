@@ -101,6 +101,7 @@ FMVisitorAjaxUtils.prototype = Object.extendsObject(global.AbstractAjaxProcessor
         obj.end_min = numEndTime.split(':')[1];
 		obj.anonymous = gr.anonymous + '';		
 		obj.internet = gr.internet +'';
+		obj.internal = gr.internal;
 	
 		
 		return JSON.stringify(obj);
@@ -111,13 +112,13 @@ FMVisitorAjaxUtils.prototype = Object.extendsObject(global.AbstractAjaxProcessor
         <sys_created_by>david.neves</sys_created_by>
         <sys_created_on>2016-08-23 12:38:09</sys_created_on>
         <sys_id>c7e1242f0fdd224011bec3ace1050e14</sys_id>
-        <sys_mod_count>36</sys_mod_count>
+        <sys_mod_count>37</sys_mod_count>
         <sys_name>FMVisitorAjaxUtils</sys_name>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>sys_script_include_c7e1242f0fdd224011bec3ace1050e14</sys_update_name>
-        <sys_updated_by>patricia.gaudencio</sys_updated_by>
-        <sys_updated_on>2018-07-25 09:46:12</sys_updated_on>
+        <sys_updated_by>daniel.baeta</sys_updated_by>
+        <sys_updated_on>2018-09-06 11:23:32</sys_updated_on>
     </sys_script_include>
 </record_update>

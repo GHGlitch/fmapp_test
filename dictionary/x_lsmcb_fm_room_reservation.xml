@@ -3,7 +3,7 @@
     <element audit="true" label="Room Reservation" max_length="40" name="x_lsmcb_fm_room_reservation" type="collection">
         <element label="Cancel Datetime" max_length="40" name="cancel_datetime" type="glide_date_time"/>
         <element label="Confidential" max_length="40" name="confidential" type="boolean"/>
-        <element label="Costcenter" max_length="32" name="costcenter" reference="cmn_cost_center" reference_qual="valid_from&lt;=javascript:gs.daysAgoEnd(0)^valid_to&gt;=javascript:gs.daysAgoStart(0)^ORvalid_toISEMPTY^EQ" reference_qual_condition="valid_from&lt;=javascript:gs.daysAgoEnd(0)^valid_to&gt;=javascript:gs.daysAgoStart(0)^ORvalid_toISEMPTY^EQ" type="reference"/>
+        <element label="Costcenter" max_length="32" name="costcenter" reference="cmn_cost_center" reference_qual="valid_from&lt;=javascript:gs.daysAgoEnd(0)^valid_to&gt;=javascript:gs.daysAgoStart(0)^ORvalid_toISEMPTY^EQ" type="reference" use_reference_qualifier="advanced"/>
         <element label="End Time" max_length="40" name="end_time" type="glide_date_time"/>
         <element label="Event" max_length="32" name="fm_event" reference="x_lsmcb_fm_facility_event" reference_floats="true" reference_qual="active=true^EQ" reference_qual_condition="active=true^EQ" type="reference"/>
         <element label="Location" max_length="32" name="location" reference="cmn_location" reference_qual="javascript:new x_lsmcb_fm.FMRoomReservationUtils().getValidLocations();" type="reference" use_reference_qualifier="advanced"/>

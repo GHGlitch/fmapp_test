@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMRestfulApiReservations</api_name>
+        <client_callable>false</client_callable>
+        <description>REST API Tools and methods used for the Integration of different Apps and Interfaces. </description>
+        <name>FMRestfulApiReservations</name>
+        <script><![CDATA[var FMRestfulApiReservations = Class.create();
+
+FMRestfulApiReservations.prototype = {
+    
+	initialize: function() {
+        // Instantiate FMRestfulApiUtils, a SI that includes several utils for 
+        this.apiUtils = new FMRestfulApiUtils();
+    },
+
+	/**
+     * Called from the Scripted REST Resource "Get Room Reservations"
+     * Fetches all the reservations within the given parameters (or all, if no data parameters are given)
+     *
+	 * @param {JSON} parameters
+	 * @returns {JSON} result
+     */
+    getReservations: function(parameters) {
+        
+        var start, end, today, all;
+        var result = {};
+        
+        // Check if the 'start' and 'end' parameters are provided
+        if (parameters.start && parameters.end) {
+            
+			start = new GlideDateTime(parameters.start + '');
+			end = new GlideDateTime(parameters.end + '');
+            
+            if (!this.apiUtils.simpleDateVerification(start, end)) {
+                return this.apiUtils.sendError(400, 'The request contains invalid dates.');
+            }
+        
+        // Check if the 'today' parameter is provided
+		} else if (parameters.today) {
+            today = true;
+		}
+        
+        // Check if the 'all' parameter is provided
+        if (parameters.all) {
+            all = true;
+        }
+        
+        var grReservations = new GlideRecord('x_lsmcb_fm_room_reservation');
+        
+        // If the 'room' parameter is provided, query only for that room
+        if (parameters.room) {
+            
+            if (!this.apiUtils.checkIdExists('room', parameters.room + '')) {
+                return this.apiUtils.sendError(404, 'The provided room id does not correspond to any existing room.');
+            }
+            
+            grReservations.addQuery('room', parameters.room + '');
+        }
+        
+        // If the 'start' and 'end' parameters are provided and valid, query for the records whose dates fit the filter
+        if (start && end) {
+			grReservations.addQuery('start_time', '>=', start).addOrCondition('end_time', '>=', start);
+			grReservations.addQuery('end_time', '<=', end).addOrCondition('start_time', '<=', end);
+            
+        // If the 'today' parameter is provided, query for the reservations happening from this moment until the end of today
+		} else if (today) {
+            var now = new GlideDateTime();
+			var beginningToday = new GlideDateTime(now.getDate());
+
+			var endToday = new GlideDateTime(beginningToday);
+			endToday.addDaysUTC(1);
+			endToday.addSeconds(-1);
+
+			grReservations.addQuery('start_time', '>=', beginningToday);
+			grReservations.addQuery('end_time', '<=', endToday);
+        }
+        
+        if (!all) {
+            gs.info('>>> not all | ' + all + ' | ' + typeof all);
+            grReservations.addQuery('state', '2');
+        }
+        
+        grReservations.orderBy('number');
+        grReservations.setWorkflow(false); // Needed because of Business Rule "Restrict Reservations for EU"
+        grReservations.query();
+        
+        grReservations.setWorkflow(true);
+        
+        if (grReservations.hasNext()) {
+            
+            // Retrieve the necessary data from the records that fulfill all conditions
+            result.data = JSON.stringify(this._getReservationsData(grReservations));
+            
+            return result;
+        }
+        
+        // If there are no reservations, send 204 No Content code
+        return this.apiUtils.sendError(204, '');
+    },
+    
+    /**
+     * Called from the Scripted REST Resources "Create Room Reservation"
+     * Creates a new reservation
+     *
+	 * @param {JSON} data
+	 * @returns {JSON} result
+     */
+    createReservation: function(data) {
+        
+        var grNewReservation = new GlideRecord('x_lsmcb_fm_room_reservation');
+        grNewReservation.initialize();
+        
+        // Check if all the required fields to create a reservation are passed
+        // [meeting_subject, room, meeting_start_time, meeting_end_time]
+        if (!data.meeting_subject || !data.room || !data.meeting_start_time || !data.meeting_end_time) {
+            return this.apiUtils.sendError(400, 'Please make sure that all the mandatory fields are provided.');
+            
+        // Check if the provided room ID actually exists
+        } else if (!this.apiUtils.checkIdExists('room', data.room)) {
+            return this.apiUtils.sendError(404, 'The provided room id does not correspond to any existing room.');
+        }
+        
+        // Data coming in the request's body
+        grNewReservation.meeting_subject = data.meeting_subject;
+        grNewReservation.meeting_start_time = new GlideDateTime(data.meeting_start_time);
+        grNewReservation.meeting_end_time = new GlideDateTime(data.meeting_end_time);
+        grNewReservation.room = data.room;
+        
+        // Fill the optional fields, if they are not provided in the request's body
+        grNewReservation.number_of_attendees = data.number_of_attendees ? data.number_of_attendees : '1';
+        grNewReservation.meeting_comments = data.meeting_comments ? data.meeting_comments : '';
+        
+        // VENDOR INSTANCE DEV ONLY!!!
+        // Instead of a plain sys_id, should be: gs.getProperty('x_lsmcb_fm.integration_user_sys_id')
+        grNewReservation.requester = 'ff3b7d9d0ff31700bc65c5ece1050e65';
+        
+        if (grNewReservation.insert()) {
+            return {code: 201};
+            
+        } else {
+            return this.apiUtils.sendError(500, 'The reservation has not been created, please contact the development team.');
+        }
+    },
+    
+    /**
+     * Called from the Scripted REST Resource "Update Room Reservation"
+     * Creates a new reservation
+     * 
+     * @param {string} reservationID
+	 * @param {JSON} data
+	 * @returns {JSON} result
+     */
+    updateReservation: function(reservationID, data) {
+        
+        // Check if data is provided in the request's body
+        if (!data) {
+            return this.apiUtils.sendError(400, 'Please provide the data to be updated inside the body of the request.');
+            
+        // Check if the ID of a reservation is provided as a request's URL parameter
+        } else if (!reservationID) {
+            return this.apiUtils.sendError(400, 'Please provide the id of the reservation to be updated in the URL of the request.');
+            
+        // Check if the provided reservation ID actually exists
+        } else if (!this.apiUtils.checkIdExists('reservation', reservationID)) {
+            return this.apiUtils.sendError(404, 'The provided reservation id does not correspond to any existing reservation.');
+        }
+        
+        var grUpdateReservation = new GlideRecord('x_lsmcb_fm_room_reservation');
+        grUpdateReservation.setWorkflow(false); // Needed because of Business Rule "Restrict Reservations for EU"
+        grUpdateReservation.get(reservationID);
+        
+        grUpdateReservation.setWorkflow(true);
+        
+        // Array containing the accepted fields/parameters in the request's body
+        var acceptedFields = ['room', 'meeting_subject', 'meeting_start_time', 'meeting_end_time', 'meeting_comments', 'number_of_attendees'];
+        
+        // Loop through all the properties in the request's body data object and set the record's values for those that are valid
+        for (var property in data) {
+            
+            if (data.hasOwnProperty(property) && acceptedFields.indexOf(property) != -1) {
+                grUpdateReservation.setValue(property + '', data[property]);
+            }
+        }
+        
+        if (grUpdateReservation.update()) {
+            return {code: 200};
+            
+        } else {
+            return this.apiUtils.sendError(500, 'The reservation has not been updated, please contact the development team.');
+        }
+    },
+    
+    /**
+     * Called from the Scripted REST Resource "Update Room Reservation" and "Create Room Reservation (Specific Room)"
+     * Creates a new reservation
+     *
+     * @param {string} reservationID
+	 * @returns {JSON} result
+     */
+    cancelReservation: function(reservationID) {
+        
+        // Check if the ID of a reservation is provided as a request's URL parameter
+        if (!reservationID) {
+            return this.apiUtils.sendError(400, 'Please provide the id of the reservation to be canceled in the URL of the request.');
+            
+        // Check if the provided reservation ID actually exists
+        } else if (!this.apiUtils.checkIdExists('reservation', reservationID)) {
+            return this.apiUtils.sendError(404, 'The provided reservation id does not correspond to any existing reservation.');
+        }
+        
+        var grCancelReservation = new GlideRecord('x_lsmcb_fm_room_reservation');
+        grCancelReservation.setWorkflow(false); // Needed because of Business Rule "Restrict Reservations for EU"
+        grCancelReservation.get(reservationID);
+        
+        grCancelReservation.setWorkflow(true);
+        
+        // Change the reservation's state to 0 ('Canceled')
+        grCancelReservation.setValue('state', '0');
+        
+        if (grCancelReservation.update()) {
+            return {code: 200};
+            
+        } else {
+            return this.apiUtils.sendError(500, 'The reservation has not been canceled, please contact the development team.');
+        }
+    },
+    
+    /**
+     * Called from getReservations()
+     * Gets all the reservations' data from a given GlideRecord object
+     *
+	 * @param {GlideRecord} gr
+	 * @returns {array} data
+     */
+    _getReservationsData: function(gr) {
+        
+        var data = [];
+        
+        while (gr.next()) {
+
+            var reservationInfo = {
+                meeting_subject: gr.getValue('meeting_subject'),
+                roomName: gr.getDisplayValue('room'),
+                room: gr.getValue('room'),
+                meeting_start_time: gr.getValue('meeting_start_time'),
+                meeting_end_time: gr.getValue('meeting_end_time'),
+                state: gr.getDisplayValue('state'),
+                number_of_attendees: gr.getValue('number_of_attendees'),
+                id: gr.getUniqueValue(),
+            };
+
+            data.push(reservationInfo);
+        }
+        
+        return data;  
+    },
+
+	type: 'FMRestfulApiReservations'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2018-08-26 21:22:43</sys_created_on>
+        <sys_id>2d4f0d270fc8a340bc65c5ece1050e48</sys_id>
+        <sys_mod_count>80</sys_mod_count>
+        <sys_name>FMRestfulApiReservations</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_2d4f0d270fc8a340bc65c5ece1050e48</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-08-30 15:29:28</sys_updated_on>
+    </sys_script_include>
+</record_update>

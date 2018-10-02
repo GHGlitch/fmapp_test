@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>b0aec37c0fbf3a0011bec3ace1050ecd</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_docx_template_field">
+    <x_lsmcb_fm_docx_template_field action="INSERT_OR_UPDATE">
+        <active>false</active>
+        <allow_linebreaks>false</allow_linebreaks>
+        <attachment_sys_id/>
+        <attachment_type/>
+        <condition/>
+        <default_paragraph_tag>paragraph</default_paragraph_tag>
+        <description/>
+        <docx_template_field display_value="Room Reservation 1">f52a86360f4b660011bec3ace1050e72</docx_template_field>
+        <field>meeting_start_time</field>
+        <field_type>glide_date_time</field_type>
+        <parent_field/>
+        <sort>No</sort>
+        <sort_field/>
+        <sys_class_name>x_lsmcb_fm_docx_template_field</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 14:56:33</sys_created_on>
+        <sys_id>b0aec37c0fbf3a0011bec3ace1050ecd</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 14:56:33</sys_updated_on>
+        <table/>
+        <tag>start_time</tag>
+    </x_lsmcb_fm_docx_template_field>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 15:59:48</sys_created_on>
+        <sys_id>392d17b00fff3a0011bec3ace1050eab</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>start_time</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_392d17b00fff3a0011bec3ace1050eab</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 15:59:48</sys_updated_on>
+        <tablename>x_lsmcb_fm_docx_template</tablename>
+    </sys_metadata_link>
+</record_update>
