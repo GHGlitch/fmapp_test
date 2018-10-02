@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update table="sys_report_users_groups">
     <sys_report_users_groups action="INSERT_OR_UPDATE">
-        <group_id display_value="">09de5be90ff6220011bec3ace1050e1d</group_id>
+        <group_id display_value="fm_security" name="fm_security">09de5be90ff6220011bec3ace1050e1d</group_id>
         <report_id display_value="FM Parking Reservations">238626190f24720011bec3ace1050e30</report_id>
         <sys_class_name>sys_report_users_groups</sys_class_name>
         <sys_created_by>yuri.valle</sys_created_by>

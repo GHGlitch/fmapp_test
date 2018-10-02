@@ -29,7 +29,6 @@
     var sysId = gURL.getParam('sysparm_id');
     var hasReservation = gURL.getParam('sysparm_has_reservation');
     
-    
     if (sysId == '' || sysId == null) {
         if (pURL.indexOf("&sysparm_id=")>=1) {
             var o_match = pURL.match(/&sysparm_id=([a-fA-F0-9]+)/);
@@ -56,8 +55,8 @@
         ga.getXML(function(response) {
             
             var answer = response.responseXML.documentElement.getAttribute('answer');
+			
             var obj = JSON.parse(answer);
-            
             setRPVariables(obj);
             
             g_form.setValue('date', obj.expected_start);
@@ -67,7 +66,12 @@
                 g_form.setValue('start_hours', obj.start_hour);
                 g_form.setValue('end_hours', obj.end_hour);
                 g_form.setValue('start_minutes', obj.start_min);
-                g_form.setValue('end_minutes', obj.end_min);    
+                g_form.setValue('end_minutes', obj.end_min);
+				
+				var startTime = obj.start_hour + ':' + obj.start_min;
+				var endTime = obj.end_hour + ':' + obj.end_min;
+				g_form.setValue('start_time', startTime);
+				g_form.setValue('end_time', endTime);
             }
            
             g_form.setValue('requester', obj.requester);
@@ -75,6 +79,7 @@
             g_form.setValue('room', obj.room);
             g_form.setValue('costcenter', obj.costcenter);
             g_form.setValue('fmsystem_recurring', obj.recurring_reservation);
+			g_form.setValue('description', obj.description);
             if (obj.has_reservation === 'true') {
                 alert(getMessage('fm_update_facility_order_hide_fields'));
                 g_form.addInfoMessage(getMessage('fm_update_facility_order_hide_fields'));
@@ -110,6 +115,10 @@
                 g_form.setReadOnly('date', true);
                 
             }
+			
+			if (obj.category == '10'){
+				getItemReservation(order);
+			}
             
         });
     }
@@ -158,7 +167,12 @@
                     g_form.setValue('start_hours', obj.start_hour);
                     g_form.setValue('end_hours', obj.end_hour);
                     g_form.setValue('start_minutes', obj.start_min);
-                    g_form.setValue('end_minutes', obj.end_min); 
+                    g_form.setValue('end_minutes', obj.end_min);
+					
+					var startTime = obj.start_hour + ':' + obj.start_min;
+					var endTime = obj.end_hour + ':' + obj.end_min;
+					g_form.setValue('start_time', startTime);
+					g_form.setValue('end_time', endTime);
                 } else if (g_form.getValue('date') != undefined) {
                     
                     g_form.setValue('date', obj.start_dt);
@@ -191,14 +205,31 @@
 }
 
 function setRPVariables(obj) {
-    
-    var rpv = JSON.parse(obj.rp_variables);
-    
-    for (var key in rpv) {
-        var value = rpv[key];
-        g_form.setValue(key + '', value);
-    }
-    
+    var setRPVar = function (){
+		for (var key in rpv) {
+			var value = rpv[key];
+			g_form.setValue(key + '', value);
+		}
+	};
+    var rpv = obj.rp_variables? setRPVar(obj.rp_variables) : '';
+}
+
+function getItemReservation(orderSysID){
+	
+	var foAjax = new GlideAjax('FMFOrderAjaxUtils');
+	foAjax.addParam('sysparm_name', 'getItemReservation');
+	foAjax.addParam('sysparm_orderID', orderSysID);
+	foAjax.getXML(function (response){
+
+        var answer = response.responseXML.documentElement.getAttribute('answer');
+        var obj = JSON.parse(answer);
+
+        if (answer){
+            g_form.setValue('item', obj.item + '');
+            g_form.setValue('quantity', parseInt(obj.qty));
+			console.log('Just set the qty');
+        }
+    });
 }
 ]]></script>
         <sys_class_name>catalog_script_client</sys_class_name>
@@ -207,15 +238,15 @@ function setRPVariables(obj) {
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>2bd2dce00f9afa0011bec3ace1050e20</sys_id>
-        <sys_mod_count>104</sys_mod_count>
+        <sys_mod_count>117</sys_mod_count>
         <sys_name>Load Update  Order</sys_name>
         <sys_overrides/>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy/>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>catalog_script_client_2bd2dce00f9afa0011bec3ace1050e20</sys_update_name>
-        <sys_updated_by>david.neves</sys_updated_by>
-        <sys_updated_on>2017-10-30 09:33:15</sys_updated_on>
+        <sys_updated_by>daniel.baeta</sys_updated_by>
+        <sys_updated_on>2018-09-11 13:40:44</sys_updated_on>
         <table/>
         <type>onLoad</type>
         <ui_type>0</ui_type>

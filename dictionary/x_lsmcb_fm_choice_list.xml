@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="FM Choice List" max_length="40" name="x_lsmcb_fm_choice_list" type="collection">
+        <element choice="1" label="Time Choice Values" max_length="40" name="time_choice_values" type="choice">
+            <choice>
+                <element label="00:00" sequence="0" value="00:00"/>
+                <element label="00:15" sequence="1" value="00:15"/>
+                <element label="00:30" sequence="2" value="00:30"/>
+                <element label="00:45" sequence="3" value="00:45"/>
+                <element label="01:00" sequence="4" value="01:00"/>
+                <element label="01:15" sequence="5" value="01:15"/>
+                <element label="01:30" sequence="6" value="01:30"/>
+                <element label="01:45" sequence="7" value="01:45"/>
+                <element label="02:00" sequence="8" value="02:00"/>
+                <element label="02:15" sequence="9" value="02:15"/>
+                <element label="02:30" sequence="10" value="02:30"/>
+                <element label="02:45" sequence="11" value="02:45"/>
+                <element label="03:00" sequence="12" value="03:00"/>
+                <element label="03:15" sequence="13" value="03:15"/>
+                <element label="03:30" sequence="14" value="03:30"/>
+                <element label="03:45" sequence="15" value="03:45"/>
+                <element label="04:00" sequence="16" value="04:00"/>
+                <element label="04:15" sequence="17" value="04:15"/>
+                <element label="04:30" sequence="18" value="04:30"/>
+                <element label="04:45" sequence="19" value="04:45"/>
+                <element label="05:00" sequence="20" value="05:00"/>
+                <element label="05:15" sequence="21" value="05:15"/>
+                <element label="05:30" sequence="22" value="05:30"/>
+                <element label="05:45" sequence="23" value="05:45"/>
+                <element label="06:00" sequence="24" value="06:00"/>
+                <element label="06:15" sequence="25" value="06:15"/>
+                <element label="06:30" sequence="26" value="06:30"/>
+                <element label="06:45" sequence="27" value="06:45"/>
+                <element label="07:00" sequence="28" value="07:00"/>
+                <element label="07:15" sequence="29" value="07:15"/>
+                <element label="07:30" sequence="30" value="07:30"/>
+                <element label="07:45" sequence="31" value="07:45"/>
+                <element label="08:00" sequence="32" value="08:00"/>
+                <element label="08:15" sequence="33" value="08:15"/>
+                <element label="08:30" sequence="34" value="08:30"/>
+                <element label="08:45" sequence="35" value="08:45"/>
+                <element label="09:00" sequence="36" value="09:00"/>
+                <element label="09:15" sequence="37" value="09:15"/>
+                <element label="09:30" sequence="38" value="09:30"/>
+                <element label="09:45" sequence="39" value="09:45"/>
+                <element label="10:00" sequence="40" value="10:00"/>
+                <element label="10:15" sequence="41" value="10:15"/>
+                <element label="10:30" sequence="42" value="10:30"/>
+                <element label="10:45" sequence="43" value="10:45"/>
+                <element label="11:00" sequence="44" value="11:00"/>
+                <element label="11:15" sequence="45" value="11:15"/>
+                <element label="11:30" sequence="46" value="11:30"/>
+                <element label="11:45" sequence="47" value="11:45"/>
+                <element label="12:00" sequence="48" value="12:00"/>
+                <element label="12:15" sequence="49" value="12:15"/>
+                <element label="12:30" sequence="50" value="12:30"/>
+                <element label="12:45" sequence="51" value="12:45"/>
+                <element label="13:00" sequence="52" value="13:00"/>
+                <element label="13:15" sequence="53" value="13:15"/>
+                <element label="13:30" sequence="54" value="13:30"/>
+                <element label="13:45" sequence="55" value="13:45"/>
+                <element label="14:00" sequence="56" value="14:00"/>
+                <element label="14:15" sequence="57" value="14:15"/>
+                <element label="14:30" sequence="58" value="14:30"/>
+                <element label="14:45" sequence="59" value="14:45"/>
+                <element label="15:00" sequence="60" value="15:00"/>
+                <element label="15:15" sequence="61" value="15:15"/>
+                <element label="15:30" sequence="62" value="15:30"/>
+                <element label="15:45" sequence="63" value="15:45"/>
+                <element label="16:00" sequence="64" value="16:00"/>
+                <element label="16:15" sequence="65" value="16:15"/>
+                <element label="16:30" sequence="66" value="16:30"/>
+                <element label="16:45" sequence="67" value="16:45"/>
+                <element label="17:00" sequence="68" value="17:00"/>
+                <element label="17:15" sequence="69" value="17:15"/>
+                <element label="17:30" sequence="70" value="17:30"/>
+                <element label="17:45" sequence="71" value="17:45"/>
+                <element label="18:00" sequence="72" value="18:00"/>
+                <element label="18:15" sequence="73" value="18:15"/>
+                <element label="18:30" sequence="74" value="18:30"/>
+                <element label="18:45" sequence="75" value="18:45"/>
+                <element label="19:00" sequence="76" value="19:00"/>
+                <element label="19:15" sequence="77" value="19:15"/>
+                <element label="19:30" sequence="78" value="19:30"/>
+                <element label="19:45" sequence="79" value="19:45"/>
+                <element label="20:00" sequence="80" value="20:00"/>
+                <element label="20:15" sequence="81" value="20:15"/>
+                <element label="20:30" sequence="82" value="20:30"/>
+                <element label="20:45" sequence="83" value="20:45"/>
+                <element label="21:00" sequence="84" value="21:00"/>
+                <element label="21:15" sequence="85" value="21:15"/>
+                <element label="21:30" sequence="86" value="21:30"/>
+                <element label="21:45" sequence="87" value="21:45"/>
+                <element label="22:00" sequence="88" value="22:00"/>
+                <element label="22:15" sequence="89" value="22:15"/>
+                <element label="22:30" sequence="90" value="22:30"/>
+                <element label="22:45" sequence="91" value="22:45"/>
+                <element label="23:00" sequence="92" value="23:00"/>
+                <element label="23:15" sequence="93" value="23:15"/>
+                <element label="23:30" sequence="94" value="23:30"/>
+                <element label="23:45" sequence="95" value="23:45"/>
+            </choice>
+        </element>
+    </element>
+</database>

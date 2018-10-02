@@ -28,6 +28,7 @@
 	
 	if (g_form.getValue('location_property') == 'true' || g_form.getValue('location') != '') {
 		console.debug("IN NUMBER OF ATTENDEES");
+		console.log('>>>>>>>>>> Room List Trigger (NUmber of attendees) will update room list');
 		updateRoomList();
 	}
 }]]></script>
@@ -37,15 +38,15 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>e32874180fb0360011bec3ace1050e3c</sys_id>
-        <sys_mod_count>4</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name>Room List Trigger (Number of Attendees)</sys_name>
         <sys_overrides/>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy/>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>catalog_script_client_e32874180fb0360011bec3ace1050e3c</sys_update_name>
-        <sys_updated_by>david.neves</sys_updated_by>
-        <sys_updated_on>2017-05-15 00:42:01</sys_updated_on>
+        <sys_updated_by>daniel.baeta</sys_updated_by>
+        <sys_updated_on>2018-09-11 12:55:56</sys_updated_on>
         <table/>
         <type>onChange</type>
         <ui_type>0</ui_type>

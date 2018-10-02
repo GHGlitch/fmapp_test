@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>74e342290f2e320011bec3ace1050e15</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_landing_page_ux_action">
+    <x_lsmcb_fm_landing_page_ux_action action="INSERT_OR_UPDATE">
+        <action>Meeting Rooms</action>
+        <active>true</active>
+        <condition table="x_lsmcb_fm_room">category=2^settings!=2^active=true^EQ<item endquery="false" field="category" goto="false" newquery="false" operator="=" or="false" value="2"/>
+            <item endquery="false" field="settings" goto="false" newquery="false" operator="!=" or="false" value="2"/>
+            <item endquery="false" field="active" goto="false" newquery="false" operator="=" or="false" value="true"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </condition>
+        <description/>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-05-05 14:08:02</sys_created_on>
+        <sys_id>74e342290f2e320011bec3ace1050e15</sys_id>
+        <sys_mod_count>10</sys_mod_count>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-05-16 13:49:57</sys_updated_on>
+        <table>x_lsmcb_fm_room</table>
+        <ui_macro display_value="fm_qr_meeting_room">a039a5be0f6e720011bec3ace1050e81</ui_macro>
+        <ui_macro_name>x_lsmcb_fm_fm_qr_meeting_room</ui_macro_name>
+    </x_lsmcb_fm_landing_page_ux_action>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 16:35:15</sys_created_on>
+        <sys_id>c945a7740fff3a0011bec3ace1050eb6</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Meeting Rooms</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_c945a7740fff3a0011bec3ace1050eb6</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:35:15</sys_updated_on>
+        <tablename>x_lsmcb_fm_landing_page_ux_action</tablename>
+    </sys_metadata_link>
+</record_update>

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>28d3254c0f71a20011bec3ace1050e6f</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_floor">
+    <x_lsmcb_fm_floor action="INSERT_OR_UPDATE">
+        <building_code>NRI-02</building_code>
+        <geojson>{&#13;
+    "type": "FeatureCollection",&#13;
+    "features": [{&#13;
+        "type": "Feature",&#13;
+        "id": "R101",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [30, 35],&#13;
+                    [30, 200],&#13;
+                    [130, 200],&#13;
+                    [130, 28],&#13;
+                    [80, 28]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R102",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [30, 200],&#13;
+                    [30, 255],&#13;
+                    [98, 255],&#13;
+                    [98, 200]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R103",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [98, 210],&#13;
+                    [98, 255],&#13;
+                    [148, 255],&#13;
+                    [148, 210]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R104",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [30, 255],&#13;
+                    [30, 302],&#13;
+                    [80, 302],&#13;
+                    [80, 255]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R105",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [30, 302],&#13;
+                    [30, 349],&#13;
+                    [80, 349],&#13;
+                    [80, 302]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R106",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [30, 349],&#13;
+                    [30, 405],&#13;
+                    [98, 405],&#13;
+                    [98, 349]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R107",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [98, 349],&#13;
+                    [98, 395],&#13;
+                    [148, 395],&#13;
+                    [148, 349]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R108",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [30, 405],&#13;
+                    [30, 482],&#13;
+                    [122, 482],&#13;
+                    [122, 422],&#13;
+                    [128, 422],&#13;
+                    [128, 405]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R109",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [30, 482],&#13;
+                    [30, 551],&#13;
+                    [128, 564],&#13;
+                    [128, 542],&#13;
+                    [122, 542],&#13;
+                    [122, 482]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R110",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [522, 430],&#13;
+                    [522, 542],&#13;
+                    [539, 542],&#13;
+                    [539, 549],&#13;
+                    [562, 553],&#13;
+                    [562, 559],&#13;
+                    [582, 562],&#13;
+                    [582, 430]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R111",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [555, 100],&#13;
+                    [660, 100],&#13;
+                    [660, 177],&#13;
+                    [555, 177]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R112",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [555, 23],&#13;
+                    [660, 23],&#13;
+                    [660, 100],&#13;
+                    [555, 100]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R113",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [373, 85],&#13;
+                    [442, 85],&#13;
+                    [442, 180],&#13;
+                    [373, 180]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R114",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [304, 85],&#13;
+                    [373, 85],&#13;
+                    [373, 180],&#13;
+                    [304, 180]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R115",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [245, 23],&#13;
+                    [304, 23],&#13;
+                    [304, 138],&#13;
+                    [245, 138]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }, {&#13;
+        "type": "Feature",&#13;
+        "id": "R116",&#13;
+        "geometry": {&#13;
+            "type": "Polygon",&#13;
+            "coordinates": [&#13;
+                [&#13;
+                    [187, 23],&#13;
+                    [245, 23],&#13;
+                    [245, 83],&#13;
+                    [187, 83]&#13;
+                ]&#13;
+            ]&#13;
+        }&#13;
+    }]&#13;
+}</geojson>
+        <gfa_m2/>
+        <id>Floor 2 - Rijswijk</id>
+        <image_height>602</image_height>
+        <image_name>fm_template_floor2.jpgx</image_name>
+        <image_width>682</image_width>
+        <location display_value="Rijswijk">b2c172340fbf3a0011bec3ace1050e58</location>
+        <name>Floor 2</name>
+        <sys_created_by>laura.schuch</sys_created_by>
+        <sys_created_on>2016-09-06 16:57:59</sys_created_on>
+        <sys_id>28d3254c0f71a20011bec3ace1050e6f</sys_id>
+        <sys_mod_count>19</sys_mod_count>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-10 13:14:23</sys_updated_on>
+    </x_lsmcb_fm_floor>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-02-10 15:53:59</sys_created_on>
+        <sys_id>e4e631ae0ff4b60011bec3ace1050e5c</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Floor 2 - Rijswijk</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_e4e631ae0ff4b60011bec3ace1050e5c</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-08-10 13:28:41</sys_updated_on>
+        <tablename>x_lsmcb_fm_floor</tablename>
+    </sys_metadata_link>
+</record_update>

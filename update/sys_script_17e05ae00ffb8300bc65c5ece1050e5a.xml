@@ -39,12 +39,12 @@
         <role_conditions/>
         <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
     
-    // Check if the creation/update came from Outlook or the Outlook addin. If so, do nothing.
-    if (current.update_source == 'outlook' || current.update_source == 'outlook_addin') {
+    // Check if the creation/update came from an external source. If so, do nothing.
+    if (current.update_source == 'external' || current.update_source == 'outlook' || current.update_source == 'outlook_addin') {
         return;
     }
     
-    gs.info('>>> (Update) Sending stuff out...');
+    //gs.info('>>> (Update) Sending stuff out...');
 
 	// Adds event 'updateCalendarItem' to the Queue, that will fire the script action 'Update Calendar Item Action',
     // that calls the script include 'FMOutboundIntegrations' where all the logic regarding the update of a meeting on
@@ -58,15 +58,15 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>17e05ae00ffb8300bc65c5ece1050e5a</sys_id>
-        <sys_mod_count>54</sys_mod_count>
+        <sys_mod_count>56</sys_mod_count>
         <sys_name>Update Calendar Item</sys_name>
         <sys_overrides/>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy/>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>sys_script_17e05ae00ffb8300bc65c5ece1050e5a</sys_update_name>
-        <sys_updated_by>diogo.costa</sys_updated_by>
-        <sys_updated_on>2018-08-16 12:48:53</sys_updated_on>
+        <sys_updated_by>nelson.oliveira</sys_updated_by>
+        <sys_updated_on>2018-08-27 20:36:48</sys_updated_on>
         <template/>
         <when>after</when>
     </sys_script>

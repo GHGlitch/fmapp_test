@@ -8,7 +8,7 @@
         <glyph/>
         <id/>
         <interval>5000</interval>
-        <order>1</order>
+        <order>0</order>
         <roles/>
         <short_description/>
         <size>md</size>
@@ -18,20 +18,20 @@
         <sys_created_by>nuno.pereira</sys_created_by>
         <sys_created_on>2017-08-02 13:47:38</sys_created_on>
         <sys_id>dc05d8120f90030011bec3ace1050e8a</sys_id>
-        <sys_mod_count>6</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name/>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy/>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>sp_instance_carousel_dc05d8120f90030011bec3ace1050e8a</sys_update_name>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-08-19 12:15:29</sys_updated_on>
+        <sys_updated_by>nelson.oliveira</sys_updated_by>
+        <sys_updated_on>2018-09-12 13:27:23</sys_updated_on>
         <title/>
         <url/>
         <widget_parameters><![CDATA[{
 	"img": {
-		"value": "fm_carrousel_img.jpg",
-		"displayValue": "fm_carrousel_img.jpg"
+		"value": "banner_img.jpg",
+		"displayValue": "banner_img.jpg"
 	}
 }]]></widget_parameters>
     </sp_instance_carousel>

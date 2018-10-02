@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_lsmcb_fm.FMRestfulApiUtils</api_name>
+        <client_callable>false</client_callable>
+        <description>Utils for the app's REST API</description>
+        <name>FMRestfulApiUtils</name>
+        <script><![CDATA[var FMRestfulApiUtils = Class.create();
+
+FMRestfulApiUtils.prototype = {
+    
+    initialize: function() {},
+    
+    /**
+     * Performs a simple date verification of start and end dates (in GlideDateTime form)
+     *
+	 * @param {GlideDateTime} start
+	 * @param {GlideDateTime} end
+     */
+    simpleDateVerification: function(start, end) {
+        return (start.isValid() && end.isValid());
+    },
+    
+    /**
+     * Sends an error as response, with an error code and error message
+     *
+	 * @param {integer} errorCode
+	 * @param {string} errorMessage
+     * @returns {JSON} rsp
+     */
+    sendError: function(errorCode, errorMessage) {
+        
+        var rsp = {
+            code: errorCode,
+            data: {
+                message: errorMessage
+            }
+        };
+        
+        rsp.data = JSON.stringify(rsp.data);
+        
+        return rsp;
+    },
+    
+    /**
+     * Checks if there is any room/space or reservation with the provided sys_id
+     *
+     * @param {string} type
+	 * @param {string} id
+     * @returns {boolean}
+     */
+    checkIdExists: function(type, id) {
+        
+        var gr;
+        
+        switch (type) {
+                
+            case ('room'):
+                gr = new GlideRecord('x_lsmcb_fm_room');
+                break;
+                
+            case ('reservation'):
+                gr = new GlideRecord('x_lsmcb_fm_room_reservation');
+                gr.setWorkflow(false);
+                break;
+        }
+        
+        return gr.get(id);
+    },
+
+    type: 'FMRestfulApiUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>diogo.costa</sys_created_by>
+        <sys_created_on>2018-08-27 09:38:25</sys_created_on>
+        <sys_id>4856bfaf0f40e340bc65c5ece1050e96</sys_id>
+        <sys_mod_count>13</sys_mod_count>
+        <sys_name>FMRestfulApiUtils</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_script_include_4856bfaf0f40e340bc65c5ece1050e96</sys_update_name>
+        <sys_updated_by>diogo.costa</sys_updated_by>
+        <sys_updated_on>2018-09-03 16:32:09</sys_updated_on>
+    </sys_script_include>
+</record_update>

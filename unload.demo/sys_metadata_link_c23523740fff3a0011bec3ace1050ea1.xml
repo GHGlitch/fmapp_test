@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>a0cc5f700fff3a0011bec3ace1050e43</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_m2m_record_produ_landing_pag">
+    <x_lsmcb_fm_m2m_record_produ_landing_pag action="INSERT_OR_UPDATE">
+        <landing_page_ux_action display_value="Printer">8c5cdf700fff3a0011bec3ace1050e7f</landing_page_ux_action>
+        <record_producer display_value="Printer defect">61a389c90f27760011bec3ace1050eb7</record_producer>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-07-04 15:58:05</sys_created_on>
+        <sys_id>a0cc5f700fff3a0011bec3ace1050e43</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-07-04 15:58:05</sys_updated_on>
+    </x_lsmcb_fm_m2m_record_produ_landing_pag>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 16:35:04</sys_created_on>
+        <sys_id>c23523740fff3a0011bec3ace1050ea1</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Created 2017-07-04 16:58:05</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_c23523740fff3a0011bec3ace1050ea1</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:35:04</sys_updated_on>
+        <tablename>x_lsmcb_fm_m2m_record_produ_landing_pag</tablename>
+    </sys_metadata_link>
+</record_update>

@@ -9,7 +9,7 @@
         <name>FMFOrderUtils</name>
         <script><![CDATA[var FMFOrderUtils = Class.create();
 FMFOrderUtils.prototype = {
-    initialize: function() {},
+    initialize: function () {},
 
     dtu: new FMDateTimeUtils(),
 
@@ -18,7 +18,7 @@ FMFOrderUtils.prototype = {
      *
      * @param {sys_id} productOrderSysId
      */
-    createOrderlineCostsFromSysId: function(productOrderSysId) {
+    createOrderlineCostsFromSysId: function (productOrderSysId) {
 
         var prgr = new GlideRecord('x_lsmcb_fm_facility_product_order');
         prgr.addQuery('sys_id', productOrderSysId);
@@ -33,7 +33,7 @@ FMFOrderUtils.prototype = {
      *
      * @param {GlideRecord} productOrder
      */
-    updateOrderlineCosts: function(productOrder) {
+    updateOrderlineCosts: function (productOrder) {
         var grOrderLineCosts = new GlideRecord('x_lsmcb_fm_order_line_cost');
         grOrderLineCosts.addQuery('facility_product', productOrder.facility_product.sys_id + '');
         grOrderLineCosts.addQuery('facility_order', productOrder.facility_suborder.facility_order.sys_id + '');
@@ -49,7 +49,7 @@ FMFOrderUtils.prototype = {
      *
      * @param {GlideRecord} productOrder
      */
-    createOrderlineCosts: function(productOrder) {
+    createOrderlineCosts: function (productOrder) {
 
         var grOrderLine = new GlideRecord('x_lsmcb_fm_order_line');
         grOrderLine.addQuery('product', productOrder.facility_product + '');
@@ -83,7 +83,7 @@ FMFOrderUtils.prototype = {
      *
      * @param {GlideRecord} suborder
      */
-    updateFacilitySuborderTotalCost: function(suborder) {
+    updateFacilitySuborderTotalCost: function (suborder) {
 
         var totalCostexVAT = 0;
         var totalCostwithVAT = 0;
@@ -120,7 +120,7 @@ FMFOrderUtils.prototype = {
      *
      * @param {GlideRecord} suborder
      */
-    updateFacilityOrderTotalCost: function(suborder) {
+    updateFacilityOrderTotalCost: function (suborder) {
 
         this.updateFacilityOrderTotalCostOrder(suborder.facility_order);
     },
@@ -131,7 +131,7 @@ FMFOrderUtils.prototype = {
      *
      * @param {GlideRecord} order
      */
-    updateFacilityOrderTotalCostOrder: function(order) {
+    updateFacilityOrderTotalCostOrder: function (order) {
 
         var totalCostexVAT = 0;
         var totalCostwithVAT = 0;
@@ -167,7 +167,7 @@ FMFOrderUtils.prototype = {
      *
      * @param {GlideRecord} current - Order Line
      */
-    updateProductPrice: function(current) {
+    updateProductPrice: function (current) {
 
         var totalPrice = 0;
         var baseCurrency = current.cost_with_vat.getCurrencyCode();
@@ -194,7 +194,7 @@ FMFOrderUtils.prototype = {
      *
      * @param {GlideRecord} orderLine
      */
-    updateOrderLineCostPrice: function(orderLine) {
+    updateOrderLineCostPrice: function (orderLine) {
 
         var baseCurrency = orderLine.cost_ex_vat.getCurrencyCode();
 
@@ -223,9 +223,9 @@ FMFOrderUtils.prototype = {
      *
      * @param {GlideRecord} obj - Price Update
      */
-    updatePrice: function(obj) {
+    updatePrice: function (obj) {
 
-         // Get base currency, cost ex vat (as Float) and vat values based on the price update record
+        // Get base currency, cost ex vat (as Float) and vat values based on the price update record
         var baseCurrency = obj.cost_ex_vat.getCurrencyCode();
         var cost_ex_vat = parseFloat(obj.cost_ex_vat.getCurrencyValue());
         var vat = parseFloat(obj.vat);
@@ -255,7 +255,7 @@ FMFOrderUtils.prototype = {
      * @param {sys_id} location
      * @returns encoded Query with all rooms given a location
      */
-    getAvailableRooms: function(location) {
+    getAvailableRooms: function (location) {
 
         var result = [];
         //query floor table
@@ -286,7 +286,7 @@ FMFOrderUtils.prototype = {
      * @param {sys_id} requester
      * @returns boolean for 'Cancel Order' UI Action
      */
-    cancelOrderCondition: function(order, requester) {
+    cancelOrderCondition: function (order, requester) {
 
         var ogr = new GlideRecord('x_lsmcb_fm_facility_order');
         ogr.get(order);
@@ -304,7 +304,7 @@ FMFOrderUtils.prototype = {
      * @param {sys_id} requester
      * @returns boolean for 'Cancel suborder' UI Action
      */
-    cancelSuborderCondition: function(suborder, requester) {
+    cancelSuborderCondition: function (suborder, requester) {
         var soGr = new GlideRecord('x_lsmcb_fm_facility_suborder');
         soGr.get(suborder);
         return (soGr.getValue('state') == '1' || soGr.getValue('state') == '2' || soGr.getValue('state') == '10') &&
@@ -318,7 +318,7 @@ FMFOrderUtils.prototype = {
      * @param {sys_id} user
      * @returns user's costcenter
      */
-    getUserCostcenter: function(user) {
+    getUserCostcenter: function (user) {
         var gr = new GlideRecord("sys_user");
         gr.get(user);
 
@@ -331,7 +331,7 @@ FMFOrderUtils.prototype = {
      * @param {sys_id} fo - Facility Order
      * @returns object with record data from a facility order
      */
-    getFOInfo: function(fo) {
+    getFOInfo: function (fo) {
 
         var foInfo = {};
         var gr = new GlideRecord('x_lsmcb_fm_facility_order');
@@ -406,7 +406,7 @@ FMFOrderUtils.prototype = {
         return JSON.stringify(foInfo);
     },
 
-    getFOInfoForm: function(fo) {
+    getFOInfoForm: function (fo) {
 
         var obj = {};
 
@@ -443,7 +443,7 @@ FMFOrderUtils.prototype = {
      * @param {sys_id} id - Facility Order
      * @returns list of product orders from a facility Order
      */
-    getProducts: function(id) {
+    getProducts: function (id) {
         var products = [];
         var product;
         var grProducts = new GlideRecord('x_lsmcb_fm_facility_product_order');
@@ -465,12 +465,12 @@ FMFOrderUtils.prototype = {
      * @param {sys_id} id - Facility Order
      * @param {any} data - Object with products and quantities
      */
-    createProductOrder: function(id, data) {
+    createProductOrder: function (id, data) {
         var products = JSON.parse(data);
         this.createFPO(id, products);
     },
 
-    updateProductOrder: function(id, data) {
+    updateProductOrder: function (id, data) {
 
         var itemReservationsSysIds = ['x'];
         //query item reservations for the current FO, to exclude them from the SubOrder Query
@@ -506,7 +506,7 @@ FMFOrderUtils.prototype = {
 
     },
 
-    createFPO: function(id, products) {
+    createFPO: function (id, products) {
         var grProductOrder = new GlideRecord('x_lsmcb_fm_facility_product_order');
         if (products) {
             for (var i = 0; i < products.length; i++) {
@@ -533,7 +533,7 @@ FMFOrderUtils.prototype = {
      * @param {number} category 
      * @param {string} type 
      */
-    createOrderMobile: function(producer, category, type) {
+    createOrderMobile: function (producer, category, type) {
 
         current.requester = producer.requester;
         current.opened_by = gs.getUserID();
@@ -591,7 +591,7 @@ FMFOrderUtils.prototype = {
      * @param {number} category
      * @param {string} type
      */
-    createOrder: function(producer, category, type) {
+    createOrder: function (producer, category, type) {
 
         current.requester = producer.requester;
         current.opened_by = gs.getUserID();
@@ -643,7 +643,7 @@ FMFOrderUtils.prototype = {
 
     },
 
-    createGeneralOrder: function(producer, category, type) {
+    createGeneralOrder: function (producer, category, type) {
 
         current.requester = gs.getUserID();
         current.category = category;
@@ -685,7 +685,7 @@ FMFOrderUtils.prototype = {
      * @param {GlideRecord} producer
      * @param {string} description
      */
-    updateOrder: function(id, producer, description) {
+    updateOrder: function (id, producer, description) {
 
         var gr = new GlideRecord('x_lsmcb_fm_facility_order');
         gr.get(id);
@@ -724,7 +724,7 @@ FMFOrderUtils.prototype = {
      * @param {string} description
      * @param {GlideDate} date - optional parameter used to update the main reservation with the date inserted on the form
      */
-    _updateOrderInfo: function(gr, producer, description, date) {
+    _updateOrderInfo: function (gr, producer, description, date) {
 
         if (producer.selected_product_objects)
             this.updateProductOrder(gr.getUniqueValue(), producer.selected_product_objects);
@@ -788,7 +788,7 @@ FMFOrderUtils.prototype = {
      * @param {GlideRecord} producer
      * @returns object with variable names and values of RP
      */
-    _createRPVariables: function(producer) {
+    _createRPVariables: function (producer) {
 
         var json = {};
 
@@ -822,7 +822,7 @@ FMFOrderUtils.prototype = {
      * @param {sys_id} location
      * @param {sys_id} space
      */
-    updateOrderForm: function(id, date, sh, eh, sm, em, location, space) {
+    updateOrderForm: function (id, date, sh, eh, sm, em, location, space) {
 
         var grOrder = new GlideRecord('x_lsmcb_fm_facility_order');
         grOrder.get(id);
@@ -851,7 +851,7 @@ FMFOrderUtils.prototype = {
      * @param {sys_id} mainOrder
      * @param {sys_id} mainReservation
      */
-    createRecurringOrders: function(mainOrder, mainReservation) {
+    createRecurringOrders: function (mainOrder, mainReservation) {
 
         var mainReservationGr = new GlideRecord('x_lsmcb_fm_facility_order');
         mainReservationGr.get(mainOrder);
@@ -897,7 +897,7 @@ FMFOrderUtils.prototype = {
      * @param {sys_id} mainOrder
      * @param {sys_id} childOrder
      */
-    createProductOrders: function(mainOrder, childOrder) {
+    createProductOrders: function (mainOrder, childOrder) {
 
         var grMainProductOrder = new GlideRecord('x_lsmcb_fm_facility_product_order');
         grMainProductOrder.addQuery('facility_order', mainOrder);
@@ -919,7 +919,7 @@ FMFOrderUtils.prototype = {
      * @param {sys_id} childOrder
      * @returns boolean indicating if the item reservation was created
      */
-    createItemReservations: function(mainOrder, childOrder) {
+    createItemReservations: function (mainOrder, childOrder) {
         var created = false;
         var grMainItemReservation = new GlideRecord('x_lsmcb_fm_item_reservation');
         grMainItemReservation.addQuery('facility_order', mainOrder);
@@ -948,13 +948,13 @@ FMFOrderUtils.prototype = {
      *
      * @returns encoded query with sys:id's of rate groups
      */
-    getAvailableRateGroups: function() {
+    getAvailableRateGroups: function () {
         var result = [];
 
-		
-		if (gs.getUser().hasRole('x_lsmcb_fm.fm_facilities_order_coordinator'))
-			return '';
-		
+
+        if (gs.getUser().hasRole('x_lsmcb_fm.fm_facilities_order_coordinator'))
+            return '';
+
         var grUserGroups = new GlideRecord('sys_user_grmember');
         grUserGroups.addQuery('user', gs.getUserID());
         grUserGroups.query();
@@ -983,7 +983,7 @@ FMFOrderUtils.prototype = {
      * @param {object} calendarDates
      * @param {sys_id} mainOrder
      */
-    makeOrderRecurring: function(nextReservationTime, period, frequency, secondsToAdd, finalReservationTime, calendarDates, mainOrder) {
+    makeOrderRecurring: function (nextReservationTime, period, frequency, secondsToAdd, finalReservationTime, calendarDates, mainOrder) {
 
         var mainOrderGr = new GlideRecord('x_lsmcb_fm_facility_order');
         mainOrderGr.get(mainOrder);
@@ -1083,7 +1083,7 @@ FMFOrderUtils.prototype = {
      * @param {number} period
      * @param {number} frequency
      */
-    _addTimeFromFrequency: function(dateTime, period, frequency) {
+    _addTimeFromFrequency: function (dateTime, period, frequency) {
 
         if (period == 1) {
             dateTime.addDaysLocalTime(frequency);
@@ -1096,19 +1096,31 @@ FMFOrderUtils.prototype = {
         }
     },
 
+    getItemReservation: function (orderSysID) {
+        var irGr = new GlideRecord('x_lsmcb_fm_item_reservation');
+        irGr.addQuery('facility_order', orderSysID);
+        irGr.query();
+        var obj = {};
+        if (irGr.next()) {
+            obj.item = irGr.facility_item.toString();
+            obj.qty = irGr.quantity.toString();
+            return obj;
+        }
+    },
+
     type: 'FMFOrderUtils'
 };]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>david.neves</sys_created_by>
         <sys_created_on>2016-09-27 09:18:11</sys_created_on>
         <sys_id>b79200720f0a2a0011bec3ace1050ede</sys_id>
-        <sys_mod_count>477</sys_mod_count>
+        <sys_mod_count>482</sys_mod_count>
         <sys_name>FMFOrderUtils</sys_name>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy>protected</sys_policy>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>sys_script_include_b79200720f0a2a0011bec3ace1050ede</sys_update_name>
-        <sys_updated_by>david.neves</sys_updated_by>
-        <sys_updated_on>2018-07-19 14:13:30</sys_updated_on>
+        <sys_updated_by>daniel.baeta</sys_updated_by>
+        <sys_updated_on>2018-09-03 11:02:25</sys_updated_on>
     </sys_script_include>
 </record_update>

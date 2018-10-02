@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>21e06ff00fff3a0011bec3ace1050ef0</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_price_update">
+    <x_lsmcb_fm_price_update action="INSERT_OR_UPDATE">
+        <cost_ex_vat>0.8</cost_ex_vat>
+        <order_line display_value="Cleaning the apple">0662bb4a0f70b60011bec3ace1050e0f</order_line>
+        <processed>true</processed>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 16:16:28</sys_created_on>
+        <sys_id>21e06ff00fff3a0011bec3ace1050ef0</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:17:36</sys_updated_on>
+        <valid_from>2017-06-01</valid_from>
+        <vat>7</vat>
+    </x_lsmcb_fm_price_update>
+    <fx_price action="delete_multiple" query="id=21e06ff00fff3a0011bec3ace1050ef0"/>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>0.8</amount>
+        <currency display_value="EUR">EUR</currency>
+        <field>cost_ex_vat</field>
+        <id>21e06ff00fff3a0011bec3ace1050ef0</id>
+        <parent/>
+        <reference_amount>0.9</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 16:16:28</sys_created_on>
+        <sys_id>79f02ff00fff3a0011bec3ace1050e28</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:16:28</sys_updated_on>
+        <table>x_lsmcb_fm_price_update</table>
+        <type>calculated</type>
+    </fx_price>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 16:19:26</sys_created_on>
+        <sys_id>49a123340fff3a0011bec3ace1050e67</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Created 2017-07-04 17:16:28</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_49a123340fff3a0011bec3ace1050e67</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:19:26</sys_updated_on>
+        <tablename>x_lsmcb_fm_price_update</tablename>
+    </sys_metadata_link>
+</record_update>

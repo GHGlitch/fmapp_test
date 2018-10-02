@@ -2,24 +2,24 @@
 <record_update table="sp_theme">
     <sp_theme action="INSERT_OR_UPDATE">
         <css_variables>$brand-primary: #717171;&#13;
-$body-bg: #fff;&#13;
+$body-bg: #000;&#13;
 $state-success-text: #5cb85c;&#13;
 $sp-homepage-bg: #fff;&#13;
-$sp-navbar-divider-color: #ff8c00;&#13;
+$sp-navbar-divider-color: #3acdff;&#13;
 $text-color: #717171;&#13;
 $sp-logo-margin-y: 15px;&#13;
-$navbar-inverse-link-hover-color: #ff8c00;&#13;
+$navbar-inverse-link-hover-color: #ffffff;&#13;
 $panel-bg: #fff;&#13;
 $brand-success: #5cb85c;&#13;
-$navbar-inverse-bg: #fff;&#13;
+$navbar-inverse-bg: #555759;&#13;
 $brand-warning: #f0ad4e;&#13;
 $brand-danger: #e21f1d;&#13;
 $sp-tagline-color: #717171;&#13;
-$navbar-inverse-link-color: #eeac57;&#13;
+$navbar-inverse-link-color: #e7e9eb;&#13;
 $brand-info: #5bc0de;&#13;
-$link-color: #ffb600;&#13;
+$link-color: #428bca;&#13;
 $sp-logo-margin-x: 15px;&#13;
-$btn-default-bg: #eeac57;&#13;
+$btn-default-bg: #fff;&#13;
 $text-muted: #8e8e8e;</css_variables>
         <footer/>
         <footer_fixed>false</footer_fixed>
@@ -30,13 +30,13 @@ $text-muted: #8e8e8e;</css_variables>
         <sys_created_by>nuno.pereira</sys_created_by>
         <sys_created_on>2017-08-02 09:30:11</sys_created_on>
         <sys_id>08a91b420f50030011bec3ace1050e0c</sys_id>
-        <sys_mod_count>16</sys_mod_count>
+        <sys_mod_count>8</sys_mod_count>
         <sys_name>Habitum Main</sys_name>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy/>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>sp_theme_08a91b420f50030011bec3ace1050e0c</sys_update_name>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-08-19 12:16:12</sys_updated_on>
+        <sys_updated_by>nelson.oliveira</sys_updated_by>
+        <sys_updated_on>2018-10-02 10:20:00</sys_updated_on>
     </sp_theme>
 </record_update>

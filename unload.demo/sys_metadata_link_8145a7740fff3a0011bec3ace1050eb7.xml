@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>8853cee50f2e320011bec3ace1050ec8</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_landing_page_ux_action">
+    <x_lsmcb_fm_landing_page_ux_action action="INSERT_OR_UPDATE">
+        <action>Sanitary Spaces</action>
+        <active>true</active>
+        <condition table="x_lsmcb_fm_room">category=1^active=true^EQ<item endquery="false" field="category" goto="false" newquery="false" operator="=" or="false" value="1"/>
+            <item endquery="false" field="active" goto="false" newquery="false" operator="=" or="false" value="true"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </condition>
+        <description/>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-05-05 14:06:07</sys_created_on>
+        <sys_id>8853cee50f2e320011bec3ace1050ec8</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-05-16 13:14:41</sys_updated_on>
+        <table>x_lsmcb_fm_room</table>
+        <ui_macro display_value="fm_qr_sanitation">845166410fb2360011bec3ace1050e9f</ui_macro>
+        <ui_macro_name>x_lsmcb_fm_fm_qr_sanitation</ui_macro_name>
+    </x_lsmcb_fm_landing_page_ux_action>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 16:35:16</sys_created_on>
+        <sys_id>8145a7740fff3a0011bec3ace1050eb7</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Sanitary Spaces</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_8145a7740fff3a0011bec3ace1050eb7</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:35:16</sys_updated_on>
+        <tablename>x_lsmcb_fm_landing_page_ux_action</tablename>
+    </sys_metadata_link>
+</record_update>

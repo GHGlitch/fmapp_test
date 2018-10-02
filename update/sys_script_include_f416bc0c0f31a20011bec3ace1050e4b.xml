@@ -81,6 +81,39 @@ FMDateTimeAjaxUtils.prototype = Object.extendsObject(global.AbstractAjaxProcesso
 		return this.dtu.getMaxRDate(startDate);
 	},
 
+	getTimeChoices: function() {
+		
+		var selectedDate = this.getParameter('sysparm_date');
+		gs.info('Before getting the choices');
+        var initialChoices = this.dtu.getTimeChoices();
+		gs.info('Got the choices');
+		var choices = {
+            start_time: initialChoices//,
+            //end_time: initialChoices
+        };
+		
+		var startIndex = 0;
+		var endIndex = 1;
+
+		var currentDate = new GlideDate().getDisplayValue();
+
+		if (selectedDate == currentDate){
+            var currentTimeObj = JSON.parse(this.getNowTime());
+            var currentStartTime = currentTimeObj.shour + ':' + currentTimeObj.smin;
+
+			
+			//var currentEndTime = currentTimeObj.smin == '45'? currentTimeObj.ehour + ':00' : currentTimeObj.shour + ':' + (parseInt(currentTimeObj.smin) + 15);
+			
+            startIndex = choices.start_time.indexOf(currentStartTime);
+            endIndex = startIndex + 1;
+		}
+		gs.info('Before slice');
+        choices.start_time = choices.start_time.slice(startIndex);
+		gs.info('After slice');
+        //choices.end_time = choices.end_time.slice(endIndex);
+        return JSON.stringify(choices);
+	},
+	
 	type: 'FMDateTimeAjaxUtils'
 	
 });]]></script>
@@ -88,13 +121,13 @@ FMDateTimeAjaxUtils.prototype = Object.extendsObject(global.AbstractAjaxProcesso
         <sys_created_by>david.neves</sys_created_by>
         <sys_created_on>2016-09-06 13:38:32</sys_created_on>
         <sys_id>f416bc0c0f31a20011bec3ace1050e4b</sys_id>
-        <sys_mod_count>44</sys_mod_count>
+        <sys_mod_count>62</sys_mod_count>
         <sys_name>FMDateTimeAjaxUtils</sys_name>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>sys_script_include_f416bc0c0f31a20011bec3ace1050e4b</sys_update_name>
-        <sys_updated_by>david.neves</sys_updated_by>
-        <sys_updated_on>2017-12-12 12:54:20</sys_updated_on>
+        <sys_updated_by>daniel.baeta</sys_updated_by>
+        <sys_updated_on>2018-08-31 08:12:18</sys_updated_on>
     </sys_script_include>
 </record_update>

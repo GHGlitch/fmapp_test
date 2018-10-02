@@ -9,77 +9,77 @@
         <name>OutlookProcessor</name>
         <script><![CDATA[var OutlookProcessor = Class.create();
 OutlookProcessor.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
-	
-	/**
+
+    /**
      * Called from the Scripted REST Resource GET (Outlook Meeting)
      * 
      * @param {object} request 
      * @param {object} response 
      * @param {object} processor 
      */
-	initialize: function(request, response, processor) {
-		
-		if (request != undefined) {
-			this.request = request;
-		}
-		
-		if (response != undefined) {
-			this.response = response;
-		}
-		
-		if (processor != undefined) {
-			this.processor = processor;
-		}
-	},
-	
-	fmru: new FMRoomReservationUtils(),
-    
-	/**
+    initialize: function (request, response, processor) {
+
+        if (request != undefined) {
+            this.request = request;
+        }
+
+        if (response != undefined) {
+            this.response = response;
+        }
+
+        if (processor != undefined) {
+            this.processor = processor;
+        }
+    },
+
+    fmru: new FMRoomReservationUtils(),
+
+    /**
      * Returns a list of all locations, floors, spaces and parking lots available for a meeting creation on the add-in
      * 
      * @returns {string} locations
      */
-	getLocations: function() {
+    getLocations: function () {
 
-		var locations = [];
+        var locations = [];
 
-		var loc = new GlideRecord('cmn_location');
+        var loc = new GlideRecord('cmn_location');
         loc.orderBy('name');
-		loc.addJoinQuery('x_lsmcb_fm_floor', 'sys_id', 'location').addCondition('geojson', '!=', '');
-		loc.query();
+        loc.addJoinQuery('x_lsmcb_fm_floor', 'sys_id', 'location').addCondition('geojson', '!=', '');
+        loc.query();
 
-		while (loc.next()) {
-			var floor = new GlideRecord('x_lsmcb_fm_floor');
-			floor.addQuery('geojson', '!=', '');
-			floor.addQuery('location', loc.getUniqueValue());
-			floor.query();
+        while (loc.next()) {
+            var floor = new GlideRecord('x_lsmcb_fm_floor');
+            floor.addQuery('geojson', '!=', '');
+            floor.addQuery('location', loc.getUniqueValue());
+            floor.query();
 
-			var floors = [];
+            var floors = [];
 
-			while (floor.next()) {
-				var room = new GlideRecord('x_lsmcb_fm_room');
-				room.addQuery('floor', floor.getUniqueValue());
-				room.addQuery('active', true);
-				room.addQuery('category', '2');
-				room.addQuery('settings', '0').addOrCondition('settings', '1');
-				
-				if(!gs.getUser().hasRole('x_lsmcb_fm.fm_room_reservation_coordinator')) {
-					
-					room.addQuery('portal_settings', '!=', '2');
-				}
-                
-				room.query();
+            while (floor.next()) {
+                var room = new GlideRecord('x_lsmcb_fm_room');
+                room.addQuery('floor', floor.getUniqueValue());
+                room.addQuery('active', true);
+                room.addQuery('category', '2');
+                room.addQuery('settings', '0').addOrCondition('settings', '1');
 
-				var rooms = [];
+                if (!gs.getUser().hasRole('x_lsmcb_fm.fm_room_reservation_coordinator')) {
 
-				while (room.next()) {
-					
-					if (!this.fmru.checkConditional(room))
-						continue;
-                    
+                    room.addQuery('portal_settings', '!=', '2');
+                }
+
+                room.query();
+
+                var rooms = [];
+
+                while (room.next()) {
+
+                    if (!this.fmru.checkConditional(room))
+                        continue;
+
                     // Only add rooms that have an email
                     if (room.email) {
-                        
+
                         rooms.push({
                             name: room.getDisplayValue(),
                             spaceID: room.getValue('room_id'),
@@ -87,97 +87,97 @@ OutlookProcessor.prototype = Object.extendsObject(global.AbstractAjaxProcessor, 
                             email: room.getValue('email')
                         });
                     }
-				}
+                }
 
-				floors.push({
-					name: floor.getDisplayValue(),
-					value: floor.getUniqueValue(),
-					rooms: rooms
-				});
-			}
-			
-			var parkingLots = [];
-			
-			var parkingLot = new GlideRecord('x_lsmcb_fm_m2m_locations_parking_lots');
-			parkingLot.addQuery('location', loc.getUniqueValue());
-			parkingLot.addQuery('parking_lot.type', 'visitors');
-			parkingLot.query();
-			
-			while (parkingLot.next()) {
-								
-				parkingLots.push({
-					name: parkingLot.parking_lot.getDisplayValue(),
-					value: parkingLot.parking_lot.toString()
-				});
-			}
+                floors.push({
+                    name: floor.getDisplayValue(),
+                    value: floor.getUniqueValue(),
+                    rooms: rooms
+                });
+            }
 
-			locations.push({
-				name: loc.getDisplayValue(),
-				value: loc.getUniqueValue(),
-				floors: floors,
-				parkingLots: parkingLots
-			});
-		}
+            var parkingLots = [];
 
-		return JSON.stringify(locations);
-	},
-	
-	/**
+            var parkingLot = new GlideRecord('x_lsmcb_fm_m2m_locations_parking_lots');
+            parkingLot.addQuery('location', loc.getUniqueValue());
+            parkingLot.addQuery('parking_lot.type', 'visitors');
+            parkingLot.query();
+
+            while (parkingLot.next()) {
+
+                parkingLots.push({
+                    name: parkingLot.parking_lot.getDisplayValue(),
+                    value: parkingLot.parking_lot.toString()
+                });
+            }
+
+            locations.push({
+                name: loc.getDisplayValue(),
+                value: loc.getUniqueValue(),
+                floors: floors,
+                parkingLots: parkingLots
+            });
+        }
+
+        return JSON.stringify(locations);
+    },
+
+    /**
      * Returns a list of all products available for a meeting creation on the add-in
      * 
      * @returns {string} catering
      */
-	getCatering: function() {
-		
-		var catering = [];
-		
-		if (gs.getProperty('x_lsmcb_fm.allow_catering_order_addin') == 'true') {
-			var gr = new GlideRecord('x_lsmcb_fm_facility_product');
-			gr.addQuery('type', '1');
-			gr.addQuery('active', 'true');
-			gr.addQuery('addin_availability', 'true');
-			gr.query();
-			
-			while (gr.next()) {
-				gs.info(gr.name);
-				catering.push({
-					name: gr.getDisplayValue() + ' (' + gr.getDisplayValue('price') + ' ' + gr.getValue('unit') + ')',
-					value: gr.getUniqueValue(),
-					quantity: 1,
-					choiceIndex: '',
-					choiceDisabled: false
-				});
-			}
-		}
-		return JSON.stringify(catering);
-	},
-	
+    getCatering: function () {
+
+        var catering = [];
+
+        if (gs.getProperty('x_lsmcb_fm.allow_catering_order_addin') == 'true') {
+            var gr = new GlideRecord('x_lsmcb_fm_facility_product');
+            gr.addQuery('type', '1');
+            gr.addQuery('active', 'true');
+            gr.addQuery('addin_availability', 'true');
+            gr.query();
+
+            while (gr.next()) {
+                gs.info(gr.name);
+                catering.push({
+                    name: gr.getDisplayValue() + ' (' + gr.getDisplayValue('price') + ' ' + gr.getValue('unit') + ')',
+                    value: gr.getUniqueValue(),
+                    quantity: 1,
+                    choiceIndex: '',
+                    choiceDisabled: false
+                });
+            }
+        }
+        return JSON.stringify(catering);
+    },
+
     /**
      * Returns a list of the required system properties
      * 
      * @returns {string} settings
      */
-	getSettings: function() {
-		
-		var settings = {};
-		
-		// Properties
-		settings.typeaheadLimit = gs.getProperty('x_lsmcb_fm.limit_typeahead_options');
-		settings.typeaheadMinChars = gs.getProperty('x_lsmcb_fm.typeahead_min_chars');
+    getSettings: function () {
+
+        var settings = {};
+
+        // Properties
+        settings.typeaheadLimit = gs.getProperty('x_lsmcb_fm.limit_typeahead_options');
+        settings.typeaheadMinChars = gs.getProperty('x_lsmcb_fm.typeahead_min_chars');
         settings.instanceURL = gs.getProperty('glide.servlet.uri');
-		settings.allowCatering = gs.getProperty('x_lsmcb_fm.allow_catering_order_addin');
-		
-		// Messages
-		settings.welcome = gs.getMessage('fm_welcome');
-		settings.createReservation = gs.getMessage('fm_create_reservation');
-		settings.updateReservation = gs.getMessage('fm_update_reservation');
-		settings.spaceNotAvailable = gs.getMessage('fm_space_not_available');
+        settings.allowCatering = gs.getProperty('x_lsmcb_fm.allow_catering_order_addin');
+
+        // Messages
+        settings.welcome = gs.getMessage('fm_welcome');
+        settings.createReservation = gs.getMessage('fm_create_reservation');
+        settings.updateReservation = gs.getMessage('fm_update_reservation');
+        settings.spaceNotAvailable = gs.getMessage('fm_space_not_available');
         settings.spaceNotFound = gs.getMessage('fm_space_not_found');
-		settings.eventInThePast = gs.getMessage('fm_event_past');
-		settings.subjectFieldPlaceholder = gs.getMessage('fm_subject_field_placeholder');
-		settings.locationFieldPlaceholder = gs.getMessage('fm_location_field_placeholder');
-		settings.floorFieldPlaceholder = gs.getMessage('fm_floor_field_placeholder');
-		settings.spaceFieldPlaceholder = gs.getMessage('fm_space_field_placeholder');
+        settings.eventInThePast = gs.getMessage('fm_event_past');
+        settings.subjectFieldPlaceholder = gs.getMessage('fm_subject_field_placeholder');
+        settings.locationFieldPlaceholder = gs.getMessage('fm_location_field_placeholder');
+        settings.floorFieldPlaceholder = gs.getMessage('fm_floor_field_placeholder');
+        settings.spaceFieldPlaceholder = gs.getMessage('fm_space_field_placeholder');
         settings.cateringTitle = gs.getMessage('fm_catering_title');
         settings.cateringSelectionPlaceholder = gs.getMessage('fm_catering_selection_placeholder');
         settings.addCateringItemButton = gs.getMessage('fm_add_catering_item_button');
@@ -193,80 +193,80 @@ OutlookProcessor.prototype = Object.extendsObject(global.AbstractAjaxProcessor, 
         settings.remarksPlaceholder = gs.getMessage('fm_remarks_placeholder');
         settings.requesterTitle = gs.getMessage('fm_requester');
         settings.locationChangeMessage = gs.getMessage('fm_location_change_message');
-		
-		return JSON.stringify(settings);
-	},
-	
+
+        return JSON.stringify(settings);
+    },
+
     /**
      * Called from the UI page 'x_lsmcb_fm_fm_outlook_addin'
      * Checks if an Outlook appointment already has a reservation in the FMA app
      *
-	 * @returns {JSON} roomAvailability
+     * @returns {JSON} roomAvailability
      */
-	checkReservation: function() {
-        
+    checkReservation: function () {
+
         var roomAvailability = {
             isUpdate: false,
             catering: []
         };
-		
-		var outlookID = this.getParameter('sysparm_outlookID');
-		
-		var gr = new GlideRecord('x_lsmcb_fm_room_reservation');
-        
+
+        var outlookID = this.getParameter('sysparm_outlookID');
+
+        var gr = new GlideRecord('x_lsmcb_fm_room_reservation');
+
         if (gr.get('outlook_id', outlookID)) {
             gs.info('A meeting was found: ' + gr.meeting_subject + '\nwith the OutlookID: ' + outlookID);
             roomAvailability.isUpdate = true;
             roomAvailability.catering = this._getReservationCatering(gr);
             roomAvailability.visitors = this._getReservationVisitors(gr);
-		}
-		
-		return JSON.stringify(roomAvailability);	
-	},
-    
+        }
+
+        return JSON.stringify(roomAvailability);
+    },
+
     /**
      * Called from checkReservation()
      * Used to get the information of the catering already reserved for this reservation (if any)
      *
-	 * @param {GlideRecord} reservation
-	 * @returns {Array} catering
+     * @param {GlideRecord} reservation
+     * @returns {Array} catering
      */
-    _getReservationCatering: function(reservation) {
-        
+    _getReservationCatering: function (reservation) {
+
         var catering = [];
         gs.info('Going to check the catering for this reservation: ' + reservation.getUniqueValue());
-		if (gs.getProperty('x_lsmcb_fm.allow_catering_order_addin') == 'true') {
-		
-			// Check if there is any Facility Order (coming from Outlook) for this order. If so, get it.
-			var facilityOrder = new GlideRecord('x_lsmcb_fm_facility_order');
-			facilityOrder.addQuery('room_reservation', reservation.getUniqueValue());
+        if (gs.getProperty('x_lsmcb_fm.allow_catering_order_addin') == 'true') {
+
+            // Check if there is any Facility Order (coming from Outlook) for this order. If so, get it.
+            var facilityOrder = new GlideRecord('x_lsmcb_fm_facility_order');
+            facilityOrder.addQuery('room_reservation', reservation.getUniqueValue());
             facilityOrder.addQuery('state', '!=', '4');
-			//facilityOrder.addNotNullQuery('outlook_id');
-			facilityOrder.query();
+            //facilityOrder.addNotNullQuery('outlook_id');
+            facilityOrder.query();
 
-			if (facilityOrder.next()) {
-				gs.info('We have a facility order');
+            if (facilityOrder.next()) {
+                gs.info('We have a facility order');
 
-				// Get the facility suborders for this facility order
-				var facilitySuborder = new GlideRecord('x_lsmcb_fm_facility_suborder');
-				facilitySuborder.addQuery('facility_order', facilityOrder.getUniqueValue());
-				facilitySuborder.query();
+                // Get the facility suborders for this facility order
+                var facilitySuborder = new GlideRecord('x_lsmcb_fm_facility_suborder');
+                facilitySuborder.addQuery('facility_order', facilityOrder.getUniqueValue());
+                facilitySuborder.query();
 
-				while (facilitySuborder.next()) {
-					gs.info('We have a facility suborder');
-					// Get the facility product orders for this facility suborder
-					var facilityProductOrder = new GlideRecord('x_lsmcb_fm_facility_product_order');
-					facilityProductOrder.addQuery('facility_suborder', facilitySuborder.getUniqueValue());
-					facilityProductOrder.query();
+                while (facilitySuborder.next()) {
+                    gs.info('We have a facility suborder');
+                    // Get the facility product orders for this facility suborder
+                    var facilityProductOrder = new GlideRecord('x_lsmcb_fm_facility_product_order');
+                    facilityProductOrder.addQuery('facility_suborder', facilitySuborder.getUniqueValue());
+                    facilityProductOrder.query();
 
-					// Counter to assign the 'choiceIndex' value, important for presenting the catering items in the addin
-					var i = 0;
+                    // Counter to assign the 'choiceIndex' value, important for presenting the catering items in the addin
+                    var i = 0;
 
-					while (facilityProductOrder.next()) {
-						gs.info('We have a facility product order! ' + facilityProductOrder.getValue('name'));
-                        
+                    while (facilityProductOrder.next()) {
+                        gs.info('We have a facility product order! ' + facilityProductOrder.getValue('name'));
+
                         if (facilityProductOrder.facility_product.type == '1' && facilityProductOrder.facility_product.addin_availability == true) {
-                        
+
                             var obj = {
                                 name: facilityProductOrder.facility_product.getDisplayValue() + ' (' + facilityProductOrder.facility_product.price.getDisplayValue() + ' ' + facilityProductOrder.facility_product.unit + ')',
                                 value: facilityProductOrder.getValue('facility_product'),
@@ -276,151 +276,148 @@ OutlookProcessor.prototype = Object.extendsObject(global.AbstractAjaxProcessor, 
                             };
 
                             catering.push(obj);
-                            
+
                             i++;
                         }
-					}
+                    }
 
-				}
-			}
-		}
-		gs.info('The catering object: ' + JSON.stringify(catering));
+                }
+            }
+        }
         return catering;
     },
-    
+
     /**
      * Called from checkReservation()
      * Used to get the information of the visitors already scheduled for this reservation (if any)
      *
-	 * @param {GlideRecord} reservation
-	 * @returns {Array} visitors
+     * @param {GlideRecord} reservation
+     * @returns {Array} visitors
      */
-    _getReservationVisitors: function(reservation) {
-        
+    _getReservationVisitors: function (reservation) {
+
         var visitors = [];
-		var visitTables = ['x_lsmcb_fm_visit', 'x_lsmcb_fm_internal_visits'];
-		for (var i = 0; i < visitTables.length; i++){
-        var visitGR = new GlideRecord(visitTables[i]);
+
+        var visitGR = new GlideRecord('x_lsmcb_fm_visit');
         visitGR.addQuery('room_reservation', reservation.getUniqueValue());
         visitGR.query();
-        
+
         while (visitGR.next()) {
-            
+
             var visit = {};
-            
+
             visit.name = visitGR.visitor.getDisplayValue();
             visit.email = visitGR.email.getDisplayValue();
             visit.options = visitGR.parking_reservation ? '2' : '1';
             visit.company = visitGR.company.getDisplayValue();
             visit.showNameAndEmail = visit.name.indexOf(visit.email) == -1;
-            
+
             if (visit.options == '2') {
-                
+
                 visit.lPlate = visitGR.parking_reservation.license_plate.getDisplayValue();
                 visit.parkingLot = {
                     name: visitGR.parking_reservation.parking_lot.name.getDisplayValue(),
                     value: visitGR.parking_reservation.parking_lot.sys_id + ''
                 };
-                
+
             } else {
                 visit.lPlate = visit.parkingLot = '';
             }
-            
+
             visitors.push(visit);
         }
-		
-		gs.info('>>> visitors\n\n' + visitors);
-		}
-        
-        return visitors;
-        
-    },
-	
-    /**
-     * Called from the UI page 'x_lsmcb_fm_fm_outlook_addin'
-     * Checks if a given date occurs in the past
-     *
-	 * @returns {boolean}
-     */
-	checkPastDate: function() {
-		
-		var start = this.getParameter('sysparm_start');
-		
-		var startDate = new GlideDateTime(start);
-        
-        var now = new GlideDateTime();
-        now.setGlideDateTime(new GlideDateTime(now.getDate() + ' ' + now.getInternalFormattedLocalTime()));
-		
-		return startDate.compareTo(now) != 1;
-	},
-	
-    /**
-     * Called from the UI page 'x_lsmcb_fm_fm_outlook_addin'
-     * Creates a reservation in SN from the add-in (via the SI 'FMOutlookAddinUtils')
-     */
-	createRoomReservationFromAddin: function() {
-		
-		var reservationData = this.getParameter('sysparm_reservationData');
-		reservationData = JSON.parse(reservationData);
-		
-		var fmoau = new FMOutlookAddinUtils();
-		fmoau.createRoomReservationFromAddin(reservationData);
-	},
-    
-    /**
-     * Called from the UI scripts 'fm_room_details_controller' and 'OfficeHelper'
-     * Checks if an Outlook appointment already has a reservation in the FMA app
-     *
-	 * @returns {string} dates
-     */
-    gdtConverter: function() {
-        
-        var dates = {};
-        
-        var dt1 = this.getParameter('sysparm_date1');
-        var dt2 = this.getParameter('sysparm_date2');
-        
-        var gdt1 = new GlideDateTime(dt1);
-        
-        var date1 = gdt1.getDate();
-        
-        var time1 = gdt1.getInternalFormattedLocalTime() + '';
-        
-        var newDate1 = date1 + ' ' + time1;
-        
-        dates.date1 = newDate1;
-        
-        if (!dt2) {
-            return JSON.stringify(dates);
-        }
-        
-        // Only do this if there are 2 parameters
-        var gdt2 = new GlideDateTime(dt2);
-        
-        var date2 = gdt2.getDate();
-        
-        var time2 = gdt2.getInternalFormattedLocalTime() + '';
-        
-        var newDate2 = date2 + ' ' + time2;
-        
-        dates.date2 = newDate2;
-        
-        return JSON.stringify(dates);
-    },
 
-	type: 'OutlookProcessor'
+        gs.info('>>> visitors\n\n' + visitors);
+
+    return visitors;
+
+},
+
+/**
+ * Called from the UI page 'x_lsmcb_fm_fm_outlook_addin'
+ * Checks if a given date occurs in the past
+ *
+ * @returns {boolean}
+ */
+checkPastDate: function () {
+
+    var start = this.getParameter('sysparm_start');
+
+    var startDate = new GlideDateTime(start);
+
+    var now = new GlideDateTime();
+    now.setGlideDateTime(new GlideDateTime(now.getDate() + ' ' + now.getInternalFormattedLocalTime()));
+
+    return startDate.compareTo(now) != 1;
+},
+
+/**
+ * Called from the UI page 'x_lsmcb_fm_fm_outlook_addin'
+ * Creates a reservation in SN from the add-in (via the SI 'FMOutlookAddinUtils')
+ */
+createRoomReservationFromAddin: function () {
+
+    var reservationData = this.getParameter('sysparm_reservationData');
+    reservationData = JSON.parse(reservationData);
+
+    var fmoau = new FMOutlookAddinUtils();
+    fmoau.createRoomReservationFromAddin(reservationData);
+},
+
+/**
+ * Called from the UI scripts 'fm_room_details_controller' and 'OfficeHelper'
+ * Checks if an Outlook appointment already has a reservation in the FMA app
+ *
+ * @returns {string} dates
+ */
+gdtConverter: function () {
+
+    var dates = {};
+
+    var dt1 = this.getParameter('sysparm_date1');
+    var dt2 = this.getParameter('sysparm_date2');
+
+    var gdt1 = new GlideDateTime(dt1);
+
+    var date1 = gdt1.getDate();
+
+    var time1 = gdt1.getInternalFormattedLocalTime() + '';
+
+    var newDate1 = date1 + ' ' + time1;
+
+    dates.date1 = newDate1;
+
+    if (!dt2) {
+        return JSON.stringify(dates);
+    }
+
+    // Only do this if there are 2 parameters
+    var gdt2 = new GlideDateTime(dt2);
+
+    var date2 = gdt2.getDate();
+
+    var time2 = gdt2.getInternalFormattedLocalTime() + '';
+
+    var newDate2 = date2 + ' ' + time2;
+
+    dates.date2 = newDate2;
+
+    return JSON.stringify(dates);
+},
+
+type: 'OutlookProcessor'
 });]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>jeffrey.meijer</sys_created_by>
         <sys_created_on>2017-08-30 09:30:12</sys_created_on>
         <sys_id>9116eb070ff8470011bec3ace1050e86</sys_id>
-        <sys_mod_count>1023</sys_mod_count>
+        <sys_mod_count>1024</sys_mod_count>
         <sys_name>OutlookProcessor</sys_name>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy>protected</sys_policy>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>sys_script_include_9116eb070ff8470011bec3ace1050e86</sys_update_name>
-        <sys_updated_by>diogo.costa</sys_updated_by>
-        <sys_updated_on>2018-08-17 17:59:39</sys_updated_on>
+        <sys_updated_by>daniel.baeta</sys_updated_by>
+        <sys_updated_on>2018-09-06 14:10:22</sys_updated_on>
     </sys_script_include>
 </record_update>

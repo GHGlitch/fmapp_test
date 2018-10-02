@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update table="item_option_new">
     <item_option_new action="INSERT_OR_UPDATE">
-        <active>true</active>
+        <active>false</active>
         <attributes/>
         <cat_item/>
         <category/>
@@ -38,7 +38,7 @@
         <mask_use_confirmation>false</mask_use_confirmation>
         <mask_use_encryption>false</mask_use_encryption>
         <name>c_endtime</name>
-        <order>224</order>
+        <order>251</order>
         <price_if_checked>0</price_if_checked>
         <pricing_implications>false</pricing_implications>
         <question_text/>
@@ -60,14 +60,14 @@
         <sys_created_by>laura.schuch</sys_created_by>
         <sys_created_on>2016-09-26 16:53:48</sys_created_on>
         <sys_id>78c2e8ea0f062a0011bec3ace1050e54</sys_id>
-        <sys_mod_count>4</sys_mod_count>
+        <sys_mod_count>6</sys_mod_count>
         <sys_name>c_endtime</sys_name>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy/>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>item_option_new_78c2e8ea0f062a0011bec3ace1050e54</sys_update_name>
-        <sys_updated_by>nelson.oliveira</sys_updated_by>
-        <sys_updated_on>2016-11-22 12:04:06</sys_updated_on>
+        <sys_updated_by>daniel.baeta</sys_updated_by>
+        <sys_updated_on>2018-09-11 12:48:35</sys_updated_on>
         <table/>
         <tooltip/>
         <type>19</type>

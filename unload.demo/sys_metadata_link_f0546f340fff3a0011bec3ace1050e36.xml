@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>de4a7d220f38b60011bec3ace1050e05</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_supplier_group_assignment_rules">
+    <x_lsmcb_fm_supplier_group_assignment_rules action="INSERT_OR_UPDATE">
+        <auto_planning>true</auto_planning>
+        <category>2</category>
+        <company display_value="Logicalis SMC">511b4d6b0f11624011bec3ace1050e65</company>
+        <location display_value="Rijswijk">b2c172340fbf3a0011bec3ace1050e58</location>
+        <number>SUPA0001020</number>
+        <supplier_group display_value="ISS - Catering" name="ISS - Catering">b09101820f04f60011bec3ace1050e1e</supplier_group>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-02-10 16:08:52</sys_created_on>
+        <sys_id>de4a7d220f38b60011bec3ace1050e05</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:28:49</sys_updated_on>
+        <type>request</type>
+    </x_lsmcb_fm_supplier_group_assignment_rules>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 16:31:09</sys_created_on>
+        <sys_id>f0546f340fff3a0011bec3ace1050e36</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_f0546f340fff3a0011bec3ace1050e36</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:31:09</sys_updated_on>
+        <tablename>x_lsmcb_fm_supplier_group_assignment_rul</tablename>
+    </sys_metadata_link>
+</record_update>

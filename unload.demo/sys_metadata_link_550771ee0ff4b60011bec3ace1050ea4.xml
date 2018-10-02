@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>a5e16a940ff5a20011bec3ace1050e81</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_room">
+    <x_lsmcb_fm_room action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <additional_info/>
+        <capacity>6</capacity>
+        <category>2</category>
+        <costcenter/>
+        <floor display_value="Floor 2 - Rijswijk">28d3254c0f71a20011bec3ace1050e6f</floor>
+        <gla_m2/>
+        <idname>R106 - Room 106</idname>
+        <image/>
+        <include_weekends>false</include_weekends>
+        <minutes_after>15</minutes_after>
+        <minutes_before>15</minutes_before>
+        <name>Room 106</name>
+        <nia_m2/>
+        <portal_settings>0</portal_settings>
+        <reservable_from/>
+        <reservable_until/>
+        <reservation_close_time>1970-01-01 18:00:00</reservation_close_time>
+        <reservation_open_time>1970-01-01 09:00:00</reservation_open_time>
+        <room_id>R106</room_id>
+        <settings>0</settings>
+        <space_location display_value="R106 - Room 106">bfd872b40fbf3a0011bec3ace1050e40</space_location>
+        <sys_created_by>laura.schuch</sys_created_by>
+        <sys_created_on>2016-09-07 16:07:42</sys_created_on>
+        <sys_id>a5e16a940ff5a20011bec3ace1050e81</sys_id>
+        <sys_mod_count>10</sys_mod_count>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 13:21:18</sys_updated_on>
+    </x_lsmcb_fm_room>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-02-10 15:54:36</sys_created_on>
+        <sys_id>550771ee0ff4b60011bec3ace1050ea4</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>R106 - Room 106</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_550771ee0ff4b60011bec3ace1050ea4</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 13:32:14</sys_updated_on>
+        <tablename>x_lsmcb_fm_room</tablename>
+    </sys_metadata_link>
+</record_update>

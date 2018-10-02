@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>ea3590730fdc3e0011bec3ace1050e7e</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_order_line">
+    <x_lsmcb_fm_order_line action="INSERT_OR_UPDATE">
+        <cost_ex_vat>21</cost_ex_vat>
+        <cost_with_vat>21</cost_with_vat>
+        <costvat>0</costvat>
+        <description>Delivery of a flipover</description>
+        <product display_value="Flipover delivery">93f450730fdc3e0011bec3ace1050e90</product>
+        <sys_created_by>jan.korlaar</sys_created_by>
+        <sys_created_on>2017-01-20 09:28:55</sys_created_on>
+        <sys_id>ea3590730fdc3e0011bec3ace1050e7e</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:17:36</sys_updated_on>
+        <valid_from>2017-06-01</valid_from>
+        <vat>0</vat>
+    </x_lsmcb_fm_order_line>
+    <fx_price action="delete_multiple" query="id=ea3590730fdc3e0011bec3ace1050e7e"/>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>0</amount>
+        <currency display_value="EUR">EUR</currency>
+        <field>costvat</field>
+        <id>ea3590730fdc3e0011bec3ace1050e7e</id>
+        <parent/>
+        <reference_amount>0</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>nuno.pereira</sys_created_by>
+        <sys_created_on>2017-02-06 13:39:48</sys_created_on>
+        <sys_id>b3c1b0dd0f70760011bec3ace1050e14</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:17:36</sys_updated_on>
+        <table>x_lsmcb_fm_order_line</table>
+        <type>calculated</type>
+    </fx_price>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>21</amount>
+        <currency display_value="EUR">EUR</currency>
+        <field>cost_ex_vat</field>
+        <id>ea3590730fdc3e0011bec3ace1050e7e</id>
+        <parent/>
+        <reference_amount>23.87</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>jan.korlaar</sys_created_by>
+        <sys_created_on>2017-01-20 09:28:55</sys_created_on>
+        <sys_id>83555c330fdc3e0011bec3ace1050eaf</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:17:36</sys_updated_on>
+        <table>x_lsmcb_fm_order_line</table>
+        <type>calculated</type>
+    </fx_price>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>21</amount>
+        <currency display_value="USD">USD</currency>
+        <field>cost_vat</field>
+        <id>ea3590730fdc3e0011bec3ace1050e7e</id>
+        <parent/>
+        <reference_amount>21</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>jan.korlaar</sys_created_by>
+        <sys_created_on>2017-01-20 09:28:55</sys_created_on>
+        <sys_id>03555c330fdc3e0011bec3ace1050eaf</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>jan.korlaar</sys_updated_by>
+        <sys_updated_on>2017-01-20 09:28:55</sys_updated_on>
+        <table>x_lsmcb_fm_order_line</table>
+        <type>calculated</type>
+    </fx_price>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>21</amount>
+        <currency display_value="EUR">EUR</currency>
+        <field>cost_with_vat</field>
+        <id>ea3590730fdc3e0011bec3ace1050e7e</id>
+        <parent/>
+        <reference_amount>23.87</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>jan.korlaar</sys_created_by>
+        <sys_created_on>2017-01-20 09:28:55</sys_created_on>
+        <sys_id>07555c330fdc3e0011bec3ace1050eaf</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:17:36</sys_updated_on>
+        <table>x_lsmcb_fm_order_line</table>
+        <type>calculated</type>
+    </fx_price>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-02-10 16:05:35</sys_created_on>
+        <sys_id>ca8979220f38b60011bec3ace1050e07</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>Delivery of a flipover</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_ca8979220f38b60011bec3ace1050e07</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:19:09</sys_updated_on>
+        <tablename>x_lsmcb_fm_order_line</tablename>
+    </sys_metadata_link>
+</record_update>

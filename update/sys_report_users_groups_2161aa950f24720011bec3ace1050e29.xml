@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update table="sys_report_users_groups">
     <sys_report_users_groups action="INSERT_OR_UPDATE">
-        <group_id display_value="">8cd91b690ff6220011bec3ace1050e10</group_id>
+        <group_id display_value="fm_receptionist" name="fm_receptionist">8cd91b690ff6220011bec3ace1050e10</group_id>
         <report_id display_value="FM Visitors">6961aa950f24720011bec3ace1050e28</report_id>
         <sys_class_name>sys_report_users_groups</sys_class_name>
         <sys_created_by>david.neves</sys_created_by>

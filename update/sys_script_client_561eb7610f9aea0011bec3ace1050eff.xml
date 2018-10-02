@@ -23,6 +23,43 @@
 	if (isEndBeforeStart == 1) {
 		g_form.setValue('meeting_end_time', g_form.getValue('meeting_start_time'));
 	}
+	
+	var dtAjax = new GlideAjax('FMDateTimeAjaxUtils');
+	dtAjax.addParam('sysparm_name', 'getNowDateTime');
+	dtAjax.getXML(function (response) {
+		var answer = response.responseXML.documentElement.getAttribute('answer');
+		var currentDate = answer.split(' ')[0];
+		var currentTime = answer.split(' ')[1];
+		
+		var resDate = newValue.split(' ')[0];
+		var resTime = newValue.split(' ')[1];
+		
+		if ((currentDate > resDate) || (currentDate == resDate && currentTime > resTime)){
+			
+			alert(getMessage('fm_current_time'));
+
+			//Setting the Meeting Start Time one minute ahead of the present
+			var newStartTime = currentTime.split(':');
+			newStartTime[1] = parseInt(newStartTime[1]) + 1;
+			newStartTime = newStartTime.join(':');
+			
+			var newStart = currentDate + ' ' + newStartTime;
+			g_form.setValue('meeting_start_time', newStart);
+			
+			//Setting the Meeting End Time one hour after the Meeting Start Time
+			var newEndTime = newStartTime.split(':');
+			newEndTime[0] = parseInt(newEndTime[0]) + 1;
+			newEndTime = newEndTime.join(':');
+			
+			var newEnd = currentDate + ' ' + newEndTime;
+			g_form.setValue('meeting_end_time', newEnd);
+			
+			if (g_form.getValue('room') != ''){
+				g_form.setReadOnly('meeting_start_time', false);
+				g_form.setReadOnly('meeting_end_time', false);
+			}
+		}
+	});
 }]]></script>
         <sys_class_name>sys_script_client</sys_class_name>
         <sys_created_by>david.neves</sys_created_by>
@@ -30,15 +67,15 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>561eb7610f9aea0011bec3ace1050eff</sys_id>
-        <sys_mod_count>4</sys_mod_count>
+        <sys_mod_count>25</sys_mod_count>
         <sys_name>RR Start time Enforcement</sys_name>
         <sys_overrides/>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy/>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>sys_script_client_561eb7610f9aea0011bec3ace1050eff</sys_update_name>
-        <sys_updated_by>david.neves</sys_updated_by>
-        <sys_updated_on>2017-05-03 16:03:31</sys_updated_on>
+        <sys_updated_by>daniel.baeta</sys_updated_by>
+        <sys_updated_on>2018-08-31 10:43:34</sys_updated_on>
         <table>x_lsmcb_fm_room_reservation</table>
         <type>onChange</type>
         <ui_type>0</ui_type>

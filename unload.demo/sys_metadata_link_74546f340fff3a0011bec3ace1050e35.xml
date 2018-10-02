@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>b3c3ef340fff3a0011bec3ace1050e3a</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_supplier_group_assignment_rules">
+    <x_lsmcb_fm_supplier_group_assignment_rules action="INSERT_OR_UPDATE">
+        <auto_planning>true</auto_planning>
+        <category>2</category>
+        <company display_value="Logicalis SMC">511b4d6b0f11624011bec3ace1050e65</company>
+        <location display_value="Centro de Negócios e Serviços">65e132340fbf3a0011bec3ace1050e0e</location>
+        <number>SUPA0001001</number>
+        <supplier_group display_value="PT Facilities Management Team" name="PT Facilities Management Team">92276e0d0f1fe60011bec3ace1050e76</supplier_group>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 16:29:25</sys_created_on>
+        <sys_id>b3c3ef340fff3a0011bec3ace1050e3a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:29:25</sys_updated_on>
+        <type>request</type>
+    </x_lsmcb_fm_supplier_group_assignment_rules>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 16:31:09</sys_created_on>
+        <sys_id>74546f340fff3a0011bec3ace1050e35</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_74546f340fff3a0011bec3ace1050e35</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:31:09</sys_updated_on>
+        <tablename>x_lsmcb_fm_supplier_group_assignment_rul</tablename>
+    </sys_metadata_link>
+</record_update>

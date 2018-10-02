@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>f7b7fa740fbf3a0011bec3ace1050e18</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="cmn_location">
+    <cmn_location action="INSERT_OR_UPDATE">
+        <city/>
+        <company/>
+        <contact/>
+        <country/>
+        <fax_phone/>
+        <full_name>Centro de Negócios e Serviços/R07 - Room 07</full_name>
+        <lat_long_error/>
+        <latitude/>
+        <longitude/>
+        <name>R07 - Room 07</name>
+        <parent display_value="Centro de Negócios e Serviços">65e132340fbf3a0011bec3ace1050e0e</parent>
+        <phone/>
+        <phone_territory/>
+        <state/>
+        <stock_room>false</stock_room>
+        <street/>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 13:16:23</sys_created_on>
+        <sys_id>f7b7fa740fbf3a0011bec3ace1050e18</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 13:16:23</sys_updated_on>
+        <time_zone/>
+        <x_lsmcb_fm_description/>
+        <zip/>
+    </cmn_location>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-07-04 13:40:28</sys_created_on>
+        <sys_id>204d7af40fbf3a0011bec3ace1050eb1</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>R07 - Room 07</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_204d7af40fbf3a0011bec3ace1050eb1</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 13:40:28</sys_updated_on>
+        <tablename>cmn_location</tablename>
+    </sys_metadata_link>
+</record_update>

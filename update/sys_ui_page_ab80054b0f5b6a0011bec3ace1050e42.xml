@@ -49,7 +49,7 @@ function populateRooms(query_array) {
 		
 	}
 
-
+	setFieldsReadOnly(false);
 }
 
 function getImage(title, img_src) {
@@ -108,6 +108,7 @@ function roomListTrigger() {
 
 // called on every single onChange client script on the Room Reservation RP
 function updateRoomList() {
+	setFieldsReadOnly(true);
 	var location = g_form.getValue('location');
 	var rsrvdate = g_form.getValue('date');
 	var nmratt = g_form.getValue('number_of_attendees');
@@ -144,7 +145,17 @@ function updateRoomList() {
 		} else {
 			selectRoom();
 		}
+		
 	}
+}
+
+function setFieldsReadOnly(locked){
+	console.log('Setting the fields to readonly: ', locked);
+	g_form.setReadOnly('date', locked);
+	g_form.setReadOnly('start_time', locked);
+	g_form.setReadOnly('end_time', locked);
+	g_form.setReadOnly('location', locked);
+	g_form.setReadOnly('number_of_attendees', locked);
 }]]></client_script>
         <description/>
         <direct>false</direct>
@@ -232,13 +243,13 @@ function updateRoomList() {
         <sys_created_by>nelson.oliveira</sys_created_by>
         <sys_created_on>2016-11-29 11:40:12</sys_created_on>
         <sys_id>ab80054b0f5b6a0011bec3ace1050e42</sys_id>
-        <sys_mod_count>242</sys_mod_count>
+        <sys_mod_count>248</sys_mod_count>
         <sys_name>fm_room_listing</sys_name>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>sys_ui_page_ab80054b0f5b6a0011bec3ace1050e42</sys_update_name>
-        <sys_updated_by>diogo.costa</sys_updated_by>
-        <sys_updated_on>2018-06-22 07:40:49</sys_updated_on>
+        <sys_updated_by>daniel.baeta</sys_updated_by>
+        <sys_updated_on>2018-09-11 15:07:57</sys_updated_on>
     </sys_ui_page>
 </record_update>

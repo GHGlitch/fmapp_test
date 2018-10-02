@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>fb34eea40ff9a20011bec3ace1050e15</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_room_property">
+    <x_lsmcb_fm_room_property action="INSERT_OR_UPDATE">
+        <description>Conference call spider</description>
+        <icon/>
+        <name>Spider</name>
+        <sys_created_by>laura.schuch</sys_created_by>
+        <sys_created_on>2016-09-08 10:57:21</sys_created_on>
+        <sys_id>fb34eea40ff9a20011bec3ace1050e15</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>laura.schuch</sys_updated_by>
+        <sys_updated_on>2016-09-08 10:57:21</sys_updated_on>
+    </x_lsmcb_fm_room_property>
+    <sys_attachment action="INSERT_OR_UPDATE">
+        <average_image_color/>
+        <compressed>true</compressed>
+        <content_type>image/svg+xml</content_type>
+        <file_name>icon</file_name>
+        <image_height/>
+        <image_width/>
+        <size_bytes>3585</size_bytes>
+        <size_compressed>1639</size_compressed>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-09-14 10:00:45</sys_created_on>
+        <sys_id>092111a20f79260011bec3ace1050e2c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>nelson.oliveira</sys_updated_by>
+        <sys_updated_on>2016-09-14 10:00:45</sys_updated_on>
+        <table_name>ZZ_YYx_lsmcb_fm_room_property</table_name>
+        <table_sys_id>fb34eea40ff9a20011bec3ace1050e15</table_sys_id>
+    </sys_attachment>
+    <sys_attachment_doc action="INSERT_OR_UPDATE">
+        <data>H4sIAAAAAAAAAA==</data>
+        <length>16</length>
+        <position>0</position>
+        <sys_attachment display_value="icon" sys_id="092111a20f79260011bec3ace1050e2c">092111a20f79260011bec3ace1050e2c</sys_attachment>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-09-14 10:00:45</sys_created_on>
+        <sys_id>492111a20f79260011bec3ace1050e2c</sys_id>
+    </sys_attachment_doc>
+    <sys_attachment_doc action="INSERT_OR_UPDATE">
+        <data>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</data>
+        <length>2172</length>
+        <position>1</position>
+        <sys_attachment display_value="icon" sys_id="092111a20f79260011bec3ace1050e2c">092111a20f79260011bec3ace1050e2c</sys_attachment>
+        <sys_created_by>nelson.oliveira</sys_created_by>
+        <sys_created_on>2016-09-14 10:00:45</sys_created_on>
+        <sys_id>c92111a20f79260011bec3ace1050e2c</sys_id>
+    </sys_attachment_doc>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-02-10 15:55:04</sys_created_on>
+        <sys_id>c027fd6e0ff4b60011bec3ace1050ec8</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Spider</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_c027fd6e0ff4b60011bec3ace1050ec8</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-02-10 15:55:04</sys_updated_on>
+        <tablename>x_lsmcb_fm_room_property</tablename>
+    </sys_metadata_link>
+</record_update>

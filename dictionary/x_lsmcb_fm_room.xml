@@ -30,7 +30,7 @@
                 <element label="Shaft" sequence="7" value="7"/>
             </choice>
         </element>
-        <element label="Costcenter" max_length="32" name="costcenter" reference="cmn_cost_center" reference_qual="valid_from&lt;=javascript:gs.daysAgoEnd(0)^valid_to&gt;=javascript:gs.daysAgoStart(0)^ORvalid_toISEMPTY^EQ" reference_qual_condition="valid_from&lt;=javascript:gs.daysAgoEnd(0)^valid_to&gt;=javascript:gs.daysAgoStart(0)^ORvalid_toISEMPTY^EQ" type="reference"/>
+        <element label="Costcenter" max_length="32" name="costcenter" reference="cmn_cost_center" reference_qual="valid_from&lt;=javascript:gs.daysAgoEnd(0)^valid_to&gt;=javascript:gs.daysAgoStart(0)^ORvalid_toISEMPTY^EQ" type="reference" use_reference_qualifier="advanced"/>
         <element label="Calendar integration email" max_length="100" name="email" type="string"/>
         <element label="Floor" mandatory="true" max_length="32" name="floor" reference="x_lsmcb_fm_floor" type="reference"/>
         <element hint="Gross leasable area" label="GLA (m2)" max_length="20" name="gla_m2" type="decimal"/>

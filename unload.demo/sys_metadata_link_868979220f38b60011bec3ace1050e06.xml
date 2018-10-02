@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>unload.demo</directory>
+        <documentkey>8216a6830f543e0011bec3ace1050eaa</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_lsmcb_fm_order_line">
+    <x_lsmcb_fm_order_line action="INSERT_OR_UPDATE">
+        <cost_ex_vat>2.5</cost_ex_vat>
+        <cost_with_vat>3.02</cost_with_vat>
+        <costvat>0.53</costvat>
+        <description>Standard delivery cost</description>
+        <product display_value="Delivery">c8f566830f543e0011bec3ace1050efb</product>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-01-18 12:05:50</sys_created_on>
+        <sys_id>8216a6830f543e0011bec3ace1050eaa</sys_id>
+        <sys_mod_count>9</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:17:36</sys_updated_on>
+        <valid_from>2017-06-01</valid_from>
+        <vat>21</vat>
+    </x_lsmcb_fm_order_line>
+    <fx_price action="delete_multiple" query="id=8216a6830f543e0011bec3ace1050eaa"/>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>0.53</amount>
+        <currency display_value="EUR">EUR</currency>
+        <field>costvat</field>
+        <id>8216a6830f543e0011bec3ace1050eaa</id>
+        <parent/>
+        <reference_amount>0.6</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>mister.bean</sys_created_by>
+        <sys_created_on>2017-02-06 12:16:17</sys_created_on>
+        <sys_id>d4be94990f70760011bec3ace1050e86</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:17:36</sys_updated_on>
+        <table>x_lsmcb_fm_order_line</table>
+        <type>calculated</type>
+    </fx_price>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>2.5</amount>
+        <currency display_value="EUR">EUR</currency>
+        <field>cost_ex_vat</field>
+        <id>8216a6830f543e0011bec3ace1050eaa</id>
+        <parent/>
+        <reference_amount>2.84</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-01-18 12:05:50</sys_created_on>
+        <sys_id>8616a6830f543e0011bec3ace1050eaa</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:17:36</sys_updated_on>
+        <table>x_lsmcb_fm_order_line</table>
+        <type>calculated</type>
+    </fx_price>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>0.21</amount>
+        <currency display_value="USD">USD</currency>
+        <field>cost_vat</field>
+        <id>8216a6830f543e0011bec3ace1050eaa</id>
+        <parent/>
+        <reference_amount>0.21</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-01-18 12:05:50</sys_created_on>
+        <sys_id>0616a6830f543e0011bec3ace1050eaa</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-01-25 11:10:44</sys_updated_on>
+        <table>x_lsmcb_fm_order_line</table>
+        <type>calculated</type>
+    </fx_price>
+    <fx_price action="INSERT_OR_UPDATE">
+        <amount>3.02</amount>
+        <currency display_value="EUR">EUR</currency>
+        <field>cost_with_vat</field>
+        <id>8216a6830f543e0011bec3ace1050eaa</id>
+        <parent/>
+        <reference_amount>3.43</reference_amount>
+        <reference_currency display_value="USD">USD</reference_currency>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-01-18 12:05:50</sys_created_on>
+        <sys_id>0a16a6830f543e0011bec3ace1050eaa</sys_id>
+        <sys_mod_count>7</sys_mod_count>
+        <sys_updated_by>nuno.pereira</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:17:36</sys_updated_on>
+        <table>x_lsmcb_fm_order_line</table>
+        <type>calculated</type>
+    </fx_price>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>david.neves</sys_created_by>
+        <sys_created_on>2017-02-10 16:05:34</sys_created_on>
+        <sys_id>868979220f38b60011bec3ace1050e06</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>Standard delivery cost</sys_name>
+        <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
+        <sys_update_name>sys_metadata_link_868979220f38b60011bec3ace1050e06</sys_update_name>
+        <sys_updated_by>david.neves</sys_updated_by>
+        <sys_updated_on>2017-07-04 16:19:09</sys_updated_on>
+        <tablename>x_lsmcb_fm_order_line</tablename>
+    </sys_metadata_link>
+</record_update>
