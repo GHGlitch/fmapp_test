@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update sys_domain="global" table="sys_filter">
     <sys_filter action="INSERT_OR_UPDATE">
-        <filter table="x_lsmcb_fm_room_reservation">requesterDYNAMICf1266e220f0d2e0011bec3ace1050e59^EQ<item endquery="false" field="requester" goto="false" newquery="false" operator="DYNAMIC" or="false" value="f1266e220f0d2e0011bec3ace1050e59"/>
+        <filter table="x_lsmcb_fm_room_reservation">requesterDYNAMICf1266e220f0d2e0011bec3ace1050e59^EQ<item display_table="sys_user" display_value="David Neves" endquery="false" field="requester" goto="false" newquery="false" operator="DYNAMIC" or="false" value="f1266e220f0d2e0011bec3ace1050e59"/>
             <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
         </filter>
         <group/>
@@ -24,6 +24,6 @@
         <sys_updated_on>2017-05-04 13:40:05</sys_updated_on>
         <table>x_lsmcb_fm_room_reservation</table>
         <title>mobile</title>
-        <user display_value="">f1266e220f0d2e0011bec3ace1050e59</user>
+        <user display_value="David Neves">f1266e220f0d2e0011bec3ace1050e59</user>
     </sys_filter>
 </record_update>

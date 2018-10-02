@@ -17,7 +17,7 @@
         <sys_update_name>sys_push_notif_app_install_0c04df000f56430011bec3ace1050edc</sys_update_name>
         <sys_updated_by>david.neves</sys_updated_by>
         <sys_updated_on>2017-11-03 14:01:21</sys_updated_on>
-        <sys_user_id display_value="">f1266e220f0d2e0011bec3ace1050e59</sys_user_id>
+        <sys_user_id display_value="David Neves">f1266e220f0d2e0011bec3ace1050e59</sys_user_id>
         <token>eht99FsQ4Sg:APA91bFnMewlOb4WLkROjpWTZFXNPsiMICGjDhtNnvoE24zCxVHSHElkLblQByflfYEds6lymRZzbrGTU3lAKBgA5Git7swRIiaAlRjj9t1RHtqhkxBLoBVDt74prJ8hTFj7EN2S8Q3j</token>
     </sys_push_notif_app_install>
 </record_update>

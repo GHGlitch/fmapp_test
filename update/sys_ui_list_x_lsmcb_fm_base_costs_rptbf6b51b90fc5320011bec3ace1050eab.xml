@@ -4,7 +4,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>sys_class_name</element>
-            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="9d31d5d3db7023005e9f5385ca9619b6">7645058c0f59b20011bec3ace1050efb</list_id>
+            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="ed31511fdb70230012649235ca96190c">7645058c0f59b20011bec3ace1050efb</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>0</position>
@@ -19,7 +19,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>description</element>
-            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="9d31d5d3db7023005e9f5385ca9619b6">7645058c0f59b20011bec3ace1050efb</list_id>
+            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="ed31511fdb70230012649235ca96190c">7645058c0f59b20011bec3ace1050efb</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>1</position>
@@ -34,7 +34,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>facility_suborder</element>
-            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="9d31d5d3db7023005e9f5385ca9619b6">7645058c0f59b20011bec3ace1050efb</list_id>
+            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="ed31511fdb70230012649235ca96190c">7645058c0f59b20011bec3ace1050efb</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>2</position>
@@ -49,7 +49,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>quantity</element>
-            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="9d31d5d3db7023005e9f5385ca9619b6">7645058c0f59b20011bec3ace1050efb</list_id>
+            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="ed31511fdb70230012649235ca96190c">7645058c0f59b20011bec3ace1050efb</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>3</position>
@@ -64,7 +64,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>total_cost_ex_vat</element>
-            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="9d31d5d3db7023005e9f5385ca9619b6">7645058c0f59b20011bec3ace1050efb</list_id>
+            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="ed31511fdb70230012649235ca96190c">7645058c0f59b20011bec3ace1050efb</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>4</position>
@@ -79,7 +79,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>vat</element>
-            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="9d31d5d3db7023005e9f5385ca9619b6">7645058c0f59b20011bec3ace1050efb</list_id>
+            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="ed31511fdb70230012649235ca96190c">7645058c0f59b20011bec3ace1050efb</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>5</position>
@@ -94,7 +94,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>total_cost_vat</element>
-            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="9d31d5d3db7023005e9f5385ca9619b6">7645058c0f59b20011bec3ace1050efb</list_id>
+            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="ed31511fdb70230012649235ca96190c">7645058c0f59b20011bec3ace1050efb</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>6</position>
@@ -109,7 +109,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>total_cost_with_vat</element>
-            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="9d31d5d3db7023005e9f5385ca9619b6">7645058c0f59b20011bec3ace1050efb</list_id>
+            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="ed31511fdb70230012649235ca96190c">7645058c0f59b20011bec3ace1050efb</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>7</position>
@@ -124,7 +124,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>uplift</element>
-            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="9d31d5d3db7023005e9f5385ca9619b6">7645058c0f59b20011bec3ace1050efb</list_id>
+            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="ed31511fdb70230012649235ca96190c">7645058c0f59b20011bec3ace1050efb</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>8</position>
@@ -139,7 +139,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>total_price</element>
-            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="9d31d5d3db7023005e9f5385ca9619b6">7645058c0f59b20011bec3ace1050efb</list_id>
+            <list_id display_value="x_lsmcb_fm_base_costs" element="NULL" name="x_lsmcb_fm_base_costs" parent="NULL" relationship="NULL" sys_domain="global" view="ed31511fdb70230012649235ca96190c">7645058c0f59b20011bec3ace1050efb</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>9</position>
@@ -176,7 +176,7 @@
             <sys_updated_by>david.neves</sys_updated_by>
             <sys_updated_on>2017-02-27 14:23:56</sys_updated_on>
             <sys_user/>
-            <view display_value="Rptbf6b51b90fc5320011bec3ace1050eab" name="RPTbf6b51b90fc5320011bec3ace1050eab">9d31d5d3db7023005e9f5385ca9619b6</view>
+            <view display_value="Rptbf6b51b90fc5320011bec3ace1050eab" name="RPTbf6b51b90fc5320011bec3ace1050eab">ed31511fdb70230012649235ca96190c</view>
             <view_name/>
         </sys_ui_list>
     </sys_ui_list>

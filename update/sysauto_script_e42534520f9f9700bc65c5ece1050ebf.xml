@@ -5,7 +5,7 @@
         <condition><![CDATA[gs.getProperty('x_lsmcb_fm.calendar_integration') == 'enabled' && gs.getProperty('x_lsmcb_fm.calendar_integration_protocol') == 'rest']]></condition>
         <conditional>true</conditional>
         <name>FM - Renew Graph Calendar Notification Subscriptions</name>
-        <run_as display_value="">0519f140db2b43003d279c27db961935</run_as>
+        <run_as display_value="Diogo Costa">0519f140db2b43003d279c27db961935</run_as>
         <run_as_tz/>
         <run_dayofmonth>1</run_dayofmonth>
         <run_dayofweek>1</run_dayofweek>

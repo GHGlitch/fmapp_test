@@ -26,17 +26,17 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>dbf9f45a0f90030011bec3ace1050e99</sys_id>
-        <sys_mod_count>9</sys_mod_count>
-        <sys_name>FM CHANGED FROM ACC 2 ➚</sys_name>
+        <sys_mod_count>7</sys_mod_count>
+        <sys_name>FM TEST CHANGES ➚</sys_name>
         <sys_overrides/>
         <sys_package display_value="Facility Management Accelerator" source="x_lsmcb_fm">e080882f0f9d224011bec3ace1050ee5</sys_package>
         <sys_policy/>
         <sys_scope display_value="Facility Management Accelerator">e080882f0f9d224011bec3ace1050ee5</sys_scope>
         <sys_update_name>sys_app_module_dbf9f45a0f90030011bec3ace1050e99</sys_update_name>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-10-02 12:35:46</sys_updated_on>
+        <sys_updated_by>nelson.oliveira</sys_updated_by>
+        <sys_updated_on>2018-10-02 12:19:09</sys_updated_on>
         <timeline_page/>
-        <title>FM CHANGED FROM ACC 2 ➚</title>
+        <title>FM TEST CHANGES ➚</title>
         <uncancelable>false</uncancelable>
         <view_name/>
         <window_name>_blank</window_name>

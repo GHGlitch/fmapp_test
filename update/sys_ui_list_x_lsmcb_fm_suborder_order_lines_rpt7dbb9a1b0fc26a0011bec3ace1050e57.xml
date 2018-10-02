@@ -4,7 +4,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>suborder_company</element>
-            <list_id display_value="x_lsmcb_fm_suborder_order_lines" element="NULL" name="x_lsmcb_fm_suborder_order_lines" parent="NULL" relationship="NULL" sys_domain="global" view="b53119d3db7023005e9f5385ca9619fc">fca52edb0fc26a0011bec3ace1050e7f</list_id>
+            <list_id display_value="x_lsmcb_fm_suborder_order_lines" element="NULL" name="x_lsmcb_fm_suborder_order_lines" parent="NULL" relationship="NULL" sys_domain="global" view="f931d11fdb70230012649235ca96192d">fca52edb0fc26a0011bec3ace1050e7f</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>0</position>
@@ -19,7 +19,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>suborder_type</element>
-            <list_id display_value="x_lsmcb_fm_suborder_order_lines" element="NULL" name="x_lsmcb_fm_suborder_order_lines" parent="NULL" relationship="NULL" sys_domain="global" view="b53119d3db7023005e9f5385ca9619fc">fca52edb0fc26a0011bec3ace1050e7f</list_id>
+            <list_id display_value="x_lsmcb_fm_suborder_order_lines" element="NULL" name="x_lsmcb_fm_suborder_order_lines" parent="NULL" relationship="NULL" sys_domain="global" view="f931d11fdb70230012649235ca96192d">fca52edb0fc26a0011bec3ace1050e7f</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>1</position>
@@ -34,7 +34,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>suborder_total_cost</element>
-            <list_id display_value="x_lsmcb_fm_suborder_order_lines" element="NULL" name="x_lsmcb_fm_suborder_order_lines" parent="NULL" relationship="NULL" sys_domain="global" view="b53119d3db7023005e9f5385ca9619fc">fca52edb0fc26a0011bec3ace1050e7f</list_id>
+            <list_id display_value="x_lsmcb_fm_suborder_order_lines" element="NULL" name="x_lsmcb_fm_suborder_order_lines" parent="NULL" relationship="NULL" sys_domain="global" view="f931d11fdb70230012649235ca96192d">fca52edb0fc26a0011bec3ace1050e7f</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>2</position>
@@ -71,7 +71,7 @@
             <sys_updated_by>david.neves</sys_updated_by>
             <sys_updated_on>2016-09-29 10:21:03</sys_updated_on>
             <sys_user/>
-            <view display_value="Rpt7dbb9a1b0fc26a0011bec3ace1050e57" name="RPT7dbb9a1b0fc26a0011bec3ace1050e57">b53119d3db7023005e9f5385ca9619fc</view>
+            <view display_value="Rpt7dbb9a1b0fc26a0011bec3ace1050e57" name="RPT7dbb9a1b0fc26a0011bec3ace1050e57">f931d11fdb70230012649235ca96192d</view>
             <view_name/>
         </sys_ui_list>
     </sys_ui_list>

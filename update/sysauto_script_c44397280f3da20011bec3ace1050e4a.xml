@@ -5,7 +5,7 @@
         <condition/>
         <conditional>false</conditional>
         <name>FM - Update of meeting state</name>
-        <run_as display_value="">f1266e220f0d2e0011bec3ace1050e59</run_as>
+        <run_as display_value="David Neves">f1266e220f0d2e0011bec3ace1050e59</run_as>
         <run_as_tz/>
         <run_dayofmonth>1</run_dayofmonth>
         <run_dayofweek>1</run_dayofweek>

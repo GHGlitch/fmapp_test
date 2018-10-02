@@ -25,7 +25,7 @@
             <sys_update_name>sys_ui_list_x_lsmcb_fm_facility_product_order_null</sys_update_name>
             <sys_updated_by>david.neves</sys_updated_by>
             <sys_updated_on>2017-04-19 13:15:23</sys_updated_on>
-            <sys_user display_value="">f1266e220f0d2e0011bec3ace1050e59</sys_user>
+            <sys_user display_value="David Neves">f1266e220f0d2e0011bec3ace1050e59</sys_user>
             <view display_value="Default view" name="NULL">Default view</view>
             <view_name/>
         </sys_ui_list>

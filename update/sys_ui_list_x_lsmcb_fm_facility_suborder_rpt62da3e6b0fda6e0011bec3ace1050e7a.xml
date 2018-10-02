@@ -4,7 +4,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>number</element>
-            <list_id display_value="x_lsmcb_fm_facility_suborder" element="NULL" name="x_lsmcb_fm_facility_suborder" parent="NULL" relationship="NULL" sys_domain="global" view="ad3119d3db7023005e9f5385ca961941">e71185f00ff2620011bec3ace1050efc</list_id>
+            <list_id display_value="x_lsmcb_fm_facility_suborder" element="NULL" name="x_lsmcb_fm_facility_suborder" parent="NULL" relationship="NULL" sys_domain="global" view="a931511fdb70230012649235ca9619fb">e71185f00ff2620011bec3ace1050efc</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>0</position>
@@ -19,7 +19,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>short_description</element>
-            <list_id display_value="x_lsmcb_fm_facility_suborder" element="NULL" name="x_lsmcb_fm_facility_suborder" parent="NULL" relationship="NULL" sys_domain="global" view="ad3119d3db7023005e9f5385ca961941">e71185f00ff2620011bec3ace1050efc</list_id>
+            <list_id display_value="x_lsmcb_fm_facility_suborder" element="NULL" name="x_lsmcb_fm_facility_suborder" parent="NULL" relationship="NULL" sys_domain="global" view="a931511fdb70230012649235ca9619fb">e71185f00ff2620011bec3ace1050efc</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>1</position>
@@ -34,7 +34,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>assigned_to</element>
-            <list_id display_value="x_lsmcb_fm_facility_suborder" element="NULL" name="x_lsmcb_fm_facility_suborder" parent="NULL" relationship="NULL" sys_domain="global" view="ad3119d3db7023005e9f5385ca961941">e71185f00ff2620011bec3ace1050efc</list_id>
+            <list_id display_value="x_lsmcb_fm_facility_suborder" element="NULL" name="x_lsmcb_fm_facility_suborder" parent="NULL" relationship="NULL" sys_domain="global" view="a931511fdb70230012649235ca9619fb">e71185f00ff2620011bec3ace1050efc</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>2</position>
@@ -49,7 +49,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>total_cost</element>
-            <list_id display_value="x_lsmcb_fm_facility_suborder" element="NULL" name="x_lsmcb_fm_facility_suborder" parent="NULL" relationship="NULL" sys_domain="global" view="ad3119d3db7023005e9f5385ca961941">e71185f00ff2620011bec3ace1050efc</list_id>
+            <list_id display_value="x_lsmcb_fm_facility_suborder" element="NULL" name="x_lsmcb_fm_facility_suborder" parent="NULL" relationship="NULL" sys_domain="global" view="a931511fdb70230012649235ca9619fb">e71185f00ff2620011bec3ace1050efc</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>3</position>
@@ -64,7 +64,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>state</element>
-            <list_id display_value="x_lsmcb_fm_facility_suborder" element="NULL" name="x_lsmcb_fm_facility_suborder" parent="NULL" relationship="NULL" sys_domain="global" view="ad3119d3db7023005e9f5385ca961941">e71185f00ff2620011bec3ace1050efc</list_id>
+            <list_id display_value="x_lsmcb_fm_facility_suborder" element="NULL" name="x_lsmcb_fm_facility_suborder" parent="NULL" relationship="NULL" sys_domain="global" view="a931511fdb70230012649235ca9619fb">e71185f00ff2620011bec3ace1050efc</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>4</position>
@@ -79,7 +79,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>work_start</element>
-            <list_id display_value="x_lsmcb_fm_facility_suborder" element="NULL" name="x_lsmcb_fm_facility_suborder" parent="NULL" relationship="NULL" sys_domain="global" view="ad3119d3db7023005e9f5385ca961941">e71185f00ff2620011bec3ace1050efc</list_id>
+            <list_id display_value="x_lsmcb_fm_facility_suborder" element="NULL" name="x_lsmcb_fm_facility_suborder" parent="NULL" relationship="NULL" sys_domain="global" view="a931511fdb70230012649235ca9619fb">e71185f00ff2620011bec3ace1050efc</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>5</position>
@@ -94,7 +94,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>work_end</element>
-            <list_id display_value="x_lsmcb_fm_facility_suborder" element="NULL" name="x_lsmcb_fm_facility_suborder" parent="NULL" relationship="NULL" sys_domain="global" view="ad3119d3db7023005e9f5385ca961941">e71185f00ff2620011bec3ace1050efc</list_id>
+            <list_id display_value="x_lsmcb_fm_facility_suborder" element="NULL" name="x_lsmcb_fm_facility_suborder" parent="NULL" relationship="NULL" sys_domain="global" view="a931511fdb70230012649235ca9619fb">e71185f00ff2620011bec3ace1050efc</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>6</position>
@@ -131,7 +131,7 @@
             <sys_updated_by>david.neves</sys_updated_by>
             <sys_updated_on>2016-10-28 15:24:09</sys_updated_on>
             <sys_user/>
-            <view display_value="Rpt62da3e6b0fda6e0011bec3ace1050e7a" name="RPT62da3e6b0fda6e0011bec3ace1050e7a">ad3119d3db7023005e9f5385ca961941</view>
+            <view display_value="Rpt62da3e6b0fda6e0011bec3ace1050e7a" name="RPT62da3e6b0fda6e0011bec3ace1050e7a">a931511fdb70230012649235ca9619fb</view>
             <view_name/>
         </sys_ui_list>
     </sys_ui_list>
